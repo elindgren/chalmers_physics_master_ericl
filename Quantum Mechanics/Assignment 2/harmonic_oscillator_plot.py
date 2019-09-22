@@ -28,11 +28,17 @@ def exact_solution_0(x, m , omega, hbar):
     alpha = m*omega/hbar
     y = np.sqrt(alpha)*x
     fun = (alpha/np.pi)**(1/4)*np.e**(-(y**2)/2)
-    return fun
+    return np.abs(fun)**2
 
 
-def exact_solution_10():
-    return None
+def exact_solution_10(x, m , omega, hbar):
+    alpha = np.sqrt(m*omega/hbar)
+    prod1 = 1/(2**10 * np.math.factorial(10))
+    prod2 = np.sqrt(alpha)*np.sqrt(np.sqrt(np.pi))
+    prod3 = np.exp(-alpha**2 * x**2/2)
+    prod4 = physicist_herm_pol_10(alpha*x)
+    fun = prod1*prod2*prod3*prod4
+    return np.abs(fun)**2
 
 
 def momentum(x, energy, m, omega):
@@ -51,8 +57,13 @@ def integrate_px(x1, x2, energy, m, omega):
     return integrate.quad(momentum, x1, x2, args=(energy, m, omega))[0]
 
 
+def physicist_herm_pol_10(x):
+    return 1024*x**10 - 23040*x**8 + 161280*x**6 - 403200*x**4 + 302400*x**2 - 30240
+
+
 # Define normalization constant D
-D = 0.43  # TODO normalize this
+D = 0.37  # TODO normalize this
+const10 = 1*1e9  # Constant for scaling exact_sol_10
 
 # general constants
 hbar = 1
@@ -95,6 +106,7 @@ ax.plot(x_non_class_1, wave_non_class_1, 'b')
 ax.plot(x_non_class_2, wave_non_class_2, 'b')
 # Plot exact solutions
 ax.plot(x, exact_solution_0(x, m, omega, hbar), 'r', label="Exact solution, n=0")
+#ax.plot(x, exact_solution_10(x, m, omega, hbar)*const10, 'g', label="Exact solution, n=10")
 # Plot potential
 ax.plot(x, potential(x, m, omega), 'b--', label="Potential", alpha=0.5)
 # Plot energy
@@ -108,6 +120,8 @@ ax.grid()
 plt.title(f'WKB and exact solutions, in arbitrary units. n = {n-1}')
 plt.ylabel("Psi^2, dimensionless")
 plt.xlabel("x")
+
+plt.savefig(f'wkb_n_{n-1}')
 plt.show()
 
 
