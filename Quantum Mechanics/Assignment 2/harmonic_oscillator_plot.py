@@ -70,7 +70,7 @@ hbar = 1
 omega = 1
 m = 1
 # Define constants in terms of E:
-n = 1
+n = 11
 E = (n-1/2)*omega*hbar
 # E = V(x1) = V(x2)
 x2 = np.sqrt(2*E/(m*omega**2))
@@ -105,8 +105,8 @@ ax.plot(x_class, wave_class, 'b', label="WKB approximation")
 ax.plot(x_non_class_1, wave_non_class_1, 'b')
 ax.plot(x_non_class_2, wave_non_class_2, 'b')
 # Plot exact solutions
-ax.plot(x, exact_solution_0(x, m, omega, hbar), 'r', label="Exact solution, n=0")
-#ax.plot(x, exact_solution_10(x, m, omega, hbar)*const10, 'g', label="Exact solution, n=10")
+#ax.plot(x, exact_solution_0(x, m, omega, hbar), 'r', label="Exact solution, n=0")
+ax.plot(x, exact_solution_10(x, m, omega, hbar)*const10, 'r', label="Exact solution, n=10")
 # Plot potential
 ax.plot(x, potential(x, m, omega), 'b--', label="Potential", alpha=0.5)
 # Plot energy
@@ -115,7 +115,7 @@ plt.legend(loc='upper right')
 # Plot x and y axis thicker
 # ax.axvline(0)
 # ax.axhline(0)
-plt.ylim([0, D*10])
+plt.ylim([0, D*4])
 ax.grid()
 plt.title(f'WKB and exact solutions, in arbitrary units. n = {n-1}')
 plt.ylabel("Psi^2, dimensionless")
