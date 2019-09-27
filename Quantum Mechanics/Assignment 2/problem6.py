@@ -18,12 +18,6 @@ def calc_f(alpha, k, R, m, v0, hbar):
     return factor*(term1-term2)
 
 
-def second_order_correction(k, R, m, v0, hbar):
-    beta = calc_beta(k,R)
-    factor = -32*np.pi*(v0*m/hbar**2)**2
-    return factor*beta
-    
-
 
 # constants
 hbar = 4.136e-15  # ev s
@@ -37,7 +31,6 @@ eps = 1e-2
 alpha = np.linspace(0+eps,2*np.pi-eps,300)
 
 dsig_prob6 = [(calc_f(a, k, R, m, v0, hbar))**2 for a in alpha]
-dsig_prob8 = [np.abs((calc_f(a, k, R, m, v0, hbar) + second_order_correction(k, R, m, v0, hbar)))**2 for a in alpha]
 
 
 fig, ax = plt.subplots()
@@ -46,14 +39,6 @@ ax.set_ylim(0,1e-24)
 ax.set_xlabel("alpha, from 0 to 2*pi")
 ax.set_ylabel("differential cross section")
 plt.savefig("problem6.png")
-plt.title("First order Born approximated differential cross section")
-
-
-fig, ax = plt.subplots()
-ax.plot(alpha, dsig_prob8, 'r')
-ax.set_xlabel("alpha, from 0 to 2*pi")
-ax.set_ylabel("differential cross section")
-plt.savefig("problem8.png")
-plt.title("Second order Born approximated differential cross section")
+plt.title("First order Born approximated diff cross section")
 
 plt.show()
