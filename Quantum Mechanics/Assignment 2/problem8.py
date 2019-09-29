@@ -47,64 +47,77 @@ def integrand(x, alpha, beta, k, kp):
     factor3 = np.exp(1j*k*diffrrp)/diffrrp
     return factor1*factor2*factor3 """
 
-# Kevins code
-def differens(r, r_p, theta, theta_p, phi, phi_p):    
+# Start from scratch
+def volume(R):
+    return 2*np.pi**2 * R
+
+
+def differens(r, r_p, theta, theta_p, phi, phi_p): 
+    '''
+    Returns the difference between two arbitrary vectors r and r',
+    given their position.
+    '''
     return np.sqrt(r**2 + r_p**2 - 2*r*r_p*(np.sin(theta)*np.sin(theta_p)*np.cos(phi-phi_p) + np.cos(theta)*np.cos(theta_p)))
 
+
 def dotprod1(k, r_p, alpha, theta_p, beta, phi_p):
+    '''
+    alpha and beta are the azimuthal and the polar angles for
+    k' respectively. The integral should be independent of 
+    beta, due to spherical symmetry.
+    '''
     return k*r_p*(np.sin(alpha)*np.sin(theta_p)*np.cos(beta-phi_p) + np.cos(alpha)*np.cos(theta_p))
+
     
 def dotprod2(k,r,theta):
-    return k*r*np.sin(theta)
+    '''
+    Returns the value of the dot product between k and r, 
+    with the coordinates aligned with the z || z' axes.
+    '''   
+    return k*r*np.cos(theta)
+
+
 def integrand(k, r, r_p, theta, theta_p, alpha, beta, phi, phi_p):
-    exp1 = np.exp(1j*dotprod1(k,r_p,alpha,theta_p,beta,phi_p))
+    ''' The integrand that we wish to approximate. '''
+    exp1 = np.exp(-1j*dotprod1(k,r_p,alpha,theta_p,beta,phi_p))
     exp2 = np.exp(1j*dotprod2(k,r,theta))
     exp3 = np.exp(1j*differens(r, r_p, theta, theta_p, phi, phi_p))
     fac = r**2*r_p**2*np.sin(theta)*np.sin(theta_p)/differens(r, r_p, theta, theta_p, phi, phi_p)
-    return exp1*exp2*exp3*fac
+    return exp1*exp2*exp3*fac*volume(R)**2
+
+
+def calc_q(alpha,k):
+    return 2*k*np.sin(alpha/2)
+
+
+def calc_f1(R, k, alpha):
+    q = calc_q(alpha, k)
+    return (np.sin(q*R)-R*q*np.cos(q*R))
+
 
 
 # constants
-alpha = np.linspace(0, 2*np.pi, 20)
-beta = 0  # Should be independent of beta
-k = 1
+N = int(1e6)
+eV = 1.6e-19  # J
+c = 3e8  # m/s
+hbar = 1.054e-34  # ev s
+R = 1e-10  # 1 ångström
+#v0 = (1e-38)*eV  # simon test
+v0 = 1*eV  # 1 eV
+E = 10*eV  # 1 ev
+m = 938e6*eV/c**2  # 938 MeV/c^2
+k = np.sqrt(2*m*E)/hbar
 kp = k  # Elastic 
-R = 1e-10  # Integration limit
-n_iter = 10000
 
+# R = 1
+# hbar = 1
+# E = 100
+# V0 = 1
+# m = 1
+# k = 70
+# kp = 1
+# v0 = 1
 
-# Define sampler
-#random.seed(1)  # Remove to check if stable TODO
-""" def random_sampler(R):
-    r = random.uniform(0., R)
-    phi = random.uniform(0, 2.*np.pi)
-    theta = random.uniform(0., np.pi)
-    rp = random.uniform(0., R)
-    phip = random.uniform(0, 2*np.pi)
-    thetap = random.uniform(0., np.pi)
-    return [r, phi, theta, rp, phip, thetap]
-
-
-def monte_carlo(n_iter, alpha, beta, k, kp, R):
-    # Get random values
-    rand = random_sampler(R)
-    integ = 0
-    for i in range(n_iter):
-        # Perform integrand calculation
-        integ += integrand(rand, alpha, beta, k, kp)
-    return integ/n_iter
-
-
-# start Monte Carlo integration
-sig_alpha = np.zeros(len(alpha))
-for idx, a in enumerate(alpha):
-    f_alpha = monte_carlo(n_iter, a, beta, k, kp, R)
-    sig_alpha[idx] = np.abs(f_alpha)**2 """
-
-
-N = 10000000
-R = 1
-k = 1
 
 
 r     = R*np.random.rand(N)
@@ -114,17 +127,38 @@ theta_p = np.pi*np.random.rand(N)
 phi   = 2*np.pi*np.random.rand(N)
 phi_p   = 2*np.pi*np.random.rand(N)
 
-alpha = np.linspace(0,2*np.pi,20)
+alpha = np.linspace(0,0.6,100)
 beta = 0
 
-f_alpha = np.zeros(len(alpha))
+f_1 = np.zeros(len(alpha))
+f_2 = np.zeros(len(alpha))
 
 for j,alph in enumerate(alpha):
     print(f'{j+1} of {len(alpha)}')
     I =  integrand(k, r, r_p, theta, theta_p, alph, beta, phi, phi_p)
-    f_alpha[j] = np.abs(((I)).sum()/N)**2
+    s = (I/N).sum()
+    f_1[j] = -4*m*v0/(hbar**2 * calc_q(alph, k)**3) * calc_f1(R, k, alph)
+    f_2[j] = s
+    
 
-
-fig, ax = plt.subplots()
-ax.plot(alpha, f_alpha, 'b')
+# Insert prefactor for f_2 and plot
+f_2 = (m*v0/hbar**2)**2 * f_2
+sigma_contrib2 = np.abs(f_2)**2
+sigma_contrib1 = np.abs(f_1)**2
+sigma_contrib_tot = np.abs(f_1 + f_2)**2  # Total differential cross section
+fig, ax = plt.subplots(3,1)
+fig.suptitle("Problem 8: Comparison of first and second order")
+ax[0].plot(alpha, sigma_contrib1, 'b--')
+ax[0].set_xlabel("alpha, rad")
+ax[0].set_ylabel("|f1|^2, m^2")
+ax[1].plot(alpha, sigma_contrib2, 'r--')
+ax[1].set_xlabel("alpha, rad")
+ax[1].set_ylabel("|f2|^2, m^2")
+ax[2].plot(alpha, sigma_contrib1, 'b--')
+ax[2].plot(alpha, sigma_contrib2, 'r--')
+ax[2].plot(alpha, sigma_contrib_tot, 'g-')
+ax[2].set_xlabel("alpha, rad")
+ax[2].set_ylabel("|f1 + f2|^2, m^2")
+plt.tight_layout()
+plt.savefig("problem8.png")
 plt.show()

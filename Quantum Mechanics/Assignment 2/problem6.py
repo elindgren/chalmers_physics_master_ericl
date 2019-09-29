@@ -10,35 +10,48 @@ def calc_beta(k,R):
     #beta = 1/k*(6/k**4+np.exp(-1j*k*R))
     return beta
 
-def calc_f(alpha, k, R, m, v0, hbar):
+def calc_sigma(k, R, alpha):
     q = calc_q(k, alpha)
-    term1 = 1/q**3 * (np.sin(q*R)-R*q*np.cos(q*R))
-    term2 = 1/q**4 * ((2-R**2*q**2)*np.cos(q*R)+2*q*R*np.sin(q*R)-2)
-    factor = -1/(4*np.pi)*2*m/hbar**2
-    return factor*(term1-term2)
+    term1 = 1/q**6 * (np.sin(q*R))**2
+    term2 = 4/(q**8 * R**2)*(1-np.cos(q*R))**2
+    term3 = -4/(q**7 * R)*np.sin(q*R)*(1-np.cos(q*R))
+    return term1+term2+term3
 
 
 
-# constants
-hbar = 4.136e-15  # ev s
+# constants - in SI
+eV = 1.6e-19  # J
+c = 3e8  # m/s
+hbar = 1.054e-34  # ev s
 R = 1e-10  # 1 ångström
-v0 = 1  # 1 ev
-E = 10 # 1 ev
-m = 938e6  # 938 MeV/c^2
+v0 = 1*eV  # 1 ev
+E = 10*eV # 1 ev
+m = 938e6*eV/c**2  # 938 MeV/c^2
 
 k = np.sqrt(2*m*E)/hbar
 eps = 1e-2
-alpha = np.linspace(0+eps,2*np.pi-eps,300)
+alpha = np.linspace(-np.pi,np.pi,1000)
 
-dsig_prob6 = [(calc_f(a, k, R, m, v0, hbar))**2 for a in alpha]
+print(R*k)
+
+dsig_prob6 = [calc_sigma(k, R, a) for a in alpha]
+dsig_prob6 = np.array(dsig_prob6)
+constant_factor = 4*m**2*v0**2/hbar**4
+print(constant_factor)
 
 
-fig, ax = plt.subplots()
-ax.plot(alpha, dsig_prob6, 'b')
-ax.set_ylim(0,1e-24)
-ax.set_xlabel("alpha, from 0 to 2*pi")
-ax.set_ylabel("differential cross section")
+fig, ax = plt.subplots(2)
+fig.suptitle("Problem 6: Diff. cross. sec. to first order")
+ax[0].plot(alpha/np.pi, constant_factor*dsig_prob6, 'b')
+ax[0].set_xlabel("alpha, from -pi to pi")
+ax[0].set_ylabel("differential cross section, m^2")
+ax[1].set_title("Zoomed in")
+ax[1].plot(alpha/np.pi, constant_factor*dsig_prob6, 'b')
+ax[1].set_xlim([-0.1, 0.1])
+ax[1].set_xlabel("alpha, from -pi to pi")
+ax[1].set_ylabel("differential cross section, m^2")
+plt.tight_layout()
 plt.savefig("problem6.png")
-plt.title("First order Born approximated diff cross section")
+
 
 plt.show()
