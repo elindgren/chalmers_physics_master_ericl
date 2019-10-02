@@ -45,13 +45,16 @@ fig.suptitle("Problem 6: Diff. cross. sec. to first order")
 ax[0].plot(alpha/np.pi, constant_factor*dsig_prob6, 'b')
 ax[0].set_xlabel("alpha, from -pi to pi")
 ax[0].set_ylabel("differential cross section, m^2")
+ax[0].grid()
 ax[1].set_title("Zoomed in")
 ax[1].plot(alpha/np.pi, constant_factor*dsig_prob6, 'b')
 ax[1].set_xlim([-0.1, 0.1])
 ax[1].set_xlabel("alpha, from -pi to pi")
 ax[1].set_ylabel("differential cross section, m^2")
+ax[1].grid()
 plt.tight_layout()
 plt.savefig("problem6.png")
+
 
 
 plt.show()

@@ -95,9 +95,8 @@ def calc_f1(R, k, alpha):
     return (np.sin(q*R)-R*q*np.cos(q*R))
 
 
-
 # constants
-N = int(1e6)
+N = int(1e7)
 eV = 1.6e-19  # J
 c = 3e8  # m/s
 hbar = 1.054e-34  # ev s
@@ -151,14 +150,19 @@ fig.suptitle("Problem 8: Comparison of first and second order")
 ax[0].plot(alpha, sigma_contrib1, 'b--')
 ax[0].set_xlabel("alpha, rad")
 ax[0].set_ylabel("|f1|^2, m^2")
+ax[0].grid()
+
 ax[1].plot(alpha, sigma_contrib2, 'r--')
 ax[1].set_xlabel("alpha, rad")
 ax[1].set_ylabel("|f2|^2, m^2")
+ax[1].grid()
+
 ax[2].plot(alpha, sigma_contrib1, 'b--')
 ax[2].plot(alpha, sigma_contrib2, 'r--')
 ax[2].plot(alpha, sigma_contrib_tot, 'g-')
 ax[2].set_xlabel("alpha, rad")
 ax[2].set_ylabel("|f1 + f2|^2, m^2")
+ax[2].grid()
 plt.tight_layout()
 plt.savefig("problem8.png")
 plt.show()

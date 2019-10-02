@@ -13,15 +13,15 @@ def gammab_fun(gammab):
 
 
 b=1
-t = np.linspace(-10,10,10000)
+t = np.linspace(0,10,10000)
 
 fig, ax = plt.subplots()
 ax.plot(t, a_over_b(t))
 ax.set_ylim(-25,25)
-plt.grid()
 ax.set_title("Problem 11 b): limit k->0 of tan(delta_0)/k")
 ax.set_ylabel("a/b")
 ax.set_xlabel("gamma/b")
+ax.grid()
 plt.savefig("Problem11b")
 
 
@@ -29,16 +29,18 @@ plt.savefig("Problem11b")
 # Ramsauer-Townsend effect. tan(delta0)/k = 0 => delta0 = n*pi =>
 # => f(theta) = 0 for these energies
 
-min_gammab = opt.minimize(gammab_fun, x0=0.1, constraints={"type": "eq", "fun": a_over_b})
+min_gammab = opt.minimize(gammab_fun, x0=2, bounds=[(1, 100)], constraints={"type": "eq", "fun": a_over_b})
 
+#min_gammab = opt.minimize(a_over_b, x0=1, bounds=[(0.5, 100)])
 #(a_over_b, bracket=[-3, 1], method='brentq')
 
-print(min_gammab)
+print(min_gammab.x)
 
 #zero_crossing = np.where(np.diff(np.sign(a_over_b(t))))[0][0]
 #print(t[zero_crossing])
 
-ax.plot(1.57, a_over_b(1.58), '*')
+ax.plot(min_gammab.x, 0, '*')
+#ax.axvline(min_gammab.x)
 
 # d) infinites for gammab = n*pi (n=0,1,2) and gammab=0
 
@@ -72,5 +74,6 @@ for i, gammab in enumerate(gammabs):
     ax.set_xlabel("r/b")
     ax.set_ylabel("u(r/b)")
 ax.legend()
+ax.grid()
 plt.savefig("Problem11f")
 plt.show()
