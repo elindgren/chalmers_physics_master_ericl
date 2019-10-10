@@ -58,19 +58,22 @@ for i=1:nbr_part
 end
 %% testing getdata
 % close all
+nbr_part=15
 clear Spectra
 
 % file = '190912_Pd120_H2_pulse';
-file = 'Ag_200nm_10pt';
+file = 'Pd_diskrod_200nm_15pt_pulse';
 % lampfile = '190911_lamp700_slit50';
-lampfile = 'CRS_700nm';
-[lambda,p_reshaped,b_reshaped,lamp] = getData(file,lampfile,10);
+lampfile = 'CRS_700nm_glas';
+[lambda,p_reshaped,b_reshaped,lamp] = getData(file,lampfile,15);
 
 Spectra = (p_reshaped-b_reshaped) ./ (lamp);
 
-figure
+figure(8)
 % plot(lambda,Spectra(:,1:5:end,1))
-plot(lambda,Spectra)
+surf(Spectra(:,:,14))
+shading flat
+view(1)
 
 %%
 % peak_guess = [720 720 700 700 700];
@@ -81,7 +84,7 @@ end
 
 
 %% 
-nbr_part = 3
+nbr_part = 15
 figure
 ylabel('Peak position [nm]')
 xlabel('Time [min]')

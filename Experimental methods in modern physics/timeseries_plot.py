@@ -68,14 +68,15 @@ def lorentzian_fit(wavelength, data):
     return peak_pos, peak_val, gamma
 
 # Files
-filename = 'Group_1c/Pd_diskrod_200nm_15pt_pulse'
-lamp_file = 'Group_1c/CRS_700nm'
+filename = 'Group_1c/Pd_diskrod_200nm_15pt_pulse2'
+lamp_file = 'Group_1c/CRS_700nm_glas'
 
 lamp_data, _  = load_file(lamp_file)
 lamp_spectra = lamp_data["spectra_0"]
 
 # Load data
 data = pd.read_table(filename + '.asc', header=None)
+print(data)
 # Drop last column with NaNs
 data = data.drop(columns=17)
 # Split the data into 120 equal parts
