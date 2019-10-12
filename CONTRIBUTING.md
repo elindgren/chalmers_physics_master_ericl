@@ -1,3 +1,3 @@
-Please be nice and don't do anything stupid. 
+Please be nice. 
 
 Thanks.
