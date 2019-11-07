@@ -15,13 +15,13 @@ plt.rc('legend', fontsize=14)    # legend fontsize
 
 
 # Number of ensembles
-n_ensemble = 50000
+n_ensemble = 10000
 
 # Number of steps
 n = 1000
 
 # Number of dimensions
-ndims = [2,3,4,5]
+ndims = [2]
 
 # Pre-allocate vector to save radii in
 radii = np.zeros((n_ensemble))
@@ -94,23 +94,22 @@ for ndim in ndims:
     # Fit a power law to the results
     def power_law(L, nu):
         '''Returns the value of chain length L raised to the power nu'''
-        return L**nu
+        return L**nu  # Should be l*N**nu, with l = stepsize = 1
 
     popt, pcov = curve_fit(power_law, lengths, radii)
-
-    l = np.linspace(0, lengths.max(), 1000)
+    l = np.linspace(1, lengths.max(), 1000)
 
     # Plot the radius as a function of steps
     fig, ax = plt.subplots(figsize=(10,6))
     ax.scatter(lengths, radii, marker='.', c='b', alpha=0.3, label='Datapoints')
-    ax.plot(l, power_law(l, popt[0]), 'r', label=rf'Power law fit, {ndim}D, $\nu$={popt[0]:.2f}+-{float(pcov[0]):.2e}')
+    ax.plot(l, power_law(l, popt[0]), 'r', label=rf'Power law fit, {ndim}D, $\nu$={popt[0]:.2f}+-{float(pcov[0]):.2e}')  #
     ax.set_xlabel("Chain length, [a.u.]")
     ax.set_ylabel("Radius of chain, [a.u.]")
     ax.legend(loc='best')
     ax.grid()
     plt.tight_layout()
-    plt.savefig(f'{ndim}D_{n_ensemble}_ensembles.png')
-    #plt.show()
+    #plt.savefig(f'{ndim}D_{n_ensemble}_ensembles.png')
+    plt.show()
 
 
 
