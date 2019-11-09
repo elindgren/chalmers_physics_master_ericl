@@ -21,7 +21,7 @@ n_ensemble = 10000
 n = 1000
 
 # Number of dimensions
-ndims = [2]
+ndims = [2,3,4,5]
 
 # Pre-allocate vector to save radii in
 radii = np.zeros((n_ensemble))
@@ -74,8 +74,8 @@ for ndim in ndims:
         # Calculate the length of the chain
         length=distances.sum()
         #print(f'Length of chain is {length} units')  # Should be n-1 in units of the step size. 
-        # Calculate distance from origin:
-        radius = np.linalg.norm(R[0,:] - R[n_final,:], ord=2)
+        # Calculate distance squared from origin - since we want to take the ensemble average over the length SQUARED:
+        radius = np.linalg.norm(R[0,:] - R[n_final,:], ord=2)**2  
         #print(f'Radius of chain is {radius:.2f} units')
         
         # Save radii and length
@@ -92,24 +92,28 @@ for ndim in ndims:
         # plt.show()
 
     # Fit a power law to the results
-    def power_law(L, nu):
+    def power_law(logL, nu):
         '''Returns the value of chain length L raised to the power nu'''
-        return L**nu  # Should be l*N**nu, with l = stepsize = 1
+        return logL**nu  # Should be l*N**nu, with l = stepsize = 1
 
-    popt, pcov = curve_fit(power_law, lengths, radii)
+    # Logaritmize lenghts 
+    log_lengths = lengths
+    log_radii = radii
+    
+    popt, pcov = curve_fit(power_law, log_lengths, log_radii, absolute_sigma=False)
     l = np.linspace(1, lengths.max(), 1000)
 
     # Plot the radius as a function of steps
-    fig, ax = plt.subplots(figsize=(10,6))
-    ax.scatter(lengths, radii, marker='.', c='b', alpha=0.3, label='Datapoints')
-    ax.plot(l, power_law(l, popt[0]), 'r', label=rf'Power law fit, {ndim}D, $\nu$={popt[0]:.2f}+-{float(pcov[0]):.2e}')  #
-    ax.set_xlabel("Chain length, [a.u.]")
-    ax.set_ylabel("Radius of chain, [a.u.]")
+    fig, ax = plt.subplots(figsize=(6,6))
+    ax.scatter(log_lengths, log_radii, marker='.', c='b', alpha=0.3, label='Datapoints')
+    ax.plot(l, power_law(l, popt[0]), 'r--', linewidth=2, label=rf'Power law fit, {ndim}D, $a={popt[0]:.2f}\pm{float(np.sqrt(pcov[0])):.2e}$')  #
+    ax.set_xlabel(r'Chain length $N$, [a.u.]')
+    ax.set_ylabel(r'Distance squared $s_N^2$, [a.u.]')
     ax.legend(loc='best')
     ax.grid()
     plt.tight_layout()
-    #plt.savefig(f'{ndim}D_{n_ensemble}_ensembles.png')
-    plt.show()
+    plt.savefig(f'{ndim}D_{n_ensemble}_ensembles.png')
+    #plt.show()
 
 
 
