@@ -21,7 +21,8 @@ int main()
 	double timestep;
 	int i,j;
 	double timestep_sq,current_time;
-	double m;
+	double mC;
+	double mO;
 	double kappa;
 
 	/* declare file variable */
@@ -44,8 +45,9 @@ int main()
 
 	/* Set variables */
 	timestep = 0.01;
-	m = 1.0;
-	kappa = 1.0;
+	mC = 0.001658; 
+	mO = 0.001244;
+	kappa = 99875000000;
 	timestep_sq = timestep * timestep;
 
 
@@ -64,11 +66,11 @@ int main()
 	q_3[0] = q[2];
 	
 	// Calculate initial energies for all particles and save them
-	double u_particles[] = {q_1[0], q_2[0], q_3[0]};
-	double v_particles[] = {0.0, 0.0, 0.0};
-	E_pot[0] = calc_pe(u_particles, kappa, nbr_of_particles);
-	E_kin[0] = calc_ke(v_particles, nbr_of_particles, m);
-	E_tot[0] = E_pot[0] + E_kin[0];
+	// double u_particles[] = {q_1[0], q_2[0], q_3[0]};
+	// double v_particles[] = {0.0, 0.0, 0.0};
+	//  E_pot[0] = calc_pe(u_particles, kappa, nbr_of_particles);
+	// E_kin[0] = calc_ke(v_particles, nbr_of_particles, m);
+	// E_tot[0] = E_pot[0] + E_kin[0];
 
 
 	/* Calculate initial accelerations based on initial displacements */
