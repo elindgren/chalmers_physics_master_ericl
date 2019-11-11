@@ -11,7 +11,7 @@
 int main ()
 {
 	/* timestep dt */
-	double dt = 0.1;
+	double dt = 0.05;
 
 	/* Declare and set Iteration parameter, data arrays and frequency */
 	int i;
@@ -26,11 +26,11 @@ int main ()
 
 	/* calculate data points */
 	for (i = 0; i < n; i++)	{
-		data[i] = cos(2*PI*1*dt*i) + cos(2*PI*2*dt*i);
+		data[i] = cos(2*PI*6*dt*i) + cos(2*PI*2*dt*i);
 	}
 
 	/*Save function values in file*/
-	file1 = fopen("function_f1+f2.dat","w");
+	file1 = fopen("function_f1+f2_deltat=0.05.dat","w");
 	for (i = 0; i < n; i++)	{
 		fprintf (file1,"%e \t %e \n", i*dt, data[i]);
 	}
@@ -42,7 +42,7 @@ int main ()
 	fft_freq_shift(freq, dt, n);
 
 	/*Save powerspectrum data in file */
-  file2 = fopen("powerspectrum_f1+f2.dat","w");
+  file2 = fopen("powerspectrum_f1+f2_deltat=0.05.dat","w");
 	for (i = 0; i < n; i++)	{
 		fprintf (file2,"%e \t %e\n", freq[i], powspec_data[i]);
 	}
