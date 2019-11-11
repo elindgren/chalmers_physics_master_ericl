@@ -47,7 +47,8 @@ int main()
 	timestep = 0.01;
 	mC = 0.001658; 
 	mO = 0.001244;
-	kappa = 99875000000;
+	//kappa = 99875000000;
+	kappa = 0.001;
 	timestep_sq = timestep * timestep;
 
 
@@ -74,7 +75,7 @@ int main()
 
 
 	/* Calculate initial accelerations based on initial displacements */
-	calc_acc(a, q, m, kappa, nbr_of_particles);
+	calc_acc(a, q, mC, mO, kappa);
 
 	/* timesteps according to velocity Verlet algorithm */
 	for (i = 1; i < nbr_of_timesteps + 1; i++) {
@@ -89,7 +90,7 @@ int main()
 		}
 
 		/* a(t+dt) */
-		calc_acc(a, q, m, kappa, nbr_of_particles);
+		calc_acc(a, q, mC, mO, kappa);
 
 		/* v(t+dt) */
 		for (j = 0; j < nbr_of_particles; j++) {
@@ -102,11 +103,11 @@ int main()
 		q_3[i] = q[2];
 
 		// Calculate energies and save them
-		double u_particles[] = {q_1[i], q_2[i], q_3[i]};
-		double v_particles[] = {v[0], v[1], v[2]};
-		E_pot[i] = calc_pe(u_particles, kappa, nbr_of_particles);
-		E_kin[i] = calc_ke(v_particles, nbr_of_particles, m);
-		E_tot[i] = E_pot[0] + E_kin[0];
+		// double u_particles[] = {q_1[i], q_2[i], q_3[i]};
+		// double v_particles[] = {v[0], v[1], v[2]};
+		// E_pot[i] = calc_pe(u_particles, kappa, nbr_of_particles);
+		// E_kin[i] = calc_ke(v_particles, nbr_of_particles, m);
+		// E_tot[i] = E_pot[0] + E_kin[0];
 	}
 
 	// Calculate powerspectrum

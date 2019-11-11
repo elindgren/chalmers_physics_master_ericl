@@ -8,7 +8,7 @@ Further developed by Martin Gren on 2015-10-23.
 #ifndef _E1_func_h
 #define _E1_func_h
 
-extern void calc_acc(double *, double *, double, double, int);
+extern void calc_acc(double *, double *, double, double, double);
 
 extern double calc_pe(double *, double, int);
 

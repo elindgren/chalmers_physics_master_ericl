@@ -11,19 +11,13 @@ Function that calculates the acceleration based on the Hamiltonian.
 The acceleration is calculated based on the displacements u and then stored in a.
 u and a should be vectors of the same size, size_of_u
 */
-void calc_acc(double *a, double *u, double m, double kappa, int size_of_u)
+void calc_acc(double *a, double *u, double mC, double mO, double kappa)
 {
-    /* Declaration of variables */
-    int i;
     
     /* Calculating the acceleration on the boundaries */
-    a[0] = kappa*(- 2*u[0] + u[1])/m;
-    a[size_of_u - 1] = kappa*(u[size_of_u - 2] - 2*u[size_of_u - 1])/m;
-    
-    /* Calculating the acceleration of the inner points */
-    for (i = 1; i < size_of_u - 1; i++){
-        a[i] = kappa*(u[i - 1] - 2*u[i] + u[i + 1])/m;
-    }
+    a[0] = kappa*(u[1]-u[0])/mO;  // O atom 1.
+    a[1] = kappa*(u[2]+u[0]-2*u[1])/mC;
+    a[2] = kappa*(u[1]-u[2])/mO;
 }
 
 /* Function that calculates the potential energy based on the displacements */
