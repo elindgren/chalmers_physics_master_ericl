@@ -30,7 +30,7 @@ int main ()
 	}
 
 	/*Save function values in file*/
-	file1 = fopen("function.dat","w");
+	file1 = fopen("function_f=2.dat","w");
 	for (i = 0; i < n; i++)	{
 		fprintf (file1,"%e \t %e \n", i*dt, data[i]);
 	}
@@ -42,7 +42,7 @@ int main ()
 	fft_freq_shift(freq, dt, n);
 
 	/*Save powerspectrum data in file */
-  file2 = fopen("powerspectrum.dat","w");
+  file2 = fopen("powerspectrum_f=2.dat","w");
 	for (i = 0; i < n; i++)	{
 		fprintf (file2,"%e \t %e\n", freq[i], powspec_data[i]);
 	}
