@@ -50,8 +50,6 @@ int main()
 	//kappa = 99875000000;
 	kappa = 0.001;
 	timestep_sq = timestep * timestep;
-
-
 	
 	/* Initial conditions */
 	/* Set initial displacements and velocites */
