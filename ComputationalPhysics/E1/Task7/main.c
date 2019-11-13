@@ -44,11 +44,11 @@ int main()
 	double *E_tot = malloc((nbr_of_timesteps+1) * sizeof(double));
 
 	/* Set variables */
-	timestep = 0.01;
+	timestep = 0.0001;
 	mC = 0.001658; 
 	mO = 0.001244;
 	//kappa = 99875000000;
-	kappa = 0.001;
+	kappa = 99.86;
 	timestep_sq = timestep * timestep;
 	
 	/* Initial conditions */

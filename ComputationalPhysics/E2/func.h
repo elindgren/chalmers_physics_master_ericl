@@ -5,7 +5,7 @@
 #ifndef _E2_func_h
 #define _E2_func_h
 
-extern void calc_acc(double *, double *, double, int);
+void calc_acc(double *, double *, double, double, double, int);
 
 #endif
 

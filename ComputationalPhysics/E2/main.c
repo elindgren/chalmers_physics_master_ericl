@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 #include "func.h"
 #define PI 3.141592653589
 #define nbr_particles 32  // TODO Extra particles for boundary conditions?
-#define nbr_timesteps 25000 
+#define nbr_timesteps 1000000
 
 double initial_velocity(int N, int i){
     double p_i = sqrt(4*N/(N+1))*sin(i*PI/(N+1));
@@ -13,23 +14,33 @@ double initial_velocity(int N, int i){
 
 int main(){
     // Define variables
-    double alpha = 0;  // Non-linear factor
+    double alpha = 0.1;  // Non-linear factor
     double dt = 0.1;  // Timestep
     double u[nbr_particles];  // Current position vector
     double v[nbr_particles];  // Current velocity vector
     double a[nbr_particles];  // Current acceleration vector
     double Q[nbr_particles];  // Current normal modes Q
     double P[nbr_particles];  // Current normal modes P
+    double kappa = 1;  // Strength of bond
+    double m = 1;  // Mass of particles
+    
+    int save_iter = 1000;  // How often to save the results
+    int save_vector_length = nbr_timesteps/save_iter;
+    int save_indx = 0;
+    printf("Length: %d\n", save_vector_length);
 
-    double *displacements[nbr_timesteps];  // A matrix containing all displacements for all particles
-    double *velocities[nbr_timesteps];  // -||- velocities -||-
-    double *Qs[nbr_timesteps];
-    double *Ps[nbr_timesteps];
+    char file_ending[50];
+    sprintf(file_ending, "long_alpha=%.2f", alpha);
+
+    double *displacements[save_vector_length];  // A matrix containing all displacements for all particles
+    double *velocities[save_vector_length];  // -||- velocities -||-
+    double *Qs[save_vector_length];
+    double *Ps[save_vector_length];
 
     FILE *file;
 
     // Pre allocate vectors
-    for(int i=0; i<nbr_timesteps; i-=-1){
+    for(int i=0; i<save_vector_length; i-=-1){
         // Allocate a vector for positions for each particle
         displacements[i] = (double *)malloc(nbr_particles * sizeof(double));
         velocities[i] = (double *)malloc(nbr_particles * sizeof(double));
@@ -59,7 +70,7 @@ int main(){
         u[i] = 0;  // IC for displacement
         v[i] = initial_velocity(nbr_particles, i);  // IC for velocity
     }
-    calc_acc(a, u, alpha, nbr_particles);  // Initialize velocities
+    calc_acc(a, u, alpha, kappa, m, nbr_particles);  // Initialize accelerations
 
     // Calculate current normal modes and save them
     /* Transformation to normal modes Q from displacements q.  */
@@ -79,7 +90,7 @@ int main(){
         }
         P[i] = sum;
     }
-    Ps[0] = Q;
+    Ps[0] = P;
 
     // For-loop: Implement velocity-verlet algorithm
     int k,l;  // iteration variables for modes
@@ -95,7 +106,7 @@ int main(){
         }
 
         // Update accelerations with new displacements
-        calc_acc(a, u, alpha, nbr_particles);
+        calc_acc(a, u, alpha, kappa, m, nbr_particles);
 
         // Calculate final velocites
         for(j=0; j<nbr_particles; j++){
@@ -110,8 +121,7 @@ int main(){
             }
             Q[k] = sum;
         }
-        Qs[i] = Q;
-
+        
         for (k = 0; k < nbr_particles; k++){
             sum = 0;
             for (l = 0; l < nbr_particles; l++){
@@ -119,21 +129,32 @@ int main(){
             }
             P[k] = sum;
         }
-        Ps[i] = P;
 
-        // Save the displacements of our atoms 
-        for(j=0; j<nbr_particles; j++){
-            displacements[i][j] = u[j];
-            velocities[i][j] = v[j];
+        if(i % save_iter==0){
+            // Save the displacements of our atoms 
+            // as well as the generalized displacements and velocities
+            for(j=0; j<nbr_particles; j++){
+                displacements[save_indx][j] = u[j];
+                velocities[save_indx][j] = v[j];
+            }
+            Qs[save_indx] = Q;
+            Ps[save_indx] = P;
+            printf("Iteration: %d\n",i);
+            save_indx += 1; // Update the index to save to 
         }
-
     }
+
+    
     
     // Save displacements to file
-    file = fopen("disp.dat","w");
+    char filename[50];
+    strcat(filename, "disp_");
+    strcat(filename, file_ending);
+    strcat(filename, ".dat");
+    file = fopen(filename,"w");
     double current_time = 0.0;  // Timestamp for output file
-    for (i = 0; i < nbr_timesteps; i++) {
-		current_time = i * dt;
+    for (i = 0; i < save_vector_length; i++) {
+		current_time = save_iter*i * dt;
         fprintf(file, "%.4f", current_time);
         for(j=0; j < nbr_particles; j++){
             fprintf(file, " \t%e", displacements[i][j]);
@@ -143,10 +164,14 @@ int main(){
 	fclose(file);
 
     // Save velocities to file
-    file = fopen("velo.dat","w");
+    strcpy(filename,"");
+    strcat(filename, "velo_");
+    strcat(filename, file_ending);
+    strcat(filename, ".dat");
+    file = fopen(filename,"w");
     current_time = 0.0;  // Timestamp for output file
-    for (i = 0; i < nbr_timesteps; i++) {
-		current_time = i * dt;
+    for (i = 0; i < save_vector_length; i++) {
+		current_time = save_iter*i * dt;
         fprintf(file, "%.4f", current_time);
         for(j=0; j < nbr_particles; j++){
             fprintf(file, " \t%e", velocities[i][j]);
@@ -156,10 +181,14 @@ int main(){
 	fclose(file);
 
     // Save generalized displacement to file
-    file = fopen("gen_disp.dat","w");
+    strcpy(filename,"");
+    strcat(filename, "gen_disp_");
+    strcat(filename, file_ending);
+    strcat(filename, ".dat");
+    file = fopen(filename,"w");
     current_time = 0.0;  // Timestamp for output file
-    for (i = 0; i < nbr_timesteps; i++) {
-		current_time = i * dt;
+    for (i = 0; i < save_vector_length; i++) {
+		current_time = save_iter*i * dt;
         fprintf(file, "%.4f", current_time);
         for(j=0; j < nbr_particles; j++){
             fprintf(file, " \t%e", Qs[i][j]);
@@ -169,10 +198,14 @@ int main(){
 	fclose(file);
 
     // Save generalized velocities to file
-    file = fopen("gen_velo.dat","w");
+    strcpy(filename,"");
+    strcat(filename, "gen_velo_");
+    strcat(filename, file_ending);
+    strcat(filename, ".dat");
+    file = fopen(filename,"w");
     current_time = 0.0;  // Timestamp for output file
-    for (i = 0; i < nbr_timesteps; i++) {
-		current_time = i * dt;
+    for (i = 0; i < save_vector_length; i++) {
+		current_time = save_iter*i * dt;
         fprintf(file, "%.4f", current_time);
         for(j=0; j < nbr_particles; j++){
             fprintf(file, " \t%e", Ps[i][j]);
