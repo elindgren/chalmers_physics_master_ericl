@@ -11,7 +11,7 @@ plt.rc('legend', fontsize=14)    # legend fontsize
 
 def free_energy(m, T_tilde, Tc, kB, J, z):
     T = Tc*(T_tilde+1)
-    return -0.5*J*z*m**2 + 0.5*kB*T*( (1+m)*np.log(1+m) + (1-m)*np.log(1-m) )
+    return -0.5*J*z*m**2 + 0.5*kB*T*( (1+m)*np.log(1+m) + (1-m)*np.log(1-m) - np.log(2))  # It was kinda fine until I took -np.log(2)
 
 
 # Constants
