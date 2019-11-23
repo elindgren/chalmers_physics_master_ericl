@@ -16,7 +16,7 @@ double magnetization(int N, double lat[][N]){
             m += lat[i][j];
         }
     }
-
+    printf("Magnetization: %.2f\n", m);
     return m / (double)(N*N);
 }
 
@@ -72,6 +72,7 @@ void metropolis(int N, double beta, double J, double tol, double lat[][N], int M
     double prev_m;
     double new_m;
     gsl_rng *r = gsl_rng_alloc (gsl_rng_taus);  // Init random generator
+    gsl_rng_set(r, time(NULL));
     int i;
     int j;
     double eps;
@@ -83,7 +84,7 @@ void metropolis(int N, double beta, double J, double tol, double lat[][N], int M
     prev_m = -DBL_MAX;
     new_m = magnetization(N, lat);
 
-    while(fabs(new_m - prev_m) > tol){
+    while(fabs(new_m - prev_m) > tol && steps < 10){
         if(steps%1000 == 0){
             printf("Iterations: %d \n", steps);
         }
@@ -92,8 +93,9 @@ void metropolis(int N, double beta, double J, double tol, double lat[][N], int M
         j = gsl_rng_uniform_int(r, N);
 
         /* Flip spin at position i, j */
-        lat[i][j] = -1 * lat[i][j]; 
-
+        printf("Spin flipped at i=%d, j=%d \n", i, j);
+        lat[i][j] = -1.0 * lat[i][j]; 
+    
         /* Calculate new energy */
         new_E = energy(N, lat);
 
@@ -129,6 +131,14 @@ void metropolis(int N, double beta, double J, double tol, double lat[][N], int M
         // printf("magnetization: %.2f \n", new_m);
         steps++;
 
+        /* Print lattice - for debug */
+        // for(int k=0; k<N; k++){
+        //     for(int l=0; l<N; l++){
+        //         printf("%.1f \t", lat[k][j] );
+        //     }
+        //     printf("\n");
+        // }
+
         if(steps==M){
             /* Reallocate more space in m-array*/
             printf("Reallcate array length \n");
@@ -138,7 +148,7 @@ void metropolis(int N, double beta, double J, double tol, double lat[][N], int M
     }
     
     /* Report acceptance ratio */
-    printf("Acceptance ration: %.2f \n", (double)acc_steps/steps);
+    printf("Acceptance ration: %.4f \n", (double)acc_steps/steps);
     
 
     /* Free variables */
@@ -146,21 +156,26 @@ void metropolis(int N, double beta, double J, double tol, double lat[][N], int M
     gsl_rng_free(r);
 }
 
-void simulate_lattice(int N, double tol, double beta,  double J){
+void simulate_lattice(int N, double tol, double T,  double kB,  double J){
     /* RNG */
     srand(time(NULL)); // Set the seed for rand
     double rand_disp;  // random displacement
 
     /* Variables */
+    double beta = kB*T;
     double (*lat)[N] = malloc(sizeof(double [N][N]));
+
     int M = 1000;
     double *m = malloc(M * sizeof(double));  // Average magnetizations for each iteration
+
+
+
     FILE *f;  // Output file
     char filename[50] = "";
     char dir[100] = "problem3_output/";
     char Temperature[50];
     char output[50];
-    gcvt(beta, 10, Temperature);
+    gcvt(T, 10, Temperature);
     strcat(dir, Temperature);
 
     /* Initialize lattice randomly */
@@ -173,7 +188,14 @@ void simulate_lattice(int N, double tol, double beta,  double J){
             lat[i][j] = rand_disp;
         }
     }
-    
+
+    // for(int k=0; k<N; k++){
+    //     for(int l=0; l<N; l++){
+    //         printf("%.1f \t", lat[k][l] );
+    //     }
+    //     printf("\n");
+    // }
+
     // Run metropolis to tol
     metropolis(N, beta, J, tol, lat, M, m);
 
@@ -197,7 +219,7 @@ void simulate_lattice(int N, double tol, double beta,  double J){
     f = fopen(filename, "w");
     for (int i = 0; i < M; i++)
     {
-        fprintf(f, "%.6f \n", m[i]);
+        fprintf(f, "%.16f \n", m[i]);
     }
     fclose(f);
 
@@ -222,7 +244,7 @@ int main(){
     int N[] = {2, 4, 6};
 
     /* Iterate over all temperatures and all sizes */
-    simulate_lattice(200, tol, kB*5, J);
+    simulate_lattice(4, tol, 1, kB, J);
 
 
 
