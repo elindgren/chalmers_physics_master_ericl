@@ -16,7 +16,7 @@ double magnetization(int N, double lat[][N]){
             m += lat[i][j];
         }
     }
-    printf("Magnetization: %.2f\n", m);
+    // printf("Magnetization: %.2f\n", m);
     return m / (double)(N*N);
 }
 
@@ -63,7 +63,7 @@ double energy(int N, double lat[][N]){
 }
 
 
-void metropolis(int N, double beta, double J, double tol, double lat[][N], int M, double m[]){
+double metropolis(int N, double beta, double J, double tol, double lat[][N], int M, double m[]){
     /* Initialize variables */
     double (*prop_lat)[N] = malloc(sizeof(double [N][N]));  // lattice with one proposal spin flip
     double prev_E;  // Previous energy in deltaE
@@ -84,16 +84,16 @@ void metropolis(int N, double beta, double J, double tol, double lat[][N], int M
     prev_m = -DBL_MAX;
     new_m = magnetization(N, lat);
 
-    while(fabs(new_m - prev_m) > tol && steps < 10){
-        if(steps%1000 == 0){
-            printf("Iterations: %d \n", steps);
-        }
+    while(fabs(new_m - prev_m) > tol && steps < 1000000){
+        // if(steps%100000 == 0){
+        //     printf("\t\tIterations: %d \n", steps);
+        // }
         /* Randomize indices i and j to change */
         i = gsl_rng_uniform_int(r, N);
         j = gsl_rng_uniform_int(r, N);
 
         /* Flip spin at position i, j */
-        printf("Spin flipped at i=%d, j=%d \n", i, j);
+        // printf("Spin flipped at i=%d, j=%d \n", i, j);
         lat[i][j] = -1.0 * lat[i][j]; 
     
         /* Calculate new energy */
@@ -102,8 +102,8 @@ void metropolis(int N, double beta, double J, double tol, double lat[][N], int M
         /* Calculate energy difference */
         delta_E = new_E - prev_E;
         
-
-        if(delta_E < 0){
+        eps = gsl_rng_uniform(r);
+        if(delta_E < 0 || exp( -1.0 * delta_E * beta) > eps){
             /* Accept change */
             prev_E = new_E;
             acc_steps++;
@@ -112,71 +112,80 @@ void metropolis(int N, double beta, double J, double tol, double lat[][N], int M
             new_m = magnetization(N, lat);
 
         }else{
-            /* Accept change if e^{beta*\deltaE} > eps*/
-            eps = gsl_rng_uniform(r);
-            if (exp( -delta_E * beta) > eps){
-                /* Accept change */
-                prev_E = new_E;
-                acc_steps++;
-                /* Calculate magnetization */
-                prev_m = new_m;  // save old value
-                new_m = magnetization(N, lat);
-            }else{
-                /* Revert lattice */
-                lat[i][j] = -1 * lat[i][j]; 
-            }
+            /* Revert lattice */
+            lat[i][j] = -1 * lat[i][j];
         }
+        // if(delta_E < 0 || exp( -1.0 * delta_E * beta) > eps){
+        //     /* Accept change */
+        //     prev_E = new_E;
+        //     acc_steps++;
+        //     /* Calculate magnetization */
+        //     prev_m = new_m;  // save old value
+        //     new_m = magnetization(N, lat);
 
-        m[steps] = new_m;
+        // }else{
+        //     /* Accept change if e^{beta*\deltaE} > eps*/
+        //     eps = gsl_rng_uniform(r);
+        //     if (exp( -1.0 * delta_E * beta) > eps){
+        //         /* Accept change */
+        //         prev_E = new_E;
+        //         acc_steps++;
+        //         /* Calculate magnetization */
+        //         prev_m = new_m;  // save old value
+        //         new_m = magnetization(N, lat);
+        //     }else{
+        //         /* Revert lattice */
+        //         lat[i][j] = -1 * lat[i][j]; 
+        //     }
+        // }
+
+        m[steps%M] = new_m;
         // printf("magnetization: %.2f \n", new_m);
         steps++;
 
-        /* Print lattice - for debug */
-        // for(int k=0; k<N; k++){
-        //     for(int l=0; l<N; l++){
-        //         printf("%.1f \t", lat[k][j] );
-        //     }
-        //     printf("\n");
-        // }
-
         if(steps==M){
             /* Reallocate more space in m-array*/
-            printf("Reallcate array length \n");
-            M *= 2;
-            m = realloc(m, M * sizeof(double));  // Doubles length of array
+            // printf("Reallcate array length \n");
+            memset(m, 0, sizeof(double) *M);
         }
     }
     
     /* Report acceptance ratio */
-    printf("Acceptance ration: %.4f \n", (double)acc_steps/steps);
-    
+    // printf("\t\tAcceptance ration: %.4f \n", (double)acc_steps/steps);
 
     /* Free variables */
     free(prop_lat); prop_lat=NULL;
     gsl_rng_free(r);
+
+    /* Return last magnetization */
+    return new_m;
 }
 
-void simulate_lattice(int N, double tol, double T,  double kB,  double J){
+void simulate_lattice(int N, double tol, double T[], int Ts, double kB,  double J){
     /* RNG */
     srand(time(NULL)); // Set the seed for rand
     double rand_disp;  // random displacement
 
     /* Variables */
-    double beta = kB*T;
+    // double beta = kB*T;
     double (*lat)[N] = malloc(sizeof(double [N][N]));
-
-    int M = 1000;
-    double *m = malloc(M * sizeof(double));  // Average magnetizations for each iteration
-
-
+    double *m = malloc(Ts * sizeof(double));  // Final magnetization for each temperature
+    int M = 10000;
+    double *m_final = malloc(M * sizeof(double));  // Save last 10000 magnetization values
 
     FILE *f;  // Output file
-    char filename[50] = "";
+    char filename[200] = "";
     char dir[100] = "problem3_output/";
+    char subfolder[50] = "N=";
+    char size[50];
     char Temperature[50];
     char output[50];
-    gcvt(T, 10, Temperature);
-    strcat(dir, Temperature);
+
+    gcvt(N,3, size);
+    strcat(subfolder, size);
+    strcat(subfolder, "/");
+    strcat(dir, subfolder);
+    // printf("Dir: %s \n", dir);
 
     /* Initialize lattice randomly */
     for(int i=0; i<N; i++){
@@ -197,34 +206,63 @@ void simulate_lattice(int N, double tol, double T,  double kB,  double J){
     // }
 
     // Run metropolis to tol
-    metropolis(N, beta, J, tol, lat, M, m);
+
+    
+    for(int i=0; i<Ts; i++){
+        double beta = 1.0 / (T[i] * kB);
+        printf("\tTemperature: %.2f K\n", T[i]);
+        m[i] = metropolis(N, beta, J, tol, lat, M, m);
+
+        
+        gcvt(T[i],3, Temperature);
+        char T_lattice[50] = "lattices/T=";
+        char T_traces[50] = "traces/T=";
+
+        strcat(T_lattice, Temperature);
+        strcat(T_traces, Temperature);
+
+        // Save lattice for this temperature
+        filename[0] = '\0';  // Empty filename string
+        strcat(filename, dir);
+        strcat(filename, T_lattice);
+        strcat(filename, "_lattice.dat");
+        f = fopen(filename, "w");
+        for (int i = 0; i < N; i++)
+        {
+            for (int j=0; j<N; j++){
+                fprintf(f, "%.1f \t", lat[i][j]);
+            }
+            fprintf(f, "\n");
+        }
+        fclose(f);
+
+        // Save trace over last 10000 timesteps
+        filename[0] = '\0';  // Empty filename string
+        strcat(filename, dir);
+        strcat(filename, T_traces);
+        strcat(filename, "_magnetization_trace.dat");
+        f = fopen(filename, "w");
+        for (int i = 0; i < M; i++)
+        {
+            fprintf(f, "%.16f \n", m_final[i]);
+        }
+        fclose(f);
+    }
 
     // Save results
-    filename[0] = '\0';  // Empty filename string
-    strcat(filename, dir);
-    strcat(filename, "_lattice.dat");
-    f = fopen(filename, "w");
-    for (int i = 0; i < N; i++)
-    {
-        for (int j=0; j<N; j++){
-            fprintf(f, "%.1f \t", lat[i][j]);
-        }
-        fprintf(f, "\n");
-    }
-    fclose(f);
+    
 
     filename[0] = '\0';  // Empty filename string
     strcat(filename, dir);
-    strcat(filename, "_magnetization.dat");
+    strcat(filename, "magnetization.dat");
     f = fopen(filename, "w");
-    for (int i = 0; i < M; i++)
+    for (int i = 0; i < Ts; i++)
     {
-        fprintf(f, "%.16f \n", m[i]);
+        fprintf(f, "%.16f \t %.16f \n", T[i], m[i]);
     }
     fclose(f);
-
-
-
+    
+    
 
     // Free variables
     free(lat); lat=NULL;
@@ -234,19 +272,28 @@ void simulate_lattice(int N, double tol, double T,  double kB,  double J){
 int main(){
     // Define constants: J, kB, tol
     double J = 1;
-    double kB = 0.00008617; 
+    // double kB = 0.00008617; 
+    double kB = 1;
     double tol = 0.00001;  // Tolerance for convergence
 
     // Define temperatures
-    double beta[] = {10, 10, 20};
+    int Ts = 50;  // Nbr of temperatures
+    double Tmin = 0;
+    double Tmax = 3.5;
+    double dT = (Tmax-Tmin)/(double)Ts;  // Temperature step
+    double *T = malloc(Ts * sizeof(double));
+    for(int i=0; i<Ts; i++){
+        T[i] = i*dT; 
+    }
 
     // Define sizes N
-    int N[] = {2, 4, 6};
+    int Ns = 4;
+    int N[] = {10,128,256,512};
 
     /* Iterate over all temperatures and all sizes */
-    simulate_lattice(4, tol, 1, kB, J);
-
-
-
-
+    for(int i=0; i<Ns; i++){
+        printf("N=%d \n", N[i]);
+        simulate_lattice(N[i], tol, T, Ts, kB, J);
+    }
+    
 }
