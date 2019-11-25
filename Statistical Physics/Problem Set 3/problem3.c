@@ -108,7 +108,7 @@ double metropolis(int N, double beta, double J, double tol, double lat[][N], int
     double prev_m;
     double new_m;
     /* Loop variables */
-    int max_iters = 1e12;
+    long int max_iters = 1e12;
     int run_loop = 1;
     /* Average m values*/
     double old_avg_m = DBL_MAX;
@@ -153,14 +153,13 @@ double metropolis(int N, double beta, double J, double tol, double lat[][N], int
         eps = gsl_rng_uniform(r);
         if(delta_E < 0 || exp( -1.0 * delta_E * beta) > eps){
             /* Accept change */
-            new_spin = lat[i][j];
             acc_steps++;            
         }else{
             /* Revert lattice */
             lat[i][j] = -1 * lat[i][j];
-            new_spin = lat[i][j];
         }
         /* Save current magnetization */
+        new_spin = lat[i][j];
         delta_m = (new_spin - old_spin)/(double)(N*N);
         curr_m += delta_m;
         m[steps%M] = curr_m;
@@ -339,8 +338,8 @@ int main(){
     }
 
     // Define sizes N
-    int Ns = 3;
-    int N[] = {128, 256, 512};
+    int Ns = 1;
+    int N[] = {512};
 
     /* Iterate over all temperatures and all sizes */
     clock_t begin = clock();
