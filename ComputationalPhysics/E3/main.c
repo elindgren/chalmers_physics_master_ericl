@@ -5,7 +5,7 @@
 #include <string.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_statistics_double.h>
-#define PI 3.14
+#define PI 3.141592653589793238
 
 
 double integrand1D(double x){
