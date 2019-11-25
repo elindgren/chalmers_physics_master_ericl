@@ -206,13 +206,20 @@ void simulate_lattice(int N, double tol, double T[], int Ts, double kB,  double 
     // }
 
     // Run metropolis to tol
+    clock_t begin;
+    clock_t end; 
+    double time_spent;
 
-    
     for(int i=0; i<Ts; i++){
         double beta = 1.0 / (T[i] * kB);
-        printf("\tTemperature: %.2f K\n", T[i]);
+        printf("\tTemperature: %.2f K - ", T[i]);
+        begin=clock();
+        // Run metropolis
         m[i] = metropolis(N, beta, J, tol, lat, M, m);
-
+        
+        end = clock();
+        time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+        printf("Time: %.2f s \n", time_spent);
         
         gcvt(T[i],3, Temperature);
         char T_lattice[50] = "lattices/T=";
@@ -286,12 +293,17 @@ int main(){
 
     // Define sizes N
     int Ns = 1;
-    int N[] = {10};
+    int N[] = {512};
 
     /* Iterate over all temperatures and all sizes */
+    clock_t begin = clock();
+
     for(int i=0; i<Ns; i++){
         printf("N=%d \n", N[i]);
         simulate_lattice(N[i], tol, T, Ts, kB, J);
     }
-    
+
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("Total execution time: %.2f \n s", time_spent);
 }
