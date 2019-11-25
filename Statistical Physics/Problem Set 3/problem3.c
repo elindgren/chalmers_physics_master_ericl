@@ -108,7 +108,7 @@ double metropolis(int N, double beta, double J, double tol, double lat[][N], int
     double prev_m;
     double new_m;
     /* Loop variables */
-    int max_iters = 1000000000;
+    int max_iters = 1e12;
     int run_loop = 1;
     /* Average m values*/
     double old_avg_m = DBL_MAX;
@@ -216,7 +216,7 @@ void simulate_lattice(int N, double tol, double T[], int Ts, double kB,  double 
     // double beta = kB*T;
     double (*lat)[N] = malloc(sizeof(double [N][N]));
     double *m = malloc(Ts * sizeof(double));  // Final magnetization for each temperature
-    int M = 1000;
+    int M = 10000;
     double *m_final = malloc(M * sizeof(double));  // Save last 10000 magnetization values
 
     FILE *f;  // Output file
@@ -326,7 +326,7 @@ int main(){
     double J = 1;
     // double kB = 0.00008617; 
     double kB = 1;
-    double tol = 0.0001;  // Tolerance for convergence
+    double tol = 1e-5;  // Tolerance for convergence
 
     // Define temperatures
     int Ts = 100;  // Nbr of temperatures
@@ -339,7 +339,7 @@ int main(){
     }
 
     // Define sizes N
-    int Ns = 4;
+    int Ns = 3;
     int N[] = {128, 256, 512};
 
     /* Iterate over all temperatures and all sizes */

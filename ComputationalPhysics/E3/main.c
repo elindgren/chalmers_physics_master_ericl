@@ -147,8 +147,207 @@ void task2() {
     free(vals); vals=NULL; free(errs); errs=NULL;
 }
 
+double weigth_function(double x, double y, double z){
+    return pow(PI, -1.5) * exp(-( x*x + y*y + z*z));
+}
+
+double integrand3D(double x, double y, double z){
+    return (x*x + x*x*y*y + x*x*y*y*z*z) * weigth_function(x,y,z);
+}
+
+void task3(){
+    /* Perform Metropolis sampled Monte Carlo Integration of 3D integrand */
+    /* Sampling parameters */
+    int nbr_burn = 1000;  // Burn-in steps
+    int nbr_prod = 1000;   // Production steps
+    double delta = 2;
+    double accepted_steps = 0;
+
+    /* Define data structures */
+    double *r = malloc(3 * sizeof(double));  // Current position
+    double *r_proposal = malloc(3 * sizeof(double));  // Proposal position
+    double *f_trace = malloc(nbr_prod * sizeof(double));  // Trace matrix containing all function evaluations
+
+    /* RNG */
+    double u;
+	const gsl_rng_type *T;
+	gsl_rng *q;
+	gsl_rng_env_setup();
+	T = gsl_rng_default;
+	q = gsl_rng_alloc(T);
+	gsl_rng_set(q,time(NULL));
+    
+    /* Probabilities*/
+    double P_current;
+    double P_proposal;
+    double accept;
+    
+    /* File handling */
+    FILE *f;  // Output file
+
+    /* Set starting position to 0, since weight function is symmetric */
+	r[0] = 0; r[1] = 0; r[2] = 0;
+
+    /* Perform Metropolis sampling */
+    int steps;
+    for(steps = 0; steps < nbr_burn + nbr_prod; steps++){
+        /* Calculate current probability */
+        P_current = weigth_function(r[0], r[1], r[2]);
+
+        /* Suggest a new position */
+        for(int i=0; i<3; i++){
+            u = gsl_rng_uniform(q);
+            r_proposal[i] = r[i] + delta*(u-0.5);
+        }
+
+        /* Calculate proposal position */
+        P_proposal = weigth_function(r_proposal[0], r_proposal[1], r_proposal[2]);
+
+        /* Calculate quotient */
+        accept = P_proposal/P_current;
+
+        /* Check if region of higher probability */
+        /* If higher probability step there, or step there with probability accept */
+        if(accept > 1 || accept > gsl_rng_uniform(q)){
+            for(int i=0; i<3; i++){
+                r[i] = r_proposal[i];
+            }
+            accepted_steps++;
+        }
+
+        /* Calculate integrand value for current position */
+        if(steps >= nbr_burn){
+            f_trace[steps-nbr_burn] = integrand3D(r[0], r[1], r[2]); 
+        }
+    }
+    printf("Steps: %d \n", steps);
+    printf("Accepted steps: %.2f \n", accepted_steps);
+    printf("Acceptance ratio: %.2f \n", accepted_steps/(double)steps);
+
+    /* Write trace to file */
+    f = fopen("task3/task3.dat", "w");
+    for (int i = 0; i < nbr_prod; i++)
+    {
+        fprintf(f, "%.16f \n", f_trace[i]);
+    }
+    fclose(f);
+
+    /* Free variables */
+    free(r); r = NULL; free(f_trace); f_trace = NULL;
+}
+
+void correlation_function(int N, double f[N], double phi[N]){
+    /* Calculate sampled function average and average squared */
+    double avg_f = 0;
+    for(int i=0; i<N; i++){
+        avg_f += f[i];
+    }
+    avg_f /= N; 
+    printf("Average function value: %.2f \n", avg_f);
+    // Remove the mean from the signal, and just have the deviations from the mean
+    double *d = malloc(N * sizeof(double));
+    for(int i=0; i<N; i++){
+        d[i] = f[i] - avg_f;
+    }
+    // Now the average value of the deviations is 0, simplifying or correlation function
+
+    double avg_d_sq = 0;
+    for(int i=0; i<N; i++){
+        avg_d_sq += d[i]*d[i];
+    }
+    avg_d_sq /= N;
+    printf("Average deviation squard: %.2f \n", avg_d_sq);
+
+    /* Calculate autocorrelation function */
+    printf("Calculating correlation function \n");
+    double d_kd_i = 0;
+    for(int k=0; k<N; k++){
+        if(k%100000 == 0){
+            printf("k=%d \n", k);
+        }
+        d_kd_i = 0;
+        for(int i=0; i<N-k; i++){
+            d_kd_i += d[i+k]*d[i];
+        }
+        d_kd_i /= N;
+        phi[k] = d_kd_i / avg_d_sq;
+    }
+}
+
+double block_average(int N, int B, int M,double f[N], double F[M]){
+    /* Calculates the block averaged value for s. M = N/B is the number of blocks. */
+
+    /* Calculate F */
+    double Fj;
+    for (int j = 0; j<M; j++){
+        Fj = 0;
+        // Calculate the average value for block j
+        for(int i = 0; i<B; i++){
+            Fj += f[i+j*B];
+        }
+        Fj /= B;
+        F[j] = Fj;
+    }
+
+    /* Calculate the variance of F and f */
+    double mean_f = gsl_stats_mean(f, 1, N);  // Function, stride, length
+    double var_f = gsl_stats_variance_m(f, 1, N, mean_f); // Function, stride, length, mean - Variance in f
+    double mean_F = gsl_stats_mean(F, 1, M);  // Function, stride, length
+    double var_F = gsl_stats_variance_m(f, 1, M, mean_F); // Function, stride, length, mean - Variance in F
+    
+    /* Estimate s */
+    return B*var_F/var_f;
+
+
+}
+
+void task4(int calc_corr){
+    /* Define variables */
+    int nbr_of_lines = 1e6;
+    double *phi = malloc(nbr_of_lines * sizeof(double));
+    int B = 1000; // Block size
+    int nbr_blocks = nbr_of_lines/B;
+    double *F = malloc(nbr_blocks * sizeof(double));
+
+    /* Load data */
+    int i;
+    FILE *f;
+    FILE *in_file;
+    double *data = malloc((nbr_of_lines) * sizeof (double));
+    
+    /* Read data from file. */
+    in_file = fopen("MC.txt","r");
+    for (i=0; i<nbr_of_lines; i++) {
+        fscanf(in_file,"%lf",&data[i]);
+    }
+    fclose(in_file);
+
+    /* Calculate block averaged approximation of s */
+    double s = block_average(nbr_of_lines, B, nbr_blocks, data, F);
+
+    printf("Block averaging: s=%.3f \n",s);
+
+    if(calc_corr){
+        /* Calculate correlation function */
+        correlation_function(nbr_of_lines, data, phi);
+
+        /* Write trace to file */
+        f = fopen("task4/corr_func.dat", "w");
+        for (int i = 0; i < nbr_of_lines; i++)
+        {
+            fprintf(f, "%.16f \n", phi[i]);
+        }
+        fclose(f);
+    }
+    
+
+}
+
+
 int main(){
     // Run tasks 
-    task1();
-    task2();
+    // task1();
+    // task2();
+    // task3();
+    task4(0);
 }
