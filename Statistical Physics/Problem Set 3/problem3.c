@@ -4,6 +4,7 @@
 #include <float.h>
 #include <time.h>
 #include <string.h>
+#include <omp.h>
 #include <gsl/gsl_rng.h>
 
 
@@ -56,7 +57,7 @@ double energy(int N, double lat[][N], double J){
             E += (neigh_1 + neigh_2 + neigh_3 + neigh_4) / 2.0;  // Transform back by dividing by two
         }
     }
-    return -J*E;
+    return -J*E*2;  // Factor two for to count correctly - impacts neighboring spins
 }
 
 double calc_E_site(int N, double lat[][N], double J, int i, int j){
@@ -66,8 +67,6 @@ double calc_E_site(int N, double lat[][N], double J, int i, int j){
     double neigh_2;
     double neigh_3;
     double neigh_4;
-
-    clock_t begin = clock();
     
     /* Periodic boundary conditions */
     if(i==N-1){
@@ -94,7 +93,7 @@ double calc_E_site(int N, double lat[][N], double J, int i, int j){
     
     E = (neigh_1 + neigh_2 + neigh_3 + neigh_4) / 2.0;  // Transform back by dividing by two
     
-    return -J*E;
+    return -J*E*2; // Factor two for to count correctly - impacts neighboring spins
 }
 
 
@@ -181,7 +180,7 @@ double metropolis(int N, double beta, double J, double tol, double lat[][N], int
             if(fabs((curr_avg_m - old_avg_m)/old_avg_m) > tol){
                 /* Continue loop*/
                 run_loop = 1;
-                memset(m, 0, sizeof(double) *M);
+                memset(m, 0, sizeof(double) * M);
             }else{
                 /* Stop loop */
                 run_loop = 0;
@@ -191,12 +190,12 @@ double metropolis(int N, double beta, double J, double tol, double lat[][N], int
     }
     
     /* Report acceptance ratio */
-    printf("Acceptance ration: %.4f - ", (double)acc_steps/steps);
-    if(steps-max_iters != 0){
-        printf("Converged in %d steps - ", steps);
-    }else{
-        printf("Timed out - ");
-    }
+    // printf("Acceptance ration: %.4f - ", (double)acc_steps/steps);
+    // if(steps-max_iters != 0){
+    //     printf("Converged in %d steps - ", steps);
+    // }else{
+    //     printf("Timed out - ");
+    // }
 
     /* Free variables */
     free(prop_lat); prop_lat=NULL;
@@ -255,9 +254,9 @@ void simulate_lattice(int N, double tol, double T[], int Ts, double kB,  double 
     clock_t end; 
     double time_spent;
 
-    for(int i=0; i<Ts; i++){
+    for(int i=Ts-1; i>=0; i--){
         double beta = 1.0 / (T[i] * kB);
-        printf("\tTemperature: %.2f K - ", T[i]);
+        // printf("\tN=%d - Temperature: %.2f K - ", N, T[i]);
 
         begin=clock();
 
@@ -266,7 +265,8 @@ void simulate_lattice(int N, double tol, double T[], int Ts, double kB,  double 
         
         end = clock();
         time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-        printf("Time: %.2f s \n", time_spent);
+        // printf("Time: %.2f s \n", time_spent);
+        printf("\tN=%d - Progress: %.2f % \n ", N, (double)(Ts-1 - i)/Ts * 100);
         
         /* Save results*/
         gcvt(T[i],3, Temperature);
@@ -317,10 +317,13 @@ void simulate_lattice(int N, double tol, double T[], int Ts, double kB,  double 
     
     // Free variables
     free(lat); lat=NULL;
+
+    printf("\tN=%d - Finished \n", N);
 }
 
 
 int main(){
+    omp_set_num_threads(4);
     // Define constants: J, kB, tol
     double J = 1;
     // double kB = 0.00008617; 
@@ -328,7 +331,7 @@ int main(){
     double tol = 1e-5;  // Tolerance for convergence
 
     // Define temperatures
-    int Ts = 100;  // Nbr of temperatures
+    int Ts = 50;  // Nbr of temperatures
     double Tmin = 0;
     double Tmax = 3;
     double dT = (Tmax-Tmin)/(double)Ts;  // Temperature step
@@ -338,12 +341,12 @@ int main(){
     }
 
     // Define sizes N
-    int Ns = 1;
-    int N[] = {512};
+    int Ns = 2;
+    int N[] = {200, 256};
 
     /* Iterate over all temperatures and all sizes */
     clock_t begin = clock();
-
+    #pragma omp parallel for schedule(dynamic, 1)
     for(int i=0; i<Ns; i++){
         printf("N=%d \n", N[i]);
         simulate_lattice(N[i], tol, T, Ts, kB, J);
