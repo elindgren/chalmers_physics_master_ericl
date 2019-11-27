@@ -42,16 +42,16 @@ Imm = np.sqrt(3)/2*(nB+nC)
 REM, IMM = np.meshgrid(Rem, Imm)
 
 NB, NC = np.meshgrid(nB, nC)
-gamma = 1
+gamma = 0.2
 F = free_energy_surface(nB, nC, gamma)
 
 # Contour plot
 fig = plt.figure(figsize=(10,6))
 ax = fig.gca(projection='3d')
-surf = ax.plot_surface(REM, IMM, F, linewidth=0, antialiased=True)
+surf = ax.plot_surface(NB, NC, F, linewidth=0, antialiased=True)
 ax.set_title(rf'Free energy surface, $\gamma=${gamma:.2f}')
-ax.set_xlabel(r'Re$(m)$')
-ax.set_ylabel(r'Im$(m)$')
+ax.set_xlabel(r'$n_B$')
+ax.set_ylabel(r'$n_C$')
 ax.set_zlabel(r'Reduced free energy, $\hat{F}$')
 plt.tight_layout()
 plt.savefig(f'surface_gamma={gamma}.png')
@@ -100,6 +100,6 @@ plt.savefig(f'transition.png')
 # ax.contour3D(N, B, F, 50, cmap='binary')
 # ax.plot3D(nA, b, free_energy(nA, b))
 
-plt.show()
+# plt.show()
 
 

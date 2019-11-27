@@ -323,7 +323,7 @@ void simulate_lattice(int N, double tol, double T[], int Ts, double kB,  double 
 
 
 int main(){
-    omp_set_num_threads(4);
+    
     // Define constants: J, kB, tol
     double J = 1;
     // double kB = 0.00008617; 
@@ -342,10 +342,11 @@ int main(){
 
     // Define sizes N
     int Ns = 2;
-    int N[] = {200, 256};
+    int N[] = {400, 512};
 
     /* Iterate over all temperatures and all sizes */
     clock_t begin = clock();
+    omp_set_num_threads(4);
     #pragma omp parallel for schedule(dynamic, 1)
     for(int i=0; i<Ns; i++){
         printf("N=%d \n", N[i]);
