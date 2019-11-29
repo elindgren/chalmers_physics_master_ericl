@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 # Set plot params
 plt.rc('font', size=14)          # controls default text sizes
 plt.rc('axes', titlesize=14)     # fontsize of the axes title
-plt.rc('axes', labelsize=14)    # fontsize of the x and y labels
+plt.rc('axes', labelsize=14)     # fontsize of the x and y labels
 plt.rc('xtick', labelsize=14)    # fontsize of the tick labels
 plt.rc('ytick', labelsize=14)    # fontsize of the tick labels
 plt.rc('legend', fontsize=14)    # legend fontsize
