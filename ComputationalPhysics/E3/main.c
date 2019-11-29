@@ -152,14 +152,14 @@ double weigth_function(double x, double y, double z){
 }
 
 double integrand3D(double x, double y, double z){
-    return (x*x + x*x*y*y + x*x*y*y*z*z) * weigth_function(x,y,z);
+    return (x*x + x*x*y*y + x*x*y*y*z*z);
 }
 
 void task3(){
     /* Perform Metropolis sampled Monte Carlo Integration of 3D integrand */
     /* Sampling parameters */
-    int nbr_burn = 1000;  // Burn-in steps
-    int nbr_prod = 1000;   // Production steps
+    int nbr_burn = 100000;  // Burn-in steps
+    int nbr_prod = 10000000;   // Production steps
     double delta = 2;
     double accepted_steps = 0;
 
@@ -186,7 +186,7 @@ void task3(){
     FILE *f;  // Output file
 
     /* Set starting position to 0, since weight function is symmetric */
-	r[0] = 0; r[1] = 0; r[2] = 0;
+	r[0] = 2*(gsl_rng_uniform(q)-0.5); r[1] = 2*(gsl_rng_uniform(q)-0.5); r[2] = 2*(gsl_rng_uniform(q)-0.5);
 
     /* Perform Metropolis sampling */
     int steps;
@@ -274,7 +274,7 @@ void correlation_function(int N, double f[N], double phi[N]){
     }
 }
 
-double block_average(int N, int B, int M,double f[N], double F[M]){
+double block_average(int N, int B, int M, double f[N], double F[M]){
     /* Calculates the block averaged value for s. M = N/B is the number of blocks. */
 
     /* Calculate F */
@@ -293,17 +293,15 @@ double block_average(int N, int B, int M,double f[N], double F[M]){
     double mean_f = gsl_stats_mean(f, 1, N);  // Function, stride, length
     double var_f = gsl_stats_variance_m(f, 1, N, mean_f); // Function, stride, length, mean - Variance in f
     double mean_F = gsl_stats_mean(F, 1, M);  // Function, stride, length
-    double var_F = gsl_stats_variance_m(f, 1, M, mean_F); // Function, stride, length, mean - Variance in F
+    double var_F = gsl_stats_variance_m(F, 1, M, mean_F); // Function, stride, length, mean - Variance in F
     
     /* Estimate s */
     return B*var_F/var_f;
-
-
 }
 
 void task4(int calc_corr){
     /* Define variables */
-    int nbr_of_lines = 1e6;
+    long int nbr_of_lines = 1e6;
     double *phi = malloc(nbr_of_lines * sizeof(double));
     int B = 1000; // Block size
     int nbr_blocks = nbr_of_lines/B;
@@ -318,7 +316,7 @@ void task4(int calc_corr){
     /* Read data from file. */
     in_file = fopen("MC.txt","r");
     for (i=0; i<nbr_of_lines; i++) {
-        fscanf(in_file,"%lf",&data[i]);
+        fscanf(in_file,"%lf", &data[i]);
     }
     fclose(in_file);
 
@@ -348,6 +346,6 @@ int main(){
     // Run tasks 
     // task1();
     // task2();
-    // task3();
-    task4(0);
+    task3();
+    // task4(0);
 }
