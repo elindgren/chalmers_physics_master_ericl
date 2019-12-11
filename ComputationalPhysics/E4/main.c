@@ -8,8 +8,8 @@
 #include <gsl/gsl_randist.h>
 #define PI 3.141592653589793238
 
-double Fext(double x, double m, double f0){
-    return -x*m*(2*PI*f0)*(2*PI*f0);
+double calc_a(double x, double f0){
+    return -x*(2*PI*f0)*(2*PI*f0);
 }
 
 void brownianDynamics(int N, int N_walkers, double dt, double relTime, double pos[][N_walkers], double vel[][N_walkers], int col){
@@ -18,15 +18,13 @@ void brownianDynamics(int N, int N_walkers, double dt, double relTime, double po
     double x = 0;  // Current position
     double v = 0;  // Current velocity
     double a = 0;   // Current acceleration
-    double vt = 0;  // Intermediate velocity
 
     /* Trap and particle parameters */
     double eta = 1.0/relTime;  // Viscosity - relTime in ms
-    double f0 = 3;  // Natural frequency of the trap - 3 kHz - 1 Hz = 1/s = 1/(1000 ms) => 3 kHz = 3000/(1000 ms) = 3/ms
-    double m = 3.013e-11;  // Mass of silica particle in our units - M = 1g
-    double T = 297;  // Temperature in Kelvin
-    double kB = 1.381e-20;  // Boltzmann constant in our units
-    double vth = sqrt(kB*T/m);
+    double f0 = 3e-3;  // Natural frequency of the trap - 3 kHz - 1 Hz = 1/s = 1/(1000 ms) => 3 kHz = 3000/(1000 ms) = 3/ms
+    double m = 1;  // Mass of silica particle in our units - M = 1g
+    double kBT = 1.700968e-8;  // Boltzmann constant in our units
+    double vth = sqrt(kBT/m);
     double c0 = exp(-eta*dt);
 
     /* RNG */
@@ -41,13 +39,13 @@ void brownianDynamics(int N, int N_walkers, double dt, double relTime, double po
     /* Initialize system */
     x = 0.1;
     v = 2.0e-3;
-    a = Fext(x, m, f0)/m;
+    a = calc_a(x, f0);
     
     
     pos[0][col] = x; 
     vel[0][col] = v;
     // printf("Time = %.4ld \n", time(NULL));
-    printf("C0 = %.4f \n", c0);
+    // printf("vth = %.8f \n", vth);
     
     
     g = gsl_ran_gaussian(q, 1.0);
@@ -63,7 +61,7 @@ void brownianDynamics(int N, int N_walkers, double dt, double relTime, double po
         x = x + v*dt;
 
         /* Calculate new external acceleration */
-        a = Fext(x, m, f0)/m;
+        a = calc_a(x, f0);
 
         /* Calculate new velocity */ 
         g = gsl_ran_gaussian(q, 1.0);
@@ -80,11 +78,13 @@ void brownianDynamics(int N, int N_walkers, double dt, double relTime, double po
 }
 
 int main(){
-
     /* Variable declarations */
-    int N = 1000;  // Number of algorithm steps
-    int N_walkers = 10;  // Number of walkers - times the algorithm will be started 
-    double dt = 0.01;
+    int N = 12000;  // Number of algorithm steps
+    int N_walkers = 5000;  // Number of walkers - times the algorithm will be started 
+    double dt = 0.1;
+    int N_times = 5;
+    int N_completed = 0;
+    int steps_between_save = N/N_times;
 
     /* RNG */
 	const gsl_rng_type *Ty;
@@ -99,16 +99,30 @@ int main(){
     
     double (*pos)[N_walkers] = malloc(sizeof(double[N][N_walkers]));
     double (*vel)[N_walkers] = malloc(sizeof(double[N][N_walkers]));
+    double (*vel_many)[N_walkers] = malloc(sizeof(double[N_times][N_walkers])); 
+    double (*pos_many)[N_walkers] = malloc(sizeof(double[N_times][N_walkers])); 
 
     /* Task 3 - run Brownian Dynamics simulation */
-    double tau = 48.5; 
-    #pragma omp parallell for
+    double tau = 147.3; 
+    #pragma omp parallel for
     for(int i=0; i<N_walkers; i++){
+        if(i%100 == 0){
+            printf("Progress: %.2f \n", (double)N_completed/N_walkers * 100);
+        }
         brownianDynamics(N, N_walkers, dt, tau, pos, vel, i);
+        N_completed++;
+    }   
+
+    for(int i = 0; i<N_times; i++){
+        for(int j = 0; j<N_walkers; j++){
+            // printf("Time: %.d \n", i*steps_between_save);
+            vel_many[i][j] = vel[i*steps_between_save][j];
+            pos_many[i][j] = pos[i*steps_between_save][j];
+        }
     }
     
     /* Write to file */
-    // f = fopen("pos_many.dat", "w");
+    // f = fopen("pos.dat", "w");
     // for(int i=0; i<N; i++){
     //     fprintf(f, "%.8f \t", dt*i);
     //     for(int j=0; j<N_walkers; j++){
@@ -117,11 +131,29 @@ int main(){
     //     fprintf(f, "\n");
     // }
     // fclose(f); 
-    f = fopen("vel_many.dat", "w");
-    for(int i=0; i<N; i++){
-        fprintf(f, "%.8f \t", dt*i);
+    // f = fopen("vel.dat", "w");
+    // for(int i=0; i<N; i++){
+    //     fprintf(f, "%.8f \t", dt*i);
+    //     for(int j=0; j<N_walkers; j++){
+    //         fprintf(f, "%.8f \t", vel[i][j]);
+    //     }
+    //     fprintf(f, "\n");
+    // }
+    // fclose(f); 
+    f = fopen("pos_many.dat", "w");
+    for(int i=0; i<N_times; i++){
+        fprintf(f, "%.8f \t", dt*i*steps_between_save);
         for(int j=0; j<N_walkers; j++){
-            fprintf(f, "%.8f \t", vel[i][j]);
+            fprintf(f, "%.8f \t", pos_many[i][j]);
+        }
+        fprintf(f, "\n");
+    }
+    fclose(f); 
+    f = fopen("vel_many.dat", "w");
+    for(int i=0; i<N_times; i++){
+        fprintf(f, "%.8f \t", dt*i*steps_between_save);
+        for(int j=0; j<N_walkers; j++){
+            fprintf(f, "%.8f \t", vel_many[i][j]);
         }
         fprintf(f, "\n");
     }
