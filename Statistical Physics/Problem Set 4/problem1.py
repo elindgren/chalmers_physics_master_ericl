@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 def C(l, t, A, L, R, c):
     k = 2*np.pi*l/L
     print(k)
-    return l*(l+1)*A*L/k**2 * np.abs( np.cos( k * c * np.sqrt(1/(3*(1+R))) * t ) )**2 
+    return l*(l+1)*A/k**2 * np.abs( np.cos( k * c * np.sqrt(1/(3*(1+R))) * t ) )**2 
 
 # Constants
 c = 1  # ly/y
