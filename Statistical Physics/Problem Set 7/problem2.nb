@@ -10,16 +10,24 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     18218,        496]
-NotebookOptionsPosition[     15847,        451]
-NotebookOutlinePosition[     16190,        466]
-CellTagsIndexPosition[     16147,        463]
+NotebookDataLength[     18966,        512]
+NotebookOptionsPosition[     16500,        466]
+NotebookOutlinePosition[     16845,        481]
+CellTagsIndexPosition[     16802,        478]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
+Cell[TextData[StyleBox["Transition matrices for Case A and Case B",
+ FontWeight->"Bold",
+ FontColor->RGBColor[1, 0.5, 0]]], "Text",
+ CellChangeTimes->{{3.7872942757000694`*^9, 3.7872943066522083`*^9}, {
+  3.78729439659476*^9, 
+  3.787294397683148*^9}},ExpressionUUID->"a0ac1c03-375b-491a-85a5-\
+49e59113b32e"],
 
 Cell[CellGroupData[{
+
 Cell[BoxData[{
  RowBox[{
   RowBox[{"A", " ", "=", " ", 
@@ -116,7 +124,8 @@ e492f23c04a2"]
 }, Open  ]],
 
 Cell[TextData[StyleBox["Eigenvalues and Eigenvectors ",
- FontWeight->"Bold"]], "Text",
+ FontWeight->"Bold",
+ FontColor->RGBColor[1, 0.5, 0]]], "Text",
  CellFrame->{{0, 0}, {0, 0.5}},
  CellChangeTimes->{{3.7863710387947755`*^9, 
   3.7863710435308933`*^9}},ExpressionUUID->"2f8de4ee-e8ff-4cf0-af35-\
@@ -203,15 +212,20 @@ Cell[BoxData[
 
 Cell[TextData[{
  StyleBox["Detailed balance ",
-  FontWeight->"Bold"],
- "\nif checksum = 0, then detailed balance is fulfilled"
+  FontWeight->"Bold",
+  FontColor->RGBColor[1, 0.5, 0]],
+ "\nCheck detailed balance explicitly for all stationary states obtained in \
+the previous section for case A and B. If checksum = 0, then detailed balance \
+is fulfilled"
 }], "Text",
  CellFrame->{{0, 0}, {0, 2}},
  CellChangeTimes->{{3.7863708708771*^9, 3.78637090017636*^9}, 
-   3.7863709400846605`*^9},ExpressionUUID->"2d40352d-cc16-4bee-9f9a-\
+   3.7863709400846605`*^9, {3.787294560700837*^9, 
+   3.7872946049723935`*^9}},ExpressionUUID->"2d40352d-cc16-4bee-9f9a-\
 e81ac9987f0c"],
 
-Cell["Case A", "Text",
+Cell[TextData[StyleBox["Case A",
+ FontWeight->"Bold"]], "Text",
  CellFrame->{{0, 0}, {0, 0.5}},
  CellChangeTimes->{{3.786370942277686*^9, 
   3.7863709563009825`*^9}},ExpressionUUID->"5247fb53-a9d1-4467-8666-\
@@ -361,7 +375,8 @@ i=4 : checksum= 0; checksum= 0; checksum= 0; checksum= 0; \
 In[223]:=",ExpressionUUID->"f014f925-8e22-46b8-ba5b-89663bbe5dc5"]
 }, Open  ]],
 
-Cell["Case B", "Text",
+Cell[TextData[StyleBox["Case B",
+ FontWeight->"Bold"]], "Text",
  CellFrame->{{0, 0}, {0, 0.5}},
  CellChangeTimes->{{3.7863709996224146`*^9, 3.786371000157442*^9}, {
   3.786371062613006*^9, 
@@ -441,16 +456,16 @@ In[239]:=",ExpressionUUID->"7dec4977-f875-48ef-9e04-7eeab28f5dfb"]
 
 Cell["\<\
 Since the checksum is 0 for all combinations of indices i,j for each \
-stationary states for Case A, but not for Case B, we conclude that the \
-process in A fulfills detailed balance whilst the one in B does not. \
+stationary state for Case A, but not for Case B, we conclude that the process \
+in A fulfills detailed balance whilst the one in B does not. \
 \>", "Text",
  CellChangeTimes->{{3.78637109326887*^9, 3.786371127644086*^9}, {
-  3.78637173854714*^9, 
-  3.7863717880765553`*^9}},ExpressionUUID->"22fab2fc-c2ca-4520-88c4-\
+   3.78637173854714*^9, 3.7863717880765553`*^9}, 
+   3.7872945921309185`*^9},ExpressionUUID->"22fab2fc-c2ca-4520-88c4-\
 0d6600ebc8c8"]
 },
 WindowSize->{759, 833},
-WindowMargins->{{Automatic, 572}, {64, Automatic}},
+WindowMargins->{{Automatic, -2724}, {Automatic, 21}},
 FrontEndVersion->"12.0 for Microsoft Windows (64-bit) (April 8, 2019)",
 StyleDefinitions->"Default.nb"
 ]
@@ -465,39 +480,40 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
+Cell[558, 20, 309, 6, 34, "Text",ExpressionUUID->"a0ac1c03-375b-491a-85a5-49e59113b32e"],
 Cell[CellGroupData[{
-Cell[580, 22, 1472, 38, 86, "Input",ExpressionUUID->"800fb1c2-ffe4-4ea0-a167-c035a76146c8"],
-Cell[2055, 62, 792, 24, 96, "Output",ExpressionUUID->"886b5a48-b0f8-4cff-b375-fc2a49d41c8b"],
-Cell[2850, 88, 836, 26, 96, "Output",ExpressionUUID->"80d6a39b-ef5c-426b-81fb-e492f23c04a2"]
+Cell[892, 30, 1472, 38, 86, "Input",ExpressionUUID->"800fb1c2-ffe4-4ea0-a167-c035a76146c8"],
+Cell[2367, 70, 792, 24, 96, "Output",ExpressionUUID->"886b5a48-b0f8-4cff-b375-fc2a49d41c8b"],
+Cell[3162, 96, 836, 26, 96, "Output",ExpressionUUID->"80d6a39b-ef5c-426b-81fb-e492f23c04a2"]
 }, Open  ]],
-Cell[3701, 117, 248, 5, 43, "Text",ExpressionUUID->"2f8de4ee-e8ff-4cf0-af35-916762626ded"],
+Cell[4013, 125, 281, 6, 43, "Text",ExpressionUUID->"2f8de4ee-e8ff-4cf0-af35-916762626ded"],
 Cell[CellGroupData[{
-Cell[3974, 126, 258, 5, 48, "Input",ExpressionUUID->"05c8850a-6984-48dc-aae4-9df4342784e3"],
-Cell[4235, 133, 252, 6, 32, "Output",ExpressionUUID->"21caad2f-dfda-4d10-a3b3-5c970f294334"],
-Cell[4490, 141, 532, 14, 32, "Output",ExpressionUUID->"11916ede-7bec-4978-ad17-f0955d084e5a"]
+Cell[4319, 135, 258, 5, 48, "Input",ExpressionUUID->"05c8850a-6984-48dc-aae4-9df4342784e3"],
+Cell[4580, 142, 252, 6, 32, "Output",ExpressionUUID->"21caad2f-dfda-4d10-a3b3-5c970f294334"],
+Cell[4835, 150, 532, 14, 32, "Output",ExpressionUUID->"11916ede-7bec-4978-ad17-f0955d084e5a"]
 }, Open  ]],
-Cell[5037, 158, 154, 3, 28, "Input",ExpressionUUID->"0f738623-f435-49c4-bb23-87f7138e70c9"],
+Cell[5382, 167, 154, 3, 28, "Input",ExpressionUUID->"0f738623-f435-49c4-bb23-87f7138e70c9"],
 Cell[CellGroupData[{
-Cell[5216, 165, 281, 4, 48, "Input",ExpressionUUID->"55a84a5a-a6d9-4f25-8fda-2b550cdcb3fe"],
-Cell[5500, 171, 345, 9, 32, "Output",ExpressionUUID->"9e42770c-d1b0-460b-9fb7-d24b922a6ee9"],
-Cell[5848, 182, 666, 18, 32, "Output",ExpressionUUID->"6faaea60-591c-4bdb-b4e4-1080823ab666"]
+Cell[5561, 174, 281, 4, 48, "Input",ExpressionUUID->"55a84a5a-a6d9-4f25-8fda-2b550cdcb3fe"],
+Cell[5845, 180, 345, 9, 32, "Output",ExpressionUUID->"9e42770c-d1b0-460b-9fb7-d24b922a6ee9"],
+Cell[6193, 191, 666, 18, 32, "Output",ExpressionUUID->"6faaea60-591c-4bdb-b4e4-1080823ab666"]
 }, Open  ]],
-Cell[6529, 203, 316, 8, 66, "Text",ExpressionUUID->"2d40352d-cc16-4bee-9f9a-e81ac9987f0c"],
-Cell[6848, 213, 182, 4, 43, "Text",ExpressionUUID->"5247fb53-a9d1-4467-8666-059f226a3d25"],
+Cell[6874, 212, 517, 12, 88, "Text",ExpressionUUID->"2d40352d-cc16-4bee-9f9a-e81ac9987f0c"],
+Cell[7394, 226, 223, 5, 43, "Text",ExpressionUUID->"5247fb53-a9d1-4467-8666-059f226a3d25"],
 Cell[CellGroupData[{
-Cell[7055, 221, 2439, 58, 200, "Input",ExpressionUUID->"7b0ef938-1bcf-4248-b2f0-9db97d76afad"],
-Cell[9497, 281, 429, 9, 67, "Print",ExpressionUUID->"d151b0b1-58ae-4171-be95-eb2e81b25da2"]
+Cell[7642, 235, 2439, 58, 200, "Input",ExpressionUUID->"7b0ef938-1bcf-4248-b2f0-9db97d76afad"],
+Cell[10084, 295, 429, 9, 67, "Print",ExpressionUUID->"d151b0b1-58ae-4171-be95-eb2e81b25da2"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[9963, 295, 2152, 54, 200, "Input",ExpressionUUID->"78072be9-7797-4145-95bc-eae7ab497c47"],
-Cell[12118, 351, 408, 9, 67, "Print",ExpressionUUID->"f014f925-8e22-46b8-ba5b-89663bbe5dc5"]
+Cell[10550, 309, 2152, 54, 200, "Input",ExpressionUUID->"78072be9-7797-4145-95bc-eae7ab497c47"],
+Cell[12705, 365, 408, 9, 67, "Print",ExpressionUUID->"f014f925-8e22-46b8-ba5b-89663bbe5dc5"]
 }, Open  ]],
-Cell[12541, 363, 231, 5, 43, "Text",ExpressionUUID->"d74c38bf-119c-4da2-a40d-1f5a88dc8d72"],
+Cell[13128, 377, 272, 6, 43, "Text",ExpressionUUID->"d74c38bf-119c-4da2-a40d-1f5a88dc8d72"],
 Cell[CellGroupData[{
-Cell[12797, 372, 2101, 53, 200, "Input",ExpressionUUID->"59f18242-6a00-4bd6-9fd1-461b1f101929"],
-Cell[14901, 427, 515, 11, 67, "Print",ExpressionUUID->"7dec4977-f875-48ef-9e04-7eeab28f5dfb"]
+Cell[13425, 387, 2101, 53, 200, "Input",ExpressionUUID->"59f18242-6a00-4bd6-9fd1-461b1f101929"],
+Cell[15529, 442, 515, 11, 67, "Print",ExpressionUUID->"7dec4977-f875-48ef-9e04-7eeab28f5dfb"]
 }, Open  ]],
-Cell[15431, 441, 412, 8, 56, "Text",ExpressionUUID->"22fab2fc-c2ca-4520-88c4-0d6600ebc8c8"]
+Cell[16059, 456, 437, 8, 56, "Text",ExpressionUUID->"22fab2fc-c2ca-4520-88c4-0d6600ebc8c8"]
 }
 ]
 *)
