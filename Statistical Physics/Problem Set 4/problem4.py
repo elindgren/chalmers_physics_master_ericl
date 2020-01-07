@@ -10,7 +10,7 @@ plt.rc('legend', fontsize=18) # legend fontsize
 
 
 def C(x,t, b, c, eta):
-    return ( 2*np.cosh(np.sqrt(b/c)*x) - np.exp(np.sqrt(b/c)*x)*spec.erf(b*eta*t + x/np.sqrt(4*eta*c*t)) - np.exp(-np.sqrt(b/c)*x)*spec.erf(b*eta*t - x/np.sqrt(4*eta*c*t)) )
+    return ( 2*np.cosh(np.sqrt(b/c)*x) - np.exp(np.sqrt(b/c)*x)*spec.erf(np.sqrt(b*eta*t) + x/np.sqrt(4*eta*c*t)) - np.exp(-np.sqrt(b/c)*x)*spec.erf(np.sqrt(b*eta*t) - x/np.sqrt(4*eta*c*t)) )
 
 # Constants
 b = 1
