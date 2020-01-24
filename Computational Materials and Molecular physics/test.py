@@ -1,12 +1,25 @@
-import ase
 from ase import Atoms
-from ase.optimize import BFGS
-from ase.calculators.nwchem import NWChem
-from ase.io import write
-h2 = Atoms('H2', positions=[[0, 0, 0], [0, 0, 0.7]])
-h2.calc = NWChem(xc='PBE')
-opt = BFGS(h2)
-opt.run(fmax=0.02)
+from ase.calculators.emt import EMT
+from ase.constraints import FixAtoms
+from ase.optimize import QuasiNewton
+from ase.build import fcc111, add_adsorbate
 
-write('H2.xyz', h2)
-h2.get_potential_energy()
+h = 1.85
+d = 1.10
+
+slab = fcc111('Cu', size=(4, 4, 2), vacuum=10.0)
+
+slab.set_calculator(EMT())
+e_slab = slab.get_potential_energy()
+
+molecule = Atoms('2N', positions=[(0., 0., 0.), (0., 0., d)])
+molecule.set_calculator(EMT())
+e_N2 = molecule.get_potential_energy()
+
+add_adsorbate(slab, molecule, h, 'ontop')
+constraint = FixAtoms(mask=[a.symbol != 'N' for a in slab])
+slab.set_constraint(constraint)
+dyn = QuasiNewton(slab, trajectory='N2Cu.traj')
+dyn.run(fmax=0.05)
+
+print('Adsorption energy:', e_slab + e_N2 - slab.get_potential_energy())
