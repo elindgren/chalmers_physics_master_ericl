@@ -78,6 +78,7 @@ while da.get_number_of_unrelaxed_candidates() > 0:
     da.add_relaxed_step(a)
 
 # create the population
+print("Creating the population")
 population = Population(data_connection=da,
                         population_size=population_size,
                         comparator=comp)
@@ -106,6 +107,7 @@ for i in range(args.ncandidates_to_test):
     da.add_relaxed_step(a3)
     population.update()
 
+print("Writing to all_candidates.traj")
 write('all_candidates.traj', da.get_all_relaxed_candidates())
 
 
