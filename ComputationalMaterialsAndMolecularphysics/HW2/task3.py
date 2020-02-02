@@ -13,7 +13,7 @@ from gpaw import GPAW, FermiDirac
 
 
 np.random.seed(1)
-d = 10  # cell size
+d = 20  # cell size
 db_file = 'expect.db'  # Filename for each of the databases
 
 def create_relaxed_Na_cluster(N, view=False):
