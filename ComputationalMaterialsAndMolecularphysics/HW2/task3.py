@@ -2,6 +2,8 @@
 import time
 
 # Third-party packages
+import numpy as np
+
 from ase import Atoms
 from ase.ga.utilities import closest_distances_generator
 from ase.visualize import view
