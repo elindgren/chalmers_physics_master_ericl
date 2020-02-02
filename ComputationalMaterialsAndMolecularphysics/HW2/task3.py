@@ -19,7 +19,7 @@ db_file = 'expect.db'  # Filename for each of the databases
 def create_relaxed_Na_cluster(N, view=False):
     print(f'************ Na{N} ************')
     start = time.time()
-    dirpath=f'./Na{N}/Task3/'  # Path where everything will be saved
+    dirpath=f'./Na{N}/task3/'  # Path where everything will be saved
     #**** Initialize system ****#
     if N==6:
         clust = Atoms('Na'*6, positions=[(1,1,0),(1,-1,0),(-1,-1,0),(-1,1,0),(0,0,1),(0,0,-1)], cell=(d, d, d))
