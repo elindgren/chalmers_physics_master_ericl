@@ -39,10 +39,10 @@ def create_relaxed_Na_cluster(N, view=False):
     #**** Relax the system ****#
     clust.set_calculator(calc)
     dyn = GPMin(clust, trajectory=f'{dirpath}relax_clust.traj', logfile='{dirpath}relax_clust.log')
-    print(f'Relaxing system of {N} atoms')
-
+    print(f'**** Relaxing system of {N} atoms ****')
+    dyn.run(fmax=0.02, steps=100)
     end = time.time()
-    print(f'****Elapsed time: {end-start} s****')
+    print(f'**** Elapsed time: {end-start} s ****')
     print('*****************************\n')
     #*****************************#
 
