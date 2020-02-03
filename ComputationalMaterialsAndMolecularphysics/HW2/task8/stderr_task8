@@ -1,0 +1,3 @@
+srun: Job step aborted: Waiting up to 122 seconds for job step to finish.
+slurmstepd: error: *** STEP 10168590.0 ON hebbe12-1 CANCELLED AT 2020-02-03T22:45:06 ***
+slurmstepd: error: *** JOB 10168590 ON hebbe12-1 CANCELLED AT 2020-02-03T22:45:06 ***

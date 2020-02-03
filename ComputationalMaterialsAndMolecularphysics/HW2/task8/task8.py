@@ -22,7 +22,7 @@ db_file = 'expect.db'  # Filename for each of the databases
 def test_params_Na6(m, f, nb):
     parprint(f'************ Na6 - Mode: {m} - Functional: {f} - nbands={nbands} ************')
     start = time.time()
-    structpath=f'./Na-clusters-GA-search/Na6-structures/'  
+    structpath=f'../Na-clusters-GA-search/Na6-structures/'  
     #**** Initialize system ****#
     clust0 = read(filename=f'{structpath}christmas-tree.xyz', format='xyz')
     clust1 = read(filename=f'{structpath}half-decahedron.xyz', format='xyz')
@@ -52,9 +52,9 @@ def test_params_Na6(m, f, nb):
     #**** Relax the system ****#
 
     clust0.set_calculator(calc)
-    dyn0 = GPMin(clust0, trajectory=f'trajectories/Na6_0_{m}_{f}_{nb}_relax_clust.traj', logfile=f'logiles/Na6_0_{m}_{f}_{nb}_relax_clust.log')
+    dyn0 = GPMin(clust0, trajectory=f'trajectories/Na6_0_{m}_{f}_{nb}_relax_clust.traj', logfile=f'logfiles/Na6_0_{m}_{f}_{nb}_relax_clust.log')
     clust1.set_calculator(calc)
-    dyn1 = GPMin(clust1, trajectory=f'trajectories/Na6_1_{m}_{f}_{nb}_relax_clust.traj', logfile=f'logiles/Na6_1_{m}_{f}_{nb}_relax_clust.log')
+    dyn1 = GPMin(clust1, trajectory=f'trajectories/Na6_1_{m}_{f}_{nb}_relax_clust.traj', logfile=f'logfiles/Na6_1_{m}_{f}_{nb}_relax_clust.log')
     
     parprint(f'****    Relaxing system of atoms    ****')
     dyn0.run(fmax=0.02, steps=1)
