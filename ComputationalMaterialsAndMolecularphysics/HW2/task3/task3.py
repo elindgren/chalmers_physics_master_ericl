@@ -43,7 +43,8 @@ def create_relaxed_Na_cluster(N, view=False):
     dyn.run(fmax=0.02, steps=100)
     #**** Calculate energy and wavefunction ****#
     e = clust.get_potential_energy()  # Note opposite signa from ga.py
-    print(f'Na{N} cluster energy: {e} eV', file=f'{dirpath}e_cluster')
+    e_file = open(f'{dirpath}e_cluster.txt', 'w')
+    print(f'Na{N} cluster energy: {e} eV', file=e_file)
     calc.write(f'{dirpath}Na{N}_cluster.gpw', mode='all')
     end = time.time()
     print(f'**** Elapsed time: {end-start} s ****')
