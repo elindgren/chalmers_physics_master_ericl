@@ -53,16 +53,14 @@ def test_params_Na6(m, f, nb, idx):
     clust1.set_calculator(calc)
     dyn1 = GPMin(clust1, trajectory=f'trajectories/Na6_1_{m}_{f}_{nb}_relax_clust.traj', logfile=f'logfiles/Na6_1_{m}_{f}_{nb}_relax_clust.log')
     
-    print(f'****    Relaxing 1st system of atoms    ****')
-    dyn0.run(fmax=0.02, steps=1)
-    print(f'****    Relaxing 2nd system of atoms    ****')
-    dyn1.run(fmax=0.02, steps=1)
+    print(f'****  ID:{idx} - Relaxing 1st system of atoms    ****')
+    dyn0.run(fmax=0.02, steps=100)
+    print(f'****  ID:{idx} - Relaxing 2nd system of atoms    ****')
+    dyn1.run(fmax=0.02, steps=100)
 
-#     #**** Calculate energy and wavefunction ****#
+    #**** Calculate energy and wavefunction ****#
     e0 = clust0.get_potential_energy()  # Note opposite signa from ga.py
     e1 = clust1.get_potential_energy()
-    e0 = 1
-    e1 = 2
     ef = open(f'table/Na6_{idx}.txt', 'w')
     #**** Print to file *****#
     ef.write('-'*78 +'\n')
@@ -73,7 +71,7 @@ def test_params_Na6(m, f, nb, idx):
     ef.write(f'# nbands = {nb}' + '|'.rjust(15-len(f'# nbands = {nb}')) + '\n')
     
     end = time.time()
-    print(f'****    Elapsed time: {(end-start):.2f} s    ' + '****'.rjust(12))
+    print(f'****    Elapsed time: {(end-start):.2f} s    ' + '****'.rjust(19))
     print('*'*77 + '\n')
     #*****************************#
 
