@@ -19,7 +19,7 @@ db_file = 'expect.db'  # Filename for each of the databases
 def create_relaxed_Na_cluster(N, view=False):
     print(f'************ Na{N} ************')
     start = time.time()
-    dirpath=f'./Na{N}/task3/'  # Path where everything will be saved
+    dirpath=f'./Na{N}/'  # Path where everything will be saved
     #**** Initialize system ****#
     if N==6:
         clust = Atoms('Na'*6, positions=[(1,1,0),(1,-1,0),(-1,-1,0),(-1,1,0),(0,0,1),(0,0,-1)], cell=(d, d, d))
@@ -27,7 +27,7 @@ def create_relaxed_Na_cluster(N, view=False):
         clust = Atoms('Na'*N, positions=[np.random.randn(3) for i in range(N)], cell=(d, d, d))  # random initialization
     clust.center()
     if view:
-        view(Na6)
+        view(clust)
     #**** Define the calculator ****#
     calc = GPAW(nbands=10,
                 h=0.25,
@@ -41,6 +41,10 @@ def create_relaxed_Na_cluster(N, view=False):
     dyn = GPMin(clust, trajectory=f'{dirpath}relax_clust.traj', logfile='{dirpath}relax_clust.log')
     print(f'**** Relaxing system of {N} atoms ****')
     dyn.run(fmax=0.02, steps=100)
+    #**** Calculate energy and wavefunction ****#
+    e = clust.get_potential_energy()  # Note opposite signa from ga.py
+    print(f'Na{N} cluster energy: {e} eV', file=f'{dirpath}e_cluster')
+    calc.write(f'{dirpath}Na{N}_cluster.gpw', mode='all')
     end = time.time()
     print(f'**** Elapsed time: {end-start} s ****')
     print('*****************************\n')

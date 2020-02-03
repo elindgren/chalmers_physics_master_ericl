@@ -13,15 +13,15 @@ module load intel/2019a GPAW ASE
 
 cd Na6
 echo ------------------ Na6 Start ------------------
-mpirun -np 1 gpaw-python ../Na-clusters-GA-search/ga.py 
+mpirun -np 1 gpaw-python ../../Na-clusters-GA-search/ga.py 
 echo ------------------ Na6 Done -------------------
 
 cd ../Na7
 echo ------------------ Na7 Start-------------------
-mpirun -np 1 gpaw-python ../Na-clusters-GA-search/ga.py
+mpirun -np 1 gpaw-python ../../Na-clusters-GA-search/ga.py
 echo ------------------ Na7 Done -------------------
 
 cd ../Na8
 echo ------------------ Na8 Start ------------------
-mpirun -np 1 gpaw-python ../Na-clusters-GA-search/ga.py
+mpirun -np 1 gpaw-python ../../Na-clusters-GA-search/ga.py
 echo ------------------ Na8 Done -------------------
