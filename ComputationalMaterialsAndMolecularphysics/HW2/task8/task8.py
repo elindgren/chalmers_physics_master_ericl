@@ -1,5 +1,6 @@
 # Built-in packages
 import time
+import os
 
 # Third-party packages
 import numpy as np
@@ -15,11 +16,7 @@ from ase.io import read
 from gpaw import GPAW, FermiDirac, PW
 
 
-np.random.seed(1)
-d = 20  # cell size
-db_file = 'expect.db'  # Filename for each of the databases
-
-def test_params_Na6(m, f, nb):
+def test_params_Na6(m, f, nb, idx):
     print(f'************ Na6 - Mode: {m} - Functional: {f} - nbands={nbands} ************')
     start = time.time()
     structpath=f'../Na-clusters-GA-search/Na6-structures/'  
@@ -64,9 +61,9 @@ def test_params_Na6(m, f, nb):
 #     #**** Calculate energy and wavefunction ****#
     e0 = clust0.get_potential_energy()  # Note opposite signa from ga.py
     e1 = clust1.get_potential_energy()
-    e0 =1
-    e1 =2
-    ef = open(f'Na6_e_table.txt', 'a')
+    e0 = 1
+    e1 = 2
+    ef = open(f'table/Na6_{idx}.txt', 'w')
     #**** Print to file *****#
     ef.write('-'*78 +'\n')
     ef.write(f'# Mode: {m}' + '|'.rjust(15-len(f'# Mode: {m}')) + '\n')
@@ -85,21 +82,29 @@ modes = ['pw', 'fd', 'lcao']
 functionals=['LSDA', 'PBE']
 nbands = [10, 15]
 
-# Prepare file with headers
-ef = open(f'Na6_e_table.txt', 'w')
+# Prepare table file with headers
+ef = open(f'table/e_table.txt', 'w')
 subheader1 = ' Parameters ' + '|'.rjust(15-len(' Parameters '))
 subheader2 = '\t\t\t E0 \t\t\t\t  E1'
 ef.write(subheader1+subheader2+'\n')
 ef.close()
+
 # Iterate over all parameters
 print('*'*50 + '\tStarting calculation\t' + '*'*50)
 start = time.time()
-for m in modes:
-    for f in functionals:
-        for nb in nbands:
-            test_params_Na6(m, f, nb)
+for i,m in enumerate(modes):
+    for j,f in enumerate(functionals):
+        for k,nb in enumerate(nbands):
+            test_params_Na6(m, f, nb, i*100+j*10+k)
 end = time.time()
 print('#'*25 + (f'\tTotal time: {(end-start):.2f} s\t' + '#'*25).rjust(20))
-ef = open(f'Na6_e_table.txt', 'a')
+
+# Print results to table file
+ef = open(f'table/e_table.txt', 'a')
+for filename in os.listdir('table/'):
+    if filename.startswith('Na6_'):
+        with open(f'table/{filename}') as f:
+            for line in f:
+                ef.write(line)
 ef.write('-'*78)
 ef.close()
