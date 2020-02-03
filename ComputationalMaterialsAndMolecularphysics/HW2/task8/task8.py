@@ -20,7 +20,7 @@ d = 20  # cell size
 db_file = 'expect.db'  # Filename for each of the databases
 
 def test_params_Na6(m, f, nb):
-    parprint(f'************ Na6 - Mode: {m} - Functional: {f} - nbands={nbands} ************')
+    print(f'************ Na6 - Mode: {m} - Functional: {f} - nbands={nbands} ************')
     start = time.time()
     structpath=f'../Na-clusters-GA-search/Na6-structures/'  
     #**** Initialize system ****#
@@ -56,14 +56,17 @@ def test_params_Na6(m, f, nb):
     clust1.set_calculator(calc)
     dyn1 = GPMin(clust1, trajectory=f'trajectories/Na6_1_{m}_{f}_{nb}_relax_clust.traj', logfile=f'logfiles/Na6_1_{m}_{f}_{nb}_relax_clust.log')
     
-    parprint(f'****    Relaxing system of atoms    ****')
+    print(f'****    Relaxing 1st system of atoms    ****')
     dyn0.run(fmax=0.02, steps=1)
+    print(f'****    Relaxing 2nd system of atoms    ****')
     dyn1.run(fmax=0.02, steps=1)
 
-    #**** Calculate energy and wavefunction ****#
+#     #**** Calculate energy and wavefunction ****#
     e0 = clust0.get_potential_energy()  # Note opposite signa from ga.py
     e1 = clust1.get_potential_energy()
-    ef = paropen(f'Na6_e_table.txt', 'a')
+    e0 =1
+    e1 =2
+    ef = open(f'Na6_e_table.txt', 'a')
     #**** Print to file *****#
     ef.write('-'*78 +'\n')
     ef.write(f'# Mode: {m}' + '|'.rjust(15-len(f'# Mode: {m}')) + '\n')
@@ -73,8 +76,8 @@ def test_params_Na6(m, f, nb):
     ef.write(f'# nbands = {nb}' + '|'.rjust(15-len(f'# nbands = {nb}')) + '\n')
     
     end = time.time()
-    parprint(f'****    Elapsed time: {(end-start):.2f} s    ' + '****'.rjust(8))
-    parprint('*'*77 + '\n')
+    print(f'****    Elapsed time: {(end-start):.2f} s    ' + '****'.rjust(12))
+    print('*'*77 + '\n')
     #*****************************#
 
 # Parameters to perform grid search over
@@ -83,7 +86,7 @@ functionals=['LSDA', 'PBE']
 nbands = [10, 15]
 
 # Prepare file with headers
-ef = paropen(f'Na6_e_table.txt', 'w')
+ef = open(f'Na6_e_table.txt', 'w')
 subheader1 = ' Parameters ' + '|'.rjust(15-len(' Parameters '))
 subheader2 = '\t\t\t E0 \t\t\t\t  E1'
 ef.write(subheader1+subheader2+'\n')
@@ -96,7 +99,7 @@ for m in modes:
         for nb in nbands:
             test_params_Na6(m, f, nb)
 end = time.time()
-print('#'*25 + (f'\tElapsed time: {(end-start):.2f} s\t' + '#'*25).rjust(20))
-ef = paropen(f'Na6_e_table.txt', 'a')
+print('#'*25 + (f'\tTotal time: {(end-start):.2f} s\t' + '#'*25).rjust(20))
+ef = open(f'Na6_e_table.txt', 'a')
 ef.write('-'*78)
 ef.close()
