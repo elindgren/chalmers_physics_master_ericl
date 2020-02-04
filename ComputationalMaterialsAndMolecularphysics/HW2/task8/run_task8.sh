@@ -4,7 +4,7 @@
 #SBATCH -J task8_ericlin # Name of the job
 #SBATCH -N 1 # Use 1 node
 #SBATCH -n 4 # Use 4 cores on that node
-#SBATCH -t 10:00:00 # Maximum time
+#SBATCH -t 15:00:00 # Maximum time
 #SBATCH -o stdout_task8 # stdout goes this file
 #SBATCH -e stderr_task8 # stderr goes to this file
 
