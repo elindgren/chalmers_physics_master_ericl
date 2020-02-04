@@ -2,49 +2,49 @@
 -------------- 	 Na6 	 --------------
 Minimum energy for Na6 cluster: e = -4.9339 eV with id=91
 ****	Relaxing system of 6 atoms	****
-writing wf 0 to file Na6_0.cube----
-writing wf 1 to file Na6_1.cube----
-writing wf 2 to file Na6_2.cube----
-writing wf 3 to file Na6_3.cube----
-writing wf 4 to file Na6_4.cube----
-writing wf 5 to file Na6_5.cube----
-writing wf 6 to file Na6_6.cube----
-writing wf 7 to file Na6_7.cube----
-writing wf 8 to file Na6_8.cube----
-writing wf 9 to file Na6_9.cube----
-****    Elapsed time: 13.90 s            ****
+writing wf 0 to file Na6/Na6_0.cube----
+writing wf 1 to file Na6/Na6_1.cube----
+writing wf 2 to file Na6/Na6_2.cube----
+writing wf 3 to file Na6/Na6_3.cube----
+writing wf 4 to file Na6/Na6_4.cube----
+writing wf 5 to file Na6/Na6_5.cube----
+writing wf 6 to file Na6/Na6_6.cube----
+writing wf 7 to file Na6/Na6_7.cube----
+writing wf 8 to file Na6/Na6_8.cube----
+writing wf 9 to file Na6/Na6_9.cube----
+****    Elapsed time: 13.96 s            ****
 --------------------------------------------
 
 -------------- 	 Na7 	 --------------
 Minimum energy for Na7 cluster: e = -5.8734 eV with id=27
 ****	Relaxing system of 7 atoms	****
-writing wf 0 to file Na7_0.cube----
-writing wf 1 to file Na7_1.cube----
-writing wf 2 to file Na7_2.cube----
-writing wf 3 to file Na7_3.cube----
-writing wf 4 to file Na7_4.cube----
-writing wf 5 to file Na7_5.cube----
-writing wf 6 to file Na7_6.cube----
-writing wf 7 to file Na7_7.cube----
-writing wf 8 to file Na7_8.cube----
-writing wf 9 to file Na7_9.cube----
-****    Elapsed time: 15.37 s            ****
+writing wf 0 to file Na7/Na7_0.cube----
+writing wf 1 to file Na7/Na7_1.cube----
+writing wf 2 to file Na7/Na7_2.cube----
+writing wf 3 to file Na7/Na7_3.cube----
+writing wf 4 to file Na7/Na7_4.cube----
+writing wf 5 to file Na7/Na7_5.cube----
+writing wf 6 to file Na7/Na7_6.cube----
+writing wf 7 to file Na7/Na7_7.cube----
+writing wf 8 to file Na7/Na7_8.cube----
+writing wf 9 to file Na7/Na7_9.cube----
+****    Elapsed time: 15.29 s            ****
 --------------------------------------------
 
 -------------- 	 Na8 	 --------------
 Minimum energy for Na8 cluster: e = -7.2812 eV with id=37
 ****	Relaxing system of 8 atoms	****
-writing wf 0 to file Na8_0.cube----
-writing wf 1 to file Na8_1.cube----
-writing wf 2 to file Na8_2.cube----
-writing wf 3 to file Na8_3.cube----
-writing wf 4 to file Na8_4.cube----
-writing wf 5 to file Na8_5.cube----
-writing wf 6 to file Na8_6.cube----
-writing wf 7 to file Na8_7.cube----
-writing wf 8 to file Na8_8.cube----
-writing wf 9 to file Na8_9.cube----
-****    Elapsed time: 15.40 s            ****
+writing wf 0 to file Na8/Na8_0.cube----
+writing wf 1 to file Na8/Na8_1.cube----
+writing wf 2 to file Na8/Na8_2.cube----
+writing wf 3 to file Na8/Na8_3.cube----
+writing wf 4 to file Na8/Na8_4.cube----
+writing wf 5 to file Na8/Na8_5.cube----
+writing wf 6 to file Na8/Na8_6.cube----
+writing wf 7 to file Na8/Na8_7.cube----
+writing wf 8 to file Na8/Na8_8.cube----
+writing wf 9 to file Na8/Na8_9.cube----
+****    Elapsed time: 16.24 s            ****
 --------------------------------------------
 
 ------------------ Task 8 done -------------------
