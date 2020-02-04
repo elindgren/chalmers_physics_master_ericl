@@ -17,7 +17,7 @@ from gpaw import GPAW, FermiDirac, PW
 
 
 def test_params_Na6(m, f, nb, idx):
-    print(f'************ Na6 - Mode: {m} - Functional: {f} - nbands={nbands} ************')
+    print(f'************ Na6 - Mode: {m} - Functional: {f} - nbands={nb} ************')
     start = time.time()
     structpath=f'../Na-clusters-GA-search/Na6-structures/'  
     #**** Initialize system ****#
@@ -77,7 +77,7 @@ def test_params_Na6(m, f, nb, idx):
 
 # Parameters to perform grid search over
 modes = ['pw', 'fd', 'lcao']
-functionals=['vdW-DF-cx', 'PBE']
+functionals=['PBE', 'vdW-DF-cx']
 nbands = [10, 15]
 
 # Prepare table file with headers
