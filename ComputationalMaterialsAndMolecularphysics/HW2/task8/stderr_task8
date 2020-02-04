@@ -1,0 +1,33 @@
+
+----------------------------------------------------------------------------
+  GPAW: GPAW/19.8.1-Python-3.7.2-libvdwxc
+----------------------------------------------------------------------------
+    Description:
+      GPAW is a density-functional theory (DFT) Python code based on the
+      projector-augmented wave (PAW) method and the atomic simulation
+      environment (ASE). It uses real-space uniform grids and multigrid
+      methods or atom-centered basis-functions.
+
+
+    You will need to load all module(s) on any one of the lines below before the "GPAW/19.8.1-Python-3.7.2-libvdwxc" module is available to load.
+
+      GCC/8.2.0-2.31.1  OpenMPI/3.1.3
+ 
+    Help:
+      
+      Description
+      ===========
+      GPAW is a density-functional theory (DFT) Python code based on the projector-augmented wave (PAW)
+       method and the atomic simulation environment (ASE). It uses real-space uniform grids and multigrid methods or
+       atom-centered basis-functions.
+      
+      
+      More information
+      ================
+       - Homepage: https://wiki.fysik.dtu.dk/gpaw/
+      
+
+
+ 
+
+slurmstepd: error: *** JOB 10168702 ON hebbe07-9 CANCELLED AT 2020-02-04T10:36:32 ***
