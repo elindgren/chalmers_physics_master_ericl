@@ -1,0 +1,26 @@
+#################################################################################
+# FKA121/FIM540 Computational Physics 2019
+# C programs for exercise E1
+#
+# Martin Gren, martin.gren@chalmers.se 
+#################################################################################
+In the course we will program in the c-language. We will use the gcc compiler and 
+the make utility to compile the code. How to install these are described below:
+
+1) Linux:   The gcc compiler and make utility should already be installed on the
+            system, at least on Ubuntu and StuDAT (Chalmers student workplaces).
+
+2) Mac OSX: The gcc compiler and make utility is part of the Command Line Tools 
+            in Xcode. Xcode can be downloaded for free in App Store.
+
+3) Windows: The gcc compiler and make utility is part of the basic package of 
+            the MinGW software, which can be download from 
+            ’http://www.mingw.org'. Instructions on how to install and setup 
+            MinGW can be found on the ’Getting Started’ page on the MinGW 
+            homepage. Once this is done you will obtain a linux-like terminal
+            from where you can compile and run the code using linux commands.  
+
+
+In E1 you will also use GNU Scientific Library (gsl). gsl is installed on the 
+student computers. For instructions on how to install it visit 
+'www.gnu.org/software/gsl/'.
