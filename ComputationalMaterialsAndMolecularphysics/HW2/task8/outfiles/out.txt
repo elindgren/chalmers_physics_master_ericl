@@ -5,20 +5,20 @@
  |__ |  _|___|_____|  19.8.1
  |___|_|             
 
-User:   ericlin@hebbe12-1
-Date:   Mon Feb  3 23:47:03 2020
+User:   ericlin@hebbe29-10
+Date:   Tue Feb  4 12:28:44 2020
 Arch:   x86_64
-Pid:    31345
+Pid:    15720
 Python: 3.7.2
-gpaw:   /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw
-_gpaw:  /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/bin/
+gpaw:   /apps/Hebbe7/software/MPI/GCC/8.2.0-2.31.1/OpenMPI/3.1.3/GPAW/19.8.1-Python-3.7.2-libvdwxc/lib/python3.7/site-packages/gpaw
+_gpaw:  /apps/Hebbe7/software/MPI/GCC/8.2.0-2.31.1/OpenMPI/3.1.3/GPAW/19.8.1-Python-3.7.2-libvdwxc/bin/
         gpaw-python
-ase:    /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase (version 3.18.0)
-numpy:  /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/SciPy-bundle/2019.03/lib/python3.7/site-packages/numpy (version 1.16.2)
-scipy:  /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/SciPy-bundle/2019.03/lib/python3.7/site-packages/scipy (version 1.2.1)
+ase:    /apps/Hebbe7/software/MPI/GCC/8.2.0-2.31.1/OpenMPI/3.1.3/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase (version 3.18.0)
+numpy:  /apps/Hebbe7/software/MPI/GCC/8.2.0-2.31.1/OpenMPI/3.1.3/SciPy-bundle/2019.03/lib/python3.7/site-packages/numpy (version 1.16.2)
+scipy:  /apps/Hebbe7/software/MPI/GCC/8.2.0-2.31.1/OpenMPI/3.1.3/SciPy-bundle/2019.03/lib/python3.7/site-packages/scipy (version 1.2.1)
 libxc:  4.3.4
 units:  Angstrom and eV
-cores:  4
+cores:  1
 
 Input parameters:
   basis: dzp
@@ -114,26 +114,25 @@ Hamiltonian:
  
 
 Memory estimate:
-  Process memory now: 289.65 MiB
-  Calculator: 31.34 MiB
-    Density: 19.72 MiB
-      Arrays: 12.46 MiB
-      Localized functions: 4.49 MiB
-      Mixer: 2.77 MiB
-    Hamiltonian: 8.48 MiB
-      Arrays: 8.15 MiB
+  Process memory now: 519.17 MiB
+  Calculator: 127.06 MiB
+    Density: 80.09 MiB
+      Arrays: 50.70 MiB
+      Localized functions: 17.94 MiB
+      Mixer: 11.45 MiB
+    Hamiltonian: 34.46 MiB
+      Arrays: 33.16 MiB
       XC: 0.00 MiB
       Poisson: 0.00 MiB
-      vbar: 0.32 MiB
-    Wavefunctions: 3.14 MiB
+      vbar: 1.29 MiB
+    Wavefunctions: 12.52 MiB
       C [qnM]: 0.00 MiB
       S, T [2 x qmm]: 0.01 MiB
       P [aqMi]: 0.00 MiB
-      BasisFunctions: 3.13 MiB
+      BasisFunctions: 12.50 MiB
       Eigensolver: 0.00 MiB
 
-Total number of cores used: 4
-Domain decomposition: 2 x 2 x 1
+Total number of cores used: 1
 
 Number of atoms: 6
 Number of atomic orbitals: 30
@@ -199,16 +198,16 @@ Effective grid spacing dv^(1/3) = 0.2500
 
                      log10-error:    total        iterations:
            time      wfs    density  energy       fermi  poisson
-iter:   1  23:47:04          +inf    -5.137110    1      1      
-iter:   2  23:47:05         -0.64    -4.998569    6      1      
-iter:   3  23:47:05         -0.84    -4.940656    6      1      
-iter:   4  23:47:05         -1.24    -4.933837    3      1      
-iter:   5  23:47:06         -2.08    -4.933784    2      1      
-iter:   6  23:47:06         -2.32    -4.933793    1      1      
-iter:   7  23:47:06         -2.49    -4.933795    2      1      
-iter:   8  23:47:07         -3.53    -4.933795    1      1      
-iter:   9  23:47:07         -3.75    -4.933795    1      1      
-iter:  10  23:47:07         -4.22    -4.933795    1      1      
+iter:   1  12:28:48          +inf    -5.137110    1      1      
+iter:   2  12:28:49         -0.64    -4.998569    6      1      
+iter:   3  12:28:50         -0.84    -4.940656    6      1      
+iter:   4  12:28:51         -1.24    -4.933837    3      1      
+iter:   5  12:28:52         -2.08    -4.933784    2      1      
+iter:   6  12:28:53         -2.32    -4.933793    1      1      
+iter:   7  12:28:54         -2.49    -4.933795    2      1      
+iter:   8  12:28:55         -3.53    -4.933795    1      1      
+iter:   9  12:28:56         -3.75    -4.933795    1      1      
+iter:  10  12:28:57         -4.22    -4.933795    1      1      
 
 Converged after 10 iterations.
 
@@ -306,20 +305,20 @@ Effective grid spacing dv^(1/3) = 0.2500
 
                      log10-error:    total        iterations:
            time      wfs    density  energy       fermi  poisson
-iter:   1  23:47:08          +inf    -5.333068    6      1      
-iter:   2  23:47:08         -0.46    -5.095070    3      1      
-iter:   3  23:47:09         -0.61    -4.900943    4      1      
-iter:   4  23:47:09         -1.18    -4.892962    2      1      
-iter:   5  23:47:09         -1.51    -4.890073    2      1      
-iter:   6  23:47:10         -2.14    -4.889984    1      1      
-iter:   7  23:47:10         -2.34    -4.889958    2      1      
-iter:   8  23:47:10         -2.71    -4.889953    1      1      
-iter:   9  23:47:11         -3.01    -4.889952    1      1      
-iter:  10  23:47:11         -3.20    -4.889952    1      1      
-iter:  11  23:47:11         -3.44    -4.889951    1      1      
-iter:  12  23:47:12         -3.72    -4.889951    1      1      
-iter:  13  23:47:12         -3.88    -4.889951    1      1      
-iter:  14  23:47:13         -4.19    -4.889951    1      1      
+iter:   1  12:28:58          +inf    -5.333068    6      1      
+iter:   2  12:28:59         -0.46    -5.095070    3      1      
+iter:   3  12:29:00         -0.61    -4.900943    4      1      
+iter:   4  12:29:01         -1.18    -4.892962    2      1      
+iter:   5  12:29:02         -1.51    -4.890073    2      1      
+iter:   6  12:29:03         -2.14    -4.889984    1      1      
+iter:   7  12:29:04         -2.34    -4.889958    2      1      
+iter:   8  12:29:05         -2.71    -4.889953    1      1      
+iter:   9  12:29:06         -3.01    -4.889952    1      1      
+iter:  10  12:29:07         -3.20    -4.889952    1      1      
+iter:  11  12:29:08         -3.44    -4.889951    1      1      
+iter:  12  12:29:09         -3.72    -4.889951    1      1      
+iter:  13  12:29:10         -3.88    -4.889951    1      1      
+iter:  14  12:29:11         -4.19    -4.889951    1      1      
 
 Converged after 14 iterations.
 
@@ -417,18 +416,18 @@ Effective grid spacing dv^(1/3) = 0.2500
 
                      log10-error:    total        iterations:
            time      wfs    density  energy       fermi  poisson
-iter:   1  23:47:13          +inf    -5.451821    8      1      
-iter:   2  23:47:13         -0.38    -5.124911    4      1      
-iter:   3  23:47:14         -0.58    -4.951588    5      1      
-iter:   4  23:47:14         -1.08    -4.936074    2      1      
-iter:   5  23:47:14         -1.55    -4.934168    2      1      
-iter:   6  23:47:15         -1.98    -4.933817    1      1      
-iter:   7  23:47:15         -2.42    -4.933797    1      1      
-iter:   8  23:47:16         -2.69    -4.933795    1      1      
-iter:   9  23:47:16         -3.02    -4.933795    1      1      
-iter:  10  23:47:16         -3.45    -4.933795    1      1      
-iter:  11  23:47:17         -3.77    -4.933795    1      1      
-iter:  12  23:47:17         -4.32    -4.933795    0      1      
+iter:   1  12:29:12          +inf    -5.451821    8      1      
+iter:   2  12:29:13         -0.38    -5.124911    4      1      
+iter:   3  12:29:15         -0.58    -4.951588    5      1      
+iter:   4  12:29:16         -1.08    -4.936074    2      1      
+iter:   5  12:29:17         -1.55    -4.934168    2      1      
+iter:   6  12:29:18         -1.98    -4.933817    1      1      
+iter:   7  12:29:19         -2.42    -4.933797    1      1      
+iter:   8  12:29:20         -2.69    -4.933795    1      1      
+iter:   9  12:29:21         -3.02    -4.933795    1      1      
+iter:  10  12:29:22         -3.45    -4.933795    1      1      
+iter:  11  12:29:23         -3.77    -4.933795    1      1      
+iter:  12  12:29:24         -4.32    -4.933795    0      1      
 
 Converged after 12 iterations.
 
@@ -535,20 +534,20 @@ Effective grid spacing dv^(1/3) = 0.2500
 
                      log10-error:    total        iterations:
            time      wfs    density  energy       fermi  poisson
-iter:   1  23:47:18          +inf    -5.333096    6      1      
-iter:   2  23:47:18         -0.46    -5.095080    3      1      
-iter:   3  23:47:18         -0.61    -4.900944    4      1      
-iter:   4  23:47:19         -1.18    -4.892962    2      1      
-iter:   5  23:47:19         -1.51    -4.890073    2      1      
-iter:   6  23:47:19         -2.14    -4.889985    1      1      
-iter:   7  23:47:20         -2.34    -4.889958    2      1      
-iter:   8  23:47:20         -2.71    -4.889953    1      1      
-iter:   9  23:47:20         -3.01    -4.889952    1      1      
-iter:  10  23:47:21         -3.20    -4.889952    1      1      
-iter:  11  23:47:21         -3.44    -4.889951    1      1      
-iter:  12  23:47:22         -3.72    -4.889951    1      1      
-iter:  13  23:47:22         -3.88    -4.889951    1      1      
-iter:  14  23:47:22         -4.19    -4.889951    1      1      
+iter:   1  12:29:25          +inf    -5.333096    6      1      
+iter:   2  12:29:26         -0.46    -5.095080    3      1      
+iter:   3  12:29:27         -0.61    -4.900944    4      1      
+iter:   4  12:29:28         -1.18    -4.892962    2      1      
+iter:   5  12:29:29         -1.51    -4.890073    2      1      
+iter:   6  12:29:30         -2.14    -4.889985    1      1      
+iter:   7  12:29:32         -2.34    -4.889958    2      1      
+iter:   8  12:29:33         -2.71    -4.889953    1      1      
+iter:   9  12:29:34         -3.01    -4.889952    1      1      
+iter:  10  12:29:35         -3.20    -4.889952    1      1      
+iter:  11  12:29:36         -3.44    -4.889951    1      1      
+iter:  12  12:29:37         -3.72    -4.889951    1      1      
+iter:  13  12:29:38         -3.88    -4.889951    1      1      
+iter:  14  12:29:39         -4.19    -4.889951    1      1      
 
 Converged after 14 iterations.
 
@@ -655,18 +654,18 @@ Effective grid spacing dv^(1/3) = 0.2500
 
                      log10-error:    total        iterations:
            time      wfs    density  energy       fermi  poisson
-iter:   1  23:47:23          +inf    -5.451821    8      1      
-iter:   2  23:47:23         -0.38    -5.124911    4      1      
-iter:   3  23:47:24         -0.58    -4.951588    5      1      
-iter:   4  23:47:24         -1.08    -4.936074    2      1      
-iter:   5  23:47:24         -1.55    -4.934168    2      1      
-iter:   6  23:47:25         -1.98    -4.933817    1      1      
-iter:   7  23:47:25         -2.42    -4.933797    1      1      
-iter:   8  23:47:25         -2.69    -4.933795    1      1      
-iter:   9  23:47:26         -3.02    -4.933795    1      1      
-iter:  10  23:47:26         -3.45    -4.933795    1      1      
-iter:  11  23:47:26         -3.77    -4.933795    1      1      
-iter:  12  23:47:27         -4.32    -4.933795    0      1      
+iter:   1  12:29:40          +inf    -5.451821    8      1      
+iter:   2  12:29:41         -0.38    -5.124911    4      1      
+iter:   3  12:29:42         -0.58    -4.951588    5      1      
+iter:   4  12:29:43         -1.08    -4.936074    2      1      
+iter:   5  12:29:44         -1.55    -4.934168    2      1      
+iter:   6  12:29:45         -1.98    -4.933817    1      1      
+iter:   7  12:29:46         -2.42    -4.933797    1      1      
+iter:   8  12:29:47         -2.69    -4.933795    1      1      
+iter:   9  12:29:48         -3.02    -4.933795    1      1      
+iter:  10  12:29:49         -3.45    -4.933795    1      1      
+iter:  11  12:29:50         -3.77    -4.933795    1      1      
+iter:  12  12:29:52         -4.32    -4.933795    0      1      
 
 Converged after 12 iterations.
 
@@ -764,20 +763,20 @@ Effective grid spacing dv^(1/3) = 0.2500
 
                      log10-error:    total        iterations:
            time      wfs    density  energy       fermi  poisson
-iter:   1  23:47:27          +inf    -5.333096    6      1      
-iter:   2  23:47:28         -0.46    -5.095080    3      1      
-iter:   3  23:47:28         -0.61    -4.900944    4      1      
-iter:   4  23:47:28         -1.18    -4.892962    2      1      
-iter:   5  23:47:29         -1.51    -4.890073    2      1      
-iter:   6  23:47:29         -2.14    -4.889985    1      1      
-iter:   7  23:47:29         -2.34    -4.889958    2      1      
-iter:   8  23:47:30         -2.71    -4.889953    1      1      
-iter:   9  23:47:30         -3.01    -4.889952    1      1      
-iter:  10  23:47:31         -3.20    -4.889952    1      1      
-iter:  11  23:47:31         -3.44    -4.889951    1      1      
-iter:  12  23:47:31         -3.72    -4.889951    1      1      
-iter:  13  23:47:32         -3.88    -4.889951    1      1      
-iter:  14  23:47:32         -4.19    -4.889951    1      1      
+iter:   1  12:29:53          +inf    -5.333096    6      1      
+iter:   2  12:29:54         -0.46    -5.095080    3      1      
+iter:   3  12:29:55         -0.61    -4.900944    4      1      
+iter:   4  12:29:56         -1.18    -4.892962    2      1      
+iter:   5  12:29:57         -1.51    -4.890073    2      1      
+iter:   6  12:29:58         -2.14    -4.889985    1      1      
+iter:   7  12:29:59         -2.34    -4.889958    2      1      
+iter:   8  12:30:00         -2.71    -4.889953    1      1      
+iter:   9  12:30:01         -3.01    -4.889952    1      1      
+iter:  10  12:30:02         -3.20    -4.889952    1      1      
+iter:  11  12:30:03         -3.44    -4.889951    1      1      
+iter:  12  12:30:04         -3.72    -4.889951    1      1      
+iter:  13  12:30:05         -3.88    -4.889951    1      1      
+iter:  14  12:30:06         -4.19    -4.889951    1      1      
 
 Converged after 14 iterations.
 
@@ -819,79 +818,79 @@ Transition (v -> c):
   (s=0, k=0, n=2, [0.00, 0.00, 0.00]) -> (s=0, k=0, n=3, [0.00, 0.00, 0.00])
 Timing:                                       incl.     excl.
 --------------------------------------------------------------------
-Basic WFS set positions:                      0.003     0.002   0.0% |
- Redistribute:                                0.001     0.001   0.0% |
-Basis functions set positions:                0.062     0.062   0.2% |
-Forces:                                       0.300     0.158   0.5% |
- LCAO forces:                                 0.142     0.000   0.0% |
-  Atomic Hamiltonian force:                   0.000     0.000   0.0% |
+Basic WFS set positions:                      0.004     0.002   0.0% |
+ Redistribute:                                0.002     0.002   0.0% |
+Basis functions set positions:                0.154     0.154   0.2% |
+Forces:                                       0.876     0.170   0.2% |
+ LCAO forces:                                 0.705     0.001   0.0% |
+  Atomic Hamiltonian force:                   0.002     0.002   0.0% |
   Initial:                                    0.000     0.000   0.0% |
    Get density matrix:                        0.000     0.000   0.0% |
-  Paw correction:                             0.000     0.000   0.0% |
-  Potential:                                  0.120     0.120   0.4% |
-  TCI derivative:                             0.022     0.022   0.1% |
+  Paw correction:                             0.002     0.002   0.0% |
+  Potential:                                  0.655     0.655   0.8% |
+  TCI derivative:                             0.045     0.045   0.1% |
   Wait for sum:                               0.000     0.000   0.0% |
-LCAO WFS Initialize:                          2.039     0.023   0.1% |
- Density initialized from wave functions:     0.218     0.150   0.5% |
+LCAO WFS Initialize:                          5.773     0.073   0.1% |
+ Density initialized from wave functions:     0.526     0.288   0.4% |
   Calculate density matrix:                   0.000     0.000   0.0% |
-  Construct density:                          0.067     0.067   0.2% |
+  Construct density:                          0.238     0.238   0.3% |
   Symmetrize density:                         0.000     0.000   0.0% |
- Hamiltonian:                                 1.799     0.001   0.0% |
-  Atomic:                                     0.078     0.004   0.0% |
-   XC Correction:                             0.074     0.074   0.3% |
-  Calculate atomic Hamiltonians:              0.029     0.029   0.1% |
-  Communicate:                                0.078     0.078   0.3% |
-  Hartree integrate/restrict:                 0.070     0.070   0.2% |
-  Initialize Hamiltonian:                     0.001     0.001   0.0% |
-  Poisson:                                    1.045     0.019   0.1% |
-   Communicate bwd 0:                         0.220     0.220   0.7% |
-   Communicate bwd 1:                         0.209     0.209   0.7% |
-   Communicate fwd 0:                         0.207     0.207   0.7% |
-   Communicate fwd 1:                         0.216     0.216   0.7% |
-   fft:                                       0.055     0.055   0.2% |
-   fft2:                                      0.119     0.119   0.4% |
-  XC 3D grid:                                 0.487     0.487   1.7% ||
-  vbar:                                       0.010     0.010   0.0% |
-P tci:                                        0.002     0.002   0.0% |
+ Hamiltonian:                                 5.174     0.001   0.0% |
+  Atomic:                                     0.570     0.005   0.0% |
+   XC Correction:                             0.564     0.564   0.7% |
+  Calculate atomic Hamiltonians:              0.026     0.026   0.0% |
+  Communicate:                                0.000     0.000   0.0% |
+  Hartree integrate/restrict:                 0.256     0.256   0.3% |
+  Initialize Hamiltonian:                     0.002     0.002   0.0% |
+  Poisson:                                    1.345     0.064   0.1% |
+   Communicate bwd 0:                         0.159     0.159   0.2% |
+   Communicate bwd 1:                         0.101     0.101   0.1% |
+   Communicate fwd 0:                         0.156     0.156   0.2% |
+   Communicate fwd 1:                         0.170     0.170   0.2% |
+   fft:                                       0.201     0.201   0.2% |
+   fft2:                                      0.494     0.494   0.6% |
+  XC 3D grid:                                 2.920     2.920   3.6% ||
+  vbar:                                       0.053     0.053   0.1% |
+P tci:                                        0.063     0.063   0.1% |
 Redistribute:                                 0.001     0.001   0.0% |
-SCF-cycle:                                   25.596     0.038   0.1% |
- Density:                                     3.057     0.002   0.0% |
-  Atomic density matrices:                    0.673     0.673   2.3% ||
-  Mix:                                        1.406     1.406   4.8% |-|
-  Multipole moments:                          0.012     0.012   0.0% |
-  Normalize:                                  0.009     0.009   0.0% |
-  Pseudo density:                             0.955     0.023   0.1% |
+SCF-cycle:                                   72.129     0.036   0.0% |
+ Density:                                     7.550     0.002   0.0% |
+  Atomic density matrices:                    0.048     0.048   0.1% |
+  Mix:                                        4.064     4.064   5.0% |-|
+  Multipole moments:                          0.014     0.014   0.0% |
+  Normalize:                                  0.019     0.019   0.0% |
+  Pseudo density:                             3.402     0.083   0.1% |
    Calculate density matrix:                  0.003     0.003   0.0% |
-   Construct density:                         0.928     0.928   3.2% ||
+   Construct density:                         3.316     3.316   4.1% |-|
    Symmetrize density:                        0.001     0.001   0.0% |
- Hamiltonian:                                20.962     0.008   0.0% |
-  Atomic:                                     0.908     0.040   0.1% |
-   XC Correction:                             0.868     0.868   2.9% ||
-  Calculate atomic Hamiltonians:              0.259     0.259   0.9% |
-  Communicate:                                0.916     0.916   3.1% ||
-  Hartree integrate/restrict:                 0.860     0.860   2.9% ||
-  Poisson:                                   12.198     0.222   0.8% |
-   Communicate bwd 0:                         2.561     2.561   8.7% |--|
-   Communicate bwd 1:                         2.454     2.454   8.3% |--|
-   Communicate fwd 0:                         2.411     2.411   8.2% |--|
-   Communicate fwd 1:                         2.519     2.519   8.6% |--|
-   fft:                                       0.636     0.636   2.2% ||
-   fft2:                                      1.395     1.395   4.7% |-|
-  XC 3D grid:                                 5.702     5.702  19.4% |-------|
-  vbar:                                       0.110     0.110   0.4% |
- LCAO eigensolver:                            1.539     0.005   0.0% |
-  Calculate projections:                      0.001     0.001   0.0% |
-  DenseAtomicCorrection:                      0.002     0.002   0.0% |
-  Distribute overlap matrix:                  0.598     0.598   2.0% ||
-  Orbital Layouts:                            0.023     0.023   0.1% |
-  Potential matrix:                           0.910     0.910   3.1% ||
-ST tci:                                       0.009     0.009   0.0% |
+ Hamiltonian:                                60.605     0.008   0.0% |
+  Atomic:                                     6.635     0.061   0.1% |
+   XC Correction:                             6.574     6.574   8.0% |--|
+  Calculate atomic Hamiltonians:              0.307     0.307   0.4% |
+  Communicate:                                0.001     0.001   0.0% |
+  Hartree integrate/restrict:                 3.082     3.082   3.8% |-|
+  Poisson:                                   15.757     0.756   0.9% |
+   Communicate bwd 0:                         1.865     1.865   2.3% ||
+   Communicate bwd 1:                         1.175     1.175   1.4% ||
+   Communicate fwd 0:                         1.845     1.845   2.3% ||
+   Communicate fwd 1:                         1.997     1.997   2.4% ||
+   fft:                                       2.344     2.344   2.9% ||
+   fft2:                                      5.775     5.775   7.1% |--|
+  XC 3D grid:                                34.190    34.190  41.8% |----------------|
+  vbar:                                       0.625     0.625   0.8% |
+ LCAO eigensolver:                            3.938     0.005   0.0% |
+  Calculate projections:                      0.004     0.004   0.0% |
+  DenseAtomicCorrection:                      0.014     0.014   0.0% |
+  Distribute overlap matrix:                  0.001     0.001   0.0% |
+  Orbital Layouts:                            0.028     0.028   0.0% |
+  Potential matrix:                           3.887     3.887   4.8% |-|
+ST tci:                                       0.019     0.019   0.0% |
 Set symmetry:                                 0.001     0.001   0.0% |
-TCI: Evaluate splines:                        0.019     0.019   0.1% |
-mktci:                                        0.007     0.007   0.0% |
-Other:                                        1.407     1.407   4.8% |-|
+TCI: Evaluate splines:                        0.023     0.023   0.0% |
+mktci:                                        0.006     0.006   0.0% |
+Other:                                        2.664     2.664   3.3% ||
 --------------------------------------------------------------------
-Total:                                                 29.445 100.0%
+Total:                                                 81.711 100.0%
 
-Memory usage: 289.65 MiB
-Date: Mon Feb  3 23:47:32 2020
+Memory usage: 519.17 MiB
+Date: Tue Feb  4 12:30:06 2020
