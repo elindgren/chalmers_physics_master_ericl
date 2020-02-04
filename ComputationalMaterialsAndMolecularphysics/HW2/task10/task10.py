@@ -29,7 +29,7 @@ def calculate_stable_wavefunction(N, ef, view=False):
     print(f'-------------- \t Na{N} \t --------------')
     start = time.time()
     #**** Initialize system ****#
-    dirpath_t1 = f'./task1/Na{N}/'  # Path to the results from task 1
+    dirpath_t1 = f'../task1/Na{N}/'  # Path to the results from task 1
     db = connect(f'{dirpath_t1}gadb.db')
     stable_clust = get_most_stable_cluster(db)
     #**** Define the calculator ****#
@@ -64,7 +64,7 @@ def calculate_stable_wavefunction(N, ef, view=False):
     #*****************************#
 
 Ns = [6,7,8]
-ef = open('energies.txt')
+ef = open('energies.txt', 'w+')
 for N in Ns:
     calculate_stable_wavefunction(N, ef)
 ef.close()

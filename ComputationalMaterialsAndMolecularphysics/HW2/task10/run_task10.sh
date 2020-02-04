@@ -5,8 +5,8 @@
 #SBATCH -N 1 # Use 1 node
 #SBATCH -n 1 # Use 1 cores on that node
 #SBATCH -t 15:00:00 # Maximum time
-#SBATCH -o stdout_task8 # stdout goes this file
-#SBATCH -e stderr_task8 # stderr goes to this file
+#SBATCH -o stdout_task10 # stdout goes this file
+#SBATCH -e stderr_task10 # stderr goes to this file
 
 module purge
 module load intel/2019a GPAW ASE

@@ -1,0 +1,3 @@
+Na6 stable energy: -4.933915192826427 eV
+Na7 stable energy: -5.873424604251311 eV
+Na8 stable energy: -7.281206279641427 eV
