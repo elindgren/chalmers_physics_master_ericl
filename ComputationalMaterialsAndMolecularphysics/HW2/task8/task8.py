@@ -77,7 +77,7 @@ def test_params_Na6(m, f, nb, idx):
 
 # Parameters to perform grid search over
 modes = ['pw', 'fd', 'lcao']
-functionals=['LSDA', 'PBE']
+functionals=['vdW-DF-cx', 'PBE']
 nbands = [10, 15]
 
 # Prepare table file with headers
