@@ -54,7 +54,7 @@ def calculate_stable_wavefunction(N, ef, view=False):
     nbands = calc.get_number_of_bands()
     for band in range(nbands):
         wf = calc.get_pseudo_wave_function(band=band)
-        fname = '{0}_{1}.cube'.format(basename, band)
+        fname = 'Na{0}/{1}_{2}.cube'.format(N, basename, band)
         print(f'writing wf {band} to file {fname}----'.rjust(12))
         write(fname, stable_clust, data=wf)
     #**** Finish ****
