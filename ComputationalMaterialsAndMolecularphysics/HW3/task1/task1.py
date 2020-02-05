@@ -28,7 +28,7 @@ calc = GPAW(mode='lcao',
             basis='dzp',
             symmetry={'point_group': False},
             charge=1,
-            txt='out_mdtask1.txt'
+            txt='out_mdTask1.txt'
 )
 
 a.set_calculator(calc)
@@ -40,7 +40,7 @@ dyn = NPT(
     externalstress=0,
     ttime=20*fs,
     pfactor=None,
-    logfile='mdTask1.log'
+    logfile='log_mdTask1.txt'
 ) # Using the Nosé-Hoover thermostat
 
 trajectory = Trajectory('mdTask1.traj', 'w', a)

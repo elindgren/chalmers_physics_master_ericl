@@ -12,5 +12,9 @@ module purge
 module load intel/2019a GPAW ASE
 
 echo ------------------ Task 1 start ------------------
+rm mdTask1.traj
+rm out_mdTask1.txt
+rm log_mdTask1.txt
+
 mpirun gpaw-python task1.py
 echo ------------------ Task 1 done -------------------
