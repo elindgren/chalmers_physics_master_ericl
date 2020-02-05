@@ -26,7 +26,7 @@ start = time.time()
 calc = GPAW(mode='lcao',
             xc='PBE',
             basis='dzp',
-            symmetry={'point-group': False},
+            symmetry={'point_group': False},
             charge=1,
             txt='mdtask1Test_out.txt'
 )
