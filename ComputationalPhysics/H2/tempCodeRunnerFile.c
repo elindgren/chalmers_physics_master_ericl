@@ -1,0 +1,2 @@
+meanGradLnPsi /= N;
+        // meanEGradLnPsi /= N;
