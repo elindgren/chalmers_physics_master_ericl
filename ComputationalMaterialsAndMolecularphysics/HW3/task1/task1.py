@@ -31,6 +31,8 @@ calc = GPAW(mode='lcao',
             txt='mdtask1Test_out.txt'
 )
 
+a.set_calculator(calc)
+
 dyn = NPT(
     atoms = a,
     timestep=dt,
