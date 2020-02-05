@@ -18,7 +18,7 @@ a = read('thermalizedConfiguration.xyz')
 # view(a)  # DEBUG
  
 # Define timestep, total simulation length and number of steps
-dt = 0.1*fs
+dt = 0.05*fs
 t_tot = 2000*fs  # 2 ps
 N_steps = int(t_tot/dt)
 print(f'------------    MD simulation with GPAW for {N_steps} steps    ------------')
