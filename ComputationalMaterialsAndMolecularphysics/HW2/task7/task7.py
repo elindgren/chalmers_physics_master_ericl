@@ -29,7 +29,7 @@ def second_most_stable(N):
     print(f'Na{N}: Energy difference between lowest and second lowest energy state: E1-E0={E1-E0:.4f} eV')
     
     # Plot
-    fig, ax = plt.subplots(figsize=(8,6))
+    _, ax = plt.subplots(figsize=(8,6))
     ax.plot(E, label=rf'Sorted $\rm Na_{N}$ cluster energies')
     ax.scatter(0, E0, marker='*', s=100, color='k', label=f'E0={E0:.4f} eV')
     ax.scatter(idx_E1, E1, marker='o', s=100, color='C1', label=f'E1={E1:.4f} eV')
