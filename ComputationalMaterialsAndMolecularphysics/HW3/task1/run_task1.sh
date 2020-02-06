@@ -17,8 +17,6 @@ echo ------------------ Task 1 start ------------------
 rm mdTask1.traj
 rm out_mdTask1.txt
 rm log_mdTask1.txt
-rm stdout_task1
-rm stderr_task1
 
 mpirun gpaw-python task1.py
 echo ------------------ Task 1 done -------------------

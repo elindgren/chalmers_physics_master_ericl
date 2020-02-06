@@ -1,0 +1,13 @@
+WARNING: NPT: Setting the center-of-mass momentum to zero (was -0.667201 1.0732 -4.52866)
+WARNING: NPT: Setting the center-of-mass momentum to zero (was -0.667201 1.0732 -4.52866)
+WARNING: NPT: Setting the center-of-mass momentum to zero (was -0.667201 1.0732 -4.52866)
+WARNING: NPT: Setting the center-of-mass momentum to zero (was -0.667201 1.0732 -4.52866)
+WARNING: NPT: Setting the center-of-mass momentum to zero (was -0.667201 1.0732 -4.52866)
+WARNING: NPT: Setting the center-of-mass momentum to zero (was -0.667201 1.0732 -4.52866)
+WARNING: NPT: Setting the center-of-mass momentum to zero (was -0.667201 1.0732 -4.52866)
+WARNING: NPT: Setting the center-of-mass momentum to zero (was -0.667201 1.0732 -4.52866)
+WARNING: NPT: Setting the center-of-mass momentum to zero (was -0.667201 1.0732 -4.52866)
+WARNING: NPT: Setting the center-of-mass momentum to zero (was -0.667201 1.0732 -4.52866)
+srun: Job step aborted: Waiting up to 122 seconds for job step to finish.
+slurmstepd: error: *** JOB 10186511 ON hebbe03-5 CANCELLED AT 2020-02-06T10:17:14 DUE TO TIME LIMIT ***
+slurmstepd: error: *** STEP 10186511.0 ON hebbe03-5 CANCELLED AT 2020-02-06T10:17:14 DUE TO TIME LIMIT ***
