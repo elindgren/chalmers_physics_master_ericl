@@ -3,7 +3,7 @@
 #SBATCH -A SNIC2020-5-51 # Project
 #SBATCH -J task1_test # Name of the job
 #SBATCH -N 1 # Use 1 node
-#SBATCH -n 6 # Use 20 cores on that node
+#SBATCH -n 10 # Use 20 cores on that node
 #SBATCH -t 1:00:00 # Maximum time - expected time is 15 hrs
 #SBATCH -o stdout_task1 # stdout goes this file
 #SBATCH -e stderr_task1 # stderr goes to this file
