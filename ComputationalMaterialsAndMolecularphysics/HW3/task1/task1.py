@@ -12,7 +12,6 @@ from ase.md.npt import NPT
 
 from gpaw import GPAW 
 
-
 # Load atoms object
 a = read('thermalizedConfiguration.xyz')
 # view(a)  # DEBUG
