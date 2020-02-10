@@ -27,6 +27,7 @@ def test_params_Na6(m, f, nb, idx):
     if m=='pw350':
         calc = GPAW(nbands=nb,
                     h=0.25,
+                    xc=f,
                     txt=f'outfiles/Na6_{m}_{f}_{nb}_out.txt',
                     occupations=FermiDirac(0.05),
                     setups={'Na': '1'},
@@ -34,6 +35,7 @@ def test_params_Na6(m, f, nb, idx):
     elif m=='pw500':
         calc = GPAW(nbands=nb,
                     h=0.25,
+                    xc=f,
                     txt=f'outfiles/Na6_{m}_{f}_{nb}_out.txt',
                     occupations=FermiDirac(0.05),
                     setups={'Na': '1'},
@@ -41,6 +43,7 @@ def test_params_Na6(m, f, nb, idx):
     elif m=='fd':
         calc = GPAW(nbands=nb,
                     h=0.25,
+                    xc=f,
                     txt=f'outfiles/out.txt',
                     occupations=FermiDirac(0.05),
                     setups={'Na': '1'},
@@ -48,6 +51,7 @@ def test_params_Na6(m, f, nb, idx):
     elif m=='lcao':
         calc = GPAW(nbands=nb,
                     h=0.25,
+                    xc=f,
                     txt=f'outfiles/out.txt',
                     occupations=FermiDirac(0.05),
                     setups={'Na': '1'},
@@ -83,7 +87,7 @@ def test_params_Na6(m, f, nb, idx):
     #*****************************#
 
 # Parameters to perform grid search over
-# modes = ['pw', 'fd', 'lcao']
+modes = ['pw', 'fd', 'lcao']
 modes = ['pw350', 'pw500']
 functionals=['PBE', 'vdW-DF-cx']
 nbands = [10, 15]
