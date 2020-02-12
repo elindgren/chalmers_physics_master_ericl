@@ -2,6 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
+# Set plot params
+plt.rc('font', size=14)          # controls default text sizes
+plt.rc('axes', titlesize=14)     # fontsize of the axes title
+plt.rc('axes', labelsize=16)    # fontsize of the x and y labels
+plt.rc('xtick', labelsize=14)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=14)    # fontsize of the tick labels
+plt.rc('legend', fontsize=14)    # legend fontsize
+
 data = np.loadtxt('log_mdTask1.txt', skiprows=1)
 avgT = np.mean(data[:,4])
 
