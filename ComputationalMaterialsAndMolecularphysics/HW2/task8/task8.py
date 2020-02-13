@@ -87,7 +87,7 @@ def test_params_Na6(m, f, nb, idx):
     #*****************************#
 
 # Parameters to perform grid search over
-modes = ['pw350', 'pw500', 'pw', 'fd', 'lcao']
+modes = ['pw350', 'pw500', 'fd', 'lcao']
 functionals=['PBE', 'vdW-DF-cx']
 nbands = [10, 15]
 
