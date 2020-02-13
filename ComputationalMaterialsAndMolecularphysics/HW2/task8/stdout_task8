@@ -3,50 +3,50 @@
 ************ Na6 - Mode: pw350 - Functional: PBE - nbands=10 ************
 ****  ID:0 - Relaxing 1st system of atoms    ****
 ****  ID:0 - Relaxing 2nd system of atoms    ****
-****    Elapsed time: 1159.49 s                   ****
+****    Elapsed time: 1711.84 s                   ****
 *****************************************************************************
 
 ************ Na6 - Mode: pw350 - Functional: PBE - nbands=15 ************
 ****  ID:1 - Relaxing 1st system of atoms    ****
 ****  ID:1 - Relaxing 2nd system of atoms    ****
-****    Elapsed time: 1153.01 s                   ****
+****    Elapsed time: 1769.94 s                   ****
 *****************************************************************************
 
 ************ Na6 - Mode: pw350 - Functional: vdW-DF-cx - nbands=10 ************
 ****  ID:10 - Relaxing 1st system of atoms    ****
 ****  ID:10 - Relaxing 2nd system of atoms    ****
-****    Elapsed time: 1217.67 s                   ****
+****    Elapsed time: 1778.05 s                   ****
 *****************************************************************************
 
 ************ Na6 - Mode: pw350 - Functional: vdW-DF-cx - nbands=15 ************
 ****  ID:11 - Relaxing 1st system of atoms    ****
 ****  ID:11 - Relaxing 2nd system of atoms    ****
-****    Elapsed time: 1193.56 s                   ****
+****    Elapsed time: 1762.51 s                   ****
 *****************************************************************************
 
 ************ Na6 - Mode: pw500 - Functional: PBE - nbands=10 ************
 ****  ID:100 - Relaxing 1st system of atoms    ****
 ****  ID:100 - Relaxing 2nd system of atoms    ****
-****    Elapsed time: 1144.60 s                   ****
+****    Elapsed time: 1568.42 s                   ****
 *****************************************************************************
 
 ************ Na6 - Mode: pw500 - Functional: PBE - nbands=15 ************
 ****  ID:101 - Relaxing 1st system of atoms    ****
 ****  ID:101 - Relaxing 2nd system of atoms    ****
-****    Elapsed time: 1195.93 s                   ****
+****    Elapsed time: 1621.84 s                   ****
 *****************************************************************************
 
 ************ Na6 - Mode: pw500 - Functional: vdW-DF-cx - nbands=10 ************
 ****  ID:110 - Relaxing 1st system of atoms    ****
 ****  ID:110 - Relaxing 2nd system of atoms    ****
-****    Elapsed time: 1188.34 s                   ****
+****    Elapsed time: 1562.47 s                   ****
 *****************************************************************************
 
 ************ Na6 - Mode: pw500 - Functional: vdW-DF-cx - nbands=15 ************
 ****  ID:111 - Relaxing 1st system of atoms    ****
 ****  ID:111 - Relaxing 2nd system of atoms    ****
-****    Elapsed time: 1175.29 s                   ****
+****    Elapsed time: 1520.29 s                   ****
 *****************************************************************************
 
-#########################	Total time: 9427.95 s	#########################
+************ Na6 - Mode: pw - Functional: PBE - nbands=10 ************
 ------------------ Task 8 done -------------------
