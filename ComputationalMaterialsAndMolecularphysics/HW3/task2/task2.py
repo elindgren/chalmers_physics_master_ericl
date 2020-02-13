@@ -5,6 +5,7 @@ import os.path
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+from scipy.signal import medfilt
 from ase.io.trajectory import Trajectory
 from tqdm import tqdm
 
@@ -54,7 +55,7 @@ def generate_partial_RDF(distances):
     n = 200  # Number of points 
     # Get a plot of the RDF from its histogram - it is accurate for sufficiently small bins
     RDF, b = np.histogram(distances, bins=n)  # Return the bin edges and use the as r vector for normalization
-    RDF = RDF.astype(float)
+    RDF = RDF.astype(float) / len(distances)  # Get the average occupation in each box
     r = np.array([(b[i-1]+b[i])/2 for i in range(1, len(b))])  # Position is middle point of each bin
     dr = r[1]-r[0]  # The size of the spherical radial shell
 
@@ -71,6 +72,22 @@ def generate_partial_RDF(distances):
     return r, RDF
 
 
+def solv_shell(r, RDF):
+    ##### Find the first minimum
+    
+    # Use a median filtered version of the signal to get good estimates on the extremum indices
+    filt_RDF = medfilt(RDF, 9)
+    # Find the first and second max idx, and search inbetween
+    first_max = np.argmax(filt_RDF)
+    halway_idx = int(len(filt_RDF)/2)
+    print(halway_idx)
+
+    # Integrate up to that point - the padding does nothing, since it is zero
+
+    # Return first solvation shell
+
+    return first_max, halway_idx
+
 print("#### Task 2 - Calculate partial RDF ####")
 # Load the trajectory from task 1
 traj = Trajectory('../task1/mdTask1.traj')
@@ -84,12 +101,17 @@ distances_given = load_distances('distances_given', traj_given)
 r, RDF = generate_partial_RDF(distances)
 r_g, RDF_g = generate_partial_RDF(distances_given)
 
+# Calculate the first solvation shell of Na for both trajectories
+first_max, second_max = solv_shell(r, RDF)
+max_idx = [first_max, second_max]
 
 # Plot
 fig, ax = plt.subplots(figsize=(8,6))
-ax.plot(r, RDF, linewidth=2, linestyle='-', label=r'Generated trajectory, $2 \rm\, ps$.')
-ax.plot(r_g, RDF_g, linewidth=2, linestyle='--', label=r'Given trajectory, $7 \rm\, ps$.')
-ax.axhline(1, linestyle=':', c='k')
+ax.plot(r, RDF, linewidth=2, linestyle='-', alpha=0.5, label=r'Generated trajectory, $2 \rm\, ps$.')
+ax.scatter(r[max_idx], RDF[max_idx], marker='*')
+ax.plot(r, medfilt(RDF, 9), linewidth=2, linestyle='-', label=r'Median filtered RDF, $2 \rm\, ps$.')
+ax.plot(r_g, RDF_g, linewidth=2, linestyle='--', alpha=0.5, label=r'Given trajectory, $7 \rm\, ps$.')
+# ax.axhline(1, linestyle=':', c='k')
 ax.legend(loc='best')
 ax.set_xlabel(r'$r$, (Å)')
 ax.set_ylabel(r'$g_{NO}$')
