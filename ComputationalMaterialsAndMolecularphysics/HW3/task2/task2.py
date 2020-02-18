@@ -73,7 +73,7 @@ def generate_partial_RDF(distances, n_snapshots):
 
 
 def solv_shell(r, RDF):
-    ##### Find the first minimum
+    ##### Find the first minimum #####
     
     # Use a median filtered version of the signal to get good estimates on the extremum indices
     filt_RDF = medfilt(RDF, 9)

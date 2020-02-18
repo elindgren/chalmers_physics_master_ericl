@@ -30,11 +30,15 @@ def load_distances(file, trajectory):
         for snapshot in tqdm(trajectory):
             # Get indices for Na+ ion and oxygen atoms
             O_idx = [O.index for O in snapshot if O.symbol=='O']
-            for Oi in O_idx:
-                # For each O atom, get distance to all other O atoms
-                O_other_idx = [idx for idx in O_idx if idx != Oi]
-                # Calculate their distances 
-                distances.extend(snapshot.get_distances(Oi, indices=O_other_idx, mic=True))  # Enable minimum image convention to check pbc
+            visited_O = []
+            for i, Oi in enumerate(O_idx):
+                # For each O atom, get distance to all other O atoms - except those pairs that have already been visited
+                # Hence, the last O idx will already have been checked and can be skipped
+                if i < len(O_idx)-1:
+                    visited_O.append(Oi)
+                    O_other_idx = [idx for idx in O_idx if idx not in visited_O]
+                    # Calculate their distances 
+                    distances.extend(snapshot.get_distances(Oi, indices=O_other_idx, mic=True))  # Enable minimum image convention to check pbc
         distances = np.array(distances)
         print('---- Saving to ' + f'{file}npy ----'.rjust(20))
         np.save(f'{file}.npy', distances)
@@ -49,7 +53,7 @@ def generate_partial_RDF(distances, n_snapshots):
     # Get a plot of the RDF from its histogram - it is accurate for sufficiently small bins
     RDF, b = np.histogram(distances, bins=n)  # Return the bin edges and use the as r vector for normalization
     RDF = RDF.astype(float) / n_snapshots  # Get the average occupation in each box over all snapshots
-    RDF /= 24 # Divide by the number of O atoms to compensate for getting distance from each atom to the rest.
+    RDF /= 11.5 # On average, we got the distance between 11.5 O-atoms; thus compensate for the overcounting by dividing by 12.
     r = np.array([(b[i-1]+b[i])/2 for i in range(1, len(b))])  # Position is middle point of each bin
     dr = r[1]-r[0]  # The size of the spherical radial shell
 
