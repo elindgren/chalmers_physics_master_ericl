@@ -10,12 +10,12 @@ from ase.io.trajectory import Trajectory
 from tqdm import tqdm
 
 # Set plot params
-plt.rc('font', size=14)          # controls default text sizes
-plt.rc('axes', titlesize=14)     # fontsize of the axes title
-plt.rc('axes', labelsize=16)    # fontsize of the x and y labels
-plt.rc('xtick', labelsize=14)    # fontsize of the tick labels
-plt.rc('ytick', labelsize=14)    # fontsize of the tick labels
-plt.rc('legend', fontsize=14)    # legend fontsize
+plt.rc('font', size=18)          # controls default text sizes
+plt.rc('axes', titlesize=18)     # fontsize of the axes title
+plt.rc('axes', labelsize=18)    # fontsize of the x and y labels
+plt.rc('xtick', labelsize=18)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=18)    # fontsize of the tick labels
+plt.rc('legend', fontsize=18)    # legend fontsize
 
 '''
 Calculate the first ion solvation shell for my simulated trajectory from task 1 and
@@ -33,7 +33,7 @@ atoms for all snapshots.
 
 def load_distances(file, trajectory):
     distances = [] # Holds all distances from Na+ for all snapshots 
-    if not os.path.exists(f'{file}.npy'):
+    if not os.path.exists(f'{file}_{len(trajectory)}_steps.npy'):
         print('---- Creating distances vector ----')
         for snapshot in tqdm(trajectory):
             # Get indices for Na+ ion and oxygen atoms
@@ -43,11 +43,11 @@ def load_distances(file, trajectory):
             # Calculate their distances 
             distances.extend(snapshot.get_distances(Na_idx, indices=O_idx, mic=True))  # Enable minimum image convention to check pbc
         distances = np.array(distances)
-        print('---- Saving to ' + f'{file}npy ----'.rjust(20))
-        np.save(f'{file}.npy', distances)
+        print('---- Saving to ' + f'{file}_{len(trajectory)}_steps.npy ----'.rjust(20))
+        np.save(f'{file}_{len(trajectory)}_steps.npy', distances)
     else:
-        print('---- Load from ' + f'{file}.npy ----'.rjust(30))
-        distances = np.load(f'{file}.npy')
+        print('---- Load from ' + f'{file}_{len(trajectory)}_steps.npy ----'.rjust(30))
+        distances = np.load(f'{file}_{len(trajectory)}_steps.npy')
     return distances
 
 
@@ -83,7 +83,7 @@ def solv_shell(r, RDF):
     min_idx = first_max + np.argmin(filt_RDF[first_max:halfway_idx])
 
     # Integrate up to that point - the padding does nothing, since it is zero
-    shell_size = np.trapz(y=RDF[:min_idx], x=r[:min_idx])
+    shell_size = np.trapz(y=r[:min_idx]*RDF[:min_idx], x=r[:min_idx])
     print(f'First solvation shell: {shell_size:.4f} Å')  # Dimension Å since integral of dimless RDF (just a histogram)
     # Return first solvation shell
     return first_max, halfway_idx, min_idx, shell_size
@@ -94,8 +94,8 @@ traj = Trajectory('../task1/mdTask1.traj')
 traj_given = Trajectory('../task1/Na-aimd/NaCluster24.traj')
 
 # Calculate the distances between the relevant species
-eq_idx = 100 # Index for equlibration
-eq_idx_g = 100
+eq_idx = 1000 # Index for equlibration
+eq_idx_g = 1000
 distances = load_distances('distances', traj[eq_idx:])
 distances_given = load_distances('distances_given', traj_given[eq_idx_g:])
 
@@ -109,18 +109,21 @@ max_idx = [first_max, halfway_idx]
 _, _, _, _ = solv_shell(r_g, RDF_g)
 
 # Plot
-fig, ax = plt.subplots(figsize=(8,6))
+fig, ax = plt.subplots(figsize=(10,6))
 ax.plot(r, RDF, linewidth=2, linestyle='-', alpha=1, label=r'Generated trajectory, $2 \rm\, ps$.')
 ax.plot(r, medfilt(RDF, 9), linewidth=2, linestyle='-', label=r'Median filtered RDF, $2 \rm\, ps$.')
 ax.plot(r_g, RDF_g, linewidth=2, linestyle='--', alpha=1, label=r'Given trajectory, $7 \rm\, ps$.')
 # ax.scatter(r[max_idx], RDF[max_idx], marker='o', s=48, c='k')
 # ax.scatter(r[min_idx], RDF[min_idx], marker='s', s=48, c='k')
+ax.axhline(1, linestyle='--', c='k')
 ax.axvline(r[min_idx], linestyle=':', c='k', label=r'First min($g_{NO}$), $2 \rm\, ps$.')
 ax.legend(loc='best')
 ax.set_xlabel(r'$r$, (Å)')
-ax.set_ylabel(r'$g_{NO}$')
+ax.set_ylabel(r'$g_{\rm Na^+O}$')
+ax.set_xlim(0,6)
 ax.grid()
 plt.tight_layout()
+plt.savefig('task2.png')
 plt.show()
 
 print("#### Task 2 - " +  "Finished ####".rjust(26))
