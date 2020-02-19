@@ -95,7 +95,7 @@ traj_given = Trajectory('../task1/Na-aimd/NaCluster24.traj')
 
 # Calculate the distances between the relevant species
 eq_idx = 1000 # Index for equlibration
-eq_idx_g = 1000
+eq_idx_g = 8000
 distances = load_distances('distances', traj[eq_idx:])
 distances_given = load_distances('distances_given', traj_given[eq_idx_g:])
 
@@ -111,12 +111,12 @@ _, _, _, _ = solv_shell(r_g, RDF_g)
 # Plot
 fig, ax = plt.subplots(figsize=(10,6))
 ax.plot(r, RDF, linewidth=2, linestyle='-', alpha=1, label=r'Generated trajectory, $2 \rm\, ps$.')
-ax.plot(r, medfilt(RDF, 9), linewidth=2, linestyle='-', label=r'Median filtered RDF, $2 \rm\, ps$.')
+# ax.plot(r, medfilt(RDF, 9), linewidth=2, linestyle='-', label=r'Median filtered RDF, $2 \rm\, ps$.')
 ax.plot(r_g, RDF_g, linewidth=2, linestyle='--', alpha=1, label=r'Given trajectory, $7 \rm\, ps$.')
 # ax.scatter(r[max_idx], RDF[max_idx], marker='o', s=48, c='k')
 # ax.scatter(r[min_idx], RDF[min_idx], marker='s', s=48, c='k')
-ax.axhline(1, linestyle='--', c='k')
-ax.axvline(r[min_idx], linestyle=':', c='k', label=r'First min($g_{NO}$), $2 \rm\, ps$.')
+ax.axhline(1, linewidth=2, linestyle='--', c='k', label=r'$g_{\rm Na^+O}=1$' )
+ax.axvline(r[min_idx], linewidth=3, linestyle=':', c='C2', label=r'First min($g_{\rm Na^+O}$), $2 \rm\, ps$.')
 ax.legend(loc='best')
 ax.set_xlabel(r'$r$, (Å)')
 ax.set_ylabel(r'$g_{\rm Na^+O}$')
