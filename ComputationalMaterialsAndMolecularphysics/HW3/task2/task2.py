@@ -69,10 +69,10 @@ def generate_partial_RDF(distances, n_snapshots):
     r = np.insert(arr=r, obj=0, values=np.linspace(0,r[0],10))
     RDF = np.insert(arr=RDF, obj=0, values=[0]*10)
 
-    return r, RDF
+    return r, RDF, rho
 
 
-def solv_shell(r, RDF):
+def coord_numb(r, RDF, rho):
     ##### Find the first minimum #####
     
     # Use a median filtered version of the signal to get good estimates on the extremum indices
@@ -83,8 +83,8 @@ def solv_shell(r, RDF):
     min_idx = first_max + np.argmin(filt_RDF[first_max:halfway_idx])
 
     # Integrate up to that point - the padding does nothing, since it is zero
-    shell_size = np.trapz(y=r[:min_idx]*RDF[:min_idx], x=r[:min_idx])
-    print(f'First solvation shell: {shell_size:.4f} Å')  # Dimension Å since integral of dimless RDF (just a histogram)
+    shell_size = 4 * np.pi * np.trapz(y= r[:min_idx]**2 * rho * RDF[:min_idx], x=r[:min_idx])
+    print(f'Coordination number: {shell_size:.4f}')  # Dimension Å since integral of dimless RDF (just a histogram)
     # Return first solvation shell
     return first_max, halfway_idx, min_idx, shell_size
 
@@ -100,13 +100,13 @@ distances = load_distances('distances', traj[eq_idx:])
 distances_given = load_distances('distances_given', traj_given[eq_idx_g:])
 
 # Generate RDF
-r, RDF = generate_partial_RDF(distances, len(traj[eq_idx:]))
-r_g, RDF_g = generate_partial_RDF(distances_given, len(traj_given[eq_idx_g:]))
+r, RDF, rho = generate_partial_RDF(distances, len(traj[eq_idx:]))
+r_g, RDF_g, rho_g = generate_partial_RDF(distances_given, len(traj_given[eq_idx_g:]))
 
 # Calculate the first solvation shell of Na for both trajectories
-first_max, halfway_idx, min_idx, _ = solv_shell(r, RDF)
+first_max, halfway_idx, min_idx, _ = coord_numb(r, RDF, rho)
 max_idx = [first_max, halfway_idx]
-_, _, _, _ = solv_shell(r_g, RDF_g)
+_, _, _, _ = coord_numb(r_g, RDF_g, rho_g)
 
 # Plot
 fig, ax = plt.subplots(figsize=(10,6))
