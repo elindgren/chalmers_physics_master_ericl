@@ -16,7 +16,7 @@ if world.rank==0:
 start = time.time()
 
 # Load calculator after relaxing empty structure
-calc = GPAW('convEmptyCalc.gpw')
+calc = GPAW('emptyCalc.gpw')
 
 # Calculate and diagonalize Omega matrix
 dE = 6  # Up to 6 eV transitions considered
