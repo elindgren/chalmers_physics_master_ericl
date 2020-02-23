@@ -24,8 +24,8 @@ lr = LrTDDFT(
     calc, 
     xc='LDA', 
     energy_range=dE,
-    parallel = {'domain': gpaw_world.size}
 )  # Construct the omega matrix, parallelised over all available cores
+# parallel = {'domain': gpaw_world.size}
 lr.write(f'lr_dE={dE}eV.dat.gz')  # Save the tdDFT calculater just in case
 
 lr.diagonalize()
