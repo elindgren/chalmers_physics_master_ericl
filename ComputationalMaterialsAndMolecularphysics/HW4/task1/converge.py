@@ -45,9 +45,12 @@ calc.set(
     eigensolver = 'cg'
 )
 atoms.get_potential_energy()
+
+if world.rank==0:
+    print(f'Kohn-Sham eigenvalues: {calc.get_eigenvalues()}')
+
 # Save results for empty states
 calc.write('emptyCalc.gpw', 'all')
-
 
 end = time.time()
 if world.rank==0:
