@@ -8,7 +8,6 @@ from ase.parallel import world
 from gpaw import GPAW
 from gpaw.lrtddft import LrTDDFT
 from gpaw.lrtddft import photoabsorption_spectrum
-from gpaw.mpi import world as gpaw_world
 
 
 if world.rank==0:
@@ -24,7 +23,6 @@ lr = LrTDDFT(
     calc, 
     xc='LDA', 
     energy_range=dE,
-    parallel = {'domain': gpaw_world.size}
 )  # Construct the omega matrix, parallelised over all available cores
 
 lr.write(f'lr_dE={dE}eV.dat.gz')  # Save the tdDFT calculater just in case
@@ -36,6 +34,12 @@ photoabsorption_spectrum(
     f'spectrum_w{wd}.dat',
     width = wd
 )
+
+
+
+ # Save results for task 2
+lr.write ('TDDFT_Task1.dat')
+
 
 end = time.time()
 if world.rank==0:
