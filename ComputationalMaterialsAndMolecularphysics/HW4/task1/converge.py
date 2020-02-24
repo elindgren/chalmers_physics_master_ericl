@@ -40,7 +40,7 @@ if world.rank==0:
 
 calc.set(
     nbands = 110,
-    convergence = {'bands': '-10'},
+    convergence = {'bands': -10},
     fixdensity = True,
     eigensolver = 'cg'
 )
