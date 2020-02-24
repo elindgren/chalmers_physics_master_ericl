@@ -31,7 +31,7 @@ for i, c in enumerate(coord):
         print(f'------------   Propagating {c}-direction   ------------')
     start_c = time.time()
     # Prepare kick
-    kick = [3]
+    kick = [0.0]*3
     kick[i] = kick_strength
     # Kick with a delta kick in direction c
     td_calc.absorption_kick(kick_strength=kick)
