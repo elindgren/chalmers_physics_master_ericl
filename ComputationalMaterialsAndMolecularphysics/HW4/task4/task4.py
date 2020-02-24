@@ -37,10 +37,11 @@ for i, c in enumerate(coord):
     td_calc.absorption_kick(kick_strength=kick)
     # Propagate system and save time dependent dipole moment to 'Na8_dm_{c}.dat' and
     # use 'Na8_td_{c}.dat' as restart file
-    td_calc.Propagate(time_step, iterations, f'Na8_dm_{c}.dat', f'Na8_td_{c}.dat')
+    td_calc.propagate(time_step, iterations, f'Na8_dm_{c}.dat', f'Na8_td_{c}.dat')
 
     # Calculate photoabsorption spectrum and save it 
-    photoabsorption_spectrum(f'Na8_dm_{c}.dat', f'Na8_spectrum_{c}.dat')
+    wd = 0.06
+    photoabsorption_spectrum(f'Na8_dm_{c}.dat', f'Na8_spectrum_{c}.dat', width = wd)
     end = time.time()
 
     if world.rank==0:
