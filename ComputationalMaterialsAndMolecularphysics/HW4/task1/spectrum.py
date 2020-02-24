@@ -16,6 +16,9 @@ start = time.time()
 
 # Load calculator after relaxing empty structure
 calc = GPAW('emptyCalc.gpw')
+calc.set(
+    txt = 'spec.gpaw-out'
+)
 
 # Calculate and diagonalize Omega matrix
 dE = 6  # Up to 6 eV transitions considered
