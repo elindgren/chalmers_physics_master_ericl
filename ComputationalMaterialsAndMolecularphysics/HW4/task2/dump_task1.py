@@ -1,6 +1,18 @@
 # External imports
 import helper as h
 
+from gpaw import GPAW
+from gpaw.lrtddft import LrTDDFT
+
+# Retrieve the calculator from task 1
+lr = LrTDDFT('../task1/TDDFT_Task1.dat')
+
+# Dump the results from the calculation to file
+h.dump_data(lr, fpath='dumpTask1.npz' )
+
+
+
+
 
 
 
