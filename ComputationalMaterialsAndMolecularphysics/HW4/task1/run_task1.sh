@@ -15,6 +15,6 @@ module purge
 module load intel/2019a GPAW ASE
 
 echo ------------------ Task 1 start ------------------
-mpirun gpaw-python converge.py &&
-mpirun gpaw-python spectrum.py
+mpirun -np=10 gpaw-python converge.py &&
+mpirun -np=1 gpaw-python spectrum.py
 echo ------------------ Task 1 done -------------------
