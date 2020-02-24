@@ -26,7 +26,7 @@ if world.rank==0:
     print(f'------------   Task 4 TDDFT started   ------------')
 start = time.time()
 
-for i, c in coord: 
+for i, c in enumerate(coord): 
     if world.rank==0:
         print(f'------------   Propagating {c}-direction   ------------')
     start_c = time.time()
