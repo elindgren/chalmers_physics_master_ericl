@@ -39,7 +39,6 @@ photoabsorption_spectrum(
 )
 
 
-
  # Save results for task 2
 lr.write ('TDDFT_Task1.dat')
 
