@@ -15,14 +15,14 @@ def discrete_spectrum(lr, fpath):
 		The file will contain the energy for each excitation, the average
 			oscillator strength, and the (x,y,z) oscillator strengths.
 	'''
-    with open(fpath, 'w') as f:
-        f.write('# %4s %12s %12s %12s %12s %12s\n' %
-                ('No', 'Energy (eV)', 'osc', 'osc x', 'osc y', 'osc z'))
-        for i, exc in enumerate(lr):
-            energy = exc.get_energy() * Hartree
-            osc_j = exc.get_oscillator_strength()
-            data = [i, energy] + list(osc_j)
-            f.write('%6d %12.5f %12.6e %12.6e %12.6e %12.6e\n' % tuple(data))
+	with open(fpath, 'w') as f:
+		f.write('# %4s %12s %12s %12s %12s %12s\n' %
+			('No', 'Energy (eV)', 'osc', 'osc x', 'osc y', 'osc z'))
+		for i, exc in enumerate(lr):
+			energy = exc.get_energy() * Hartree
+			osc_j = exc.get_oscillator_strength()
+			data = [i, energy] + list(osc_j)
+			f.write('%6d %12.5f %12.6e %12.6e %12.6e %12.6e\n' % tuple(data))
 
 
 def fold(x_t, x_i, y_i, width):
