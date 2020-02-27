@@ -1,4 +1,4 @@
-# Imports
+ # Imports
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -20,12 +20,16 @@ energies = spec_x[:,0]
 spec = np.sqrt(spec_x[:,1]**2 + spec_y[:,1]**2 + spec_z[:,1]**2)
 
 # Plot
+task1 = np.loadtxt('../task1/spectrum_w0.06.dat', skiprows=4)
+
 fig, ax = plt.subplots(figsize=(8,6))
-ax.plot(energies, spec, linestyle='-')
+ax.plot(task1[:,0], task1[:,1] / max(task1[:,1]), color='C2', linestyle='-', linewidth='2', label='GPAW Casida (T.1)') # Normalize both spectra since arbitrary units
+ax.plot(energies, spec / max(spec),  color='C0', linestyle='-', linewidth='2', label='Time propagation (T.4)')
 ax.set_xlabel('Energy, (eV)')
-ax.set_ylabel(r'Photoabsorption spectra ()')
+ax.set_ylabel(r'Photoabsorption spectrum, arb. units')
 ax.set_xlim(0,7)
 ax.grid()
+ax.legend(loc='best')
 plt.tight_layout()
 plt.savefig('task4_spectra.png')
 plt.show()
