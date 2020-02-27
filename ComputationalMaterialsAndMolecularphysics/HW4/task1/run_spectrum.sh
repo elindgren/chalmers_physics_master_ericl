@@ -5,8 +5,8 @@
 #SBATCH -N 1 # Use 1 node
 #SBATCH -n 1 # Use 10 cores on that node
 #SBATCH -t 50:00:00 # Maximum time - expected time is 30-40 hrs
-#SBATCH -o stdout # stdout goes this file
-#SBATCH -e stderr # stderr goes to this file
+#SBATCH -o spectrum_out # stdout goes this file
+#SBATCH -e spectrum_err # stderr goes to this file
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ericlin@chalmers.se
 
@@ -15,6 +15,5 @@ module purge
 module load intel/2019a GPAW ASE
 
 echo ------------------ Task 1 start ------------------
-# mpirun -np=10 gpaw-python converge.py &&
 mpirun -np=1 gpaw-python spectrum.py
 echo ------------------ Task 1 done -------------------
