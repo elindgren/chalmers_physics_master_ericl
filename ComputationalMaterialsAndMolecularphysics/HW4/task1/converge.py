@@ -12,7 +12,7 @@ from gpaw import GPAW
 
 # Load Na8
 atoms = read('../Na-tddft/Na8.xyz')
-atoms.center(vacuum=8.0) # Add 8 Å of vacuum around the cluster
+atoms.center(vacuum=8.0) # Add 8 Angstrom of vacuum around the cluster
 
 # Define calculator
 calc = GPAW(
