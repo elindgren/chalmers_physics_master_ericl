@@ -1,6 +1,6 @@
 import numpy as np
 from ase.units import Hartree
-from gpaw.lrtddft import LrTDDFT
+# from gpaw.lrtddft import LrTDDFT
 
 def discrete_spectrum(lr, fpath):
 	'''

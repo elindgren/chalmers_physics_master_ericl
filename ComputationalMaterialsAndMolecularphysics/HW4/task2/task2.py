@@ -47,11 +47,22 @@ for i, e in enumerate(eigVal):
 
 # Compare with the discrete spectrum from GPAW
 # Plot
+disc_data = np.loadtxt('GPAW_discrete.dat', skiprows=0)
 fig, ax = plt.subplots(figsize=(8,6))
 for i,e in enumerate(eps):
     if i==0:
-        ax.plot([e,e], [0,f[i]], color='C0', linestyle='-', linewidth='2', label='Casida (manual)')
+        # GPAW 
+        d_e = disc_data[i,1]
+        I_e = disc_data[i,2]
+        ax.plot([d_e, d_e], [0, I_e] / max(disc_data[:,2]), color='k', linestyle='--', linewidth='3', zorder=3, label='GPAW Casida')
+        # Manual
+        ax.plot([e,e], [0,f[i]], color='C0', linestyle='-', linewidth='2', label='Manual Casida')
     else:
+        # GPAW 
+        d_e = disc_data[i,1]
+        I_e = disc_data[i,2]
+        ax.plot([d_e, d_e], [0, I_e] / max(disc_data[:,2]), color='k', linestyle='--', zorder=3, linewidth='2')
+        # Manual
         ax.plot([e,e], [0,f[i]], color='C0', linestyle='-', linewidth='2')
 ax.set_xlabel('Energy, (eV)')
 ax.set_ylabel(r'Oscillator strength, arb. units')
@@ -63,10 +74,10 @@ plt.savefig('task2_discrete_spectra.png')
 # Finally, convolute my spectrum with a Gaussian and compare with task 1
 task1 = np.loadtxt('../task1/spectrum_w0.06.dat', skiprows=4)
 
-energy = np.linspace(0, 7, 1000)
+energy = np.linspace(0, 7, 500)
 f_fold = h.fold(x_t=energy, x_i=eps, y_i=f, width=0.06)
 fig, ax = plt.subplots(figsize=(8,6))
-ax.plot(task1[:,0], task1[:,1] / max(task1[:,1]), color='C2', linestyle='-', linewidth='2', label='GPAW Casida (T.1)') # Normalize both spectra since arbitrary units
+ax.plot(task1[:,0], task1[:,1] / max(task1[:,1]), color='k', linestyle='--', linewidth='2', zorder=3, label='GPAW Casida (T.1)') # Normalize both spectra since arbitrary units
 ax.plot(energy, f_fold / max(f_fold), color='C0', linestyle='-', linewidth='2', label='Manual Casida') 
 ax.set_xlabel('Energy, (eV)')
 ax.set_ylabel(r'Photoabsorption spectrum, arb. units')
