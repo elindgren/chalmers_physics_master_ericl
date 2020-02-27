@@ -25,8 +25,8 @@ photoabsorption_spectrum(
 )
 
 # Extract all information about all transitions
-print('** LrTDDFT.analyze() output **')
-lr.analyze()
+print('** LrTDDFT.analyse() output **')
+lr.analyse()
 print('*******************************')
 
 
