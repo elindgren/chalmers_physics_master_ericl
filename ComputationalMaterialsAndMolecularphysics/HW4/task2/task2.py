@@ -65,7 +65,7 @@ for i,e in enumerate(eps):
         # Manual
         ax.plot([e,e], [0,f[i]], color='C0', linestyle='-', linewidth='2')
 ax.set_xlabel('Energy, (eV)')
-ax.set_ylabel(r'Oscillator strength, arb. units')
+ax.set_ylabel(r'Photoabsorption spectrum, arb. units')
 ax.grid()
 plt.tight_layout()
 ax.legend(loc='best')

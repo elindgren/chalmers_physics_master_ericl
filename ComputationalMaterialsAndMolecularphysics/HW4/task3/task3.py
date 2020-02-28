@@ -59,18 +59,25 @@ for i, e in enumerate(eigVal):
 
 
 # Finally, convolute my spectrum with a Gaussian and compare with KS eigenvalue differences
-print('**** Kohn-Sham eigenvalue differnces ****')
-print(omega)
-print('*****************************************')
+# print('**** Kohn-Sham eigenvalue differnces ****')
+KS_diff = np.sort(omega*27.2)
+# print('*****************************************')
 # TODO: What do these KS transitions mean?
 energy = np.linspace(0, 7, 1000)
 f_fold = h.fold(x_t=energy, x_i=eps, y_i=f, width=0.06)
 fig, ax = plt.subplots(figsize=(8,6))
-
 ax.plot(energy, f_fold / max(f_fold), color='C0', linestyle='-', linewidth='2', label='Manual Casida') 
+for i,k in enumerate(KS_diff):
+    if i==0:
+        # GPAW 
+        ax.axvline(k, color='k', linestyle='--', zorder=3, linewidth='1', alpha=0.15, label='KS eig. diff')
+    else:
+        # GPAW 
+        ax.axvline(k, color='k', linestyle='--', zorder=3, linewidth='1', alpha=0.15)
 ax.set_xlabel('Energy, (eV)')
-ax.set_ylabel(r'Oscillator strength, arb. units')
+ax.set_ylabel(r'Photoabsorption spectrum, arb. units')
 ax.grid()
+ax.legend(loc='best')
 plt.tight_layout()
 plt.savefig('task3_kohn_sham_spectra.png')
 plt.show()
