@@ -1,0 +1,12 @@
+-----------    Cluster energies    ----------
+| N=13   Cohesive energy/atom: -2.5591 eV   |
+| N=23   Cohesive energy/atom: -2.7311 eV   |
+| N=38   Cohesive energy/atom: -2.8374 eV   |
+| N=52   Cohesive energy/atom: -2.8828 eV   |
+| N=71   Cohesive energy/atom: -2.9288 eV   |
+| N=90   Cohesive energy/atom: -2.9614 eV   |
+| N=108  Cohesive energy/atom: -2.9865 eV   |
+| N=138  Cohesive energy/atom: -3.0162 eV   |
+| N=201  Cohesive energy/atom: -3.0606 eV   |
+| N=316  Cohesive energy/atom: -3.0999 eV   |
+---------------------------------------------
