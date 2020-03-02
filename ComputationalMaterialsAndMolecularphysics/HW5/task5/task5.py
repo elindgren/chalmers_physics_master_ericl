@@ -33,7 +33,7 @@ for clust in allClust:
         calc = GPAW(
             mode=PW(300),
             xc='PBE',
-            txt=f'./gpaw-outEOS_{N}.txt'
+            txt=f'./gpaw-out/EOS_{N}.txt'
         )  # Use the same calculator as in task6
         atoms.set_calculator(calc)
         atoms.get_potential_energy()  # Just do this to connect calculator to cluster
