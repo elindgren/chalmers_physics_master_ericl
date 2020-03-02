@@ -36,7 +36,6 @@ for k in ks:
     Etot_old = Etot_new
     if world.rank==0:
         print(f'---- Iteration: {i} ---- k={k} ----')
-    k *= 1.1  # Increase k by 10%
     # Perform the GPAW calculation with fix electron density - we want to converge it after 
     # we have found the proper spacing. TODO remove this.
     calc = GPAW(mode=PW(300),             # cutoff
