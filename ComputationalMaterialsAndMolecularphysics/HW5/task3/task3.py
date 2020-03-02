@@ -48,7 +48,10 @@ for clust in allClust:
     str1 = f'--------        N={N}'
     str2 = '        ---------'
     print(str1 +  str2.ljust(40-len(str1)))
-    v.run()
+    if not p.isfile(f'./vibs/vib_{N}.all.pckl'):
+        print('Running vibration calculation')
+        v.run()
+        v.combine()  # Combine pickle files
     # Get frequencies and DOS - i.e # of states per frequency
     (freq, counts) = np.unique(v.get_frequencies(), return_counts=True)
     freq = np.array(freq)

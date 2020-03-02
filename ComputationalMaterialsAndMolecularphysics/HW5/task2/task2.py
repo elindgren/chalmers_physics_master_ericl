@@ -40,9 +40,9 @@ print(f'Optimal lattice parameter: {aMax:.3f} Å, Cohesive energy: {EMax:.3f} eV
 
 # Plot results
 fig, ax = plt.subplots(figsize=(8,6))
-ax.plot(latParams, E, linewidth=2, linestyle='-', marker='o', markersize=0, color='C0', label=r'$E_{Coh}$')
-ax.scatter(aMax, EMax, marker='*', s=150, c='k',zorder=3, label=r'$a_{optimal}$ ' + f'= {aMax:.3f} Å')
-ax.set_xlabel(r'Lattice parameter $a$ (Å)')
+ax.plot(latParams**3, E, linewidth=2, linestyle='-', marker='o', markersize=0, color='C0', label=r'$E_{Coh}$')
+ax.scatter(aMax**3, EMax, marker='*', s=150, c='k',zorder=3, label=r'$a_{optimal}$ ' + f'= {aMax:.3f} Å')
+ax.set_xlabel(r'Lattice volume $a^3$ ($\rmÅ^3$)')
 ax.set_ylabel(r'Cohesive energy (eV)')
 ax.legend(loc='best')
 ax.grid()

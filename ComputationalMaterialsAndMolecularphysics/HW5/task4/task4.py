@@ -12,6 +12,7 @@ from ase.db import connect
 from ase.calculators.eam import EAM
 from ase.build import bulk
 from ase.vibrations import Vibrations
+from ase.visualize import view
 
 
 # Set plot params
@@ -22,13 +23,14 @@ plt.rc('xtick', labelsize=18)    # fontsize of the tick labels
 plt.rc('ytick', labelsize=18)    # fontsize of the tick labels
 plt.rc('legend', fontsize=18)    # legend fontsize
 
-
 # DBs
 vibDB = connect('./vib.db', append=False)  # DB for vibration spectrum
 
 # Using optimal lattice parameter from task 2
 a = 4.043  # A
 atoms = bulk('Al', 'fcc', a)
+# view(atoms)
+
 
 #### Calculate vibrational spectrum
 # Attach EAM calculator to atoms
@@ -58,8 +60,7 @@ path = atoms.cell.bandpath(path='GXWKGLUWLK', density=10)
 mishin.set(kpts=path, symmetry='off', fixdensity=True)  # Fix the electron density
 
 # Start band structure calculation using EAM (fix electron density)
-atoms.get_potential_energy()
-print(mishin.kpts)
+print(atoms.get_potential_energy())
 # bs = mishin.band_structure()
 # bs.write('bsTask4.json')
 
