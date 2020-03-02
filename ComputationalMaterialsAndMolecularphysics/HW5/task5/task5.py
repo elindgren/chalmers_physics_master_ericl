@@ -29,20 +29,24 @@ for clust in allClust:
     atoms = clust.toatoms()
     N = len(atoms.positions)
     if(N<100):
-        print(f'Calculating EOS for Al{N}')
+        if world.rank == 0:
+            print(f'Calculating EOS for Al{N}')
         # Define electron calculator (GPAW)
         calc = GPAW(
             mode=PW(300),
-            xc='PBE',
             txt=f'./gpaw-out/EOS_{N}.txt'
         )  # Use the same calculator as in task6
         atoms.set_calculator(calc)
+        if world.rank == 0:
+            print('Trying to attach calculator to cluster')
         atoms.get_potential_energy()  # Just do this to connect calculator to cluster
         # Calculate DOS using ASE
         # dos = DOS(calc, width=0.2)
         # d = dos.get_dos()
         # e = dos.get_energies()
         e, dos = calc.get_dos(spin=0, npts=201, width=None)
-        eosDB.write(atoms, data={'energy': e, 'DOS': dos})
+        if world.rank == 0:
+            eosDB.write(atoms, data={'energy': e, 'DOS': dos})
     else:
-        print(f'Skipping Al{N}')
+        if world.rank == 0:
+            print(f'Skipping Al{N}')

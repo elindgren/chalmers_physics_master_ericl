@@ -34,23 +34,29 @@ E = []
 i = 1
 for k in ks:
     Etot_old = Etot_new
-    print(f'---- Iteration: {i} ---- k={k} ----')
+    if world.rank == 0:
+        print(f'---- Iteration: {i} ---- k={k} ----')
     # Perform the GPAW calculation with fix electron density - we want to converge it after 
     # we have found the proper spacing. TODO remove this.
-    calc = GPAW(mode=PW(300),             # cutoff
+    calc = GPAW(
+            mode=PW(300),                 # cutoff
             kpts=(k, k, k),               # k-points
             txt=f'./gpaw-out/k={k}.txt'   # output file
         )  
     atoms.set_calculator(calc)
     Etot_new = atoms.get_potential_energy()  # Calculates the total DFT energy of the nanocluster
+    if world.rank == 0:
+        print(f'Energy: {Etot_new:.4f} eV')
     E.append(Etot_new)
     if np.abs(Etot_new - Etot_old) < tol:
         # Save calculator state and write to DB
-        bulkDB.write(atoms, data={'energies': E, 'ks': ks})
-        calc.write('bulkConverge.gpw')
+        if world.rank == 0:
+            bulkDB.write(atoms, data={'energies': E, 'ks': ks})
+            calc.write('bulkConverge.gpw')
         break
     else:
-        i += 1
+        if world.rank == 0:
+            i += 1
 
 # Save results to DB
 
