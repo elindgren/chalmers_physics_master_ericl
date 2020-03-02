@@ -29,8 +29,7 @@ for clust in allClust:
     atoms = clust.toatoms()
     N = len(atoms.positions)
     if(N<100):
-        if world.rank==0:
-            print(f'Calculating EOS for Al{N}')
+        print(f'Calculating EOS for Al{N}')
         # Define electron calculator (GPAW)
         calc = GPAW(
             mode=PW(300),
@@ -44,7 +43,6 @@ for clust in allClust:
         # d = dos.get_dos()
         # e = dos.get_energies()
         e, dos = calc.get_dos(spin=0, npts=201, width=None)
-        if world.rank==0:
-            eosDB.write(atoms, data={'energy': e, 'DOS': dos})
+        eosDB.write(atoms, data={'energy': e, 'DOS': dos})
     else:
         print(f'Skipping Al{N}')

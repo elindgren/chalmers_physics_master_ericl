@@ -34,8 +34,7 @@ E = []
 i = 1
 for k in ks:
     Etot_old = Etot_new
-    if world.rank==0:
-        print(f'---- Iteration: {i} ---- k={k} ----')
+    print(f'---- Iteration: {i} ---- k={k} ----')
     # Perform the GPAW calculation with fix electron density - we want to converge it after 
     # we have found the proper spacing. TODO remove this.
     calc = GPAW(mode=PW(300),             # cutoff
@@ -47,9 +46,8 @@ for k in ks:
     E.append(Etot_new)
     if np.abs(Etot_new - Etot_old) < tol:
         # Save calculator state and write to DB
-        if world.rank==0:
-            bulkDB.write(atoms, data={'energies': E, 'ks': ks})
-            calc.write('bulkConverge.gpw')
+        bulkDB.write(atoms, data={'energies': E, 'ks': ks})
+        calc.write('bulkConverge.gpw')
         break
     else:
         i += 1
