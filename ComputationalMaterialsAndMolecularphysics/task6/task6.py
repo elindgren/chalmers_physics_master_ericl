@@ -9,11 +9,9 @@ from tqdm import tqdm
 # ASE
 from ase import Atoms
 from ase.db import connect
-from ase.calculators.eam import EAM
-from ase.build import bulk
-from ase.vibrations import Vibrations
-from ase.visualize import view
 
+# GPAW
+from gpaw import GPAW, PW
 
 ''' 
 Perform GPAW DFT calculation for the electronic structure of 
@@ -28,4 +26,21 @@ bulkDB = connect('./bulk.db', append=False)  # DB for vibration spectrum
 a = 4.043  # A
 atoms = bulk('Al', 'fcc', a)
 
+# Converge total energy by increasing k-space sampling until total energy changes by
+# <10^-4 eV. 
+tol = 1e-4
+k = 4  # Nbr of k-points
+Etot_old = 1
+Etot_new = 2
 
+while np.abs(Etot_old - Etot_new ) > tol:
+    k *= 1.1  # Increase k by 10%
+    calc = GPAW(mode=PW(300),             # cutoff
+            kpts=(k, k, k),               # k-points
+            txt=f'./gpaw-out/k={k}.txt')  # output file
+    atoms.set_calculator(calc)
+    
+
+# Perform self-consistent density calculation using GPAW
+
+# Save to file

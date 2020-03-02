@@ -33,9 +33,10 @@ for clust in allClust:
         calc = GPAW(
             mode=PW(300),
             xc='PBE',
-            txt='EOS.txt'
+            txt=f'./gpaw-outEOS_{N}.txt'
         )  # Use the same calculator as in task6
         atoms.set_calculator(calc)
+        atoms.get_energies()  # Just do this to connect calculator to cluster
         # Calculate DOS using ASE
         # dos = DOS(calc, width=0.2)
         # d = dos.get_dos()
