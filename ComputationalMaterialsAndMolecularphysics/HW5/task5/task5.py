@@ -5,6 +5,7 @@ import numpy as np
 from ase import Atoms
 from ase.db import connect
 from ase.dft.dos import DOS
+from ase.parallel import world
 
 # GPAW
 from gpaw import GPAW, PW
@@ -28,7 +29,8 @@ for clust in allClust:
     atoms = clust.toatoms()
     N = len(atoms.positions)
     if(N<100):
-        print(f'Calculating EOS for Al{N}')
+        if world.rank==0:
+            print(f'Calculating EOS for Al{N}')
         # Define electron calculator (GPAW)
         calc = GPAW(
             mode=PW(300),
@@ -42,6 +44,7 @@ for clust in allClust:
         # d = dos.get_dos()
         # e = dos.get_energies()
         e, dos = calc.get_dos(spin=0, npts=201, width=None)
-        eosDB.write(atoms, data={'energy': e, 'DOS': dos})
+        if world.rank==0:
+            eosDB.write(atoms, data={'energy': e, 'DOS': dos})
     else:
         print(f'Skipping Al{N}')
