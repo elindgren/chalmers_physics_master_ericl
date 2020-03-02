@@ -46,14 +46,19 @@ for k in ks:
     Etot_new = atoms.get_potential_energy()  # Calculates the total DFT energy of the nanocluster
     E.append(Etot_new)
     if np.abs(Etot_new - Etot_old) < tol:
+        # Save calculator state and write to DB
+        if world.rank==0:
+            bulkDB.write(atoms, data={'energies': E, 'ks': ks})
+            calc.write('bulkConverge.gpw')
         break
     else:
         i += 1
 
 # Save results to DB
-if world.rank==0:
-    bulkDB.write(atoms, data={'energies': E, 'ks': ks})
+
+
 
 # Perform self-consistent density calculation using GPAW
+
 
 # Save to file
