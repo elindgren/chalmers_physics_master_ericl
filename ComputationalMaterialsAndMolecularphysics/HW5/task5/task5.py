@@ -33,7 +33,7 @@ for clust in allClust:
         calc = GPAW(
             mode=PW(300),
             xc='PBE',
-            out='EOS.txt'
+            txt='EOS.txt'
         )  # Use the same calculator as in task6
 
         # Calculate DOS using ASE
