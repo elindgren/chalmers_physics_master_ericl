@@ -38,11 +38,10 @@ for k in ks:
         print(f'---- Iteration: {i} ---- k={k} ----')
     k *= 1.1  # Increase k by 10%
     # Perform the GPAW calculation with fix electron density - we want to converge it after 
-    # we have found the proper spacing.
+    # we have found the proper spacing. TODO remove this.
     calc = GPAW(mode=PW(300),             # cutoff
             kpts=(k, k, k),               # k-points
-            txt=f'./gpaw-out/k={k}.txt',  # output file
-            fixdensity=True               # fixate electronic density
+            txt=f'./gpaw-out/k={k}.txt'   # output file
         )  
     atoms.set_calculator(calc)
     Etot_new = atoms.get_potential_energy()  # Calculates the total DFT energy of the nanocluster
