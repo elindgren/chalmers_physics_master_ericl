@@ -35,7 +35,7 @@ for clust in allClust:
             xc='PBE',
             txt='EOS.txt'
         )  # Use the same calculator as in task6
-
+        atoms.set_calculator(calc)
         # Calculate DOS using ASE
         dos = DOS(calc, width=0.2)
         d = dos.get_dos()
