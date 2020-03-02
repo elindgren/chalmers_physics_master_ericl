@@ -1,10 +1,5 @@
-# Internal imports
-import os.path as p
-
 # External imports
 import numpy as np
-import matplotlib.pyplot as plt
-from tqdm import tqdm
 
 # ASE
 from ase import Atoms
