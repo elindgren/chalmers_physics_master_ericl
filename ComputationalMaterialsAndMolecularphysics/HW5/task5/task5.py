@@ -36,7 +36,7 @@ for clust in allClust:
             txt=f'./gpaw-outEOS_{N}.txt'
         )  # Use the same calculator as in task6
         atoms.set_calculator(calc)
-        atoms.get_energies()  # Just do this to connect calculator to cluster
+        atoms.get_potential_energy()  # Just do this to connect calculator to cluster
         # Calculate DOS using ASE
         # dos = DOS(calc, width=0.2)
         # d = dos.get_dos()

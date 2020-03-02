@@ -9,6 +9,9 @@ from tqdm import tqdm
 # ASE
 from ase import Atoms
 from ase.db import connect
+from ase.build import bulk
+from ase.parallel import world
+
 
 # GPAW
 from gpaw import GPAW, PW
@@ -29,17 +32,34 @@ atoms = bulk('Al', 'fcc', a)
 # Converge total energy by increasing k-space sampling until total energy changes by
 # <10^-4 eV. 
 tol = 1e-4
-k = 4  # Nbr of k-points
+ks = [4*i for i in np.arange(1,11)]  # Nbr of k-points
 Etot_old = 1
 Etot_new = 2
-
-while np.abs(Etot_old - Etot_new ) > tol:
+E = []
+i = 1
+for k in ks:
+    Etot_old = Etot_new
+    if world.rank==0:
+        print(f'---- Iteration: {i} ---- k={k} ----')
     k *= 1.1  # Increase k by 10%
+    # Perform the GPAW calculation with fix electron density - we want to converge it after 
+    # we have found the proper spacing.
     calc = GPAW(mode=PW(300),             # cutoff
             kpts=(k, k, k),               # k-points
-            txt=f'./gpaw-out/k={k}.txt')  # output file
+            txt=f'./gpaw-out/k={k}.txt',  # output file
+            fixdensity=True               # fixate electronic density
+        )  
     atoms.set_calculator(calc)
-    
+    Etot_new = atoms.get_potential_energy()  # Calculates the total DFT energy of the nanocluster
+    E.append(Etot_new)
+    if np.abs(Etot_new - Etot_old) < tol:
+        break
+    else:
+        i += 1
+
+# Save results to DB
+if world.rank==0:
+    bulkDB.write(atoms, data={'energies': E, 'ks': ks})
 
 # Perform self-consistent density calculation using GPAW
 
