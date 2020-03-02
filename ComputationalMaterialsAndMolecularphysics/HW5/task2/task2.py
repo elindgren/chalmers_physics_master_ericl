@@ -61,3 +61,6 @@ plt.savefig('E_task2.png')
 # seen by the cohesive energy increasing with the number of atoms in the 
 # nanoparticle. The bulk Al corresponds to the cohesive energy of an infinite
 # size nanoparticle, i.e. no edge effects. 
+
+# We expect EAM to give good results, since it is particularly good for FCC metals
+# [https://wiki.fysik.dtu.dk/ase/ase/calculators/eam.html].

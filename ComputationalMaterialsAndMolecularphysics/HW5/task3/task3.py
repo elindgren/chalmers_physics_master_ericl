@@ -1,3 +1,6 @@
+# Internal imports
+import os.path as p
+
 # External imports
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,6 +21,10 @@ plt.rc('xtick', labelsize=18)    # fontsize of the tick labels
 plt.rc('ytick', labelsize=18)    # fontsize of the tick labels
 plt.rc('legend', fontsize=18)    # legend fontsize
 
+def out(s, f):
+    ''' Prints s to console and file f. '''
+    print(s)
+    print(s, file=f)
 
 # Load the database, row by row, and calculate the cohesive energy.
 # The cohesive energy is the same as the potential energy since that is
@@ -42,17 +49,12 @@ for clust in allClust:
     str2 = '        ---------'
     print(str1 +  str2.ljust(40-len(str1)))
     v.run()
-    v.combine()  # Combine pickle files
     # Get frequencies and DOS - i.e # of states per frequency
     (freq, counts) = np.unique(v.get_frequencies(), return_counts=True)
     freq = np.array(freq)
     dos = np.array(counts)
     # Save to db
     vibDB.write(atoms, data={'frequency': freq, 'DOS': dos})
-
-    
-# Load db and plot
-
-# Plot vibrational spectra
+print('Sucessfully saved all data to DB')
 
 

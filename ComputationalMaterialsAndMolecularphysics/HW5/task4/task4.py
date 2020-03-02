@@ -30,24 +30,37 @@ vibDB = connect('./vib.db', append=False)  # DB for vibration spectrum
 a = 4.043  # A
 atoms = bulk('Al', 'fcc', a)
 
+#### Calculate vibrational spectrum
 # Attach EAM calculator to atoms
 mishin = EAM(potential='../CourseGitRepo/HA5_al_potential.alloy') # Set up EAM
 atoms.set_calculator(mishin)
 
 # Get vibrational spectrum
-v = Vibrations(atoms, name='./vib_bulk')
-if not p.isfile('vib_bulk.all.pckl'):
-    print('Running vibration calculation')
-    v.run()
-    v.combine()  # Combine pickle files
+v = Vibrations(atoms, name='./vibs/vib_bulk')
+v.run()
 # Get frequencies and DOS - i.e # of states per frequency
 (freq, counts) = np.unique(v.get_frequencies(), return_counts=True)
 freq = np.array(freq)
 dos = np.array(counts)
-v.summary()
 # Save to db
 vibDB.write(atoms, data={'frequency': freq, 'DOS': dos})
 
+#### Calculate band structure 
+lat = atoms.cell.get_bravais_lattice()
+print(lat.description())
+# lat.plot_bz(show=True) # Visualize Brillouin zone
+# Al has Space Group 225 [https://materialsproject.org/materials/mp-134/]
+# from which Bilbao Cryst gives us 
+# Use default path for now
+path = atoms.cell.bandpath(path='GXWKGLUWLK', density=10)
 
+# Set the path to the calculator
+mishin.set(kpts=path, symmetry='off', fixdensity=True)  # Fix the electron density
+
+# Start band structure calculation using EAM (fix electron density)
+atoms.get_potential_energy()
+print(mishin.kpts)
+# bs = mishin.band_structure()
+# bs.write('bsTask4.json')
 
 
