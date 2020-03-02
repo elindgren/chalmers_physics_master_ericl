@@ -53,6 +53,7 @@ print(lat.description())
 # lat.plot_bz(show=True) # Visualize Brillouin zone
 # Al has Space Group 225 [https://materialsproject.org/materials/mp-134/]
 # from which Bilbao Cryst gives us 
+# Also here is given optimal vectors https://wiki.fysik.dtu.dk/ase/ase/dft/kpoints.html
 # Use default path for now
 path = atoms.cell.bandpath(path='GXWKGLUWLK', density=10)
 

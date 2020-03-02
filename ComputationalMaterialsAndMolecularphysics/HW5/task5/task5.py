@@ -37,9 +37,10 @@ for clust in allClust:
         )  # Use the same calculator as in task6
         atoms.set_calculator(calc)
         # Calculate DOS using ASE
-        dos = DOS(calc, width=0.2)
-        d = dos.get_dos()
-        e = dos.get_energies()
+        # dos = DOS(calc, width=0.2)
+        # d = dos.get_dos()
+        # e = dos.get_energies()
+        e, dos = calc.get_dos(spin=0, npts=201, width=None)
         eosDB.write(atoms, data={'energy': e, 'DOS': dos})
     else:
         print(f'Skipping Al{N}')
