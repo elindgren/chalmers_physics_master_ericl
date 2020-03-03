@@ -58,7 +58,7 @@ for clust in allClust:
         # if world.rank == 0:
         print(f'Cluster Al{N} finished ---- Time: {(end-start):.2f} s')
         eosDB.write(atoms, data={'energy': e, 'DOS': d})
-        pickle.dump( calc, open( f'./calculators/calc{N}.p', "wb" ) )  # Save the electronic band structure
+        calc.write(f'./calculators/calc{N}.gpw')  # Save the calculator
     else:
         # if world.rank == 0:
         print(f'Skipping Al{N}')
