@@ -33,8 +33,8 @@ for clust in allClust:
     N = len(atoms.positions)
     if(N<100):
         start = time.time()
-        if world.rank == 0:
-            print(f'Calculating EOS for Al{N}')
+        # if world.rank == 0:
+        print(f'Calculating EOS for Al{N}')
 
         # Define electron calculator (GPAW)
         calc = GPAW(
@@ -43,8 +43,8 @@ for clust in allClust:
         )  # Use the same calculator as in task6
         atoms.set_calculator(calc)
         pot_e = atoms.get_potential_energy()  # Self-constistently optimize the electron density
-        if world.rank == 0:
-            print(f'Cluster Al{N} finished potential energy per atom: {pot_e / N:.2f} eV')
+        # if world.rank == 0:
+        print(f'Cluster Al{N} finished potential energy per atom: {pot_e / N:.2f} eV')
 
         # Get the electronic DOS
         dos = DOS(calc, npts=800, width=0.1)
@@ -55,10 +55,10 @@ for clust in allClust:
         e -= e_f  # Subtract the Fermi level from the energy    
         
         end = time.time()
-        if world.rank == 0:
-            print(f'Cluster Al{N} finished ---- Time: {(end-start):.2f} s')
-            eosDB.write(atoms, data={'energy': e, 'DOS': d})
-            pickle.dump( calc, open( f'./calculators/calc{N}.p', "wb" ) )  # Save the electronic band structure
+        # if world.rank == 0:
+        print(f'Cluster Al{N} finished ---- Time: {(end-start):.2f} s')
+        eosDB.write(atoms, data={'energy': e, 'DOS': d})
+        pickle.dump( calc, open( f'./calculators/calc{N}.p', "wb" ) )  # Save the electronic band structure
     else:
-        if world.rank == 0:
-            print(f'Skipping Al{N}')
+        # if world.rank == 0:
+        print(f'Skipping Al{N}')

@@ -37,8 +37,8 @@ i = 1
 for k in ks:
     start = time.time()
     Etot_old = Etot_new
-    if world.rank == 0:
-        print(f'---- Iteration: {i} ---- k={k} ----')
+    # if world.rank == 0:
+    print(f'---- Iteration: {i} ---- k={k} ----')
 
     calc = GPAW(
             mode=PW(300),                 # cutoff
@@ -48,21 +48,21 @@ for k in ks:
     atoms.set_calculator(calc)
     Etot_new = atoms.get_potential_energy()  # Calculates the total DFT energy of the bulk material
     end = time.time()
-    
-    if world.rank == 0:
-        print(f'Energy: {Etot_new:.4f} eV ---- Time: {(end-start):.2f} s')
+
+    # if world.rank == 0:
+    print(f'Energy: {Etot_new:.4f} eV ---- Time: {(end-start):.2f} s')
     E.append(Etot_new)
     if np.abs(Etot_new - Etot_old) < tol:
         break
     else:
-        if world.rank == 0:
-            i += 1
+        # if world.rank == 0:
+        i += 1
 
 # Save calculator state and write to DB
-if world.rank == 0:
-    bulkDB.write(atoms, data={'energies': E, 'ks': ks})
-    calc.write('bulkConverge.gpw')
-    print('Written to DB')
+# if world.rank == 0:
+bulkDB.write(atoms, data={'energies': E, 'ks': ks})
+calc.write('bulkConverge.gpw')
+print('Written to DB')
 
 
 
