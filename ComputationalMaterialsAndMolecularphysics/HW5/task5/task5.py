@@ -1,3 +1,6 @@
+# Internal imports
+import time
+
 # External imports
 import numpy as np
 
@@ -14,7 +17,7 @@ from gpaw import GPAW, PW
 Perform GPAW DFT calculation of the electron density of states
 for the nanoparticles with N < 100. 
 '''
-
+print("Starting task5.py script")
 # Connect to DB
 structDB = connect('../CourseGitRepo/HA5_Al-clusters-initial.db')
 eosDB = connect('./eos.db', append=False)
@@ -29,6 +32,7 @@ for clust in allClust:
     atoms = clust.toatoms()
     N = len(atoms.positions)
     if(N<100):
+        start = time.time()
         if world.rank == 0:
             print(f'Calculating EOS for Al{N}')
         # Define electron calculator (GPAW)
@@ -45,7 +49,9 @@ for clust in allClust:
         # d = dos.get_dos()
         # e = dos.get_energies()
         e, dos = calc.get_dos(spin=0, npts=201, width=None)
+        end = time.time()
         if world.rank == 0:
+            print(f'Cluster Al{N} finished ---- Time: {(end-start):.2f} s')
             eosDB.write(atoms, data={'energy': e, 'DOS': dos})
     else:
         if world.rank == 0:
