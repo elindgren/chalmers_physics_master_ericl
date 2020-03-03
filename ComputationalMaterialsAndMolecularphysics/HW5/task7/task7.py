@@ -54,7 +54,7 @@ calc = GPAW(
     kpts={'path': 'GXWKL', 'npoints': 60},
     convergence={'bands': 8}
 )
-calc.get_potential_energy  # Converge the system
+calc.get_potential_energy()  # Converge the system
 
 # Get band structure and dos
 Ebs = calc.band_structure()  # Get the band structure
