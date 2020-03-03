@@ -15,5 +15,5 @@ module purge
 module load intel/2019a GPAW ASE
 
 echo ------------------ Task 6 start ------------------
-mpirun -np=10 gpaw-python task6.py
+mpirun gpaw-python task6.py
 echo ------------------ Task 6 done -------------------
