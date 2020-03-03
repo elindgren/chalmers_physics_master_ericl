@@ -1,7 +1,151 @@
-slurmstepd: error: Detected 1 oom-kill event(s) in step 10693385.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
-srun: error: hebbe08-4: task 0: Out Of Memory
-[mpiexec@hebbe08-4] HYDT_bscu_wait_for_completion (../../tools/bootstrap/utils/bscu_wait.c:151): one of the processes terminated badly; aborting
-[mpiexec@hebbe08-4] HYDT_bsci_wait_for_completion (../../tools/bootstrap/src/bsci_wait.c:36): launcher returned error waiting for completion
-[mpiexec@hebbe08-4] HYD_pmci_wait_for_completion (../../pm/pmiserv/pmiserv_pmci.c:540): launcher returned error waiting for completion
-[mpiexec@hebbe08-4] main (../../ui/mpich/mpiexec.c:1157): process manager error waiting for completion
-slurmstepd: error: Detected 1 oom-kill event(s) in step 10693385.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+rank=2 L00: Traceback (most recent call last):
+rank=2 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=2 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=2 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=2 L04:     pkg_name=pkg_name, script_name=fname)
+rank=2 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=2 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=2 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=2 L08:     exec(code, run_globals)
+rank=2 L09:   File "task5.py", line 58, in <module>
+rank=2 L10:     e, dos = atoms.calc.get_dos(spin=0, npts=100, width=None)
+rank=2 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/paw.py", line 403, in get_dos
+rank=2 L12:     w_k = self.wfs.kd.weight_k
+rank=2 L13: AttributeError: 'NoneType' object has no attribute 'kd'
+GPAW CLEANUP (node 2): <class 'AttributeError'> occurred.  Calling MPI_Abort!
+rank=4 L00: Traceback (most recent call last):
+rank=4 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=4 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=4 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=4 L04:     pkg_name=pkg_name, script_name=fname)
+rank=4 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=4 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=4 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=4 L08:     exec(code, run_globals)
+rank=4 L09:   File "task5.py", line 58, in <module>
+rank=4 L10:     e, dos = atoms.calc.get_dos(spin=0, npts=100, width=None)
+rank=4 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/paw.py", line 403, in get_dos
+rank=4 L12:     w_k = self.wfs.kd.weight_k
+rank=4 L13: AttributeError: 'NoneType' object has no attribute 'kd'
+GPAW CLEANUP (node 4): <class 'AttributeError'> occurred.  Calling MPI_Abort!
+rank=5 L00: Traceback (most recent call last):
+rank=5 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=5 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=5 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=5 L04:     pkg_name=pkg_name, script_name=fname)
+rank=5 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=5 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=5 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=5 L08:     exec(code, run_globals)
+rank=5 L09:   File "task5.py", line 58, in <module>
+rank=5 L10:     e, dos = atoms.calc.get_dos(spin=0, npts=100, width=None)
+rank=5 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/paw.py", line 403, in get_dos
+rank=5 L12:     w_k = self.wfs.kd.weight_k
+rank=5 L13: AttributeError: 'NoneType' object has no attribute 'kd'
+GPAW CLEANUP (node 5): <class 'AttributeError'> occurred.  Calling MPI_Abort!
+rank=6 L00: Traceback (most recent call last):
+rank=6 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=6 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=6 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=6 L04:     pkg_name=pkg_name, script_name=fname)
+rank=6 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=6 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=6 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=6 L08:     exec(code, run_globals)
+rank=6 L09:   File "task5.py", line 58, in <module>
+rank=6 L10:     e, dos = atoms.calc.get_dos(spin=0, npts=100, width=None)
+rank=6 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/paw.py", line 403, in get_dos
+rank=6 L12:     w_k = self.wfs.kd.weight_k
+rank=6 L13: AttributeError: 'NoneType' object has no attribute 'kd'
+GPAW CLEANUP (node 6): <class 'AttributeError'> occurred.  Calling MPI_Abort!
+rank=7 L00: Traceback (most recent call last):
+rank=7 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=7 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=7 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=7 L04:     pkg_name=pkg_name, script_name=fname)
+rank=7 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=7 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=7 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=7 L08:     exec(code, run_globals)
+rank=7 L09:   File "task5.py", line 58, in <module>
+rank=7 L10:     e, dos = atoms.calc.get_dos(spin=0, npts=100, width=None)
+rank=7 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/paw.py", line 403, in get_dos
+rank=7 L12:     w_k = self.wfs.kd.weight_k
+rank=7 L13: AttributeError: 'NoneType' object has no attribute 'kd'
+GPAW CLEANUP (node 7): <class 'AttributeError'> occurred.  Calling MPI_Abort!
+rank=9 L00: Traceback (most recent call last):
+rank=9 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=9 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=9 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=9 L04:     pkg_name=pkg_name, script_name=fname)
+rank=9 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=9 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=9 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=9 L08:     exec(code, run_globals)
+rank=9 L09:   File "task5.py", line 58, in <module>
+rank=9 L10:     e, dos = atoms.calc.get_dos(spin=0, npts=100, width=None)
+rank=9 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/paw.py", line 403, in get_dos
+rank=9 L12:     w_k = self.wfs.kd.weight_k
+rank=9 L13: AttributeError: 'NoneType' object has no attribute 'kd'
+GPAW CLEANUP (node 9): <class 'AttributeError'> occurred.  Calling MPI_Abort!
+rank=0 L00: Traceback (most recent call last):
+rank=0 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=0 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=0 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=0 L04:     pkg_name=pkg_name, script_name=fname)
+rank=0 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=0 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=0 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=0 L08:     exec(code, run_globals)
+rank=0 L09:   File "task5.py", line 58, in <module>
+rank=0 L10:     e, dos = atoms.calc.get_dos(spin=0, npts=100, width=None)
+rank=0 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/paw.py", line 403, in get_dos
+rank=0 L12:     w_k = self.wfs.kd.weight_k
+rank=0 L13: AttributeError: 'NoneType' object has no attribute 'kd'
+GPAW CLEANUP (node 0): <class 'AttributeError'> occurred.  Calling MPI_Abort!
+rank=3 L00: Traceback (most recent call last):
+rank=3 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=3 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=3 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=3 L04:     pkg_name=pkg_name, script_name=fname)
+rank=3 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=3 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=3 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=3 L08:     exec(code, run_globals)
+rank=3 L09:   File "task5.py", line 58, in <module>
+rank=3 L10:     e, dos = atoms.calc.get_dos(spin=0, npts=100, width=None)
+rank=3 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/paw.py", line 403, in get_dos
+rank=3 L12:     w_k = self.wfs.kd.weight_k
+rank=3 L13: AttributeError: 'NoneType' object has no attribute 'kd'
+GPAW CLEANUP (node 3): <class 'AttributeError'> occurred.  Calling MPI_Abort!
+rank=8 L00: Traceback (most recent call last):
+rank=8 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=8 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=8 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=8 L04:     pkg_name=pkg_name, script_name=fname)
+rank=8 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=8 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=8 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=8 L08:     exec(code, run_globals)
+rank=8 L09:   File "task5.py", line 58, in <module>
+rank=8 L10:     e, dos = atoms.calc.get_dos(spin=0, npts=100, width=None)
+rank=8 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/paw.py", line 403, in get_dos
+rank=8 L12:     w_k = self.wfs.kd.weight_k
+rank=8 L13: AttributeError: 'NoneType' object has no attribute 'kd'
+GPAW CLEANUP (node 8): <class 'AttributeError'> occurred.  Calling MPI_Abort!
+rank=1 L00: Traceback (most recent call last):
+rank=1 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=1 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=1 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=1 L04:     pkg_name=pkg_name, script_name=fname)
+rank=1 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=1 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=1 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=1 L08:     exec(code, run_globals)
+rank=1 L09:   File "task5.py", line 58, in <module>
+rank=1 L10:     e, dos = atoms.calc.get_dos(spin=0, npts=100, width=None)
+rank=1 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/paw.py", line 403, in get_dos
+rank=1 L12:     w_k = self.wfs.kd.weight_k
+rank=1 L13: AttributeError: 'NoneType' object has no attribute 'kd'
+GPAW CLEANUP (node 1): <class 'AttributeError'> occurred.  Calling MPI_Abort!
+application called MPI_Abort(MPI_COMM_WORLD, 42) - process 0

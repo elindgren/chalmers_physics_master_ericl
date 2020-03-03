@@ -1,0 +1,7 @@
+slurmstepd: error: Detected 1 oom-kill event(s) in step 10736004.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: hebbe12-5: task 0: Out Of Memory
+[mpiexec@hebbe12-5] HYDT_bscu_wait_for_completion (../../tools/bootstrap/utils/bscu_wait.c:151): one of the processes terminated badly; aborting
+[mpiexec@hebbe12-5] HYDT_bsci_wait_for_completion (../../tools/bootstrap/src/bsci_wait.c:36): launcher returned error waiting for completion
+[mpiexec@hebbe12-5] HYD_pmci_wait_for_completion (../../pm/pmiserv/pmiserv_pmci.c:540): launcher returned error waiting for completion
+[mpiexec@hebbe12-5] main (../../ui/mpich/mpiexec.c:1157): process manager error waiting for completion
+slurmstepd: error: Detected 1 oom-kill event(s) in step 10736004.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
