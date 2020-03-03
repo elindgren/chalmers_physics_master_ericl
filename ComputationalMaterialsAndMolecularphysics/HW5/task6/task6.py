@@ -1,4 +1,4 @@
-# System imports
+# Internal imports
 import time
 
 # External imports
@@ -47,7 +47,7 @@ for k in ks:
             txt=f'./gpaw-out/k={k}.txt'   # output file
         )  
     atoms.set_calculator(calc)
-    Etot_new = atoms.get_potential_energy()  # Calculates the total DFT energy of the nanocluster
+    Etot_new = atoms.get_potential_energy()  # Calculates the total DFT energy of the bulk material
     end = time.time()
     if world.rank == 0:
         print(f'Energy: {Etot_new:.4f} eV ---- Time: {(end-start):.2f} s')
