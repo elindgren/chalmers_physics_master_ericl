@@ -17,7 +17,6 @@ from gpaw import GPAW, PW
 Perform GPAW DFT calculation of the electron density of states
 for the nanoparticles with N < 100. 
 '''
-print("Starting task5.py script")
 # Connect to DB
 structDB = connect('../CourseGitRepo/HA5_Al-clusters-initial.db')
 eosDB = connect('./eos.db', append=False)
@@ -41,9 +40,9 @@ for clust in allClust:
             txt=f'./gpaw-out/EOS_{N}.txt'
         )  # Use the same calculator as in task6
         atoms.set_calculator(calc)
+        pot_e = atoms.get_potential_energy()  # Just do this to connect calculator to cluster
         if world.rank == 0:
-            print('Trying to attach calculator to cluster')
-        atoms.get_potential_energy()  # Just do this to connect calculator to cluster
+            print(f'Cluster Al{N} finished potential energy: {pot_e:.2f}')
         # Calculate DOS using ASE
         # dos = DOS(calc, width=0.2)
         # d = dos.get_dos()
