@@ -21,6 +21,7 @@ bulkDB = connect('./bulk.db')
 
 # Extract and plot convergence data
 fig, ax = plt.subplots(figsize=(8,6))
+
 ks = bulkDB[0].data['ks']
 E = bulkDB[0].data['energies']
 ax.plot(ks, E)

@@ -28,7 +28,7 @@ if world.rank == 0:
 
 # Define GPAW calculator - will be used both for electronic and vibrational calculation
 calc = GPAW(
-    mode=PW(300),
+    mode=PW(200),
     kpts=(8,8,8),
     random=True,      # Needed to get many electronic bands for our Si
     txt='Si_calc.txt'
@@ -52,12 +52,17 @@ calc = GPAW(
     fixdensity=True,                        # Fixate the density
     symmetry='off',                         # Check all points along the path
     kpts={'path': 'GXWKL', 'npoints': 60},
-    convergence={'bands': 8}
+    convergence={'bands': 8},
+    txt='Si_calc.txt'
 )
 calc.get_potential_energy()  # Converge the system
+if world.rank == 0:
+    print('Electronic structure converged')
 
 # Get band structure and dos
 Ebs = calc.band_structure()  # Get the band structure
+if world.rank == 0:
+    print('Electronic band structure calculated')
 
 e, dos = calc.get_dos(spin=0, npts=60, width=0.2)  # Get energy and density of states
 e_f = calc.get_fermi_level()  
