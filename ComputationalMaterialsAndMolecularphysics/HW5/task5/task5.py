@@ -1,5 +1,6 @@
 # Internal imports
 import time
+import pickle
 
 # External imports
 import numpy as np
@@ -56,7 +57,8 @@ for clust in allClust:
         end = time.time()
         if world.rank == 0:
             print(f'Cluster Al{N} finished ---- Time: {(end-start):.2f} s')
-            eosDB.write(atoms, data={'energy': e, 'DOS': dos, 'calc': calc})
+            eosDB.write(atoms, data={'energy': e, 'DOS': d})
+            pickle.dump( calc, open( f'./calculators/calc{N}.p', "wb" ) )  # Save the electronic band structure
     else:
         if world.rank == 0:
             print(f'Skipping Al{N}')
