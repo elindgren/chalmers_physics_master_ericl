@@ -36,7 +36,7 @@ calc = GPAW(
 atoms.set_calculator(calc)
 
 # Perform a ground state energy calculation to get the ground state density
-calc.get_potential_energy()
+atoms.get_potential_energy()
 
 # Save the calculator
 calc.write('Si_calc.gpw')

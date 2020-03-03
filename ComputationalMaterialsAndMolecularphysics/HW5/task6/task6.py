@@ -29,7 +29,7 @@ atoms = bulk('Al', 'fcc', a)
 # Converge total energy by increasing k-space sampling until total energy changes by
 # <10^-4 eV. 
 tol = 1e-4
-ks = [4*i for i in np.arange(1,5)]  # Nbr of k-points
+ks = [4*i for i in np.arange(1,7)]  # Nbr of k-points
 Etot_old = 1
 Etot_new = 2
 E = []
