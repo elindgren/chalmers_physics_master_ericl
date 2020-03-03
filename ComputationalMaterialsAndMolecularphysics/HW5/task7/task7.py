@@ -40,12 +40,12 @@ atoms.get_potential_energy()
 
 # Save the calculator
 calc.write('Si_calc.gpw')
-if world.rank == 0:
-    print('Calculator saved')
+# if world.rank == 0:
+print('Calculator saved')
 
 #### Electronic band structure
-if world.rank == 0:
-    print('Electronic structure calculation started')
+# if world.rank == 0:
+print('Electronic structure calculation started')
 calc = GPAW(
     'Si_calc.gpw',
     nbands=16,                              # Include more bands than convergence since metallic
@@ -56,13 +56,13 @@ calc = GPAW(
     txt='Si_calc.txt'
 )
 calc.get_potential_energy()  # Converge the system
-if world.rank == 0:
-    print('Electronic structure converged')
+# if world.rank == 0:
+print('Electronic structure converged')
 
 # Get band structure and dos
 Ebs = calc.band_structure()  # Get the band structure
-if world.rank == 0:
-    print('Electronic band structure calculated')
+# if world.rank == 0:
+print('Electronic band structure calculated')
 
 e, dos = calc.get_dos(spin=0, npts=60, width=0.2)  # Get energy and density of states
 e_f = calc.get_fermi_level()  
@@ -75,12 +75,12 @@ Edos = {
 # Save results
 pickle.dump( Ebs, open( "Ebs.p", "wb" ) )  # Save the electronic band structure
 pickle.dump( Edos, open( "Edos.p", "wb" ) )  # Save the electronic DOS
-if world.rank == 0:
-    print('Electronic structure calculation completed')
+# if world.rank == 0:
+print('Electronic structure calculation completed')
 
 #### Phononic band structure
-if world.rank == 0:
-    print('Phononic structure calculation started')
+# if world.rank == 0:
+print('Phononic structure calculation started')
 calc = GPAW('Si_calc.gpw')  # Load the calculator
 
 # Set up the ASE phonon calculator
@@ -101,5 +101,5 @@ Pdos = ph.get_dos(kpts=(20, 20, 20)).sample_grid(npts=100, width=1e-3)
 # Save results
 pickle.dump( Pbs, open( "Pbs.p", "wb" ) )  # Save the phononic band structure
 pickle.dump( Pdos, open( "Pdos.p", "wb" ) )  # Save the phononic DOS
-if world.rank == 0:
-    print('Phononic structure calculation completed')
+# if world.rank == 0:
+print('Phononic structure calculation completed')
