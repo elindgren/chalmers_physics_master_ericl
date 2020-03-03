@@ -39,8 +39,8 @@ for clust in allClust:
             mode=PW(300),
             txt=f'./gpaw-out/EOS_{N}.txt'
         )  # Use the same calculator as in task6
-        atoms.set_calculator(calc)
-        pot_e = atoms.get_potential_energy()  # Just do this to connect calculator to cluster
+        atoms.calc = calc
+        pot_e = atoms.get_potential_energy()  # Self-constistently optimize the electron density
         if world.rank == 0:
             print(f'Cluster Al{N} finished potential energy: {pot_e:.2f}')
         # Calculate DOS using ASE
