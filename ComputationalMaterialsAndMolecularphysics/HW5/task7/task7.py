@@ -95,7 +95,7 @@ print('Calculator saved')
 # # if world.rank == 0:
 # print('Electronic structure converged')
 
-atoms, calc = restart('Si_calc.gpw.gpw')
+atoms, calc = restart('Si_calc.gpw')
 kpts = {'size': (8,8,8)}
 calc.set(kpts = kpts, fixdensity=True)
 
