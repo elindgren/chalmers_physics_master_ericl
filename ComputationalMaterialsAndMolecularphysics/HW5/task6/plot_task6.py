@@ -25,7 +25,7 @@ dbList = list(bulkDB.select())
 
 ks = dbList[0].data['ks']
 E = dbList[0].data['energies']
-ax.plot(ks[:5], E)
+ax.plot(ks, E)
 
 ax.set_xlabel(r'Number of $k$-points')
 ax.set_ylabel('Energy (eV)')

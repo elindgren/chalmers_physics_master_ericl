@@ -108,12 +108,12 @@ Ebs = atoms.calc.band_structure()  # Get the band structure
 print('Electronic band structure calculated')
 
 e, dos = calc.get_dos(spin=0, npts=60, width=0.2)  # Get energy and density of states
-print('Electronic DOS computed"')
+print('Electronic DOS computed')
 e_f = calc.get_fermi_level()  
-e -= e_f  # Subtract the fermi level from the energy
 Edos = {
     'e': e, 
-    'dos': dos
+    'dos': dos,
+    'fermi': e_f
 } 
 
 # Save results
