@@ -61,7 +61,8 @@ ph.read(acoustic=True)
 # from which Bilbao Cryst gives us 
 # Also here is given optimal vectors https://wiki.fysik.dtu.dk/ase/ase/dft/kpoints.html
 # Use default path for now
-path = atoms.cell.bandpath(path='GXWKGLUWLK', density=100)
+# And here [https://wiki.fysik.dtu.dk/ase/ase/dft/kpoints.html#ase.dft.band_structure.BandStructure]
+path = atoms.cell.bandpath(path='GXWKGLUWLK,UX', density=100)
 
 bs = ph.get_band_structure(path)
 dos = ph.get_dos(kpts=(20,20,20)).sample_grid(npts=100, width=1e-3)

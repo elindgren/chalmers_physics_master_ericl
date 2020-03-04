@@ -52,12 +52,12 @@ for clust in allClust:
         d = dos.get_dos()
 
         e_f = calc.get_fermi_level()  
-        e -= e_f  # Subtract the Fermi level from the energy    
+        # e -= e_f  # Subtract the Fermi level from the energy    
         
         end = time.time()
         # if world.rank == 0:
         print(f'Cluster Al{N} finished ---- Time: {(end-start):.2f} s')
-        eosDB.write(atoms, data={'energy': e, 'DOS': d})
+        eosDB.write(atoms, data={'energy': e, 'DOS': d, 'fermi': e_f})
         calc.write(f'./calculators/calc{N}.gpw')  # Save the calculator
     else:
         # if world.rank == 0:
