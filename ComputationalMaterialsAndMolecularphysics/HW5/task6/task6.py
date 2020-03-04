@@ -1,5 +1,6 @@
 # Internal imports
 import time
+import pickle
 
 # External imports
 import numpy as np
@@ -11,7 +12,7 @@ from ase.build import bulk
 from ase.parallel import world
 
 # GPAW
-from gpaw import GPAW, PW
+from gpaw import GPAW, PW, restart
 
 ''' 
 Perform GPAW DFT calculation for the electronic structure of 
@@ -19,54 +20,100 @@ bulk Al. First find converge number of k-points. Then, converge
 density self-consistently.
 '''
 
-# DBs
-bulkDB = connect('./bulk.db', append=False)  # DB for vibration spectrum
+def convergeK(atoms, tol=1e-4, kstart=4):
+    # Converge total energy by increasing k-space sampling until total energy changes by
+    # <10^-4 eV. 
+
+    # DBs
+    convDB = connect('./bulk.db', append=False)  # DB for electronic spectrum
+
+    k = kstart
+    Etot_old = 1
+    Etot_new = 2
+    E = []
+    ks = []
+    i = 1
+    while np.abs(Etot_new - Etot_old) < tol:
+        start = time.time()
+        Etot_old = Etot_new
+        # if world.rank == 0:
+        print(f'---- Iteration: {i} ---- k={k} ----')
+
+        calc = GPAW(
+                mode=PW(300),                 # cutoff
+                kpts=(k, k, k),               # k-points
+                txt=f'./gpaw-out/k={k}.txt'   # output file
+            )  
+        atoms.set_calculator(calc)
+        Etot_new = atoms.get_potential_energy()  # Calculates the total DFT energy of the bulk material
+        end = time.time()
+
+        # if world.rank == 0:
+        print(f'Energy: {Etot_new:.4f} eV ---- Time: {(end-start):.2f} s')
+        E.append(Etot_new)
+        ks.append(k)
+        k += 4
+        i += 1
+    # Save calculator state and write to DB
+    # if world.rank == 0:
+    convDB.write(atoms, data={'energies': E, 'ks': ks})
+    calc.write('kConverge.gpw')
+    print('Written to DB')
+    return k, calc
+
 
 # Using optimal lattice parameter from task 2
 a = 4.043  # A
 atoms = bulk('Al', 'fcc', a)
 
-# Converge total energy by increasing k-space sampling until total energy changes by
-# <10^-4 eV. 
-tol = 1e-3
-ks = [4*i for i in np.arange(1,11)]  # Nbr of k-points
-Etot_old = 1
-Etot_new = 2
-E = []
-i = 1
-for k in ks:
-    start = time.time()
-    Etot_old = Etot_new
-    # if world.rank == 0:
-    print(f'---- Iteration: {i} ---- k={k} ----')
+# Find optimal k parameter
+k, calc = convergeK(atoms, tol=1e-4, kstart=4)
+print(f'Optimal k-parameter: k={k}')
 
-    calc = GPAW(
-            mode=PW(300),                 # cutoff
-            kpts=(k, k, k),               # k-points
-            txt=f'./gpaw-out/k={k}.txt'   # output file
-        )  
-    atoms.set_calculator(calc)
-    Etot_new = atoms.get_potential_energy()  # Calculates the total DFT energy of the bulk material
-    end = time.time()
+# Perform a ground state energy calculation to get the ground state density
+atoms.get_potential_energy()
 
-    # if world.rank == 0:
-    print(f'Energy: {Etot_new:.4f} eV ---- Time: {(end-start):.2f} s')
-    E.append(Etot_new)
-    if np.abs(Etot_new - Etot_old) < tol:
-        break
-    else:
-        # if world.rank == 0:
-        i += 1
-
-# Save calculator state and write to DB
+# Save the calculator
+calc.write('Al_calc.gpw')
 # if world.rank == 0:
-bulkDB.write(atoms, data={'energies': E, 'ks': ks})
-calc.write('bulkConverge.gpw')
-print('Written to DB')
+print('Calculator saved')
 
+#### Electronic band structure
+# if world.rank == 0:
+print('Electronic structure calculation started')
+atoms, calc = restart('Al_calc.gpw')
+kpts = {'size': (8,8,8)}
+calc.set(kpts = kpts, fixdensity=True)
 
+# calc = GPAW(
+#     'Al_calc.gpw',
+#     nbands=16,                              # Include more bands than convergence since metallic
+#     fixdensity=True,                        # Fixate the density
+#     symmetry='off',                         # Check all points along the path
+#     kpts={'path': 'GXWKL', 'npoints': 60},
+#     convergence={'bands': 8},
+#     txt='Al_calc.txt'
+# )
+# calc.get_potential_energy()  # Converge the system
+# # if world.rank == 0:
+# print('Electronic structure converged')
 
-# Perform self-consistent density calculation using GPAW
+# Get band structure and dos
+Ebs = calc.band_structure()  # Get the band structure
+# if world.rank == 0:
+print('Electronic band structure calculated')
 
+e, dos = calc.get_dos(spin=0, npts=60, width=0.2)  # Get energy and density of states
+print('Electronic DOS computed"')
+e_f = calc.get_fermi_level()  
+e -= e_f  # Subtract the fermi level from the energy
+Edos = {
+    'e': e, 
+    'dos': dos
+} 
 
-# Save to file
+# Save results
+pickle.dump( Ebs, open( "Ebs.p", "wb" ) )  # Save the electronic band structure
+pickle.dump( Edos, open( "Edos.p", "wb" ) )  # Save the electronic DOS
+# if world.rank == 0:
+print('Electronic structure calculation completed')

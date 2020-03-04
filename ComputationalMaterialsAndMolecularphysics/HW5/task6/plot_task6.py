@@ -21,9 +21,14 @@ bulkDB = connect('./bulk.db')
 
 # Extract and plot convergence data
 fig, ax = plt.subplots(figsize=(8,6))
+dbList = list(bulkDB.select())
 
-ks = bulkDB[0].data['ks']
-E = bulkDB[0].data['energies']
-ax.plot(ks, E)
+ks = dbList[0].data['ks']
+E = dbList[0].data['energies']
+ax.plot(ks[:5], E)
+
 ax.set_xlabel(r'Number of $k$-points')
 ax.set_ylabel('Energy (eV)')
+ax.grid()
+plt.tight_layout()
+plt.show()

@@ -47,7 +47,7 @@ for clust in allClust:
         print(f'Cluster Al{N} finished potential energy per atom: {pot_e / N:.2f} eV')
 
         # Get the electronic DOS
-        dos = DOS(calc, npts=800, width=0.1)
+        dos = DOS(calc, npts=800, width=0.2)
         e = dos.get_energies()
         d = dos.get_dos()
 

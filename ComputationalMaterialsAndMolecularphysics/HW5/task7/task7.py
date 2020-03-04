@@ -21,19 +21,55 @@ Uses a GPAW calculator with a PW basis set. Inspiration taken from this example:
 https://wiki.fysik.dtu.dk/gpaw/tutorials/bandstructures/bandstructures.html.
 '''
 
+def convergeK(atoms, tol=1e-4, kstart=4):
+    # Converge total energy by increasing k-space sampling until total energy changes by
+    # <10^-4 eV. 
+
+    # DBs
+    convDB = connect('./bulk.db', append=False)  # DB for electronic spectrum
+
+    k = kstart
+    Etot_old = 1
+    Etot_new = 2
+    E = []
+    ks = []
+    i = 1
+    while np.abs(Etot_new - Etot_old) < tol:
+        start = time.time()
+        Etot_old = Etot_new
+        # if world.rank == 0:
+        print(f'---- Iteration: {i} ---- k={k} ----')
+
+        calc = GPAW(
+                mode=PW(300),                 # cutoff
+                kpts=(k, k, k),               # k-points
+                txt=f'./gpaw-out/k={k}.txt'   # output file
+            )  
+        atoms.set_calculator(calc)
+        Etot_new = atoms.get_potential_energy()  # Calculates the total DFT energy of the bulk material
+        end = time.time()
+
+        # if world.rank == 0:
+        print(f'Energy: {Etot_new:.4f} eV ---- Time: {(end-start):.2f} s')
+        E.append(Etot_new)
+        ks.append(k)
+        k += 4
+        i += 1
+    # Save calculator state and write to DB
+    # if world.rank == 0:
+    convDB.write(atoms, data={'energies': E, 'ks': ks})
+    calc.write('kConverge.gpw')
+    print('Written to DB')
+
+    return k, calc
+
 # Define the Si bulk-structure
 atoms = bulk('Si', 'diamond', 5.43)
-if world.rank == 0:
-    print('System created')
+print('System created')
 
-# Define GPAW calculator - will be used both for electronic and vibrational calculation
-calc = GPAW(
-    mode=PW(200),
-    kpts=(8,8,8),
-    random=True,      # Needed to get many electronic bands for our Si
-    txt='Si_calc.txt'
-)
-atoms.set_calculator(calc)
+# Find optimal k parameter
+k, calc = convergeK(atoms, tol=1e-4, kstart=4)
+print(f'Optimal k-parameter: k={k}')
 
 # Perform a ground state energy calculation to get the ground state density
 atoms.get_potential_energy()
@@ -45,19 +81,24 @@ print('Calculator saved')
 
 #### Electronic band structure
 # if world.rank == 0:
-print('Electronic structure calculation started')
-calc = GPAW(
-    'Si_calc.gpw',
-    nbands=16,                              # Include more bands than convergence since metallic
-    fixdensity=True,                        # Fixate the density
-    symmetry='off',                         # Check all points along the path
-    kpts={'path': 'GXWKL', 'npoints': 60},
-    convergence={'bands': 8},
-    txt='Si_calc.txt'
-)
-calc.get_potential_energy()  # Converge the system
-# if world.rank == 0:
-print('Electronic structure converged')
+# print('Electronic structure calculation started')
+# calc = GPAW(
+#     'Si_calc.gpw',
+#     nbands=16,                              # Include more bands than convergence since metallic
+#     fixdensity=True,                        # Fixate the density
+#     symmetry='off',                         # Check all points along the path
+#     kpts={'path': 'GXWKL', 'npoints': 60},
+#     convergence={'bands': 8},
+#     txt='Si_calc.txt'
+# )
+# calc.get_potential_energy()  # Converge the system
+# # if world.rank == 0:
+# print('Electronic structure converged')
+
+atoms, calc = restart('Si_calc.gpw.gpw')
+kpts = {'size': (8,8,8)}
+calc.set(kpts = kpts, fixdensity=True)
+
 
 # Get band structure and dos
 Ebs = calc.band_structure()  # Get the band structure
@@ -78,6 +119,7 @@ pickle.dump( Edos, open( "Edos.p", "wb" ) )  # Save the electronic DOS
 # if world.rank == 0:
 print('Electronic structure calculation completed')
 
+
 #### Phononic band structure
 # if world.rank == 0:
 print('Phononic structure calculation started')
@@ -88,15 +130,20 @@ N = 7  # Use a 7x7x7 supercell
 ph = Phonons(atoms, calc, supercell=(N, N, N), delta=0.05, name='./phonons/ph_Si')
 
 # Run the phonon calculation
+print('******** Phonon calculation started *********')
 ph.run()  
+print('******** Phonon calculation completed *********')
 ph.read(acoustic=True)
 
 # Define BZ-path - use the same as for the electronic calculation
 path = atoms.cell.bandpath('GXWKL', npoints=60)
 
 # Fetch band structure and dos
+print('******** Calculating phononic band structure *********')
 Pbs = ph.get_band_structure(path)
+print('******** Phononic band structure calculated *********')
 Pdos = ph.get_dos(kpts=(20, 20, 20)).sample_grid(npts=100, width=1e-3)
+print('******** Phononic DOS calculated *********')
 
 # Save results
 pickle.dump( Pbs, open( "Pbs.p", "wb" ) )  # Save the phononic band structure

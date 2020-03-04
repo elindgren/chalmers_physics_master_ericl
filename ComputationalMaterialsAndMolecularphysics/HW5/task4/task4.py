@@ -64,12 +64,22 @@ ph.read(acoustic=True)
 path = atoms.cell.bandpath(path='GXWKGLUWLK', density=100)
 
 bs = ph.get_band_structure(path)
-# dos = ph.get_dos(kpts=(20,20,20)).sample_grid(npts=100, width=1e-3)
+dos = ph.get_dos(kpts=(20,20,20)).sample_grid(npts=100, width=1e-3)
 
 # Plot vibrational and phonon spectrum
-fig, ax = plt.subplots(figsize=(8,6))
+fig, ax = plt.subplots(1,2, figsize=(12,6))
 emax = 0.05
-bs.plot(ax=ax, emin=0.0, emax=emax)
+bs.plot(ax=ax[0], emin=0.0, emax=emax)
+
+# ax[1] = fig.add_axes([.8, .07, .17, .85])
+ax[1].fill_between(dos.weights[0], dos.energy, y2=0, color='grey',
+                   edgecolor='k', lw=1)
+
+ax[1].set_ylim(0, emax)
+ax[1].set_yticks([])
+ax[1].set_xticks([])
+ax[1].set_xlabel("DOS", fontsize=18)
+
 plt.savefig('phonon_task4.png')
 plt.tight_layout()
 plt.show()
