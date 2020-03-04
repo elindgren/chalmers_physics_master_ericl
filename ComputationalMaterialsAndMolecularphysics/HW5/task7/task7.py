@@ -99,6 +99,8 @@ atoms, calc = restart('Si_calc.gpw')
 kpts = {'size': (8,8,8)}
 calc.set(kpts = kpts, fixdensity=True)
 
+# Fix the potential
+calc.get_potential_energy()
 
 # Get band structure and dos
 Ebs = atoms.calc.band_structure()  # Get the band structure
