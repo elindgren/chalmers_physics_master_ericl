@@ -128,7 +128,7 @@ print('Phononic structure calculation started')
 calc = GPAW('Si_calc.gpw')  # Load the calculator
 
 # Set up the ASE phonon calculator
-N = 1  # Use a 7x7x7 supercell
+N = 3  # Use a 7x7x7 supercell
 ph = Phonons(atoms, calc, supercell=(N, N, N), delta=0.05, name='./phonons/ph_Si')
 
 # Run the phonon calculation
