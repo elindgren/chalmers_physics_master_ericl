@@ -98,8 +98,12 @@ calc.set(kpts = kpts, fixdensity=True)
 # # if world.rank == 0:
 # print('Electronic structure converged')
 
+# Fix the potential
+calc.get_potential_energy()
+
 # Get band structure and dos
-Ebs = calc.band_structure()  # Get the band structure
+Ebs = atoms.calc.band_structure()  # Get the band structure
+
 # if world.rank == 0:
 print('Electronic band structure calculated')
 
