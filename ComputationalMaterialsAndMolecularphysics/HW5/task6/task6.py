@@ -33,7 +33,7 @@ def convergeK(atoms, tol=1e-4, kstart=4):
     E = []
     ks = []
     i = 1
-    while np.abs(Etot_new - Etot_old) < tol:
+    while np.abs(Etot_new - Etot_old) > tol:
         start = time.time()
         Etot_old = Etot_new
         # if world.rank == 0:
