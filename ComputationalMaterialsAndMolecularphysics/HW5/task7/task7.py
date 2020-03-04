@@ -109,10 +109,10 @@ print('Electronic band structure calculated')
 
 e, dos = calc.get_dos(spin=0, npts=60, width=0.2)  # Get energy and density of states
 e_f = calc.get_fermi_level()  
-e -= e_f  # Subtract the fermi level from the energy
 Edos = {
     'e': e, 
-    'dos': dos
+    'dos': dos,
+    'fermi': e_f
 } 
 
 # Save results
@@ -128,7 +128,7 @@ print('Phononic structure calculation started')
 calc = GPAW('Si_calc.gpw')  # Load the calculator
 
 # Set up the ASE phonon calculator
-N = 7  # Use a 7x7x7 supercell
+N = 1  # Use a 7x7x7 supercell
 ph = Phonons(atoms, calc, supercell=(N, N, N), delta=0.05, name='./phonons/ph_Si')
 
 # Run the phonon calculation
