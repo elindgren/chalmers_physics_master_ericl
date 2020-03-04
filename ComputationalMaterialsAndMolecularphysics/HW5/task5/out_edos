@@ -1,4 +1,10 @@
 ------------------ Task 5 start ------------------
-Calculating EOS for Al13
-Cluster Al13 finished potential energy: -40.19
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 22996 RUNNING AT hebbe04-9
+=   EXIT CODE: 9
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
 ------------------ Task 5 done -------------------

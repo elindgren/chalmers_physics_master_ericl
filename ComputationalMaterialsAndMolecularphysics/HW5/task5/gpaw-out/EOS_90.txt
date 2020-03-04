@@ -1,0 +1,131 @@
+
+  ___ ___ ___ _ _ _  
+ |   |   |_  | | | | 
+ | | | | | . | | | | 
+ |__ |  _|___|_____|  19.8.1
+ |___|_|             
+
+User:   ericlin@hebbe04-9
+Date:   Tue Mar  3 11:37:30 2020
+Arch:   x86_64
+Pid:    22996
+Python: 3.7.2
+gpaw:   /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw
+_gpaw:  /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/bin/
+        gpaw-python
+ase:    /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase (version 3.18.0)
+numpy:  /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/SciPy-bundle/2019.03/lib/python3.7/site-packages/numpy (version 1.16.2)
+scipy:  /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/SciPy-bundle/2019.03/lib/python3.7/site-packages/scipy (version 1.2.1)
+libxc:  4.3.4
+units:  Angstrom and eV
+cores:  1
+
+Input parameters:
+  mode: {ecut: 300.0,
+         gammacentered: False,
+         name: pw}
+
+System changes: positions, numbers, cell, pbc, initial_charges, initial_magmoms 
+
+Initialize ...
+
+Al-setup:
+  name: Aluminium
+  id: 2e6447feaea722efcff26bf034b25f30
+  Z: 13
+  valence: 3
+  core: 10
+  charge: 0.0
+  file: /apps/Common/Core/GPAW-setups/0.9.20000/Al.LDA.gz
+  compensation charges: gauss, rc=0.34, lmax=2
+  cutoffs: 1.91(filt), 2.36(core),
+  valence states:
+                energy  radius
+    3s(2.00)    -7.830   1.085
+    3p(1.00)    -2.783   1.085
+    *s          19.382   1.085
+    *p          24.428   1.085
+    *d           0.000   1.085
+
+  Using partial waves for Al as LCAO basis
+
+Reference energy: -592057.917662
+
+Spin-paired calculation
+
+Occupation numbers:
+  Fermi-Dirac: width=0.1000 eV
+
+Convergence criteria:
+  Maximum total energy change: 0.0005 eV / electron
+  Maximum integral of absolute density change: 0.0001 electrons
+  Maximum integral of absolute eigenstate change: 4e-08 eV^2
+  Maximum number of iterations: 333
+
+Symmetries present (total): 1
+
+  ( 1  0  0)
+  ( 0  1  0)
+  ( 0  0  1)
+
+1 k-point (Gamma)
+1 k-point in the irreducible part of the Brillouin zone
+       k-points in crystal coordinates                weights
+   0:     0.00000000    0.00000000    0.00000000          1/1
+
+Wave functions: Plane wave expansion
+  Cutoff energy: 300.000 eV
+  Number of coefficients: 154711 (reduced to 77356)
+  Pulay-stress correction: 0.000000 eV/Ang^3 (de/decut=0.000000)
+  Using FFTW library
+  ScaLapack parameters: grid=1x1, blocksize=None
+  Wavefunction extrapolation:
+    Improved wavefunction reuse through dual PAW basis 
+
+Eigensolver
+   Davidson(niter=2, smin=None, normalize=True) 
+
+Densities:
+  Coarse grid: 90*98*98 grid
+  Fine grid: 180*196*196 grid
+  Total Charge: 0.000000 
+
+Density mixing:
+  Method: separate
+  Backend: pulay
+  Linear mixing parameter: 0.05
+  Mixing with 5 old densities
+  Damping of long wave oscillations: 50 
+
+Hamiltonian:
+  XC and Coulomb potentials evaluated on a 180*196*196 grid
+  Using the LDA Exchange-Correlation functional
+ 
+
+Memory estimate:
+  Process memory now: 3292.81 MiB
+  Calculator: 943.93 MiB
+    Density: 400.98 MiB
+      Arrays: 171.46 MiB
+      Localized functions: 163.58 MiB
+      Mixer: 65.95 MiB
+    Hamiltonian: 115.44 MiB
+      Arrays: 112.11 MiB
+      XC: 0.00 MiB
+      Poisson: 0.00 MiB
+      vbar: 3.34 MiB
+    Wavefunctions: 427.50 MiB
+      Arrays psit_nG: 195.94 MiB
+      Eigensolver: 203.95 MiB
+      Projections: 1.48 MiB
+      Projectors: 8.26 MiB
+      PW-descriptor: 17.87 MiB
+
+Total number of cores used: 1
+
+Number of atoms: 90
+Number of atomic orbitals: 360
+Number of bands in calculation: 166
+Bands to converge: occupied states only
+Number of valence electrons: 270
+

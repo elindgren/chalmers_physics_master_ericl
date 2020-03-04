@@ -1,16 +1,13 @@
 ------------------ Task 6 start ------------------
 ---- Iteration: 1 ---- k=4 ----
-Energy: -4.1239 eV ---- Time: 1.32 s
+Energy: -4.1239 eV ---- Time: 1.76 s
 ---- Iteration: 2 ---- k=8 ----
-Energy: -4.1744 eV ---- Time: 1.39 s
+Energy: -4.1744 eV ---- Time: 4.07 s
 ---- Iteration: 3 ---- k=12 ----
-Energy: -4.1694 eV ---- Time: 2.13 s
+Energy: -4.1694 eV ---- Time: 10.45 s
 ---- Iteration: 4 ---- k=16 ----
-Energy: -4.1704 eV ---- Time: 3.52 s
+Energy: -4.1704 eV ---- Time: 22.05 s
 ---- Iteration: 5 ---- k=20 ----
-Energy: -4.1713 eV ---- Time: 5.76 s
----- Iteration: 6 ---- k=24 ----
-Energy: -4.1706 eV ---- Time: 9.04 s
----- Iteration: 7 ---- k=28 ----
-Energy: -4.1708 eV ---- Time: 13.66 s
+Energy: -4.1713 eV ---- Time: 40.60 s
+Written to DB
 ------------------ Task 6 done -------------------
