@@ -1,3 +1,6 @@
+# Internal imports
+import pickle
+
 # External imports
 import numpy as np
 import matplotlib.pyplot as plt
@@ -31,6 +34,17 @@ ax.set_xlabel(r'Number of $k$-points')
 ax.set_ylabel('Energy (eV)')
 ax.grid()
 plt.tight_layout()
-plt.show()
 
 # Extract and plot band structure and DOS
+bs = pickle.load(open( "Ebs.p", "rb" ))
+d = pickle.load(open( "Edos.p", "rb" ))
+
+print(bs)
+
+fig, ax = plt.subplots(1,2, figsize=(12,6))
+# BS
+bs.plot(filename='Al_Electronic_bs.png', ax=ax[0], show=False, emax=10.0)
+# DOS
+ax[1].plot(d['e']-d['fermi'], d['dos'])
+
+plt.show()

@@ -133,7 +133,7 @@ calc = GPAW('Si_calc.gpw')  # Load the calculator
 
 # Set up the ASE phonon calculator
 N = 3  # Use a 3x3x3 supercell
-ph = Phonons(atoms, calc, supercell=(N, N, N), delta=0.1, name='./phonons/ph_Si')
+ph = Phonons(atoms, calc, supercell=(N, N, N), delta=0.05, name='./phonons/ph_Si')
 
 # Run the phonon calculation
 print('******** Phonon calculation started *********')

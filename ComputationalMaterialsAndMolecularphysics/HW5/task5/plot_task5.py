@@ -1,6 +1,7 @@
 # External imports
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 from tqdm import tqdm
 
 # ASE
@@ -20,15 +21,22 @@ plt.rc('legend', fontsize=18)    # legend fontsize
 eosDB = connect('./eos.db')
 
 # Extract and plot convergence data
-fig, ax = plt.subplots(figsize=(8,6))
+# fig, ax = plt.subplots(figsize=(8,6))
+
+fig = plt.figure(figsize=(8,6))
+ax = fig.add_subplot(111, projection='3d')
 dbList = list(eosDB.select())
 
-dos = dbList[3].data['DOS']
-e = dbList[3].data['energy'] - dbList[3].data['fermi']
-ax.plot(e, dos)
+for row in dbList:
+    atoms = row.toatoms()
+    N = len(atoms.positions)
+    dos = row.data['DOS']
+    e = row.data['energy'] - row.data['fermi']
+    ax.plot(e, N*np.ones(len(e)), dos, alpha=0.8)
 
 ax.set_xlabel(r'Energy (eV)')
-ax.set_ylabel('DOS')
+ax.set_ylabel(r'Cluster size $N$')
+ax.set_zlabel('DOS')
 ax.grid()
-plt.tight_layout()
+# plt.tight_layout()
 plt.show()
