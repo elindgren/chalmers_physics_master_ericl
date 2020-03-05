@@ -41,11 +41,17 @@ d = pickle.load(open( "Edos.p", "rb" ))
 
 fig, ax = plt.subplots(1,2, figsize=(12,6))
 # BS
-bs.plot(filename='', ax=ax[0], show=False, emax=10.0)
+bs.plot(filename='', ax=ax[0], show=False)
+# ax[0].set_ylabel(r'Energy relative to $\epsilon_F$ (eV)')
 # DOS
-ax[1].plot(d['e']-d['fermi'], d['dos'])
-ax[1].set_xlabel(r'Energy relative to $\epsilon_F$ (eV)')
-ax[1].set_ylabel('DOS') # TODO set proper units
+# ax[1].plot(d['e']-d['fermi'], d['dos'])
+ax[1].fill_between( d['dos'], d['e'], y2=0, color='grey',
+                   edgecolor='k', lw=1)
+ax[1].set_xlabel('DOS') # TODO set proper units
+lims = (d['e'].min(), d['e'].max())
+ax[0].set_ylim(lims)
+ax[1].set_ylim(lims)
+plt.tight_layout()
 plt.savefig('electronicSi')
 
 # Extract and plot phonon band structure and DOS
