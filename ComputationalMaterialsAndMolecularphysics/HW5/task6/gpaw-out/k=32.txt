@@ -5,10 +5,10 @@
  |__ |  _|___|_____|  19.8.1
  |___|_|             
 
-User:   ericlin@hebbe12-3
-Date:   Thu Mar  5 09:13:52 2020
+User:   ericlin@hebbe17-7
+Date:   Thu Mar  5 12:36:55 2020
 Arch:   x86_64
-Pid:    8300
+Pid:    1364
 Python: 3.7.2
 gpaw:   /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw
 _gpaw:  /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/bin/
@@ -144,7 +144,7 @@ Hamiltonian:
  
 
 Memory estimate:
-  Process memory now: 203.84 MiB
+  Process memory now: 187.34 MiB
   Calculator: 112.18 MiB
     Density: 0.68 MiB
       Arrays: 0.34 MiB
@@ -203,15 +203,15 @@ Effective grid spacing dv^(1/3) = 0.2122
 
                      log10-error:    total        iterations:
            time      wfs    density  energy       fermi  poisson
-iter:   1  09:14:59  +1.20   +inf    -4.174702    2             
-iter:   2  09:15:17  -2.65  -0.95    -4.175582    2             
-iter:   3  09:15:35  -2.74  -0.96    -4.172659    2             
-iter:   4  09:15:53  -3.97  -1.21    -4.170686    2             
-iter:   5  09:16:11  -5.41  -2.16    -4.170986    2             
-iter:   6  09:16:29  -5.05  -2.01    -4.170758    2             
-iter:   7  09:16:47  -6.67  -2.69    -4.170752    2             
-iter:   8  09:17:05  -8.21  -3.75    -4.170752    2             
-iter:   9  09:17:23  -9.59  -4.06    -4.170752    1             
+iter:   1  12:37:43  +1.20   +inf    -4.174702    2             
+iter:   2  12:37:57  -2.65  -0.95    -4.175582    2             
+iter:   3  12:38:10  -2.74  -0.96    -4.172659    2             
+iter:   4  12:38:23  -3.97  -1.21    -4.170686    2             
+iter:   5  12:38:37  -5.41  -2.16    -4.170986    2             
+iter:   6  12:38:50  -5.05  -2.01    -4.170758    2             
+iter:   7  12:39:04  -6.67  -2.69    -4.170752    2             
+iter:   8  12:39:17  -8.21  -3.75    -4.170752    2             
+iter:   9  12:39:31  -9.59  -4.06    -4.170752    1             
 
 Converged after 9 iterations.
 
@@ -249,67 +249,67 @@ Writing to Al_calc.gpw (mode='')
 
 Timing:                              incl.     excl.
 -----------------------------------------------------------
-Hamiltonian:                         0.022     0.000   0.0% |
- Atomic:                             0.018     0.001   0.0% |
-  XC Correction:                     0.017     0.017   0.0% |
- Calculate atomic Hamiltonians:      0.001     0.001   0.0% |
+Hamiltonian:                         0.019     0.000   0.0% |
+ Atomic:                             0.015     0.000   0.0% |
+  XC Correction:                     0.015     0.015   0.0% |
+ Calculate atomic Hamiltonians:      0.000     0.000   0.0% |
  Communicate:                        0.000     0.000   0.0% |
  Initialize Hamiltonian:             0.000     0.000   0.0% |
  Poisson:                            0.000     0.000   0.0% |
  XC 3D grid:                         0.003     0.003   0.0% |
-LCAO initialization:                40.643     0.083   0.0% |
- LCAO eigensolver:                  10.085     0.231   0.1% |
-  Calculate projections:             0.112     0.112   0.1% |
-  DenseAtomicCorrection:             0.496     0.496   0.2% |
-  Distribute overlap matrix:         0.118     0.118   0.1% |
-  Orbital Layouts:                   0.489     0.489   0.2% |
-  Potential matrix:                  0.029     0.029   0.0% |
-  Sum over cells:                    8.609     8.609   3.9% |-|
- LCAO to grid:                      18.659    18.659   8.5% |--|
- Set positions (LCAO WFS):          11.817     1.619   0.7% |
-  Basic WFS set positions:           0.003     0.003   0.0% |
+LCAO initialization:                27.935     0.066   0.0% |
+ LCAO eigensolver:                   6.984     0.117   0.1% |
+  Calculate projections:             0.060     0.060   0.0% |
+  DenseAtomicCorrection:             0.215     0.215   0.1% |
+  Distribute overlap matrix:         0.055     0.055   0.0% |
+  Orbital Layouts:                   0.218     0.218   0.1% |
+  Potential matrix:                  0.027     0.027   0.0% |
+  Sum over cells:                    6.292     6.292   3.9% |-|
+ LCAO to grid:                      11.879    11.879   7.3% |--|
+ Set positions (LCAO WFS):           9.006     1.198   0.7% |
+  Basic WFS set positions:           0.002     0.002   0.0% |
   Basis functions set positions:     0.000     0.000   0.0% |
-  P tci:                             2.934     2.934   1.3% ||
-  ST tci:                            7.231     7.231   3.3% ||
-  mktci:                             0.030     0.030   0.0% |
-PWDescriptor:                        0.279     0.279   0.1% |
-SCF-cycle:                         163.483     4.817   2.2% ||
- Davidson:                         153.094    44.533  20.3% |-------|
-  Apply H:                           8.758     7.155   3.3% ||
-   HMM T:                            1.604     1.604   0.7% |
-  Subspace diag:                    25.203     2.893   1.3% ||
-   calc_h_matrix:                   14.957     5.973   2.7% ||
-    Apply H:                         8.984     7.267   3.3% ||
-     HMM T:                          1.717     1.717   0.8% |
-   diagonalize:                      4.782     4.782   2.2% ||
-   rotate_psi:                       2.571     2.571   1.2% |
-  calc. matrices:                   57.025    39.880  18.1% |------|
-   Apply H:                         17.144    13.931   6.3% |--|
-    HMM T:                           3.213     3.213   1.5% ||
-  diagonalize:                      14.153    14.153   6.4% |--|
-  rotate_psi:                        3.423     3.423   1.6% ||
- Density:                            3.277     0.000   0.0% |
-  Atomic density matrices:           0.605     0.605   0.3% |
-  Mix:                               0.014     0.014   0.0% |
+  P tci:                             2.314     2.314   1.4% ||
+  ST tci:                            5.469     5.469   3.4% ||
+  mktci:                             0.022     0.022   0.0% |
+PWDescriptor:                        0.235     0.235   0.1% |
+SCF-cycle:                         122.036     3.422   2.1% ||
+ Davidson:                         114.242    32.991  20.2% |-------|
+  Apply H:                           6.901     5.697   3.5% ||
+   HMM T:                            1.205     1.205   0.7% |
+  Subspace diag:                    18.936     2.120   1.3% ||
+   calc_h_matrix:                   11.700     4.664   2.9% ||
+    Apply H:                         7.036     5.722   3.5% ||
+     HMM T:                          1.314     1.314   0.8% |
+   diagonalize:                      3.067     3.067   1.9% ||
+   rotate_psi:                       2.049     2.049   1.3% ||
+  calc. matrices:                   45.061    31.288  19.2% |-------|
+   Apply H:                         13.772    11.314   6.9% |--|
+    HMM T:                           2.458     2.458   1.5% ||
+  diagonalize:                       7.692     7.692   4.7% |-|
+  rotate_psi:                        2.661     2.661   1.6% ||
+ Density:                            2.671     0.000   0.0% |
+  Atomic density matrices:           0.429     0.429   0.3% |
+  Mix:                               0.012     0.012   0.0% |
   Multipole moments:                 0.001     0.001   0.0% |
-  Pseudo density:                    2.657     2.602   1.2% |
-   Symmetrize density:               0.056     0.056   0.0% |
- Hamiltonian:                        0.186     0.003   0.0% |
-  Atomic:                            0.144     0.006   0.0% |
-   XC Correction:                    0.138     0.138   0.1% |
-  Calculate atomic Hamiltonians:     0.013     0.013   0.0% |
+  Pseudo density:                    2.229     2.178   1.3% ||
+   Symmetrize density:               0.051     0.051   0.0% |
+ Hamiltonian:                        0.155     0.003   0.0% |
+  Atomic:                            0.124     0.004   0.0% |
+   XC Correction:                    0.120     0.120   0.1% |
+  Calculate atomic Hamiltonians:     0.006     0.006   0.0% |
   Communicate:                       0.000     0.000   0.0% |
   Poisson:                           0.001     0.001   0.0% |
-  XC 3D grid:                        0.024     0.024   0.0% |
- Orthonormalize:                     2.108     0.319   0.1% |
-  calc_s_matrix:                     0.483     0.483   0.2% |
-  inverse-cholesky:                  0.660     0.660   0.3% |
-  projections:                       0.544     0.544   0.2% |
-  rotate_psi_s:                      0.103     0.103   0.0% |
-Set symmetry:                        3.387     3.387   1.5% ||
-Other:                              11.945    11.945   5.4% |-|
+  XC 3D grid:                        0.021     0.021   0.0% |
+ Orthonormalize:                     1.547     0.233   0.1% |
+  calc_s_matrix:                     0.388     0.388   0.2% |
+  inverse-cholesky:                  0.434     0.434   0.3% |
+  projections:                       0.404     0.404   0.2% |
+  rotate_psi_s:                      0.087     0.087   0.1% |
+Set symmetry:                        2.307     2.307   1.4% ||
+Other:                              10.635    10.635   6.5% |--|
 -----------------------------------------------------------
-Total:                                       219.760 100.0%
+Total:                                       163.167 100.0%
 
-Memory usage: 284.86 MiB
-Date: Thu Mar  5 09:17:32 2020
+Memory usage: 268.16 MiB
+Date: Thu Mar  5 12:39:38 2020
