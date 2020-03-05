@@ -1,213 +1,3 @@
-rank=5 L00: Traceback (most recent call last):
-rank=5 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
-rank=5 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
-rank=5 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
-rank=5 L04:     pkg_name=pkg_name, script_name=fname)
-rank=5 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
-rank=5 L06:     mod_name, mod_spec, pkg_name, script_name)
-rank=5 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
-rank=5 L08:     exec(code, run_globals)
-rank=5 L09:   File "task7.py", line 141, in <module>
-rank=5 L10:     ph.run()
-rank=5 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 184, in run
-rank=5 L12:     output = self.__call__(atoms_N)
-rank=5 L13:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 292, in __call__
-rank=5 L14:     forces = atoms_N.get_forces()
-rank=5 L15:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/atoms.py", line 728, in get_forces
-rank=5 L16:     forces = self._calc.get_forces(self)
-rank=5 L17:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 632, in get_forces
-rank=5 L18:     return self.get_property('forces', atoms)
-rank=5 L19:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 668, in get_property
-rank=5 L20:     self.calculate(atoms, [name], system_changes)
-rank=5 L21:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 286, in calculate
-rank=5 L22:     self.set_positions(atoms)
-rank=5 L23:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 476, in set_positions
-rank=5 L24:     self.initialize_positions(atoms)
-rank=5 L25:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 470, in initialize_positions
-rank=5 L26:     self.wfs.set_positions(self.spos_ac, atom_partition)
-rank=5 L27:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/fdpw.py", line 266, in set_positions
-rank=5 L28:     WaveFunctions.set_positions(self, spos_ac, atom_partition)
-rank=5 L29:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/base.py", line 197, in set_positions
-rank=5 L30:     self.kd.symmetry.check(spos_ac)
-rank=5 L31:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/symmetry.py", line 250, in check
-rank=5 L32:     raise RuntimeError('Broken symmetry!')
-rank=5 L33: RuntimeError: Broken symmetry!
-GPAW CLEANUP (node 5): <class 'RuntimeError'> occurred.  Calling MPI_Abort!
-rank=2 L00: Traceback (most recent call last):
-rank=2 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
-rank=2 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
-rank=2 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
-rank=2 L04:     pkg_name=pkg_name, script_name=fname)
-rank=2 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
-rank=2 L06:     mod_name, mod_spec, pkg_name, script_name)
-rank=2 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
-rank=2 L08:     exec(code, run_globals)
-rank=2 L09:   File "task7.py", line 141, in <module>
-rank=2 L10:     ph.run()
-rank=2 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 184, in run
-rank=2 L12:     output = self.__call__(atoms_N)
-rank=2 L13:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 292, in __call__
-rank=2 L14:     forces = atoms_N.get_forces()
-rank=2 L15:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/atoms.py", line 728, in get_forces
-rank=2 L16:     forces = self._calc.get_forces(self)
-rank=2 L17:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 632, in get_forces
-rank=2 L18:     return self.get_property('forces', atoms)
-rank=2 L19:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 668, in get_property
-rank=2 L20:     self.calculate(atoms, [name], system_changes)
-rank=2 L21:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 286, in calculate
-rank=2 L22:     self.set_positions(atoms)
-rank=2 L23:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 476, in set_positions
-rank=2 L24:     self.initialize_positions(atoms)
-rank=2 L25:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 470, in initialize_positions
-rank=2 L26:     self.wfs.set_positions(self.spos_ac, atom_partition)
-rank=2 L27:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/fdpw.py", line 266, in set_positions
-rank=2 L28:     WaveFunctions.set_positions(self, spos_ac, atom_partition)
-rank=2 L29:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/base.py", line 197, in set_positions
-rank=2 L30:     self.kd.symmetry.check(spos_ac)
-rank=2 L31:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/symmetry.py", line 250, in check
-rank=2 L32:     raise RuntimeError('Broken symmetry!')
-rank=2 L33: RuntimeError: Broken symmetry!
-GPAW CLEANUP (node 2): <class 'RuntimeError'> occurred.  Calling MPI_Abort!
-rank=4 L00: Traceback (most recent call last):
-rank=4 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
-rank=4 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
-rank=4 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
-rank=4 L04:     pkg_name=pkg_name, script_name=fname)
-rank=4 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
-rank=4 L06:     mod_name, mod_spec, pkg_name, script_name)
-rank=4 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
-rank=4 L08:     exec(code, run_globals)
-rank=4 L09:   File "task7.py", line 141, in <module>
-rank=4 L10:     ph.run()
-rank=4 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 184, in run
-rank=4 L12:     output = self.__call__(atoms_N)
-rank=4 L13:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 292, in __call__
-rank=4 L14:     forces = atoms_N.get_forces()
-rank=4 L15:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/atoms.py", line 728, in get_forces
-rank=4 L16:     forces = self._calc.get_forces(self)
-rank=4 L17:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 632, in get_forces
-rank=4 L18:     return self.get_property('forces', atoms)
-rank=4 L19:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 668, in get_property
-rank=4 L20:     self.calculate(atoms, [name], system_changes)
-rank=4 L21:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 286, in calculate
-rank=4 L22:     self.set_positions(atoms)
-rank=4 L23:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 476, in set_positions
-rank=4 L24:     self.initialize_positions(atoms)
-rank=4 L25:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 470, in initialize_positions
-rank=4 L26:     self.wfs.set_positions(self.spos_ac, atom_partition)
-rank=4 L27:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/fdpw.py", line 266, in set_positions
-rank=4 L28:     WaveFunctions.set_positions(self, spos_ac, atom_partition)
-rank=4 L29:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/base.py", line 197, in set_positions
-rank=4 L30:     self.kd.symmetry.check(spos_ac)
-rank=4 L31:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/symmetry.py", line 250, in check
-rank=4 L32:     raise RuntimeError('Broken symmetry!')
-rank=4 L33: RuntimeError: Broken symmetry!
-GPAW CLEANUP (node 4): <class 'RuntimeError'> occurred.  Calling MPI_Abort!
-rank=6 L00: Traceback (most recent call last):
-rank=6 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
-rank=6 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
-rank=6 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
-rank=6 L04:     pkg_name=pkg_name, script_name=fname)
-rank=6 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
-rank=6 L06:     mod_name, mod_spec, pkg_name, script_name)
-rank=6 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
-rank=6 L08:     exec(code, run_globals)
-rank=6 L09:   File "task7.py", line 141, in <module>
-rank=6 L10:     ph.run()
-rank=6 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 184, in run
-rank=6 L12:     output = self.__call__(atoms_N)
-rank=6 L13:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 292, in __call__
-rank=6 L14:     forces = atoms_N.get_forces()
-rank=6 L15:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/atoms.py", line 728, in get_forces
-rank=6 L16:     forces = self._calc.get_forces(self)
-rank=6 L17:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 632, in get_forces
-rank=6 L18:     return self.get_property('forces', atoms)
-rank=6 L19:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 668, in get_property
-rank=6 L20:     self.calculate(atoms, [name], system_changes)
-rank=6 L21:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 286, in calculate
-rank=6 L22:     self.set_positions(atoms)
-rank=6 L23:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 476, in set_positions
-rank=6 L24:     self.initialize_positions(atoms)
-rank=6 L25:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 470, in initialize_positions
-rank=6 L26:     self.wfs.set_positions(self.spos_ac, atom_partition)
-rank=6 L27:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/fdpw.py", line 266, in set_positions
-rank=6 L28:     WaveFunctions.set_positions(self, spos_ac, atom_partition)
-rank=6 L29:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/base.py", line 197, in set_positions
-rank=6 L30:     self.kd.symmetry.check(spos_ac)
-rank=6 L31:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/symmetry.py", line 250, in check
-rank=6 L32:     raise RuntimeError('Broken symmetry!')
-rank=6 L33: RuntimeError: Broken symmetry!
-GPAW CLEANUP (node 6): <class 'RuntimeError'> occurred.  Calling MPI_Abort!
-rank=1 L00: Traceback (most recent call last):
-rank=1 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
-rank=1 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
-rank=1 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
-rank=1 L04:     pkg_name=pkg_name, script_name=fname)
-rank=1 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
-rank=1 L06:     mod_name, mod_spec, pkg_name, script_name)
-rank=1 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
-rank=1 L08:     exec(code, run_globals)
-rank=1 L09:   File "task7.py", line 141, in <module>
-rank=1 L10:     ph.run()
-rank=1 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 184, in run
-rank=1 L12:     output = self.__call__(atoms_N)
-rank=1 L13:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 292, in __call__
-rank=1 L14:     forces = atoms_N.get_forces()
-rank=1 L15:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/atoms.py", line 728, in get_forces
-rank=1 L16:     forces = self._calc.get_forces(self)
-rank=1 L17:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 632, in get_forces
-rank=1 L18:     return self.get_property('forces', atoms)
-rank=1 L19:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 668, in get_property
-rank=1 L20:     self.calculate(atoms, [name], system_changes)
-rank=1 L21:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 286, in calculate
-rank=1 L22:     self.set_positions(atoms)
-rank=1 L23:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 476, in set_positions
-rank=1 L24:     self.initialize_positions(atoms)
-rank=1 L25:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 470, in initialize_positions
-rank=1 L26:     self.wfs.set_positions(self.spos_ac, atom_partition)
-rank=1 L27:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/fdpw.py", line 266, in set_positions
-rank=1 L28:     WaveFunctions.set_positions(self, spos_ac, atom_partition)
-rank=1 L29:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/base.py", line 197, in set_positions
-rank=1 L30:     self.kd.symmetry.check(spos_ac)
-rank=1 L31:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/symmetry.py", line 250, in check
-rank=1 L32:     raise RuntimeError('Broken symmetry!')
-rank=1 L33: RuntimeError: Broken symmetry!
-GPAW CLEANUP (node 1): <class 'RuntimeError'> occurred.  Calling MPI_Abort!
-rank=3 L00: Traceback (most recent call last):
-rank=3 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
-rank=3 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
-rank=3 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
-rank=3 L04:     pkg_name=pkg_name, script_name=fname)
-rank=3 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
-rank=3 L06:     mod_name, mod_spec, pkg_name, script_name)
-rank=3 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
-rank=3 L08:     exec(code, run_globals)
-rank=3 L09:   File "task7.py", line 141, in <module>
-rank=3 L10:     ph.run()
-rank=3 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 184, in run
-rank=3 L12:     output = self.__call__(atoms_N)
-rank=3 L13:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 292, in __call__
-rank=3 L14:     forces = atoms_N.get_forces()
-rank=3 L15:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/atoms.py", line 728, in get_forces
-rank=3 L16:     forces = self._calc.get_forces(self)
-rank=3 L17:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 632, in get_forces
-rank=3 L18:     return self.get_property('forces', atoms)
-rank=3 L19:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 668, in get_property
-rank=3 L20:     self.calculate(atoms, [name], system_changes)
-rank=3 L21:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 286, in calculate
-rank=3 L22:     self.set_positions(atoms)
-rank=3 L23:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 476, in set_positions
-rank=3 L24:     self.initialize_positions(atoms)
-rank=3 L25:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 470, in initialize_positions
-rank=3 L26:     self.wfs.set_positions(self.spos_ac, atom_partition)
-rank=3 L27:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/fdpw.py", line 266, in set_positions
-rank=3 L28:     WaveFunctions.set_positions(self, spos_ac, atom_partition)
-rank=3 L29:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/base.py", line 197, in set_positions
-rank=3 L30:     self.kd.symmetry.check(spos_ac)
-rank=3 L31:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/symmetry.py", line 250, in check
-rank=3 L32:     raise RuntimeError('Broken symmetry!')
-rank=3 L33: RuntimeError: Broken symmetry!
-GPAW CLEANUP (node 3): <class 'RuntimeError'> occurred.  Calling MPI_Abort!
 rank=0 L00: Traceback (most recent call last):
 rank=0 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
 rank=0 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
@@ -217,32 +7,57 @@ rank=0 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/li
 rank=0 L06:     mod_name, mod_spec, pkg_name, script_name)
 rank=0 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
 rank=0 L08:     exec(code, run_globals)
-rank=0 L09:   File "task7.py", line 141, in <module>
-rank=0 L10:     ph.run()
-rank=0 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 184, in run
-rank=0 L12:     output = self.__call__(atoms_N)
-rank=0 L13:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 292, in __call__
-rank=0 L14:     forces = atoms_N.get_forces()
-rank=0 L15:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/atoms.py", line 728, in get_forces
-rank=0 L16:     forces = self._calc.get_forces(self)
-rank=0 L17:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 632, in get_forces
-rank=0 L18:     return self.get_property('forces', atoms)
-rank=0 L19:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 668, in get_property
-rank=0 L20:     self.calculate(atoms, [name], system_changes)
-rank=0 L21:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 286, in calculate
-rank=0 L22:     self.set_positions(atoms)
-rank=0 L23:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 476, in set_positions
-rank=0 L24:     self.initialize_positions(atoms)
-rank=0 L25:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 470, in initialize_positions
-rank=0 L26:     self.wfs.set_positions(self.spos_ac, atom_partition)
-rank=0 L27:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/fdpw.py", line 266, in set_positions
-rank=0 L28:     WaveFunctions.set_positions(self, spos_ac, atom_partition)
-rank=0 L29:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/base.py", line 197, in set_positions
-rank=0 L30:     self.kd.symmetry.check(spos_ac)
-rank=0 L31:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/symmetry.py", line 250, in check
-rank=0 L32:     raise RuntimeError('Broken symmetry!')
-rank=0 L33: RuntimeError: Broken symmetry!
-GPAW CLEANUP (node 0): <class 'RuntimeError'> occurred.  Calling MPI_Abort!
+rank=0 L09:   File "task7.py", line 150, in <module>
+rank=0 L10:     ph.read(acoustic=True)
+rank=0 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 395, in read
+rank=0 L12:     fminus_av = pickleload(open(basename + '-.pckl', 'rb'))
+rank=0 L13: EOFError: Ran out of input
+GPAW CLEANUP (node 0): <class 'EOFError'> occurred.  Calling MPI_Abort!
+rank=4 L00: Traceback (most recent call last):
+rank=4 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=4 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=4 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=4 L04:     pkg_name=pkg_name, script_name=fname)
+rank=4 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=4 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=4 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=4 L08:     exec(code, run_globals)
+rank=4 L09:   File "task7.py", line 150, in <module>
+rank=4 L10:     ph.read(acoustic=True)
+rank=4 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 395, in read
+rank=4 L12:     fminus_av = pickleload(open(basename + '-.pckl', 'rb'))
+rank=4 L13: EOFError: Ran out of input
+GPAW CLEANUP (node 4): <class 'EOFError'> occurred.  Calling MPI_Abort!
+rank=5 L00: Traceback (most recent call last):
+rank=5 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=5 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=5 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=5 L04:     pkg_name=pkg_name, script_name=fname)
+rank=5 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=5 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=5 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=5 L08:     exec(code, run_globals)
+rank=5 L09:   File "task7.py", line 150, in <module>
+rank=5 L10:     ph.read(acoustic=True)
+rank=5 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 395, in read
+rank=5 L12:     fminus_av = pickleload(open(basename + '-.pckl', 'rb'))
+rank=5 L13: EOFError: Ran out of input
+GPAW CLEANUP (node 5): <class 'EOFError'> occurred.  Calling MPI_Abort!
+rank=6 L00: Traceback (most recent call last):
+rank=6 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=6 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=6 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=6 L04:     pkg_name=pkg_name, script_name=fname)
+rank=6 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=6 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=6 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=6 L08:     exec(code, run_globals)
+rank=6 L09:   File "task7.py", line 150, in <module>
+rank=6 L10:     ph.read(acoustic=True)
+rank=6 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 395, in read
+rank=6 L12:     fminus_av = pickleload(open(basename + '-.pckl', 'rb'))
+rank=6 L13: EOFError: Ran out of input
+GPAW CLEANUP (node 6): <class 'EOFError'> occurred.  Calling MPI_Abort!
 rank=7 L00: Traceback (most recent call last):
 rank=7 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
 rank=7 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
@@ -252,67 +67,12 @@ rank=7 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/li
 rank=7 L06:     mod_name, mod_spec, pkg_name, script_name)
 rank=7 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
 rank=7 L08:     exec(code, run_globals)
-rank=7 L09:   File "task7.py", line 141, in <module>
-rank=7 L10:     ph.run()
-rank=7 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 184, in run
-rank=7 L12:     output = self.__call__(atoms_N)
-rank=7 L13:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 292, in __call__
-rank=7 L14:     forces = atoms_N.get_forces()
-rank=7 L15:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/atoms.py", line 728, in get_forces
-rank=7 L16:     forces = self._calc.get_forces(self)
-rank=7 L17:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 632, in get_forces
-rank=7 L18:     return self.get_property('forces', atoms)
-rank=7 L19:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 668, in get_property
-rank=7 L20:     self.calculate(atoms, [name], system_changes)
-rank=7 L21:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 286, in calculate
-rank=7 L22:     self.set_positions(atoms)
-rank=7 L23:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 476, in set_positions
-rank=7 L24:     self.initialize_positions(atoms)
-rank=7 L25:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 470, in initialize_positions
-rank=7 L26:     self.wfs.set_positions(self.spos_ac, atom_partition)
-rank=7 L27:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/fdpw.py", line 266, in set_positions
-rank=7 L28:     WaveFunctions.set_positions(self, spos_ac, atom_partition)
-rank=7 L29:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/base.py", line 197, in set_positions
-rank=7 L30:     self.kd.symmetry.check(spos_ac)
-rank=7 L31:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/symmetry.py", line 250, in check
-rank=7 L32:     raise RuntimeError('Broken symmetry!')
-rank=7 L33: RuntimeError: Broken symmetry!
-GPAW CLEANUP (node 7): <class 'RuntimeError'> occurred.  Calling MPI_Abort!
-rank=9 L00: Traceback (most recent call last):
-rank=9 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
-rank=9 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
-rank=9 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
-rank=9 L04:     pkg_name=pkg_name, script_name=fname)
-rank=9 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
-rank=9 L06:     mod_name, mod_spec, pkg_name, script_name)
-rank=9 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
-rank=9 L08:     exec(code, run_globals)
-rank=9 L09:   File "task7.py", line 141, in <module>
-rank=9 L10:     ph.run()
-rank=9 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 184, in run
-rank=9 L12:     output = self.__call__(atoms_N)
-rank=9 L13:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 292, in __call__
-rank=9 L14:     forces = atoms_N.get_forces()
-rank=9 L15:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/atoms.py", line 728, in get_forces
-rank=9 L16:     forces = self._calc.get_forces(self)
-rank=9 L17:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 632, in get_forces
-rank=9 L18:     return self.get_property('forces', atoms)
-rank=9 L19:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 668, in get_property
-rank=9 L20:     self.calculate(atoms, [name], system_changes)
-rank=9 L21:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 286, in calculate
-rank=9 L22:     self.set_positions(atoms)
-rank=9 L23:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 476, in set_positions
-rank=9 L24:     self.initialize_positions(atoms)
-rank=9 L25:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 470, in initialize_positions
-rank=9 L26:     self.wfs.set_positions(self.spos_ac, atom_partition)
-rank=9 L27:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/fdpw.py", line 266, in set_positions
-rank=9 L28:     WaveFunctions.set_positions(self, spos_ac, atom_partition)
-rank=9 L29:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/base.py", line 197, in set_positions
-rank=9 L30:     self.kd.symmetry.check(spos_ac)
-rank=9 L31:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/symmetry.py", line 250, in check
-rank=9 L32:     raise RuntimeError('Broken symmetry!')
-rank=9 L33: RuntimeError: Broken symmetry!
-GPAW CLEANUP (node 9): <class 'RuntimeError'> occurred.  Calling MPI_Abort!
+rank=7 L09:   File "task7.py", line 150, in <module>
+rank=7 L10:     ph.read(acoustic=True)
+rank=7 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 395, in read
+rank=7 L12:     fminus_av = pickleload(open(basename + '-.pckl', 'rb'))
+rank=7 L13: EOFError: Ran out of input
+GPAW CLEANUP (node 7): <class 'EOFError'> occurred.  Calling MPI_Abort!
 rank=8 L00: Traceback (most recent call last):
 rank=8 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
 rank=8 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
@@ -322,31 +82,72 @@ rank=8 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/li
 rank=8 L06:     mod_name, mod_spec, pkg_name, script_name)
 rank=8 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
 rank=8 L08:     exec(code, run_globals)
-rank=8 L09:   File "task7.py", line 141, in <module>
-rank=8 L10:     ph.run()
-rank=8 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 184, in run
-rank=8 L12:     output = self.__call__(atoms_N)
-rank=8 L13:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 292, in __call__
-rank=8 L14:     forces = atoms_N.get_forces()
-rank=8 L15:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/atoms.py", line 728, in get_forces
-rank=8 L16:     forces = self._calc.get_forces(self)
-rank=8 L17:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 632, in get_forces
-rank=8 L18:     return self.get_property('forces', atoms)
-rank=8 L19:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 668, in get_property
-rank=8 L20:     self.calculate(atoms, [name], system_changes)
-rank=8 L21:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 286, in calculate
-rank=8 L22:     self.set_positions(atoms)
-rank=8 L23:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 476, in set_positions
-rank=8 L24:     self.initialize_positions(atoms)
-rank=8 L25:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 470, in initialize_positions
-rank=8 L26:     self.wfs.set_positions(self.spos_ac, atom_partition)
-rank=8 L27:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/fdpw.py", line 266, in set_positions
-rank=8 L28:     WaveFunctions.set_positions(self, spos_ac, atom_partition)
-rank=8 L29:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/base.py", line 197, in set_positions
-rank=8 L30:     self.kd.symmetry.check(spos_ac)
-rank=8 L31:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/symmetry.py", line 250, in check
-rank=8 L32:     raise RuntimeError('Broken symmetry!')
-rank=8 L33: RuntimeError: Broken symmetry!
-GPAW CLEANUP (node 8): <class 'RuntimeError'> occurred.  Calling MPI_Abort!
-application called MPI_Abort(MPI_COMM_WORLD, 42) - process 2
-application called MPI_Abort(MPI_COMM_WORLD, 42) - process 5
+rank=8 L09:   File "task7.py", line 150, in <module>
+rank=8 L10:     ph.read(acoustic=True)
+rank=8 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 395, in read
+rank=8 L12:     fminus_av = pickleload(open(basename + '-.pckl', 'rb'))
+rank=8 L13: EOFError: Ran out of input
+GPAW CLEANUP (node 8): <class 'EOFError'> occurred.  Calling MPI_Abort!
+rank=9 L00: Traceback (most recent call last):
+rank=9 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=9 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=9 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=9 L04:     pkg_name=pkg_name, script_name=fname)
+rank=9 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=9 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=9 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=9 L08:     exec(code, run_globals)
+rank=9 L09:   File "task7.py", line 150, in <module>
+rank=9 L10:     ph.read(acoustic=True)
+rank=9 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 395, in read
+rank=9 L12:     fminus_av = pickleload(open(basename + '-.pckl', 'rb'))
+rank=9 L13: EOFError: Ran out of input
+GPAW CLEANUP (node 9): <class 'EOFError'> occurred.  Calling MPI_Abort!
+rank=1 L00: Traceback (most recent call last):
+rank=1 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=1 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=1 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=1 L04:     pkg_name=pkg_name, script_name=fname)
+rank=1 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=1 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=1 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=1 L08:     exec(code, run_globals)
+rank=1 L09:   File "task7.py", line 150, in <module>
+rank=1 L10:     ph.read(acoustic=True)
+rank=1 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 395, in read
+rank=1 L12:     fminus_av = pickleload(open(basename + '-.pckl', 'rb'))
+rank=1 L13: EOFError: Ran out of input
+GPAW CLEANUP (node 1): <class 'EOFError'> occurred.  Calling MPI_Abort!
+rank=2 L00: Traceback (most recent call last):
+rank=2 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=2 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=2 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=2 L04:     pkg_name=pkg_name, script_name=fname)
+rank=2 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=2 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=2 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=2 L08:     exec(code, run_globals)
+rank=2 L09:   File "task7.py", line 150, in <module>
+rank=2 L10:     ph.read(acoustic=True)
+rank=2 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 395, in read
+rank=2 L12:     fminus_av = pickleload(open(basename + '-.pckl', 'rb'))
+rank=2 L13: EOFError: Ran out of input
+GPAW CLEANUP (node 2): <class 'EOFError'> occurred.  Calling MPI_Abort!
+rank=3 L00: Traceback (most recent call last):
+rank=3 L01:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+rank=3 L02:     runpy.run_path(gpaw_args.script, run_name='__main__')
+rank=3 L03:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+rank=3 L04:     pkg_name=pkg_name, script_name=fname)
+rank=3 L05:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+rank=3 L06:     mod_name, mod_spec, pkg_name, script_name)
+rank=3 L07:   File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+rank=3 L08:     exec(code, run_globals)
+rank=3 L09:   File "task7.py", line 150, in <module>
+rank=3 L10:     ph.read(acoustic=True)
+rank=3 L11:   File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 395, in read
+rank=3 L12:     fminus_av = pickleload(open(basename + '-.pckl', 'rb'))
+rank=3 L13: EOFError: Ran out of input
+GPAW CLEANUP (node 3): <class 'EOFError'> occurred.  Calling MPI_Abort!
+application called MPI_Abort(MPI_COMM_WORLD, 42) - process 4
+application called MPI_Abort(MPI_COMM_WORLD, 42) - process 6
+application called MPI_Abort(MPI_COMM_WORLD, 42) - process 7
