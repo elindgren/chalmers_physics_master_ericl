@@ -59,11 +59,11 @@ ePos = np.array([ ei for ei in e if ei>=0 ])
 # ma = 26.98 * 1.66e-27
 # n = Na*Z*rho/ma
 # freeE = 1.5 * n/d['fermi'] * np.sqrt(ePos/d['fermi'])   
-freeE = 0.1*np.sqrt(ePos)   
-ax[1].plot(freeE, ePos, color='k', label=r'Free electron model, $g(E) \propto \sqrt{E}$')
+freeE = 0.1*np.sqrt(ePos)  # TODO set proper scale
+ax[1].plot(freeE, ePos, color='k', label=r'Free $\rm e^{-}$, $g(E) \propto \sqrt{E}$')
 ax[1].legend(loc='best')
 ax[1].set_xticks([])
-ax[1].set_xlabel(r'DOS $\rm m^{-3}J^{-1}$') # TODO set proper units
+ax[1].set_xlabel(r'DOS ($\rm m^{-3}J^{-1}$)') # TODO set proper units
 ax[1].set_ylabel(r'Energy relative to $\epsilon_F$ (eV)')
 # ax[1].set_ylim(lims)
 plt.tight_layout()

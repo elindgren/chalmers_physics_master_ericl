@@ -1,6 +1,7 @@
 # External imports
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 from tqdm import tqdm
 
 # ASE
@@ -26,8 +27,9 @@ vibDB = connect('./vib.db')
 
 # Plot vibrational spectra
 vFile = open('vib.txt', 'w')
-out(s='-----------------    Cluster Vibrations    -----------------', f=vFile)
-fig, ax = plt.subplots(figsize=(8,6))
+out(s='-----------------------------    Cluster Vibrations    -----------------------------', f=vFile)
+fig = plt.figure(figsize=(9,6))
+ax = fig.add_subplot(111, projection='3d')
 for clust in vibDB.select():
     atoms = clust.toatoms()
     freq = clust.data['frequency']
@@ -36,20 +38,27 @@ for clust in vibDB.select():
     N = len(atoms.positions)
     nModes = len(freq)
     isC = np.iscomplex(freq).sum()
+    isZ = len(freq) - np.count_nonzero(np.real(freq))
     # Print info
     str1 = f'| Al{N} '
     str2 = 'Modes: ' 
     str3 = f' {nModes} '
     str4 = '    Imaginary frequencies: '
-    str5 = f' {isC}  |'
-    out(str1 + str2.rjust(20-len(str1)) +  str3.rjust(15-len(str2)) + str4 + str5, f=vFile)
+    str5 = f' {isC} '
+    str6 = '    Zero frequencies: '
+    str7 = f' {isZ} |'
+    out(str1 + str2.rjust(20-len(str1)) +  str3.rjust(15-len(str2)) + str4 + str5 + str6 + str7, f=vFile)
     # Plot
-    freq = np.real(freq)
-    ax.plot(freq, dos, linewidth=2, markersize=2, marker='o', alpha=0.7, label=f'Al{N}')
+    f_freq = clust.data['f_freq']
+    f_dos = clust.data['f_dos']
+    f_freq = np.real(f_freq)
+    ax.plot(f_freq, N*np.ones(len(f_freq)), f_dos, alpha=0.7, linewidth=2, label=f'Al{N}')
 ax.grid()
-ax.legend(loc='best')
-ax.set_xlabel(r'Frequency ($\rm cm^{-1}$)')
-ax.set_ylabel('DOS')
+ax.legend(loc='upper left')
+ax.set_xlabel(r'Wavenumber ($\rm cm^{-1}$)', labelpad=15)
+ax.set_ylabel(r'Cluster size $N$', labelpad=15)
+ax.set_zlabel(r'DOS ($\rm m^{-3}J^{-1}$)', labelpad=10) # TODO set proper units
+ax.grid()
 plt.tight_layout()
 plt.savefig('figTask3.png')
-out(s='------------------------------------------------------------', f=vFile)
+out(s='------------------------------------------------------------------------------------', f=vFile)

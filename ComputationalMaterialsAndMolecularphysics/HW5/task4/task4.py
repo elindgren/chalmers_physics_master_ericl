@@ -65,6 +65,7 @@ ph.read(acoustic=True)
 path = atoms.cell.bandpath(path='GXWKGLUWLK,UX', density=100)
 
 bs = ph.get_band_structure(path)
+print(f'Number of phonon modes: {bs.energies.shape[2]}')
 dos = ph.get_dos(kpts=(20,20,20)).sample_grid(npts=100, width=1e-3)
 
 # Plot phonon spectrum and DOS
@@ -79,7 +80,7 @@ ax[1].fill_between(dos.weights[0], dos.energy, y2=0, color='grey',
 ax[1].set_ylim(0, emax)
 ax[1].set_yticks([])
 ax[1].set_xticks([])
-ax[1].set_xlabel("DOS", fontsize=18)
+ax[1].set_xlabel(r'DOS ($\rm m^{-3}J^{-1}$)') # TODO set proper units
 
 plt.savefig('phonon_task4.png')
 plt.tight_layout()

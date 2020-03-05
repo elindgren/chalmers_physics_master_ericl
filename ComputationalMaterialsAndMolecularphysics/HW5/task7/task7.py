@@ -112,7 +112,7 @@ Ebs = atoms.calc.band_structure()  # Get the band structure
 if world.rank == 0:
     print('Electronic band structure calculated')
 
-e, dos = calc.get_dos(spin=0, npts=1001, width=0.2)  # Get energy and density of states
+e, dos = calc.get_dos(spin=0, npts=1001, width=0.1)  # Get energy and density of states
 e_f = calc.get_fermi_level()  
 Edos = {
     'e': e, 
@@ -123,6 +123,7 @@ Edos = {
 # Save results
 pickle.dump( Ebs, open( "Ebs.p", "wb" ) )  # Save the electronic band structure
 pickle.dump( Edos, open( "Edos.p", "wb" ) )  # Save the electronic DOS
+calc.write('Si_electrons.gpw')
 if world.rank == 0:
     print('Electronic structure calculation completed')
 
@@ -138,7 +139,7 @@ calc.set(
 
 
 # Set up the ASE phonon calculator
-N = 3  # Use a 3x3x3 supercell
+N = 2  # Use a 2x2x2 supercell
 ph = Phonons(atoms, calc, supercell=(N, N, N), delta=0.05, name='./phonons/ph_Si')
 
 # Run the phonon calculation
@@ -165,5 +166,6 @@ if world.rank == 0:
 # Save results
 pickle.dump( Pbs, open( "Pbs.p", "wb" ) )  # Save the phononic band structure
 pickle.dump( Pdos, open( "Pdos.p", "wb" ) )  # Save the phononic DOS
+calc.write('Si_phonons.gpw')
 if world.rank == 0:
     print('Phononic structure calculation completed')

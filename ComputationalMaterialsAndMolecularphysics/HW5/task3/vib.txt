@@ -1,12 +1,12 @@
------------------    Cluster Vibrations    -----------------
-| Al13       Modes:      38     Imaginary frequencies:  4  |
-| Al23       Modes:      69     Imaginary frequencies:  3  |
-| Al38       Modes:     114     Imaginary frequencies:  3  |
-| Al52       Modes:     156     Imaginary frequencies:  3  |
-| Al71       Modes:     213     Imaginary frequencies:  3  |
-| Al90       Modes:     270     Imaginary frequencies:  3  |
-| Al108      Modes:     324     Imaginary frequencies:  3  |
-| Al138      Modes:     414     Imaginary frequencies:  3  |
-| Al201      Modes:     574     Imaginary frequencies:  3  |
-| Al316      Modes:     948     Imaginary frequencies:  3  |
-------------------------------------------------------------
+-----------------------------    Cluster Vibrations    -----------------------------
+| Al13       Modes:      38     Imaginary frequencies:  4     Zero frequencies:  4 |
+| Al23       Modes:      69     Imaginary frequencies:  3     Zero frequencies:  3 |
+| Al38       Modes:     114     Imaginary frequencies:  3     Zero frequencies:  3 |
+| Al52       Modes:     156     Imaginary frequencies:  3     Zero frequencies:  3 |
+| Al71       Modes:     213     Imaginary frequencies:  3     Zero frequencies:  3 |
+| Al90       Modes:     270     Imaginary frequencies:  3     Zero frequencies:  3 |
+| Al108      Modes:     324     Imaginary frequencies:  3     Zero frequencies:  3 |
+| Al138      Modes:     414     Imaginary frequencies:  3     Zero frequencies:  3 |
+| Al201      Modes:     574     Imaginary frequencies:  3     Zero frequencies:  3 |
+| Al316      Modes:     948     Imaginary frequencies:  3     Zero frequencies:  3 |
+------------------------------------------------------------------------------------
