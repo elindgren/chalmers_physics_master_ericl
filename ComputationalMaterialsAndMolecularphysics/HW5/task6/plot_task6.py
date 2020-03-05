@@ -32,3 +32,5 @@ ax.set_ylabel('Energy (eV)')
 ax.grid()
 plt.tight_layout()
 plt.show()
+
+# Extract and plot band structure and DOS

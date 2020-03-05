@@ -24,7 +24,7 @@ fig, ax = plt.subplots(figsize=(8,6))
 dbList = list(eosDB.select())
 
 dos = dbList[3].data['DOS']
-e = dbList[3].data['energy']
+e = dbList[3].data['energy'] - dbList[3].data['fermi']
 ax.plot(e, dos)
 
 ax.set_xlabel(r'Energy (eV)')

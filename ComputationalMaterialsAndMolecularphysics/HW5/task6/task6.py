@@ -82,7 +82,7 @@ print('Calculator saved')
 # if world.rank == 0:
 print('Electronic structure calculation started')
 atoms, calc = restart('Al_calc.gpw')
-kpts = {'size': (8,8,8)}
+kpts = {'size': (60,60,60)}
 calc.set(kpts = kpts, fixdensity=True)
 
 # calc = GPAW(

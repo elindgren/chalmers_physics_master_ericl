@@ -41,7 +41,7 @@ def convergeK(atoms, tol=1e-4, kstart=4):
         print(f'---- Iteration: {i} ---- k={k} ----')
 
         calc = GPAW(
-                mode=PW(300),                 # cutoff
+                mode=PW(200),                 # cutoff - lower for computational efficiency
                 kpts=(k, k, k),               # k-points
                 txt=f'./gpaw-out/k={k}.txt'   # output file
             )  
@@ -96,7 +96,7 @@ print('Calculator saved')
 # print('Electronic structure converged')
 
 atoms, calc = restart('Si_calc.gpw')
-kpts = {'size': (8,8,8)}
+kpts = {'size': (20,20,20)}
 calc.set(
     kpts = kpts, 
     fixdensity=True,
@@ -132,8 +132,8 @@ print('Phononic structure calculation started')
 calc = GPAW('Si_calc.gpw')  # Load the calculator
 
 # Set up the ASE phonon calculator
-N = 1  # Use a 7x7x7 supercell
-ph = Phonons(atoms, calc, supercell=(N, N, N), delta=0.05, name='./phonons/ph_Si')
+N = 3  # Use a 3x3x3 supercell
+ph = Phonons(atoms, calc, supercell=(N, N, N), delta=0.1, name='./phonons/ph_Si')
 
 # Run the phonon calculation
 print('******** Phonon calculation started *********')
@@ -142,13 +142,13 @@ print('******** Phonon calculation completed *********')
 ph.read(acoustic=True)
 
 # Define BZ-path - use the same as for the electronic calculation
-path = atoms.cell.bandpath('GXWKL', npoints=60)
+path = atoms.cell.bandpath('GXWKGLUWLK,UX', npoints=60)
 
 # Fetch band structure and dos
 print('******** Calculating phononic band structure *********')
 Pbs = ph.get_band_structure(path)
 print('******** Phononic band structure calculated *********')
-Pdos = ph.get_dos(kpts=(20, 20, 20)).sample_grid(npts=100, width=1e-3)
+Pdos = ph.get_dos(kpts=(20, 20, 20)).sample_grid(npts=60, width=1e-3)
 print('******** Phononic DOS calculated *********')
 
 # Save results
