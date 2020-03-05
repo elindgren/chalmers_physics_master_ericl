@@ -29,7 +29,6 @@ dbList = list(bulkDB.select())
 ks = dbList[0].data['ks']
 E = dbList[0].data['energies']
 ax.plot(ks, E)
-
 ax.set_xlabel(r'Number of $k$-points')
 ax.set_ylabel('Energy (eV)')
 ax.grid()
@@ -42,7 +41,7 @@ d = pickle.load(open( "Edos.p", "rb" ))
 
 fig, ax = plt.subplots(1,2, figsize=(12,6))
 # BS
-bs.plot(filename='Al_Electronic_bs.png', ax=ax[0], show=False, emax=10.0)
+bs.plot(filename='', ax=ax[0], show=False, emax=10.0)
 # DOS
 ax[1].plot(d['e']-d['fermi'], d['dos'])
 ax[1].set_xlabel(r'Energy relative to $\epsilon_F$ (eV)')

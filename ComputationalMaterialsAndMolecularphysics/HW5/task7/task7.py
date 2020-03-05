@@ -96,7 +96,8 @@ print('Calculator saved')
 # print('Electronic structure converged')
 
 atoms, calc = restart('Si_calc.gpw')
-kpts = {'size': (20,20,20)}
+# kpts = {'size': (20,20,20)}
+kpts = {'path': 'GXWKL', 'npoints': 60}
 calc.set(
     kpts = kpts, 
     fixdensity=True,
@@ -111,7 +112,7 @@ Ebs = atoms.calc.band_structure()  # Get the band structure
 if world.rank == 0:
     print('Electronic band structure calculated')
 
-e, dos = calc.get_dos(spin=0, npts=60, width=0.2)  # Get energy and density of states
+e, dos = calc.get_dos(spin=0, npts=1001, width=0.2)  # Get energy and density of states
 e_f = calc.get_fermi_level()  
 Edos = {
     'e': e, 
@@ -129,10 +130,13 @@ if world.rank == 0:
 #### Phononic band structure
 # if world.rank == 0:
 print('Phononic structure calculation started')
-calc = GPAW('Si_calc.gpw')  # Load the calculator
+atoms, calc = restart('Si_calc.gpw')
+# kpts = {'size': (20,20,20)}
 calc.set(
+    fixdensity=True,
     symmetry='off',  
 )
+
 
 # Set up the ASE phonon calculator
 N = 3  # Use a 3x3x3 supercell
