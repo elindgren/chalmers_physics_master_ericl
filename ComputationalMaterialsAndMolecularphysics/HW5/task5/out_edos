@@ -1,10 +1,24 @@
 ------------------ Task 5 start ------------------
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 22996 RUNNING AT hebbe04-9
-=   EXIT CODE: 9
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
+Calculating EOS for Al13
+Cluster Al13 finished potential energy per atom: -3.09 eV
+Cluster Al13 finished ---- Time: 98.60 s
+Calculating EOS for Al23
+Cluster Al23 finished potential energy per atom: -3.27 eV
+Cluster Al23 finished ---- Time: 259.57 s
+Calculating EOS for Al38
+Cluster Al38 finished potential energy per atom: -3.41 eV
+Cluster Al38 finished ---- Time: 650.31 s
+Calculating EOS for Al52
+Cluster Al52 finished potential energy per atom: -3.48 eV
+Cluster Al52 finished ---- Time: 1668.55 s
+Calculating EOS for Al71
+Cluster Al71 finished potential energy per atom: -3.56 eV
+Cluster Al71 finished ---- Time: 3128.75 s
+Calculating EOS for Al90
+Cluster Al90 finished potential energy per atom: -3.61 eV
+Cluster Al90 finished ---- Time: 4970.16 s
+Skipping Al108
+Skipping Al138
+Skipping Al201
+Skipping Al316
 ------------------ Task 5 done -------------------

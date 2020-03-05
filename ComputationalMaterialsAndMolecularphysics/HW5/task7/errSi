@@ -1,7 +1,34 @@
-slurmstepd: error: Detected 1 oom-kill event(s) in step 10754194.0 cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
-srun: error: hebbe12-5: task 0: Out Of Memory
-[mpiexec@hebbe12-5] HYDT_bscu_wait_for_completion (../../tools/bootstrap/utils/bscu_wait.c:151): one of the processes terminated badly; aborting
-[mpiexec@hebbe12-5] HYDT_bsci_wait_for_completion (../../tools/bootstrap/src/bsci_wait.c:36): launcher returned error waiting for completion
-[mpiexec@hebbe12-5] HYD_pmci_wait_for_completion (../../pm/pmiserv/pmiserv_pmci.c:540): launcher returned error waiting for completion
-[mpiexec@hebbe12-5] main (../../ui/mpich/mpiexec.c:1157): process manager error waiting for completion
-slurmstepd: error: Detected 1 oom-kill event(s) in step 10754194.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
+Traceback (most recent call last):
+  File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/__init__.py", line 209, in main
+    runpy.run_path(gpaw_args.script, run_name='__main__')
+  File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 263, in run_path
+    pkg_name=pkg_name, script_name=fname)
+  File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 96, in _run_module_code
+    mod_name, mod_spec, pkg_name, script_name)
+  File "/apps/Hebbe7/software/Compiler/GCCcore/8.2.0/Python/3.7.2/lib/python3.7/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "task7.py", line 140, in <module>
+    ph.run()  
+  File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 184, in run
+    output = self.__call__(atoms_N)
+  File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/phonons.py", line 292, in __call__
+    forces = atoms_N.get_forces()
+  File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/atoms.py", line 728, in get_forces
+    forces = self._calc.get_forces(self)
+  File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 632, in get_forces
+    return self.get_property('forces', atoms)
+  File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/ASE/3.18.0-Python-3.7.2/lib/python3.7/site-packages/ase/calculators/calculator.py", line 668, in get_property
+    self.calculate(atoms, [name], system_changes)
+  File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 286, in calculate
+    self.set_positions(atoms)
+  File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 476, in set_positions
+    self.initialize_positions(atoms)
+  File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/calculator.py", line 470, in initialize_positions
+    self.wfs.set_positions(self.spos_ac, atom_partition)
+  File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/fdpw.py", line 266, in set_positions
+    WaveFunctions.set_positions(self, spos_ac, atom_partition)
+  File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/wavefunctions/base.py", line 197, in set_positions
+    self.kd.symmetry.check(spos_ac)
+  File "/apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw/symmetry.py", line 250, in check
+    raise RuntimeError('Broken symmetry!')
+RuntimeError: Broken symmetry!
