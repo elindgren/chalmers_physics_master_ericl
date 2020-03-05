@@ -49,7 +49,7 @@ ax[0].set_ylim(lims)
 # ax[1].plot(d['e']-d['fermi'], d['dos'])
 ax[1].fill_between( d['dos'], d['e']-d['fermi'], y2=0, color='grey',
                    edgecolor='k', lw=1)
-ax[1].set_xlabel('DOS') # TODO set proper units
+ax[1].set_xlabel(r'DOS $\rm m^{-3}J^{-1}$') # TODO set proper units
 ax[1].set_ylabel(r'Energy relative to $\epsilon_F$ (eV)')
 # ax[1].set_ylim(lims)
 plt.tight_layout()

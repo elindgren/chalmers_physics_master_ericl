@@ -37,7 +37,7 @@ for i,row in enumerate(dbList):
 ax.legend(loc='upper left')
 ax.set_xlabel(r'Energy relative to $\epsilon_F$ (eV)', labelpad=10)
 ax.set_ylabel(r'Cluster size $N$', labelpad=10)
-ax.set_zlabel('DOS', labelpad=10) # TODO use correct units
+ax[1].set_xlabel(r'DOS $\rm m^{-3}J^{-1}$') # TODO set proper units
 ax.grid()
 plt.tight_layout()
 plt.savefig('dos_task5')

@@ -42,10 +42,10 @@ d = pickle.load(open( "Edos.p", "rb" ))
 fig, ax = plt.subplots(1,2, figsize=(12,6))
 # BS
 emax=15
-bs.plot(filename='', ax=ax[0], show=False, emin=0, emax=emax)
+bs.plot(filename='', ax=ax[0], show=False, emax=emax)
 ax[0].set_ylabel(r'Energy (eV)')
-# lims = (d['e'].min(), d['e'].max())
-# ax[0].set_ylim(lims)
+lims = (d['e'].min(), d['e'].max())
+ax[0].set_ylim(lims)
 # DOS
 # ax[1].plot(d['e']-d['fermi'], d['dos'])
 e = d['e']-d['fermi']
@@ -53,20 +53,18 @@ ax[1].fill_between( d['dos'], e, y2=0, color='grey',
                    edgecolor='k', lw=1, alpha=0.6)
 ePos = np.array([ ei for ei in e if ei>=0 ])
 # Calculate free electron density
-# Na = 
+# Na = 6.02214076e23  # Avogadro's constant
 # Z = 3 # Nbr of valence electrons of Al
-# rho = 2.72 # g/cm3
-# ma = 
+# rho = 2720 # kg/m3 
+# ma = 26.98 * 1.66e-27
 # n = Na*Z*rho/ma
-n = 1
-freeE = 1.5 * n/d['fermi'] * np.sqrt(ePos/d['fermi'])      
-ax[1].set_ylim(0, emax)
-ax[1].set_yticks([])
-ax[1].set_xticks([])   
-ax[1].plot(freeE, ePos, color='k')
-ax[1].set_xlabel('DOS') # TODO set proper units
+# freeE = 1.5 * n/d['fermi'] * np.sqrt(ePos/d['fermi'])   
+freeE = 0.1*np.sqrt(ePos)   
+ax[1].plot(freeE, ePos, color='k', label=r'Free electron model, $g(E) \propto \sqrt{E}$')
+ax[1].legend(loc='best')
+ax[1].set_xticks([])
+ax[1].set_xlabel(r'DOS $\rm m^{-3}J^{-1}$') # TODO set proper units
 ax[1].set_ylabel(r'Energy relative to $\epsilon_F$ (eV)')
 # ax[1].set_ylim(lims)
-plt.tight_layout()
 plt.tight_layout()
 plt.savefig('electronicAl.png')

@@ -109,8 +109,8 @@ calc.get_potential_energy()
 
 # Get band structure and dos
 Ebs = atoms.calc.band_structure()  # Get the band structure
-# if world.rank == 0:
-print('Electronic band structure calculated')
+if world.rank == 0:
+    print('Electronic band structure calculated')
 
 e, dos = calc.get_dos(spin=0, npts=1001, width=0.2)  # Get energy and density of states
 e_f = calc.get_fermi_level()  
@@ -123,8 +123,8 @@ Edos = {
 # Save results
 pickle.dump( Ebs, open( "Ebs.p", "wb" ) )  # Save the electronic band structure
 pickle.dump( Edos, open( "Edos.p", "wb" ) )  # Save the electronic DOS
-# if world.rank == 0:
-print('Electronic structure calculation completed')
+if world.rank == 0:
+    print('Electronic structure calculation completed')
 
 
 #### Phononic band structure
@@ -142,28 +142,28 @@ N = 3  # Use a 3x3x3 supercell
 ph = Phonons(atoms, calc, supercell=(N, N, N), delta=0.05, name='./phonons/ph_Si')
 
 # Run the phonon calculation
-# if world.rank == 0:
-print('******** Phonon calculation started *********')
+if world.rank == 0:
+    print('******** Phonon calculation started *********')
 ph.run() 
-# if world.rank == 0:
-print('******** Phonon calculation completed *********')
+if world.rank == 0:
+    print('******** Phonon calculation completed *********')
 ph.read(acoustic=True)
 
 # Define BZ-path - use the same as for the electronic calculation
 path = atoms.cell.bandpath('GXWKL', npoints=60)
 
 # Fetch band structure and dos
-# if world.rank == 0:
-print('******** Calculating phononic band structure *********')
+if world.rank == 0:
+    print('******** Calculating phononic band structure *********')
 Pbs = ph.get_band_structure(path)
-# if world.rank == 0:
-print('******** Phononic band structure calculated *********')
+if world.rank == 0:
+    print('******** Phononic band structure calculated *********')
 Pdos = ph.get_dos(kpts=(20, 20, 20)).sample_grid(npts=60, width=1e-3)
-# if world.rank == 0:
-print('******** Phononic DOS calculated *********')
+if world.rank == 0:
+    print('******** Phononic DOS calculated *********')
 
 # Save results
 pickle.dump( Pbs, open( "Pbs.p", "wb" ) )  # Save the phononic band structure
 pickle.dump( Pdos, open( "Pdos.p", "wb" ) )  # Save the phononic DOS
-# if world.rank == 0:
-print('Phononic structure calculation completed')
+if world.rank == 0:
+    print('Phononic structure calculation completed')
