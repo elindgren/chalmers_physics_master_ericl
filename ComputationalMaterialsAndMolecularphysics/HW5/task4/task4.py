@@ -67,7 +67,7 @@ path = atoms.cell.bandpath(path='GXWKGLUWLK,UX', density=100)
 bs = ph.get_band_structure(path)
 dos = ph.get_dos(kpts=(20,20,20)).sample_grid(npts=100, width=1e-3)
 
-# Plot vibrational and phonon spectrum
+# Plot phonon spectrum and DOS
 fig, ax = plt.subplots(1,2, figsize=(12,6))
 emax = 0.05
 bs.plot(ax=ax[0], emin=0.0, emax=emax)

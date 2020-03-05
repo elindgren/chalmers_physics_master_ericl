@@ -23,20 +23,22 @@ eosDB = connect('./eos.db')
 # Extract and plot convergence data
 # fig, ax = plt.subplots(figsize=(8,6))
 
-fig = plt.figure(figsize=(8,6))
+fig = plt.figure(figsize=(9,6))
 ax = fig.add_subplot(111, projection='3d')
 dbList = list(eosDB.select())
 
-for row in dbList:
+for i,row in enumerate(dbList):
     atoms = row.toatoms()
     N = len(atoms.positions)
     dos = row.data['DOS']
     e = row.data['energy'] - row.data['fermi']
-    ax.plot(e, N*np.ones(len(e)), dos, alpha=0.8)
+    ax.plot(e, N*np.ones(len(e)), dos, alpha=1-i*0.1, linewidth=2, label=f'Al{N}')
 
-ax.set_xlabel(r'Energy (eV)')
-ax.set_ylabel(r'Cluster size $N$')
-ax.set_zlabel('DOS')
+ax.legend(loc='upper left')
+ax.set_xlabel(r'Energy relative to $\epsilon_F$ (eV)', labelpad=10)
+ax.set_ylabel(r'Cluster size $N$', labelpad=10)
+ax.set_zlabel('DOS', labelpad=10) # TODO use correct units
 ax.grid()
-# plt.tight_layout()
+plt.tight_layout()
+plt.savefig('dos_task5')
 plt.show()

@@ -130,6 +130,9 @@ if world.rank == 0:
 # if world.rank == 0:
 print('Phononic structure calculation started')
 calc = GPAW('Si_calc.gpw')  # Load the calculator
+calc.set(
+    symmetry='off',  
+)
 
 # Set up the ASE phonon calculator
 N = 3  # Use a 3x3x3 supercell
