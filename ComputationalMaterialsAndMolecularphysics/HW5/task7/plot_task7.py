@@ -64,8 +64,8 @@ bs = pickle.load(open( "Pbs.p", "rb" ))
 dos = pickle.load(open( "Pdos.p", "rb" ))
 
 fig, ax = plt.subplots(1,2, figsize=(12,6))
-emax = 0.05
-bs.plot(ax=ax[0], emin=0.0, emax=emax)
+emax = 0.2
+bs.plot(ax=ax[0], emax=emax)
 
 ax[1].fill_between(dos.weights[0], dos.energy, y2=0, color='grey',
                    edgecolor='k', lw=1)

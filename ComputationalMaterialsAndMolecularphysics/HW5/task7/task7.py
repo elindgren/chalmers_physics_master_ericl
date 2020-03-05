@@ -65,19 +65,21 @@ def convergeK(atoms, tol=1e-4, kstart=4):
 
 # Define the Si bulk-structure
 atoms = bulk('Si', 'diamond', 5.43)
-print('System created')
+if world.rank == 0:
+    print('System created')
 
 # Find optimal k parameter
 k, calc = convergeK(atoms, tol=1e-4, kstart=4)
-print(f'Optimal k-parameter: k={k}')
+if world.rank == 0:
+    print(f'Optimal k-parameter: k={k}')
 
 # Perform a ground state energy calculation to get the ground state density
 atoms.get_potential_energy()
 
 # Save the calculator
 calc.write('Si_calc.gpw')
-# if world.rank == 0:
-print('Calculator saved')
+if world.rank == 0:
+    print('Calculator saved')
 
 #### Electronic band structure
 # if world.rank == 0:
@@ -112,6 +114,13 @@ Ebs = atoms.calc.band_structure()  # Get the band structure
 if world.rank == 0:
     print('Electronic band structure calculated')
 
+# Set new k-mesh to the calculator to get a nice DOS
+kpts = {'size': (28,28,28)}
+calc.set(
+    kpts = kpts, 
+    fixdensity=True,
+    symmetry='off',  
+)
 e, dos = calc.get_dos(spin=0, npts=1001, width=0.1)  # Get energy and density of states
 e_f = calc.get_fermi_level()  
 Edos = {
@@ -166,6 +175,6 @@ if world.rank == 0:
 # Save results
 pickle.dump( Pbs, open( "Pbs.p", "wb" ) )  # Save the phononic band structure
 pickle.dump( Pdos, open( "Pdos.p", "wb" ) )  # Save the phononic DOS
-calc.write('Si_phonons.gpw')
+# calc.write('Si_phonons.gpw') # Don't need to save this calc
 if world.rank == 0:
     print('Phononic structure calculation completed')

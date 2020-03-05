@@ -48,10 +48,11 @@ ax[0].set_ylabel(r'Energy (eV)')
 lims = (d['e'].min(), d['e'].max())
 ax[0].set_ylim(lims)
 # DOS
-# ax[1].plot(d['e']-d['fermi'], d['dos'])
-e = d['e']-d['fermi']
-ax[1].fill_between( d['dos'], e, y2=0, color='grey',
-                   edgecolor='k', lw=1, alpha=0.6)
+# e = d['e']-d['fermi']
+e = d['e']
+# ax[1].fill_between( d['dos'], e, y2=0, color='grey',
+#                    edgecolor='k', lw=1, alpha=0.6)
+ax[1].plot( d['dos'], d['e'], label=r'$g(E)$' )
 ePos = np.array([ ei for ei in e if ei>=0 ])
 # Calculate free electron density
 # Na = 6.02214076e23  # Avogadro's constant
