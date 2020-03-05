@@ -9,7 +9,7 @@ from gpaw import GPAW, restart
 
 # Restart electronicSi calculator and calculate bandgap
 
-_, calc = restart('electronicSi.gpw')
+_, calc = restart('Si_electrons.gpw')
 
 # Indirect bandgap
 gap, p1, p2 = bandgap(calc, direct=False, output='indirectBandgap.txt')
