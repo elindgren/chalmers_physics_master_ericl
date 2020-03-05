@@ -28,12 +28,13 @@ dbList = list(bulkDB.select())
 
 ks = dbList[0].data['ks']
 E = dbList[0].data['energies']
-ax.plot(ks, E)
+ax.plot(ks, E, linewidth=2)
 
 ax.set_xlabel(r'Number of $k$-points')
 ax.set_ylabel('Energy (eV)')
 ax.grid()
 plt.tight_layout()
+plt.savefig('kConvergence.png')
 
 # Extract and plot band electronic band structure and DOS
 bs = pickle.load(open( "Ebs.p", "rb" ))
