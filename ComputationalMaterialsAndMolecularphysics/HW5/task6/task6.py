@@ -108,7 +108,7 @@ Ebs = atoms.calc.band_structure()  # Get the band structure
 # if world.rank == 0:
 print('Electronic band structure calculated')
 
-e, dos = calc.get_dos(spin=0, npts=1001, width=0.2)  # Get energy and density of states
+e, dos = calc.get_dos(spin=0, npts=1001, width=0.5)  # Get energy and density of states
 print('Electronic DOS computed')
 e_f = calc.get_fermi_level()  
 Edos = {
