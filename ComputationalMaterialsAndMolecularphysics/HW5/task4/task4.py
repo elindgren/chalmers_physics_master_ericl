@@ -24,6 +24,23 @@ plt.rc('xtick', labelsize=16)    # fontsize of the tick labels
 plt.rc('ytick', labelsize=16)    # fontsize of the tick labels
 plt.rc('legend', fontsize=16)    # legend fontsize
 
+def soundV(bs, modes):
+    # Get K-points and energies
+    k = bs.path.kpts
+    e = bs.energies
+    N = 20
+    v = 0
+    hbar = 6.582e-16 # eVs
+    fig, ax = plt.subplots(figsize=(8,6))
+    for i in range(modes):
+        omegar = e[0,:N,i] / hbar
+        kr = k[:N,i]
+        if not kr[-1] == 0:
+            # The last mode is overlayed on one of the others
+            v += np.abs( (omegar[-1] - omegar[0]) / (kr[-1] - kr[0]) ) # Å/s
+            ax.plot(k[:N,i], e[0,:N,i])
+    return v/2
+
 # DBs
 vibDB = connect('./vib.db', append=False)  # DB for vibration spectrum
 phonDB = connect('./ph.db', append=False)  # DB for phonon structure and DOS
@@ -65,7 +82,13 @@ ph.read(acoustic=True)
 path = atoms.cell.bandpath(path='GXWKGLUWLK,UX', density=100)
 
 bs = ph.get_band_structure(path)
-print(f'Number of phonon modes: {bs.energies.shape[2]}')
+modes = bs.energies.shape[2]
+print(f'Number of phonon modes: {modes}')
+
+# Compute sound velocity
+v = soundV(bs, modes)
+print(f'Velocity of sound: {v}')
+
 dos = ph.get_dos(kpts=(20,20,20)).sample_grid(npts=100, width=1e-3)
 
 # Plot phonon spectrum and DOS
@@ -84,7 +107,6 @@ ax[1].set_xlabel(r'DOS ($\rm m^{-3}J^{-1}$)') # TODO set proper units
 
 plt.savefig('phonon_task4.png')
 plt.tight_layout()
-plt.show()
 
 
 

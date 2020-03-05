@@ -107,7 +107,7 @@ Ebs = atoms.calc.band_structure()  # Get the band structure
 
 # if world.rank == 0:
 print('Electronic band structure calculated')
-kpts = {'size': (60,60,60)}
+kpts = {'size': (40,40,40)}
 calc.set(
     kpts = kpts, 
     fixdensity=True,
