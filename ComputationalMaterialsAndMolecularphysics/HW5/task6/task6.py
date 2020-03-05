@@ -113,6 +113,8 @@ calc.set(
     fixdensity=True,
     symmetry='off',  
 )
+# Fix the potential
+calc.get_potential_energy()
 
 e, dos = calc.get_dos(spin=0, npts=1001, width=0.5)  # Get energy and density of states
 print('Electronic DOS computed')

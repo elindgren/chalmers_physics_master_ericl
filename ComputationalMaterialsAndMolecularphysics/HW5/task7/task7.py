@@ -121,6 +121,9 @@ calc.set(
     fixdensity=True,
     symmetry='off',  
 )
+# Fix the potential
+calc.get_potential_energy()
+
 e, dos = calc.get_dos(spin=0, npts=1001, width=0.1)  # Get energy and density of states
 e_f = calc.get_fermi_level()  
 Edos = {
