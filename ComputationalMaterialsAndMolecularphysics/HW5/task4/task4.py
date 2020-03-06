@@ -37,9 +37,10 @@ def soundV(bs, modes):
         kr = k[:N,i]
         if not kr[-1] == 0:
             # The last mode is overlayed on one of the others
-            v += np.abs( (omegar[-1] - omegar[0]) / (kr[-1] - kr[0]) ) # Å/s
+            v = np.abs( (omegar[-1] - omegar[0]) / (kr[-1] - kr[0]) ) / 1e10 # Å/s
+            print(v)
             ax.plot(k[:N,i], e[0,:N,i])
-    return v/2
+    return None
 
 # DBs
 vibDB = connect('./vib.db', append=False)  # DB for vibration spectrum
@@ -87,7 +88,6 @@ print(f'Number of phonon modes: {modes}')
 
 # Compute sound velocity
 v = soundV(bs, modes)
-print(f'Velocity of sound: {v}')
 
 dos = ph.get_dos(kpts=(20,20,20)).sample_grid(npts=100, width=1e-3)
 
@@ -103,7 +103,8 @@ ax[1].fill_between(dos.weights[0], dos.energy, y2=0, color='grey',
 ax[1].set_ylim(0, emax)
 ax[1].set_yticks([])
 ax[1].set_xticks([])
-ax[1].set_xlabel(r'DOS ($\rm eV^{-1}$)') # TODO set proper units
+# ax[1].set_xlabel(r'DOS ($\rm eV^{-1}$)') # TODO set proper units
+ax[1].set_xlabel(r'DOS') # TODO set proper units
 
 plt.savefig('phonon_task4.png')
 plt.tight_layout()

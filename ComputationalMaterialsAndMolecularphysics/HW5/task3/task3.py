@@ -57,6 +57,9 @@ for clust in allClust:
         v.combine()  # Combine pickle files
     # Get frequencies and DOS - i.e # of states per frequency
     all_freq = v.get_frequencies()
+    # if N==38:
+    #     print(v.summary())
+    #     print(all_freq)
     (freq, counts) = np.unique(all_freq, return_counts=True)
     fold_freq = v.fold(np.real(freq), np.real(counts), start=0, end=np.real(freq.max()), width=12, normalize=False)
     f_freq = np.array(fold_freq[0])
@@ -65,17 +68,17 @@ for clust in allClust:
     dos = np.array(counts)
     
     # Get number of modes
-    e = False
-    i=0
-    modes = 0
-    while not e:
-        try:
-            v.get_mode(i)
-            modes += 1
-            i += 1
-        except:
-            e = True
-    print(modes)
+    # e = False
+    # i=0
+    # modes = 0
+    # while not e:
+    #     try:
+    #         v.get_mode(i)
+    #         modes += 1
+    #         i += 1
+    #     except:
+    #         e = True
+
     # Save to db
     vibDB.write(atoms, data={'frequency': freq, 'DOS': dos, 'f_freq': f_freq, 'f_dos': f_dos})
 

@@ -57,7 +57,9 @@ ax.grid()
 ax.legend(loc='upper left')
 ax.set_xlabel(r'Wavenumber ($\rm cm^{-1}$)', labelpad=15)
 ax.set_ylabel(r'Cluster size $N$', labelpad=15)
-ax.set_zlabel(r'DOS ($\rm m^{-3}J^{-1}$)', labelpad=10) # TODO set proper units
+# ax.set_zlabel(r'DOS ($\rm cm$)', labelpad=10) # TODO set proper units
+ax.set_zlabel(r'DOS')
+ax.set_zticks([])
 ax.grid()
 plt.tight_layout()
 plt.savefig('figTask3.png')
