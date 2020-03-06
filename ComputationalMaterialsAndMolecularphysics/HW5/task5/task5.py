@@ -39,7 +39,7 @@ for clust in allClust:
         # Define electron calculator (GPAW)
         calc = GPAW(
             mode=PW(200),  # Lower for computational efficiency
-            txt=f'./gpaw-out/EOS_{N}.txt'
+            txt=f'./gpaw-out/EOS_{N}_1core.txt'
         )  # Use the same calculator as in task6
         atoms.set_calculator(calc)
         pot_e = atoms.get_potential_energy()  # Self-constistently optimize the electron density
@@ -74,7 +74,7 @@ for clust in allClust:
         } 
 
         # Save results
-        pickle.dump( Edos, open( f'./dos/Edos_Al{N}.p', "wb" ) )  # Save the electronic DOS
+        pickle.dump( Edos, open( f'./dos/Edos_Al{N}_1core.p', "wb" ) )  # Save the electronic DOS
 
         end = time.time()
         # if world.rank == 0:
