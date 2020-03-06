@@ -19,23 +19,6 @@ plt.rc('xtick', labelsize=18)    # fontsize of the tick labels
 plt.rc('ytick', labelsize=18)    # fontsize of the tick labels
 plt.rc('legend', fontsize=18)    # legend fontsize
 
-# Connect to DB
-bulkDB = connect('./bulk.db')
-
-# Extract and plot convergence data
-fig, ax = plt.subplots(figsize=(8,6))
-dbList = list(bulkDB.select())
-
-ks = dbList[0].data['ks']
-E = dbList[0].data['energies']
-ax.plot(ks, E, linewidth=2)
-
-ax.set_xlabel(r'Number of $k$-points')
-ax.set_ylabel('Energy (eV)')
-ax.grid()
-plt.tight_layout()
-plt.savefig('kConvergence.png')
-
 # Extract and plot band electronic band structure and DOS
 bs = pickle.load(open( "Ebs.p", "rb" ))
 d = pickle.load(open( "Edos.p", "rb" ))
@@ -65,7 +48,6 @@ freeE = 0.1*np.sqrt(ePos)  # TODO set proper scale
 ax[1].plot(ePos, freeE, color='k', label=r'Free $\rm e^{-}$, $g(E) \propto \sqrt{E}$')
 ax[1].legend(loc='best')
 # ax[1].set_xticks([])
-ax[1].set_xlim(-8,6)
 ax[1].set_ylabel(r'DOS ($\rm m^{-3}J^{-1}$)') # TODO set proper units
 ax[1].set_xlabel(r'Energy relative to $\epsilon_F$ (eV)')
 # ax[1].set_ylim(lims)

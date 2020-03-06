@@ -33,8 +33,8 @@ for clust in allClust:
     N = len(atoms.positions)
     if(N<100):
         start = time.time()
-        # if world.rank == 0:
-        print(f'Calculating EOS for Al{N}')
+        if world.rank == 0:
+            print(f'Calculating EOS for Al{N}')
 
         # Define electron calculator (GPAW)
         calc = GPAW(
@@ -43,22 +43,44 @@ for clust in allClust:
         )  # Use the same calculator as in task6
         atoms.set_calculator(calc)
         pot_e = atoms.get_potential_energy()  # Self-constistently optimize the electron density
-        # if world.rank == 0:
-        print(f'Cluster Al{N} finished potential energy per atom: {pot_e / N:.2f} eV')
+        if world.rank == 0:
+            print(f'Cluster Al{N} finished potential energy per atom: {pot_e / N:.2f} eV')
 
         # Get the electronic DOS
-        dos = DOS(calc, npts=800, width=0.2)
+        dos = DOS(calc, npts=800, width=0.5)
+        
         e = dos.get_energies()
         d = dos.get_dos()
-
         e_f = calc.get_fermi_level()  
         # e -= e_f  # Subtract the Fermi level from the energy    
         
+        ##### Get the DOS using the same method as in task6
+        print('Electronic band structure calculated')
+        kpts = {'size': (40,40,40)}
+        calc.set(
+            kpts = kpts, 
+            fixdensity=True,
+            symmetry='off',  
+        )
+        # Fix the potential
+        calc.get_potential_energy()
+        e, dos = calc.get_dos(spin=0, npts=1001, width=0.5)  # Get energy and density of states
+        e_f = calc.get_fermi_level()  
+
+        Edos = {
+            'e': e, 
+            'dos': dos,
+            'fermi': e_f
+        } 
+
+        # Save results
+        pickle.dump( Edos, open( f'./dos/Edos_Al{N}.p', "wb" ) )  # Save the electronic DOS
+
         end = time.time()
-        # if world.rank == 0:
-        print(f'Cluster Al{N} finished ---- Time: {(end-start):.2f} s')
+        if world.rank == 0:
+            print(f'Cluster Al{N} finished ---- Time: {(end-start):.2f} s')
         eosDB.write(atoms, data={'energy': e, 'DOS': d, 'fermi': e_f})
         calc.write(f'./calculators/calc{N}.gpw')  # Save the calculator
     else:
-        # if world.rank == 0:
-        print(f'Skipping Al{N}')
+        if world.rank == 0:
+            print(f'Skipping Al{N}')
