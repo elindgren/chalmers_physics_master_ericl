@@ -52,7 +52,7 @@ ax[0].set_ylim(lims)
 # ax[1].fill_between( d['dos'], d['e']-d['fermi'], y2=0, color='grey',
 #                    edgecolor='k', lw=1)
 ax[1].plot(d['dos'], d['e']-d['fermi'])
-ax[1].set_xlabel(r'DOS $\rm m^{-3}J^{-1}$') # TODO set proper units
+ax[1].set_xlabel(r'DOS ($\rm eV^{-1}$)') # TODO set proper units
 ax[1].set_ylabel(r'Energy relative to $\epsilon_F$ (eV)')
 ax[1].set_xticks([])
 # ax[1].set_ylim(lims)
@@ -72,7 +72,7 @@ ax[1].fill_between(dos.weights[0], dos.energy, y2=0, color='grey',
 
 ax[1].set_ylim(0, emax)
 ax[1].set_xticks([])
-ax[1].set_xlabel(r'DOS ($\rm m^{-3}J^{-1}$)') # TODO set proper units
+ax[1].set_xlabel(r'DOS ($\rm eV^{-1}$)') # TODO set proper units
 plt.savefig('phonon_task7.png')
 plt.tight_layout()
 plt.savefig('phononSi')

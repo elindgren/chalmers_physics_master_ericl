@@ -65,8 +65,7 @@ freeE = 0.1*np.sqrt(ePos)  # TODO set proper scale
 ax[1].plot(ePos, freeE, color='k', label=r'Free $\rm e^{-}$, $g(E) \propto \sqrt{E}$')
 ax[1].legend(loc='best')
 # ax[1].set_xticks([])
-ax[1].set_xlim(-8,6)
-ax[1].set_ylabel(r'DOS ($\rm m^{-3}J^{-1}$)') # TODO set proper units
+ax[1].set_ylabel(r'DOS ($\rm eV^{-1}$)') # TODO set proper units
 ax[1].set_xlabel(r'Energy relative to $\epsilon_F$ (eV)')
 # ax[1].set_ylim(lims)
 plt.tight_layout()

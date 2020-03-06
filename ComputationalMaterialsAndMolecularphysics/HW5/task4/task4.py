@@ -103,7 +103,7 @@ ax[1].fill_between(dos.weights[0], dos.energy, y2=0, color='grey',
 ax[1].set_ylim(0, emax)
 ax[1].set_yticks([])
 ax[1].set_xticks([])
-ax[1].set_xlabel(r'DOS ($\rm m^{-3}J^{-1}$)') # TODO set proper units
+ax[1].set_xlabel(r'DOS ($\rm eV^{-1}$)') # TODO set proper units
 
 plt.savefig('phonon_task4.png')
 plt.tight_layout()
