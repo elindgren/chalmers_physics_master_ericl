@@ -5,10 +5,10 @@
  |__ |  _|___|_____|  19.8.1
  |___|_|             
 
-User:   ericlin@hebbe07-4
-Date:   Fri Mar  6 04:19:33 2020
+User:   ericlin@hebbe09-7
+Date:   Fri Mar  6 04:25:01 2020
 Arch:   x86_64
-Pid:    13672
+Pid:    13433
 Python: 3.7.2
 gpaw:   /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/lib/python3.7/site-packages/gpaw
 _gpaw:  /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/GPAW/19.8.1-Python-3.7.2/bin/
@@ -18,7 +18,7 @@ numpy:  /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.
 scipy:  /apps/Hebbe7/software/MPI/intel/2019.1.144-GCC-8.2.0-2.31.1/impi/2018.4.274/SciPy-bundle/2019.03/lib/python3.7/site-packages/scipy (version 1.2.1)
 libxc:  4.3.4
 units:  Angstrom and eV
-cores:  10
+cores:  1
 
 Input parameters:
   mode: {ecut: 200.0,
@@ -131,26 +131,25 @@ Hamiltonian:
  
 
 Memory estimate:
-  Process memory now: 151.20 MiB
-  Calculator: 24.54 MiB
-    Density: 7.12 MiB
-      Arrays: 3.18 MiB
-      Localized functions: 2.71 MiB
-      Mixer: 1.22 MiB
-    Hamiltonian: 2.14 MiB
-      Arrays: 2.08 MiB
+  Process memory now: 153.51 MiB
+  Calculator: 108.03 MiB
+    Density: 70.36 MiB
+      Arrays: 31.24 MiB
+      Localized functions: 27.11 MiB
+      Mixer: 12.01 MiB
+    Hamiltonian: 20.98 MiB
+      Arrays: 20.42 MiB
       XC: 0.00 MiB
       Poisson: 0.00 MiB
-      vbar: 0.06 MiB
-    Wavefunctions: 15.29 MiB
+      vbar: 0.55 MiB
+    Wavefunctions: 16.68 MiB
       Arrays psit_nG: 5.49 MiB
       Eigensolver: 6.53 MiB
-      Projections: 0.00 MiB
-      Projectors: 0.14 MiB
-      PW-descriptor: 3.13 MiB
+      Projections: 0.04 MiB
+      Projectors: 1.37 MiB
+      PW-descriptor: 3.27 MiB
 
-Total number of cores used: 10
-Domain decomposition: 5 x 2 x 1
+Total number of cores used: 1
 
 Number of atoms: 13
 Number of atomic orbitals: 52
@@ -225,42 +224,42 @@ Effective grid spacing dv^(1/3) = 0.2937
 
                      log10-error:    total        iterations:
            time      wfs    density  energy       fermi  poisson
-iter:   1  04:19:34  +0.27   +inf   -42.420524    5             
-iter:   2  04:19:35  -0.89  -0.76   -42.019105    5             
-iter:   3  04:19:36  -1.14  -0.78   -40.214443    34            
-iter:   4  04:19:37  -2.03  -1.14   -40.254892    6             
-iter:   5  04:19:38  -1.17  -1.11   -41.974959    32            
-iter:   6  04:19:39  -1.08  -0.93   -40.276027    35            
-iter:   7  04:19:40  -2.33  -1.45   -40.222940    5             
-iter:   8  04:19:41  -2.56  -1.48   -40.220908    4             
-iter:   9  04:19:42  -2.85  -1.59   -40.167445    5             
-iter:  10  04:19:42  -3.06  -1.83   -40.150768    3             
-iter:  11  04:19:43  -2.78  -2.02   -40.154857    5             
-iter:  12  04:19:45  -3.37  -2.02   -40.144873    4             
-iter:  13  04:19:46  -3.77  -2.93   -40.145023    3             
-iter:  14  04:19:46  -4.04  -3.16   -40.145056    2             
-iter:  15  04:19:47  -4.23  -3.30   -40.145124    3             
-iter:  16  04:19:48  -4.42  -3.22   -40.145226    3             
-iter:  17  04:19:49  -4.61  -3.02   -40.145343    3             
-iter:  18  04:19:50  -4.82  -2.90   -40.145327    3             
-iter:  19  04:19:51  -4.82  -2.94   -40.145126    3             
-iter:  20  04:19:52  -5.21  -3.51   -40.145131    2             
-iter:  21  04:19:53  -5.41  -3.54   -40.145137    2             
-iter:  22  04:19:54  -5.59  -3.68   -40.145131    3             
-iter:  23  04:19:55  -5.66  -3.64   -40.145153    3             
-iter:  24  04:19:56  -6.00  -3.51   -40.145142    2             
-iter:  25  04:19:57  -5.99  -3.55   -40.145129    3             
-iter:  26  04:19:58  -6.39  -4.51   -40.145130    2             
-iter:  27  04:19:58  -6.60  -4.53   -40.145130    2             
-iter:  28  04:19:59  -6.80  -4.49   -40.145130    2             
-iter:  29  04:20:00  -6.97  -4.50   -40.145130    2             
-iter:  30  04:20:01  -7.17  -4.62   -40.145130    2             
-iter:  31  04:20:02  -7.36  -4.59   -40.145130    2             
-iter:  32  04:20:03  -7.54  -4.61   -40.145130    2             
+iter:   1  04:25:04  +0.27   +inf   -42.420524    5             
+iter:   2  04:25:06  -0.89  -0.76   -42.019105    5             
+iter:   3  04:25:09  -1.14  -0.78   -40.214443    34            
+iter:   4  04:25:11  -2.03  -1.14   -40.254892    6             
+iter:   5  04:25:13  -1.17  -1.11   -41.974959    32            
+iter:   6  04:25:15  -1.08  -0.93   -40.276027    34            
+iter:   7  04:25:17  -2.33  -1.45   -40.222940    5             
+iter:   8  04:25:19  -2.56  -1.48   -40.220908    4             
+iter:   9  04:25:22  -2.85  -1.59   -40.167445    5             
+iter:  10  04:25:24  -3.06  -1.83   -40.150768    3             
+iter:  11  04:25:26  -2.78  -2.02   -40.154857    5             
+iter:  12  04:25:28  -3.37  -2.02   -40.144873    4             
+iter:  13  04:25:30  -3.77  -2.93   -40.145023    3             
+iter:  14  04:25:32  -4.04  -3.16   -40.145056    2             
+iter:  15  04:25:35  -4.23  -3.30   -40.145124    3             
+iter:  16  04:25:37  -4.42  -3.22   -40.145226    3             
+iter:  17  04:25:39  -4.61  -3.02   -40.145343    3             
+iter:  18  04:25:41  -4.82  -2.90   -40.145327    3             
+iter:  19  04:25:43  -4.82  -2.94   -40.145126    3             
+iter:  20  04:25:46  -5.21  -3.51   -40.145131    2             
+iter:  21  04:25:48  -5.41  -3.54   -40.145137    2             
+iter:  22  04:25:50  -5.59  -3.68   -40.145131    3             
+iter:  23  04:25:52  -5.66  -3.64   -40.145153    3             
+iter:  24  04:25:54  -6.00  -3.51   -40.145142    2             
+iter:  25  04:25:57  -5.99  -3.55   -40.145129    3             
+iter:  26  04:25:59  -6.39  -4.51   -40.145130    2             
+iter:  27  04:26:01  -6.60  -4.53   -40.145130    2             
+iter:  28  04:26:03  -6.80  -4.49   -40.145130    2             
+iter:  29  04:26:05  -6.97  -4.50   -40.145130    2             
+iter:  30  04:26:07  -7.17  -4.62   -40.145130    2             
+iter:  31  04:26:10  -7.36  -4.59   -40.145130    2             
+iter:  32  04:26:12  -7.54  -4.61   -40.145130    2             
 
 Converged after 32 iterations.
 
-Dipole moment: (0.000000, -0.000000, 0.000000) |e|*Ang
+Dipole moment: (0.000000, -0.000000, -0.000000) |e|*Ang
 
 Energy contributions relative to reference atoms: (reference = -85519.476996)
 
@@ -309,118 +308,3 @@ Fermi level: -3.96645
 Gap: 1.224 eV
 Transition (v -> c):
   (s=0, k=0, n=19, [0.00, 0.00, 0.00]) -> (s=0, k=0, n=20, [0.00, 0.00, 0.00])
-Input parameters:
-  fixdensity: True
-  kpts: {size: (40, 40, 40)}
-  symmetry: off
-
-Initialize ...
-
-Al-setup:
-  name: Aluminium
-  id: 2e6447feaea722efcff26bf034b25f30
-  Z: 13
-  valence: 3
-  core: 10
-  charge: 0.0
-  file: /apps/Common/Core/GPAW-setups/0.9.20000/Al.LDA.gz
-  compensation charges: gauss, rc=0.34, lmax=2
-  cutoffs: 1.91(filt), 2.36(core),
-  valence states:
-                energy  radius
-    3s(2.00)    -7.830   1.085
-    3p(1.00)    -2.783   1.085
-    *s          19.382   1.085
-    *p          24.428   1.085
-    *d           0.000   1.085
-
-  Using partial waves for Al as LCAO basis
-
-Reference energy: -85519.476996
-
-Spin-paired calculation
-
-Occupation numbers:
-  Fixed Fermi level
-  Fermi-Dirac: width=0.1000 eV
-
-Convergence criteria:
-  Maximum total energy change: 0.0005 eV / electron
-  Maximum integral of absolute density change: 0.0001 electrons
-  Maximum integral of absolute eigenstate change: 4e-08 eV^2
-  Maximum number of iterations: 333
-
-Symmetries present (total): 1
-
-  ( 1  0  0)
-  ( 0  1  0)
-  ( 0  0  1)
-
-64000 k-points: 40 x 40 x 40 Monkhorst-Pack grid
-64000 k-points in the irreducible part of the Brillouin zone
-       k-points in crystal coordinates                weights
-   0:    -0.48750000   -0.48750000   -0.48750000          1/64000
-   1:    -0.48750000   -0.48750000   -0.46250000          1/64000
-   2:    -0.48750000   -0.48750000   -0.43750000          1/64000
-   3:    -0.48750000   -0.48750000   -0.41250000          1/64000
-   4:    -0.48750000   -0.48750000   -0.38750000          1/64000
-   5:    -0.48750000   -0.48750000   -0.36250000          1/64000
-   6:    -0.48750000   -0.48750000   -0.33750000          1/64000
-   7:    -0.48750000   -0.48750000   -0.31250000          1/64000
-   8:    -0.48750000   -0.48750000   -0.28750000          1/64000
-   9:    -0.48750000   -0.48750000   -0.26250000          1/64000
-          ...
-63999:     0.48750000    0.48750000    0.48750000          1/64000
-
-Wave functions: Plane wave expansion
-  Cutoff energy: 200.000 eV
-  Number of coefficients (min, max): 25588, 25670
-  Pulay-stress correction: 0.000000 eV/Ang^3 (de/decut=0.000000)
-  Using FFTW library
-  ScaLapack parameters: grid=1x1, blocksize=None
-  Wavefunction extrapolation:
-    Improved wavefunction reuse through dual PAW basis 
-
-Eigensolver
-   Davidson(niter=2, smin=None, normalize=True) 
-
-Densities:
-  Coarse grid: 54*54*54 grid
-  Fine grid: 108*108*108 grid
-  Total Charge: 0.000000 
-
-No density mixing
-
-Hamiltonian:
-  XC and Coulomb potentials evaluated on a 108*108*108 grid
-  Using the LDA Exchange-Correlation functional
- 
-
-Memory estimate:
-  Process memory now: 3331.46 MiB
-  Calculator: 90788.67 MiB
-    Density: 70.36 MiB
-      Arrays: 31.24 MiB
-      Localized functions: 27.11 MiB
-      Mixer: 12.01 MiB
-    Hamiltonian: 20.98 MiB
-      Arrays: 20.42 MiB
-      XC: 0.00 MiB
-      Poisson: 0.00 MiB
-      vbar: 0.55 MiB
-    Wavefunctions: 90697.33 MiB
-      Arrays psit_nG: 70191.41 MiB
-      Eigensolver: 13.05 MiB
-      Projections: 462.11 MiB
-      Projectors: 17517.92 MiB
-      PW-descriptor: 2512.84 MiB
-
-Total number of cores used: 10
-Parallelization over k-points: 10
-
-Number of atoms: 13
-Number of atomic orbitals: 52
-Number of bands in calculation: 28
-Bands to converge: occupied states only
-Number of valence electrons: 39
-
