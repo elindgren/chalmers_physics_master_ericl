@@ -12,6 +12,7 @@ from ase.db import connect
 from ase.calculators.eam import EAM
 from ase.vibrations import Vibrations
 from ase.phonons import Phonons
+from ase.optimize import BFGS
 
 
 # Set plot params
@@ -44,6 +45,9 @@ for clust in allClust:
     # Define calculator - mishin
     mishin = EAM(potential='../CourseGitRepo/HA5_al_potential.alloy') # Set up EAM
     atoms.set_calculator(mishin)
+    # Relax structure 
+    dyn = BFGS(atoms, trajectory=f'traj/Al{N}.traj')
+    dyn.run(fmax=0.05)
     # Get vibrational spectrum
     str1 = f'--------        N={N}'
     str2 = '        ---------'

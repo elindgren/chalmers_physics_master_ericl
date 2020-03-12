@@ -39,7 +39,7 @@ eps = np.sqrt(eigVal) * 27.2
 f = np.zeros(len(eigVal))
 for i, e in enumerate(eigVal):
     for alpha, mua_p in enumerate(mu_p):
-        f_ia = 2 * np.abs( np.sum( mua_p * np.sqrt(n*omega) * F[:,i] ) )
+        f_ia = 2 * np.abs( np.sum( mua_p * np.sqrt(n*omega) * F[:,i] ) )**2
         f[i] += f_ia
     f[i] /= 3 # Average over all dipole moments
 

@@ -28,9 +28,8 @@ vibDB = connect('./vib.db')
 # Plot vibrational spectra
 vFile = open('vib.txt', 'w')
 out(s='-----------------------------    Cluster Vibrations    -----------------------------', f=vFile)
-fig = plt.figure(figsize=(9,6))
-ax = fig.add_subplot(111, projection='3d')
-for clust in vibDB.select():
+fig, ax = plt.subplots(figsize=(9,6))
+for i, clust in enumerate(vibDB.select()):
     atoms = clust.toatoms()
     freq = clust.data['frequency']
     dos = clust.data['DOS']
@@ -52,15 +51,16 @@ for clust in vibDB.select():
     f_freq = clust.data['f_freq']
     f_dos = clust.data['f_dos']
     f_freq = np.real(f_freq)
-    ax.plot(f_freq, N*np.ones(len(f_freq)), f_dos, alpha=0.7, linewidth=2, label=f'Al{N}')
-ax.grid()
+    ax.axhline(0.05*i, color='k', alpha=0.2)
+    ax.plot(f_freq, f_dos/nModes + 0.05*i, alpha=0.7, linewidth=2, label=f'Al{N}')
+# ax.grid()
 ax.legend(loc='upper left')
-ax.set_xlabel(r'Wavenumber ($\rm cm^{-1}$)', labelpad=15)
-ax.set_ylabel(r'Cluster size $N$', labelpad=15)
+ax.set_xlabel(r'Wavenumber ($\rm cm^{-1}$)')
+# ax.set_ylabel(r'DOS per mode ($\rm cm$)')
+ax.set_ylabel(r'DOS per mode')
+ax.set_yticks([])
 # ax.set_zlabel(r'DOS ($\rm cm$)', labelpad=10) # TODO set proper units
-ax.set_zlabel(r'DOS')
-ax.set_zticks([])
-ax.grid()
+# ax.set_zlabel(r'DOS')
 plt.tight_layout()
 plt.savefig('figTask3.png')
 out(s='------------------------------------------------------------------------------------', f=vFile)

@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from ase import Atoms
 from ase.db import connect
 from ase.calculators.eam import EAM
+from ase.optimize import BFGS
 
 
 # Set plot params
@@ -36,9 +37,13 @@ for clust in allClust:
     # General info
     atoms = clust.toatoms()
     N = len(atoms.positions)
-    # Calculate cohesive energy
+    # Define calculator
     mishin = EAM(potential='../CourseGitRepo/HA5_al_potential.alloy') # Set up EAM
     atoms.set_calculator(mishin)
+    # Relax structure 
+    dyn = BFGS(atoms, trajectory=f'traj/Al{N}.traj')
+    dyn.run(fmax=0.05)
+    # Calculate cohesive energy
     ECoh = np.abs(atoms.get_potential_energy() / N)  # Cohesive energy is the positive potential energy
     
     # Print results

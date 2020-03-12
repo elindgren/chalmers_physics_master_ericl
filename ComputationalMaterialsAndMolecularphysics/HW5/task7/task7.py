@@ -151,7 +151,7 @@ calc.set(
 
 
 # Set up the ASE phonon calculator
-N = 2  # Use a 2x2x2 supercell
+N = 4  # Use a 2x2x2 supercell
 ph = Phonons(atoms, calc, supercell=(N, N, N), delta=0.05, name='./phonons/ph_Si')
 
 # Run the phonon calculation
@@ -163,7 +163,7 @@ if world.rank == 0:
 ph.read(acoustic=True)
 
 # Define BZ-path - use the same as for the electronic calculation
-path = atoms.cell.bandpath('GXWKL', npoints=60)
+path = atoms.cell.bandpath('GXWKL', npoints=100)
 
 # Fetch band structure and dos
 if world.rank == 0:
@@ -171,7 +171,7 @@ if world.rank == 0:
 Pbs = ph.get_band_structure(path)
 if world.rank == 0:
     print('******** Phononic band structure calculated *********')
-Pdos = ph.get_dos(kpts=(20, 20, 20)).sample_grid(npts=60, width=1e-3)
+Pdos = ph.get_dos(kpts=(20, 20, 20)).sample_grid(npts=100, width=1e-3)
 if world.rank == 0:
     print('******** Phononic DOS calculated *********')
 

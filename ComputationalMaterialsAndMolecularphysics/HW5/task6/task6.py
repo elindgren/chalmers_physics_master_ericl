@@ -10,6 +10,7 @@ from ase import Atoms
 from ase.db import connect
 from ase.build import bulk
 from ase.parallel import world
+from ase.dft.dos import DOS
 
 # GPAW
 from gpaw import GPAW, PW, restart
@@ -116,12 +117,16 @@ calc.set(
 # Fix the potential
 calc.get_potential_energy()
 
-e, dos = calc.get_dos(spin=0, npts=1001, width=0.5)  # Get energy and density of states
+# e, dos = calc.get_dos(spin=0, npts=1001, width=0.5)  # Get energy and density of states
+dos = DOS(calc, npts=2000, width=0.1)
+d = dos.get_dos()
+e = dos.get_energies() 
+f = calc.get_fermi_level() 
 print('Electronic DOS computed')
 e_f = calc.get_fermi_level()  
 Edos = {
     'e': e, 
-    'dos': dos,
+    'dos': d,
     'fermi': e_f
 } 
 

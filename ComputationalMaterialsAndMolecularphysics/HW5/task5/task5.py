@@ -10,6 +10,7 @@ from ase import Atoms
 from ase.db import connect
 from ase.dft.dos import DOS
 from ase.parallel import world
+from ase.optimize import BFGS
 
 # GPAW
 from gpaw import GPAW, PW

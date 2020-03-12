@@ -23,8 +23,7 @@ eosDB = connect('./eos.db')
 # Extract and plot convergence data
 # fig, ax = plt.subplots(figsize=(8,6))
 
-fig = plt.figure(figsize=(9,6))
-ax = fig.add_subplot(111, projection='3d')
+fig, ax = plt.subplots(figsize=(9,6))
 dbList = list(eosDB.select())
 
 for i,row in enumerate(dbList):
@@ -32,15 +31,16 @@ for i,row in enumerate(dbList):
     N = len(atoms.positions)
     dos = row.data['DOS']
     e = row.data['energy'] - row.data['fermi']
-    ax.plot(e, N*np.ones(len(e)), dos, alpha=1-i*0.1, linewidth=2, label=f'Al{N}')
+    ax.axhline(0.5*i, color='k', alpha=0.2)
+    ax.plot(e, dos/N + 0.5*i, alpha=0.7, linewidth=2, label=f'Al{N}')
+    # ax.plot(e, N*np.ones(len(e)), dos, alpha=1-i*0.1, linewidth=2, label=f'Al{N}')
 
 ax.legend(loc='upper left')
-ax.set_xlabel(r'Energy relative to $\epsilon_F$ (eV)', labelpad=15)
-ax.set_ylabel(r'Cluster size $N$', labelpad=15)
+ax.set_xlabel(r'Energy relative to $\epsilon_F$ (eV)')
+# ax.set_ylabel(r'Cluster size $N$', labelpad=15)
 # ax.set_zlabel(r'DOS ($\rm eV^{-1}$)', labelpad=10) # TODO set proper units
-ax.set_zlabel(r'DOS')
-ax.set_zticks([])
-ax.grid()
+ax.set_ylabel(r'DOS per atom')
+ax.set_yticks([])
 plt.tight_layout()
 plt.savefig('dos_task5')
 plt.show()
