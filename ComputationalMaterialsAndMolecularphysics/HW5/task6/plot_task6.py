@@ -43,14 +43,15 @@ d = pickle.load(open( "Edos.p", "rb" ))
 fig, ax = plt.subplots(1,2, figsize=(12,6))
 
 # BS
-bs.energies = bs.energies - d['fermi']
-emax = 10
-emin = -emax
+# bs.energies = bs.energies - d['fermi']
+emax = 16
+emin = -13
 bs.plot(filename='', ax=ax[0], show=False, emax=emax, emin=emin)
 ax[0].set_ylabel(r'Energy (eV)')
 
 # DOS
-e = d['e']-d['fermi']
+# e = d['e']-d['fermi']
+e = d['e']
 # ax[1].fill_between( d['dos'], e, y2=0, color='grey',
 #                    edgecolor='k', lw=1, alpha=0.6, label=r'$g(E)$')
 ax[1].plot(d['dos'], e, label=r'$g(E)$' )
@@ -63,14 +64,14 @@ ePos = np.array([ ei for ei in e if ei>=0 ])
 # ma = 26.98 * 1.66e-27
 # n = Na*Z*rho/ma
 # freeE = 1.5 * n/d['fermi'] * np.sqrt(ePos/d['fermi'])   
-freeE = 0.115*np.sqrt(ePos)  # TODO set proper scale
-ax[1].plot(freeE, ePos, color='k', label=r'Free $\rm e^{-}$, $g(E) \propto \sqrt{E}$')
+freeE = 0.061*np.sqrt(ePos)  # TODO set proper scale
+ax[1].plot(freeE, ePos-11.2, color='k', label=r'Free $\rm e^{-}$, $g(E) \propto \sqrt{E}$')
 
 ax[1].legend(loc='best')
 ax[1].set_xticks([])
 # ax[1].set_xlabel(r'DOS ($\rm eV^{-1}$)') # TODO set proper units
 ax[1].set_xlabel(r'DOS')
-ax[1].set_ylabel(r'Energy relative to $\epsilon_F$ (eV)')
-ax[1].set_ylim((emin, emax))
+ax[1].set_ylabel(r'Energy (eV)')
+# ax[1].set_ylim((emin, emax))
 plt.tight_layout()
 plt.savefig('electronicAl.png')
