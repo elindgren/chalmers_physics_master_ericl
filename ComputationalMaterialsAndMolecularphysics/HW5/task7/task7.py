@@ -144,13 +144,19 @@ if world.rank == 0:
 #### Phononic band structure
 # if world.rank == 0:
 print('Phononic structure calculation started')
-atoms, calc = restart('Si_calc.gpw')
-# kpts = {'size': (20,20,20)}
-calc.set(
-    kpts=(20,20,20),
-    symmetry='off',  
-)
+# atoms, calc = restart('Si_calc.gpw')
+# # kpts = {'size': (20,20,20)}
+# calc.set(
+#     kpts=(20,20,20),
+#     symmetry='off',  
+# )
 
+calc = GPAW(
+                mode=PW(200),                 # cutoff - lower for computational efficiency
+                kpts=(20, 20, 20),               # k-points
+                txt=f'./gpaw-out/k={k}.txt'   # output file
+            )  
+atoms.set_calculator(calc)
 
 # Set up the ASE phonon calculator
 N = 3  # Use a 2x2x2 supercell
@@ -165,7 +171,7 @@ if world.rank == 0:
 ph.read(acoustic=True)
 
 # Define BZ-path - use the same as for the electronic calculation
-path = atoms.cell.bandpath('GXWKL', npoints=60)
+path = atoms.cell.bandpath('GXWKL', npoints=100)
 
 # Fetch band structure and dos
 if world.rank == 0:
@@ -173,7 +179,7 @@ if world.rank == 0:
 Pbs = ph.get_band_structure(path)
 if world.rank == 0:
     print('******** Phononic band structure calculated *********')
-Pdos = ph.get_dos(kpts=(20, 20, 20)).sample_grid(npts=60, width=1e-3)
+Pdos = ph.get_dos(kpts=(20, 20, 20)).sample_grid(npts=100, width=1e-3)
 if world.rank == 0:
     print('******** Phononic DOS calculated *********')
 
