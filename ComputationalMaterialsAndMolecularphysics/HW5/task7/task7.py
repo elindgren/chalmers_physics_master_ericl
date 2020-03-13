@@ -152,7 +152,7 @@ calc.set(
 
 
 # Set up the ASE phonon calculator
-N = 2  # Use a 2x2x2 supercell
+N = 4  # Use a 2x2x2 supercell
 ph = Phonons(atoms, calc, supercell=(N, N, N), delta=0.05, name='./phonons/ph_Si')
 
 # Run the phonon calculation
