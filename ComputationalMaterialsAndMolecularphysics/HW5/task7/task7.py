@@ -72,6 +72,7 @@ if world.rank == 0:
 k, calc = convergeK(atoms, tol=1e-4, kstart=4)
 if world.rank == 0:
     print(f'Optimal k-parameter: k={k}')
+console.log(k)
 
 # Perform a ground state energy calculation to get the ground state density
 atoms.get_potential_energy()
@@ -151,7 +152,7 @@ calc.set(
 
 
 # Set up the ASE phonon calculator
-N = 5  # Use a 2x2x2 supercell
+N = 2  # Use a 2x2x2 supercell
 ph = Phonons(atoms, calc, supercell=(N, N, N), delta=0.05, name='./phonons/ph_Si')
 
 # Run the phonon calculation
@@ -160,7 +161,7 @@ if world.rank == 0:
 ph.run() 
 if world.rank == 0:
     print('******** Phonon calculation completed *********')
-# ph.read(acoustic=True)
+ph.read(acoustic=True)
 
 # Define BZ-path - use the same as for the electronic calculation
 path = atoms.cell.bandpath('GXWKL', npoints=60)
