@@ -144,7 +144,7 @@ if world.rank == 0:
 # if world.rank == 0:
 print('Phononic structure calculation started')
 atoms, calc = restart('Si_calc.gpw')
-kpts = {'size': (20,20,20)}
+# kpts = {'size': (20,20,20)}
 calc.set(
     kpts=kpts,
     symmetry='off',  
@@ -161,7 +161,7 @@ if world.rank == 0:
 ph.run() 
 if world.rank == 0:
     print('******** Phonon calculation completed *********')
-ph.read(acoustic=True)
+# ph.read(acoustic=True)
 
 # Define BZ-path - use the same as for the electronic calculation
 path = atoms.cell.bandpath('GXWKL', npoints=60)
