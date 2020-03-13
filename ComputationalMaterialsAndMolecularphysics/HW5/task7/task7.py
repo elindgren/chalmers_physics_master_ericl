@@ -144,8 +144,9 @@ if world.rank == 0:
 # if world.rank == 0:
 print('Phononic structure calculation started')
 atoms, calc = restart('Si_calc.gpw')
-# kpts = {'size': (20,20,20)}
+kpts = {'size': (20,20,20)}
 calc.set(
+    kpts=kpts,
     symmetry='off',  
 )
 
