@@ -72,7 +72,7 @@ if world.rank == 0:
 k, calc = convergeK(atoms, tol=1e-4, kstart=4)
 if world.rank == 0:
     print(f'Optimal k-parameter: k={k}')
-console.log(k)
+print(k)
 
 # Perform a ground state energy calculation to get the ground state density
 atoms.get_potential_energy()
