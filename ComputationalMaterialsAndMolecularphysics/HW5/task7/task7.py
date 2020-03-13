@@ -144,23 +144,16 @@ if world.rank == 0:
 #### Phononic band structure
 # if world.rank == 0:
 print('Phononic structure calculation started')
-# atoms, calc = restart('Si_calc.gpw')
+atoms, calc = restart('Si_calc.gpw')
 # # kpts = {'size': (20,20,20)}
-# calc.set(
-#     kpts=(20,20,20),
-#     symmetry='off',  
-# )
-
-calc = GPAW(
-                mode=PW(200),                 # cutoff - lower for computational efficiency
-                kpts=(20, 20, 20),               # k-points
-                txt=f'./gpaw-out/k={k}.txt'   # output file
-            )  
-atoms.set_calculator(calc)
+calc.set(
+    kpts=(20,20,20),
+    symmetry='off',  
+)
 
 # Set up the ASE phonon calculator
 N = 3  # Use a 2x2x2 supercell
-ph = Phonons(atoms, calc, supercell=(N, N, N), delta=0.05, name='./phonons/ph_Si')
+ph = Phonons(atoms, calc, supercell=(N, N, N), delta=0.1, name='./phonons/ph_Si')
 
 # Run the phonon calculation
 if world.rank == 0:
