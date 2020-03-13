@@ -145,15 +145,15 @@ if world.rank == 0:
 # if world.rank == 0:
 print('Phononic structure calculation started')
 atoms, calc = restart('Si_calc.gpw')
-kpts = {'size': (20,20,20)}
+# kpts = {'size': (20,20,20)}
 calc.set(
-    kpts=kpts,
+    kpts=(20,20,20),
     symmetry='off',  
 )
 
 
 # Set up the ASE phonon calculator
-N = 4  # Use a 2x2x2 supercell
+N = 3  # Use a 2x2x2 supercell
 ph = Phonons(atoms, calc, supercell=(N, N, N), delta=0.05, name='./phonons/ph_Si')
 
 # Run the phonon calculation
