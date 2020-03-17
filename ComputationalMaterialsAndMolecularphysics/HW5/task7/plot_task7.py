@@ -100,7 +100,7 @@ dos = pickle.load(open( "Pdos.p", "rb" ))
 modes = bs.energies.shape[2]
 print(f'Number of phonon modes: {modes}')
 # Compute sound velocity
-v = soundV(bs, modes)
+# v = soundV(bs, modes)
 
 fig, ax = plt.subplots(1,2, figsize=(12,6))
 emax = 0.08

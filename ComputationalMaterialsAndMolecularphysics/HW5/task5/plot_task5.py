@@ -31,7 +31,7 @@ for i,row in enumerate(dbList):
     N = len(atoms.positions)
     dos = row.data['DOS']
     e = row.data['energy'] - row.data['fermi']
-    ax.axhline(0.5*i, color='k', alpha=0.2)
+    # ax.axhline(0.5*i, color='k', alpha=0.2)
     ax.plot(e, dos/N + 0.5*i, alpha=0.7, linewidth=2, label=f'Al{N}')
     # ax.plot(e, N*np.ones(len(e)), dos, alpha=1-i*0.1, linewidth=2, label=f'Al{N}')
 

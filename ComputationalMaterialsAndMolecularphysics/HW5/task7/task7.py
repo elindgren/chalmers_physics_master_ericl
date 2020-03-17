@@ -83,62 +83,62 @@ if world.rank == 0:
     print('Calculator saved')
 
 #### Electronic band structure
+if world.rank == 0:
+print('Electronic structure calculation started')
+calc = GPAW(
+    'Si_calc.gpw',
+    nbands=16,                              # Include more bands than convergence since metallic
+    fixdensity=True,                        # Fixate the density
+    symmetry='off',                         # Check all points along the path
+    kpts={'path': 'GXWKL', 'npoints': 60},
+    convergence={'bands': 8},
+    txt='Si_calc.txt'
+)
+calc.get_potential_energy()  # Converge the system
 # if world.rank == 0:
-# print('Electronic structure calculation started')
-# calc = GPAW(
-#     'Si_calc.gpw',
-#     nbands=16,                              # Include more bands than convergence since metallic
-#     fixdensity=True,                        # Fixate the density
-#     symmetry='off',                         # Check all points along the path
-#     kpts={'path': 'GXWKL', 'npoints': 60},
-#     convergence={'bands': 8},
-#     txt='Si_calc.txt'
-# )
-# calc.get_potential_energy()  # Converge the system
-# # if world.rank == 0:
-# print('Electronic structure converged')
+print('Electronic structure converged')
 
-# atoms, calc = restart('Si_calc.gpw')
-# # kpts = {'size': (20,20,20)}
-# kpts = {'path': 'GXWKL', 'npoints': 60}
-# calc.set(
-#     kpts = kpts, 
-#     fixdensity=True,
-#     symmetry='off',  
-# )
+atoms, calc = restart('Si_calc.gpw')
+# kpts = {'size': (20,20,20)}
+kpts = {'path': 'GXWKL', 'npoints': 60}
+calc.set(
+    kpts = kpts, 
+    fixdensity=True,
+    symmetry='off',  
+)
 
-# # Fix the potential
-# calc.get_potential_energy()
+# Fix the potential
+calc.get_potential_energy()
 
-# # Get band structure and dos
-# Ebs = atoms.calc.band_structure()  # Get the band structure
-# if world.rank == 0:
-#     print('Electronic band structure calculated')
+# Get band structure and dos
+Ebs = atoms.calc.band_structure()  # Get the band structure
+if world.rank == 0:
+    print('Electronic band structure calculated')
 
-# # Set new k-mesh to the calculator to get a nice DOS
-# kpts = {'size': (28,28,28)}
-# calc.set(
-#     kpts = kpts, 
-#     fixdensity=True,
-#     symmetry='off',  
-# )
-# # Fix the potential
-# calc.get_potential_energy()
+# Set new k-mesh to the calculator to get a nice DOS
+kpts = {'size': (28,28,28)}
+calc.set(
+    kpts = kpts, 
+    fixdensity=True,
+    symmetry='off',  
+)
+# Fix the potential
+calc.get_potential_energy()
 
-# e, dos = calc.get_dos(spin=0, npts=1001, width=0.2)  # Get energy and density of states
-# e_f = calc.get_fermi_level()  
-# Edos = {
-#     'e': e, 
-#     'dos': dos,
-#     'fermi': e_f
-# } 
+e, dos = calc.get_dos(spin=0, npts=1001, width=0.2)  # Get energy and density of states
+e_f = calc.get_fermi_level()  
+Edos = {
+    'e': e, 
+    'dos': dos,
+    'fermi': e_f
+} 
 
-# # Save results
-# pickle.dump( Ebs, open( "Ebs.p", "wb" ) )  # Save the electronic band structure
-# pickle.dump( Edos, open( "Edos.p", "wb" ) )  # Save the electronic DOS
-# calc.write('Si_electrons.gpw')
-# if world.rank == 0:
-#     print('Electronic structure calculation completed')
+# Save results
+pickle.dump( Ebs, open( "Ebs.p", "wb" ) )  # Save the electronic band structure
+pickle.dump( Edos, open( "Edos.p", "wb" ) )  # Save the electronic DOS
+calc.write('Si_electrons.gpw')
+if world.rank == 0:
+    print('Electronic structure calculation completed')
 
 
 #### Phononic band structure

@@ -1,0 +1,11 @@
+- Det ser inte ut som att nanoklusterna är relaxerade och det bör dom vara för full poäng. Det är inte så jättestor skillnad på den cohesiva energin i Task 1, däremot för vibrationsspektrumet i Task 3 är det viktigt. Tänk på små oscillationer och Taylor utveckling av potentiella energin: den första ordningens term svarar mot krafterna och ska vara 0.
+
+- Fig3 i Task3 är ganska svår att läsa av kvantitativ data från. Här är det bättre om du gör en 2D plot och antingen plottar dom på varandra om det ser bra ut eller förskjuter dom allt eftersom (här kanske du vill normalisera med antalet moder).
+
+- Ljudhastigheten är något stor i Task4.
+
+- Fig5 i Task 5. Samma som i Task 3
+
+- DOS i task 6 ser lite konstig ut.
+
+- Fononerna i Task 7 ser lite taskiga ut. Det är förmodligen så att antingen är cellen för liten eller så är strukturen in relaxerad.

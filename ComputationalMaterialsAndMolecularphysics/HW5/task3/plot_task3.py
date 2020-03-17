@@ -51,7 +51,7 @@ for i, clust in enumerate(vibDB.select()):
     f_freq = clust.data['f_freq']
     f_dos = clust.data['f_dos']
     f_freq = np.real(f_freq)
-    ax.axhline(0.05*i, color='k', alpha=0.2)
+    # ax.axhline(0.05*i, color='k', alpha=0.2)
     ax.plot(f_freq, f_dos/nModes + 0.05*i, alpha=0.7, linewidth=2, label=f'Al{N}')
 # ax.grid()
 ax.legend(loc='upper left')
