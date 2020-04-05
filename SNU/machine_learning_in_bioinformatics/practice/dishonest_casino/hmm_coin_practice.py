@@ -48,9 +48,9 @@ def casino(N):
     state = np.random.choice(a=[0,1], size=1, p=a_0k)[0]  # 0 = loaded, 1 = fair, 
 
     # Emission probabilities
-    e_hf = 0.5          # p head fair coin
-    e_hl = 0.1          # p head loaded coin
-    e = [e_hl, e_hf]
+    e_fh = 0.5          # p head fair coin
+    e_lh = 0.1          # p head loaded coin
+    e = [e_lh, e_fh]
 
     for i in range(N):
         # go to new state based on previous state
@@ -126,11 +126,11 @@ def forward(x, e, a, a_0k):
                 f[i, l] = -np.inf
             else:
                 f[i, l] =  e_l[xi] + fa_sum
-
     # Termination
     a_k0 = np.array([0, 0.5, 0.5])
     p_x = np.sum( np.exp(f[-1,:]) * a_k0 )
     # p_x = np.sum(np.exp( f[-1, :] ))
+    print(p_x)
     # Unlog
     f = np.exp(f)
     return p_x, f
@@ -153,29 +153,102 @@ def backwards(x, e, a, a_0k):
     a_kl = np.log(a_kl)
     e_lx = np.log(e_lx)
     # Recursion
-    for i in reversed(range(0, b.shape[0])):
-        xi = x[i-1]
+    for i in reversed(range(0, b.shape[0]-1)):
+        xi = x[i]
         for l in range(b.shape[1]):
             # l is the new state, either 0 (loaded) or 1 (fair). 0 is inaccessible p=0
             e_l = e_lx[l, :]
-            b_a_kl = b[i,:] + a_kl[:, l]
+            b_a_kl = b[i+1,:] + a_kl[:, l]
             c = np.max(b_a_kl)
             ba_sum = c + np.log(np.sum(np.exp( b_a_kl - c)))
             # print( a_kl[l, :])
-            if e_l[xi] == -np.inf or ba_sum == -np.inf :
-                b[i-1, l] = -np.inf
+            if e_l[xi] == -np.inf or ba_sum == -np.inf:
+                b[i, l] = -np.inf
             else:
-                b[i-1, l] =  e_l[xi] + ba_sum
+                b[i, l] =  e_l[xi] + ba_sum
     # Termination
     x1 = x[0]  # stupid algorithm count from 1 >.<
     a_0l = np.array( [0, a_0k[0], a_0k[1]] )
     p_x = 0
     for l in range(b.shape[1]):
         e_l = e_lx[l, :]
-        p_x +=  a_0l[l] * np.exp( e_lx[x1] + b[0,l] ) 
+        p_x +=  a_0l[l] * np.exp( e_l[x1] + b[0,l] ) 
+    print(p_x)
     # Unlog
     b = np.exp(b)
-    return b
+    return p_x, b
+
+
+def baum_welch(X):
+    '''
+        Compute estimates for all HMM model parameters using EM algorithm.
+        X is a matrix containing all {x^j}
+    '''
+    # Intialisation - random model parameters
+    a = np.array( [np.random.random_sample(), np.random.random_sample()] )
+    e = np.array( [np.random.random_sample(), np.random.random_sample()] )
+    a_0l = np.random.random_sample()
+    a_0k = [0, a_0l, 1-a_0l]
+    # Recurrence - Iterate until convergence
+    for s in range(1):
+        print(f'---------- Iteration {s} ----------')
+        A = np.zeros((3,3))  # Expectation values of the various transitions - size k x l
+        E = np.zeros((3,2))
+
+        a_kl = np.array([ [0, a_0k[0], a_0k[1]], [0, 1-a[0], a[0]], [0, a[1], 1-a[1]] ])  # [ [a_00, a_0l, a_0f], [a_l0, a_ll, a_lf], [a_f0, a_fl, a_ff] ]
+        e_lx = np.array([ [0, 0], [e[0], 1-e[0]], [e[1], 1-e[1]] ])
+        for j in range(X.shape[0]):
+            # Get f and b
+            x_j = X[j,:]
+            p_xf, f = forward(x, e, a, a_0k)
+            p_xb, b = backwards(x, e, a, a_0k)
+            
+            # Log parameters
+            a_kl = np.log(a_kl)
+            e_lx = np.log(e_lx)
+            f = np.log(f)
+            b = np.log(b)
+            p_xf = np.log(p_xf)
+            p_xb = np.log(p_xb)
+            for k in range(A.shape[0]):
+                # Estimate A
+                for l in range(A.shape[0]):
+                    e_l = e_lx[l, :]
+                    for i in range(len(x)-1):
+                        e_lxi1 = e_l[x_j[i+1]]
+                        fb_sum = f[i,k] + b[i+1, l] - p_xf
+                        print(f[i,k])
+                        if e_lxi1 == -np.inf or fb_sum == -np.inf :
+                            A[k, l] = np.exp( -np.inf )
+                        else:
+                            A[k,l] += np.exp( e_lxi1 + fb_sum )
+                # Estimate E
+                for s in range(1):
+                    s = int(s)
+                    # Find all s=h or s=f
+                    x_idx = np.where(x == s)[0]
+                    for i in x_idx:
+                        E[k, s] += np.exp( f[i,k] + b[i,k] - p_xf)
+        # Calculate new parameter estimates - MLE estimation
+        a_kl = np.zeros((3,3))
+        e_kb = np.zeros((3,2))
+        for k in range(3):
+            for l in range(3):
+                a_kl[k,l] = A[k,l] / np.sum( A[k,:] )
+            for s in range(1):
+                s = int(s)
+                e_kb[k,s] = E[k,s] / np.sum( E[k,:] )
+            # Normalize to probabilities
+            a_kl[k,:] /= np.sum( a_kl[k,:] ) # sum_l a_kl = 1, must go somewhere
+            e_kb[k,:] /= np.sum( e_kb[k,:] )
+        
+        print(a_kl)
+        
+        a = np.array( [a_kl[1,2], a_kl[2,1]] )
+        e = np.array( [e_kb[1,0], e_kb[2,0]] )
+        a_0k = [0, a_kl[0,1], a_kl[0,2]]
+        # Calculate Likelihood of model
+    return None
 
 
 # Generate sequence of coin tosses
@@ -187,21 +260,23 @@ pi_m = viterbi(x, e, a, a_0k)
 
 
 # Obtain probability of sequence - Forward algorithm
-p_x, f = forward(x, e, a, a_0k)
+p_xf, f = forward(x, e, a, a_0k)
 
 # Obtain probability of state for xi - Backwards algorithm
-b = backwards(x, e, a, a_0k)
-p_pii = f * b / p_x
+p_xb, b = backwards(x, e, a, a_0k)
+p_pii = f * b / p_xb
 # Error somewhere, rescale p_pii so sums to 1
-p_pii /= np.sum(p_pii[1,:])
+# p_pii /= np.sum(p_pii[1,:])
 
+# HMM Parameter Estimation - Baum-Welch
+s = baum_welch(np.array([x]))
 
 
 # Print results
 print()
 print('--------- Results ---------')
 print(f'**** Viterbi accuracy: {(np.sum(pi_m == pi) / L):.2f}')
-print(f'**** Forward: P(x): {p_x}')
+print(f'**** Forward: P(x): {p_xf}')
 print(f'**** Backward: P(pi_100 = k | x): {p_pii[1,:]}')
 
 # Plot
@@ -214,10 +289,10 @@ ax.plot(p_pii[:,1], c='r', linestyle=':', linewidth=3, alpha=0.7, label=r'$p(x, 
 ax.plot(p_pii[:,2], c='c', linestyle=':', linewidth=2, alpha=0.7, label=r'$p(x, \pi_i=f)$, Posterior')
 
 ax.grid()
-ax.legend(loc='best')
+ax.legend(loc='lower left')
 ax.set_title('The Dishonest casino')
 ax.set_xlabel(r'$i$')
 ax.set_ylabel(r'Heads/tails')
 plt.tight_layout()
 plt.savefig(f'viterbi_L={L}.png')
-plt.show()
+# plt.show()
