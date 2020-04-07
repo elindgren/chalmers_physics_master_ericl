@@ -78,5 +78,7 @@ for i in range(-N,N+1):
     l.append(l_ij)
 
 # Calculate Young's modulus and Poisson ratio
+c_ii = (p[0][axis]-p[-1][axis]) / (-2*d - 2*d)
+print(c_ii)
 print(p)
 print(l)
