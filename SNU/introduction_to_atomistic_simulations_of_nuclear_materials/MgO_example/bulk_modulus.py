@@ -47,31 +47,32 @@ for i in range(-N,N+1):
     # Create data file
     datafile = f'data.{filename}'
     print('Setting up datafile')
-    os.system(f'/home/{user}/share/lammps-data.exe out/{filename}.txt 1 1 1 > out/{datafile}')
+    os.system(f'/home/{user}/share/lammps-data.exe out/{filename}.txt 1 1 1 > out/bulk-{datafile}')
 
     # Edit input file 
-    with open('res/input.MgO-opt', 'r') as file:
+    with open('res/input.bulk-MgO-opt', 'r') as file:
         MgO_text = file.readlines()
     row1 = MgO_text[0].split(' ') 
-    row1[-1] = f'out/{datafile}' # Modify the lattice parameter for current axis
+    row1[-1] = f'out/bulk-{datafile}' # Modify the lattice parameter for current axis
     MgO_text[0] = ' '.join(row1)
-    with open(f'out/input.MgO-opt-modified', 'w') as file:
+    with open(f'out/input.bulk-MgO-opt-modified', 'w') as file:
         for row in MgO_text:
             file.write(row)
     file.close()
         
     # Launch calculation with mpirun
     print('Launching LAMMPS calculation')
-    os.system(f'mpirun -np 2 /home/bin/lmp_mpich < out/input.MgO-opt-modified > out/output.{filename}')
+    os.system(f'mpirun -np 2 /home/bin/lmp_mpich < out/input.bulk-MgO-opt-modified > out/output.bulk-{filename}')
 
     # Extract final pressure and lattice vectors
-    with open(f'out/output.{filename}', 'r') as file:
+    with open(f'out/output.bulk-{filename}', 'r') as file:
         output_lines = file.readlines()
 
     for k, row in enumerate(output_lines):
         if('Loop time' in row):
             info = output_lines[k-1].split(' ')  # Final structure information row in output file
             info = list(filter(None, info))
+            print(info)
             ps_str = info[1:4]
             ls_str = info[-4:-1]
     

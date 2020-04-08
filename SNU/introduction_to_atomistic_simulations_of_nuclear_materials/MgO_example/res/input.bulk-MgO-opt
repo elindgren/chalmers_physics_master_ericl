@@ -20,8 +20,8 @@ mass 1 24.3
 mass 2 16.0
 
 thermo 100
-thermo_style custom step pxx pyy pzz pxy pxz pyz lx ly lz
-fix 1 all box/relax y 0.0 z 0.0 vmax 0.001
+#thermo_style custom step etotal lx ly lz
+#fix 1 all box/relax y 0.0 z 0.0 vmax 0.001
 min_style cg
 minimize 0.0 0.0 100 1000
 
