@@ -31,9 +31,8 @@ def viterbi(x, a, e):
         Perform computations in log-space for the sake of numerical precision
     '''
     v = np.zeros((len(x)+1, 3)) # v matrix in real space - 1 longer than x since start in state B
-    ptr = np.zeros((len(x), 3))  # pointer for most probable state
-    pi = np.zeros(len(x), dtype=np.int)
-    pi_test = np.zeros(len(x), dtype=np.int)
+    ptr = np.zeros((len(x)+1, 3))  # pointer for most probable state
+    pi = np.ones(len(x)+1, dtype=np.int)  # Include the begin state in the most probable path
 
     #**** Initialisation ****
     v[0,:] = [1, 0, 0]  # Start in begin state
@@ -49,9 +48,8 @@ def viterbi(x, a, e):
         for l in range(1, V.shape[1]):
             # Can't go back to B, so skip that case
             VA = V[i-1,:] + A[:,l]
-            V[i,l] = E[l-1, xi] + np.max( VA )
-            ptr[i-1, l] = np.argmax( VA )  #! Arguments off by 1
-        pi_test[i-1] = np.argmax( V[i,:] )  #! Off by one? # For assertion purposes
+            V[i,l] = E[l-1, xi] + np.max( VA )  # E[l-1] since we skip state B
+            ptr[i , l] = np.argmax( VA )  #! Arguments off by 1
 
     #**** Termination ****
     a_k0 = [0, 1, 1]  # a_k0: probability of going from any state to end state is 1!
@@ -61,12 +59,13 @@ def viterbi(x, a, e):
     pi[-1] = np.argmax( V[-1,:] + A_k0 )  # Exp is monotonous, no need to transform back
 
     #**** Traceback ****
-    for i in reversed(range(1, len(x))):
+    for i in reversed(range(1, len(x)+1)):
         pi[i-1] = ptr[i, pi[i]]
-    assert np.array_equal(pi, pi_test)
-
+    pi = pi[1:]  # Only return the part that corresponds to the sequence - skip begin state
+    
+    v = np.exp( V )
     print(f'Viterbi algorithm: P(x, pi*) = {p_pxpi:.4e}')
-    return pi, p_pxpi
+    return v, pi, p_pxpi
 
 
 def forward(x, a, e):
@@ -74,9 +73,11 @@ def forward(x, a, e):
         Compute the probability for the sequence up to and including xi in which the model is in state k, given in the matrix f. 
         Also compute the likelihood of the observation, p(x).
 
+        Return only f values being connected to x: f[1:] - Skip begin state
+
         Perform computations in log-space for the sake of numerical precision
     '''
-    f = np.zeros((len(x)+1, 3)) # v matrix in real space - 1 longer than x since start in state B
+    f = np.zeros((len(x)+1, 3)) # v matrix in real space - 1 longer than x for start state
 
     #**** Initialisation ****
     f[0,:] = [1, 0, 0]  # Start in begin state
@@ -95,10 +96,12 @@ def forward(x, a, e):
             F[i,l] = E[l-1, xi] + np.log(np.sum(np.exp( FA )))  #* Summation must be performed in real space!
     #**** Termination ****
     a_k0 = [0, 1, 1]  # a_k0: probability of going from any state to end state is 1!
-    p = np.sum(np.exp( F[-1,:] )*a_k0)  # No a since no transition to end state
+    with np.errstate(divide='ignore'):
+        A_k0 = np.log( a_k0 )
+    p = np.sum(np.exp( F[-1,:] + A_k0 ))   # No a since no transition to end state
     f = np.exp( F )
     print(f'Forward algorithm: P(x) = {p:.4e}')
-    return f, p
+    return f[1:], p 
 
 
 def backward(x, a, e):
@@ -108,7 +111,7 @@ def backward(x, a, e):
 
         Perform computations in log-space for the sake of numerical precision
     '''
-    b = np.zeros((len(x)+1, 3)) # v matrix in real space - 1 longer than x since start in state B
+    b = np.zeros((len(x), 3)) # v matrix in real space - 1 longer than x since end state
 
     #**** Initialisation ****
     a_k0 = [0, 1, 1]  # a_k0: probability of going from any state to end state is 1!
@@ -120,41 +123,47 @@ def backward(x, a, e):
         E = np.log( e )
     
     #**** Recursion ****
-    for i in reversed(range(1, len(x))):
-        xi = x[i-1]
+    for i in reversed(range(0, len(x)-1)):
+        xi = x[i+1]
         for l in range(1, B.shape[1]):
             # Can't go back to B, so skip that case
             BA = B[i+1,:] + A[:,l]
             B[i,l] = np.log(np.sum(np.exp( BA + E[l-1, xi] )))  # Summation must be performed in real space!
     #**** Termination ****
-    p = np.sum(np.exp( B[1,1:] + A[0,1:] + E[:,x[0]] ))  # Skip transition a_00, since it's illegal
+    p = np.sum(np.exp( A[0,1:] + B[0,1:] + E[:,x[0]] ))  # Skip transition a_00, since it's illegal
     b = np.exp( B )
     print(f'Backward algorithm: P(x) = {p:.4e}')
     return b, p
 
+
+def translate_to_state(pi):
+    ''' Convert numerical state sequence to F/L '''
+    return np.array( ['F' if s==1 else 'L' for s in pi] )
+
+
 #**** Given parameters, from homework description ****
 x_raw = 'HHHTHHTHHHHTTHHHHHHTHHTHHTHHHTHHTTHHHTHHHHHT'  # Raw observation
 a = np.array([
-    [0, 0.5, 0.5], 
-    [0, 0.8, 0.2],
-    [0, 0.3, 0.7]
+    [0.0, 0.5, 0.5], 
+    [0.0, 0.8, 0.2],
+    [0.0, 0.3, 0.7]
 ])  # transition matrix a_kl. k=0 is B, k=1 is F, k=2 is L.
 
 e = np.array([
     [0.5, 0.5],
     [0.9, 0.1],
-])  # emission probability matrix e_k(b) for states F=0 and L=1. Column 0 is H, 1 is T 
+])  # emission probability matrix e_k(b) for states B=0, F=1 and L=2. Column 0 is H, 1 is T 
 
 #****  Pre-processing: replace H with 0 and T with 1 in x ****
-x = np.array([ int(s=='H') for s in x_raw ])
+x = np.array([ int(s=='T') for s in x_raw ])
 
 #****  Obtain most probable state path: Viterbi algorithm ****
-pi_m, p_pxpi = viterbi(x, a, e)
+v, pi_m, p_pxpi = viterbi(x, a, e)
 
 #**** Posterior decoding - obtain f and b matrices ****
 f, p_f = forward(x, a, e)
 b, p_b = backward(x, a, e)
-assert np.abs(p_f-p_b)/p_f < 0.15  # TODO The error is around 15%
+assert np.abs(p_f-p_b)/p_f < 0.1  # TODO The error is around 10%
 p = (p_f + p_b) / 2  # Average probability
 p_post = f*b/p  # Posterior probability
 # Extract highest probability sequence - not necessarily allowed transitions-wise!
@@ -163,10 +172,31 @@ pi_hat = np.argmax(p_post, axis=1)
 #**** Compare Viterbi and posterior ****
 pp = pprint.PrettyPrinter(indent=4)
 print('****** Viterbi: pi_m ******')
-pp.pprint(pi_m)  #! Probably wrong
+pp.pprint(translate_to_state(pi_m))
 print('****** Posterior: pi_hat ******')
-pp.pprint(pi_hat)
+pp.pprint(translate_to_state(pi_hat))
+print('****** Fractional overlap Viterbi/Posterior ******')
+print(f'Overlap: {(np.sum(pi_m==pi_hat)/len(pi_m)):.4f}')
 print('****** Sum of posterior probabilities Sum_k( p(xi=k|x) ) ******')
 pp.pprint(np.sum(p_post, axis=1))  # TODO Check all probabilities sum to 1
-print('****** Posterior probaility p(xi=k|x) ******')
-pp.pprint(p_post)
+# print('****** Posterior probaility p(xi=k|x) ******')
+# pp.pprint(p_post)
+print('****** First six columns of v ******')
+pp.pprint( v[:6,:] )
+print('****** P(pi_i=L|x) for the first six observations HHHTHH ******')
+pp.pprint( p_post[:6, 2] )
+# Plot 
+fig, ax = plt.subplots(figsize=(8,6))
+ax.plot(pi_m, linewidth=3, linestyle='--', label=r'$\pi^*$, Viterbi')
+ax.plot(pi_hat, linewidth=2, linestyle='-', alpha=0.7, label=r'$\pi^*$, Posterior')
+ax.grid()
+ax.legend(loc='best')
+ax.set_xlabel(r'$i$, sequence index')
+ax.set_ylabel(r'$\pi$, State sequence')
+plt.locator_params(axis='y', nbins=2)
+labels = [item.get_text() for item in ax.get_yticklabels()]
+labels[1] = 'F'
+labels[2] = 'L'
+ax.set_yticklabels(labels)
+plt.tight_layout()
+plt.savefig('viterbi_post_comparison.png')

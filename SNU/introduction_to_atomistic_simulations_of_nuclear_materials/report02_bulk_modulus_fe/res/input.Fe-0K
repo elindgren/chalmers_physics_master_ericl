@@ -1,0 +1,28 @@
+variable dfile string data.Fe-0K
+
+units metal
+boundary p p p
+atom_style atomic
+read_data ${dfile}
+
+pair_style eam/fs
+pair_coeff * * /home/c2020spring/share/PotentialB2_Fe.fs Fe
+
+group iron type 1
+group Fe type 1
+
+mass 1 55.85
+
+thermo_style custom step pxx pyy pzz vol
+min_style cg
+minimize 0.0 0.0 100 1000
+
+variable v equal vol
+variable p equal (pxx+pyy+pzz)/3.0
+print ${dfile} append v.fe screen no
+print V=$v append v.fe screen no
+print '------------------' append v.fe screen no
+print ${dfile} append p.fe screen no
+print P=$p append p.fe screen no
+print '------------------' append p.fe screen no
+write_data data.feopt
