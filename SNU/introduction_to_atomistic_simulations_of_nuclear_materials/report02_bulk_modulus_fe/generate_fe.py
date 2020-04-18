@@ -26,8 +26,9 @@ N = 2
 
 # Resources -------- Change here!
 mat = 'Fe'  # material
-st_txt = 'Fe.txt'
-in_file = 'input.Fe-0K'
+st_txt = 'Fe.txt'  # txt structure file
+in_file = 'input.Fe-6x6x6-incT'
+s = 6  # Size of side of supercell
 
 start_time = t.time()
 
@@ -36,12 +37,12 @@ for i in range(-N,N+1):
     print()
     print(f'-------- Iteration {i+3} --------')
     ad = a*(1+d*i)  # Strained lattice parameter
-    filename = f'{mat}-{(1+d*i):.3f}'
+    filename = f'{mat}-{s}x{s}x{s}-{(1+d*i):.3f}'
 
     # Setup structure file
     with open(f'res/{st_txt}', 'r') as file:
         txt = file.readlines()
-    row1 = txt[0].split(' ') 
+    row1 = txt[0].split(' ')
     row1[axis] = f'{ad}' # Modify the lattice parameter for current axis
     txt[0] = ' '.join(row1)
     with open(f'out/{filename}.txt', 'w') as file:
@@ -51,14 +52,18 @@ for i in range(-N,N+1):
     # Create data file
     datafile = f'data.{filename}'
     print('\tSetting up datafile')
-    os.system(f'/home/{user}/share/lammps-data.exe out/{filename}.txt 1 1 1 > out/{datafile}')
+    os.system(f'/home/{user}/share/lammps-data.exe out/{filename}.txt {s} {s} {s} > out/{datafile}')
 
     # Edit input file 
     with open(f'res/{in_file}', 'r') as file:
         input_text = file.readlines()
-    row1 = input_text[0].split(' ') 
-    row1[-1] = f'out/{datafile}' # Modify the lattice parameter for current axis
-    input_text[0] = ' '.join(row1)
+    for i, row in enumerate(input_text):
+        if 'variable dfile' in row:
+            drow = row.split(' ')
+            r = i
+            break
+    drow[-1] = f'out/{datafile}\n' # Modify the lattice parameter for current axis
+    input_text[r] = ' '.join(drow)
     with open(f'out/{in_file}-modified', 'w') as file:
         for row in input_text:
             file.write(row)
@@ -66,8 +71,10 @@ for i in range(-N,N+1):
         
     # Launch calculation with mpirun
     print('\tLaunching LAMMPS calculation')
+    calc_time = t.time()
     os.system(f'mpirun -np 2 /home/bin/lmp_mpich < out/{in_file}-modified > out/output.{filename}')
+    print(f'-------- LAMMPS calculation finished in: {(t.time() - calc_time):2f} s --------')
 
 
 
-print(f'#########    Calculations finished in: {(t.time() - start_time):2f} s    #########')
+print(f'#########    All calculations finished in: {(t.time() - start_time):2f} s    #########')

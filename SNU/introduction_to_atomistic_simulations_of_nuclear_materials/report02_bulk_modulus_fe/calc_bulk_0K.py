@@ -1,6 +1,3 @@
-# System imports
-import os
-
 # External imports
 import numpy as np
 import matplotlib.pyplot as plt
