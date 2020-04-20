@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 plt.rc('font', size=18)          # controls default text sizes
 plt.rc('axes', titlesize=18)     # fontsize of the axes title
 plt.rc('axes', labelsize=18)     # fontsize of the x and y labels
-plt.rc('xtick', labelsize=18)    # fontsize of the tick labels
+plt.rc('xtick', labelsize=14)    # fontsize of the tick labels
 plt.rc('ytick', labelsize=18)    # fontsize of the tick labels
 plt.rc('legend', fontsize=18)    # legend fontsize
 
@@ -50,3 +50,17 @@ V0 = V[2]  # Å^3
 K = -V0 * dPdV
 print(f'Obtained bulk modulus at T={T} K: \t K = {K:.3f} GPa')
 
+
+# Plot stress-strain
+fig, ax = plt.subplots(figsize=(8,6))
+a = V**(1/3)
+a0 = a[2]
+e = (a-a0)/a0
+ax.plot( e, P*1e-4, label=r'$T=$'+f'{T:.2f} K' )
+ax.set_xlabel(r'Strain $e$')
+ax.set_ylabel(r'Stress $P$, (GPa)')
+ax.grid()
+ax.legend(loc='best')
+plt.tight_layout()
+plt.savefig('stress_strain_0K.png')
+plt.show()

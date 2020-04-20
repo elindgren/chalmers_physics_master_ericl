@@ -27,8 +27,8 @@ N = 2
 # Resources -------- Change here!
 mat = 'Fe'  # material
 st_txt = 'Fe.txt'  # txt structure file
-in_file = 'input.Fe-6x6x6-incT'
-s = 6  # Size of side of supercell
+in_file = 'input.Fe-0K'
+s = 1  # Size of side of supercell
 
 start_time = t.time()
 
