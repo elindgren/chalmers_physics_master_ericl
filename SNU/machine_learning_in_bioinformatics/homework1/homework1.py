@@ -49,8 +49,7 @@ def viterbi(x, a, e):
             # Can't go back to B, so skip that case
             VA = V[i-1,:] + A[:,l]
             V[i,l] = E[l-1, xi] + np.max( VA )  # E[l-1] since we skip state B
-            ptr[i , l] = np.argmax( VA )  #! Arguments off by 1
-
+            ptr[i , l] = np.argmax( VA )
     #**** Termination ****
     a_k0 = [0, 1, 1]  # a_k0: probability of going from any state to end state is 1!
     with np.errstate(divide='ignore'):
@@ -100,7 +99,7 @@ def forward(x, a, e):
         A_k0 = np.log( a_k0 )
     p = np.sum(np.exp( F[-1,:] + A_k0 ))   # No a since no transition to end state
     f = np.exp( F )
-    print(f'Forward algorithm: P(x) = {p:.4e}')
+    print(f'Forward algorithm: P(x) = {p:.20e}')
     return f[1:], p 
 
 
@@ -112,7 +111,6 @@ def backward(x, a, e):
         Perform computations in log-space for the sake of numerical precision
     '''
     b = np.zeros((len(x), 3)) # v matrix in real space - 1 longer than x since end state
-
     #**** Initialisation ****
     a_k0 = [0, 1, 1]  # a_k0: probability of going from any state to end state is 1!
     b[-1,:] = a_k0
@@ -123,16 +121,16 @@ def backward(x, a, e):
         E = np.log( e )
     
     #**** Recursion ****
-    for i in reversed(range(0, len(x)-1)):
-        xi = x[i+1]
-        for l in range(1, B.shape[1]):
+    for i in reversed(range(1, len(x))):
+        xi = x[i]
+        for k in range(1, B.shape[1]):
             # Can't go back to B, so skip that case
-            BA = B[i+1,:] + A[:,l]
-            B[i,l] = np.log(np.sum(np.exp( BA + E[l-1, xi] )))  # Summation must be performed in real space!
+            BA = B[i,1:] + A[k,1:] + E[:, xi]
+            B[i-1, k] = np.log(np.sum( np.exp( BA )))  # Summation must be performed in real space!
     #**** Termination ****
     p = np.sum(np.exp( A[0,1:] + B[0,1:] + E[:,x[0]] ))  # Skip transition a_00, since it's illegal
     b = np.exp( B )
-    print(f'Backward algorithm: P(x) = {p:.4e}')
+    print(f'Backward algorithm: P(x) = {p:.20e}')
     return b, p
 
 
@@ -163,7 +161,7 @@ v, pi_m, p_pxpi = viterbi(x, a, e)
 #**** Posterior decoding - obtain f and b matrices ****
 f, p_f = forward(x, a, e)
 b, p_b = backward(x, a, e)
-assert np.abs(p_f-p_b)/p_f < 0.1  # TODO The error is around 10%
+assert np.abs(p_f-p_b)/p_f < 1e-9
 p = (p_f + p_b) / 2  # Average probability
 p_post = f*b/p  # Posterior probability
 # Extract highest probability sequence - not necessarily allowed transitions-wise!
@@ -182,7 +180,7 @@ print(r'pi_hat: ' + pi_hat_str)
 print('****** Fractional overlap Viterbi/Posterior ******')
 print(f'Overlap: {(np.sum(pi_m==pi_hat)/len(pi_m)):.4f}')
 print('****** Sum of posterior probabilities Sum_k( p(xi=k|x) ) ******')
-pp.pprint(np.sum(p_post, axis=1))  # TODO Check all probabilities sum to 1
+pp.pprint(np.sum(p_post, axis=1))
 # print('****** Posterior probaility p(xi=k|x) ******')
 # pp.pprint(p_post)
 print('****** First six columns of v ******')
@@ -193,6 +191,8 @@ pp.pprint( p_post[:6, 2] )
 fig, ax = plt.subplots(figsize=(8,6))
 ax.plot(pi_m, linewidth=3, linestyle='--', label=r'$\pi^*$, Viterbi')
 ax.plot(pi_hat, linewidth=2, linestyle='-', alpha=0.7, label=r'$\hat{\pi}$, Posterior')
+# ax.plot(1+p_post[:,1], linewidth=3, color='b', linestyle=':', alpha=0.5, label=r'$P(x_i = F | x$')
+# ax.plot(1+p_post[:,2], linewidth=3, color='r', linestyle=':', alpha=0.5, label=r'$P(x_i = L | x$')
 ax.grid()
 ax.legend(loc='best')
 ax.set_xlabel(r'$i$, sequence index')
