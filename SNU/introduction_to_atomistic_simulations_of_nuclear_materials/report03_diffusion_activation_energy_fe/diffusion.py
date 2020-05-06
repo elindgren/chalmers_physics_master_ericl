@@ -53,13 +53,20 @@ D = np.array(D)
 MSD_sq = np.array(MSD_sq)
 
 # Perform Arrhenius plot and calculate D0 and E
+E_R, lnD0 = np.polyfit(1/T, np.log(D), deg=1) 
+kB = 8.61733e-5 # eV/K
+Na = 6.02214e23 # mol^-1
+R = kB*Na # eV/(K*mol)
+print(f'D0: {np.exp(lnD0):.3f} ' + r'Å^2/ps, ' + f'{(np.exp(lnD0)*(1e-10)**2/1e-12/1e-12):.3f}e-12 m^2/s')
+print(f'E: {-E_R*R/Na:.3f} ' + r'eV per atom, ' + f'{-E_R*R*1.602e-19/1e3:.3f} kJ/mol')
 fig, ax = plt.subplots(figsize=(8,6))
-ax.plot(1/T, np.log(D))
+ax.scatter(1/T, np.log(D), label='Raw data')
+ax.plot(1/T, 1/T*E_R+lnD0, linewidth=2, label='Linear fit')
 ax.set_xlabel(r'1/T, K')
 ax.set_ylabel(r'$\rm ln\left( D(T) \right)$, $\rm ln \left(  Å^2/ps \right)$')
 ax.grid()
+ax.legend(loc='best')
 plt.tight_layout()
-plt.show()
 plt.savefig('arrhenius.png')
 
 

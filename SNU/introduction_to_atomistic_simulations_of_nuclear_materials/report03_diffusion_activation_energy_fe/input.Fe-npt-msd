@@ -10,7 +10,7 @@ variable dump_freq equal 50
 variable scell equal 4
 variable i_temp equal 600
 variable d_temp equal 100
-variable n_temp equal 7
+variable n_temp equal 5
 
 units metal
 boundary p p p
