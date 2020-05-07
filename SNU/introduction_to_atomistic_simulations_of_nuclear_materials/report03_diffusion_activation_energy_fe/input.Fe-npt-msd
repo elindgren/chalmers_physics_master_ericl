@@ -9,8 +9,9 @@ variable thremo_freq equal 2000
 variable dump_freq equal 50
 variable scell equal 4
 variable i_temp equal 600
-variable d_temp equal 100
-variable n_temp equal 5
+variable d_temp equal 50
+variable n_temp equal 8
+variable n_repeat equal 5
 
 units metal
 boundary p p p
@@ -30,43 +31,49 @@ variable my_temp equal temp*1.0
 variable my_press equal press*1.0
 variable my_latcon equal lx/${scell}
 variable my_time equal step*${tstep}
+variable tot equal ${n_repeat}*${n_temp}
 
 label loopa
 variable a loop ${n_temp}
   variable atemp equal (${a}-1)*${d_temp}+${i_temp}
+  label loopb
+  variable b loop ${n_repeat}
+    reset_timestep 0
+    variable it equal ($a-1)*${n_repeat}+$b
+    thermo          ${thremo_freq}
+    thermo_style custom step temp pe etotal press vol lx
+    log             log/log.${projectname}
 
-  thermo          ${thremo_freq}
-  thermo_style custom step temp pe etotal press vol lx
-  log             log/log.${projectname}
+    timestep ${tstep}
+    velocity all create ${atemp} 1 dist gaussian mom yes rot yes
+    fix NPT all npt temp ${atemp} ${atemp} 0.5 iso 0.0 0.0 1.0
+    run ${nstep1}
 
-  timestep ${tstep}
-  velocity all create ${atemp} 1 dist gaussian mom yes rot yes
-  fix NPT all npt temp ${atemp} ${atemp} 0.5 iso 0.0 0.0 1.0
-  run ${nstep1}
+    reset_timestep 0
 
-  reset_timestep 0
+    restart         ${nstep2} restart/restart.${projectname}-${it}
+    dump            ${it} all custom ${dump_freq} dump/dump.${projectname}-${it} id type x y z
+    fix ave_vol all ave/time 1 ${thremo_freq} ${thremo_freq} v_my_vol  ave running
+    fix ave_temp all ave/time 1 ${thremo_freq} ${thremo_freq}  v_my_temp ave running
+    fix ave_press all ave/time 1 ${thremo_freq} ${thremo_freq} v_my_press  ave running
+    fix ave_latcon all ave/time 1 ${thremo_freq} ${thremo_freq}  v_my_latcon ave running
+    fix extra all print ${nstep2} "----FINISHED: ${it}/${tot} ---- T=${atemp} -----"
 
-  restart         ${nstep2} restart/restart.${projectname}-${a}
-  dump            ${a} all custom ${dump_freq} dump/dump.${projectname}-${a} id type x y z
-  fix ave_vol all ave/time 1 ${thremo_freq} ${thremo_freq} v_my_vol  ave running
-  fix ave_temp all ave/time 1 ${thremo_freq} ${thremo_freq}  v_my_temp ave running
-  fix ave_press all ave/time 1 ${thremo_freq} ${thremo_freq} v_my_press  ave running
-  fix ave_latcon all ave/time 1 ${thremo_freq} ${thremo_freq}  v_my_latcon ave running
-  fix extra all print ${nstep2} "----FINISHED: ${a}/${n_temp} ---- T=${atemp} -----"
+    compute msdFe_${it} Fe msd
+    thermo ${thremo_freq}
+    thermo_style custom step v_my_time temp press vol f_ave_vol f_ave_temp f_ave_press f_ave_latcon c_msdFe_${a}[1] c_msdFe_${a}[2] c_msdFe_${a}[3] c_msdFe_${a}[4]
+    print '----STARTING----' screen yes
+    run ${nstep2}
 
-  compute msdFe_${a} Fe msd
-  thermo ${thremo_freq}
-  thermo_style custom step v_my_time temp press vol f_ave_vol f_ave_temp f_ave_press f_ave_latcon c_msdFe_${a}[1] c_msdFe_${a}[2] c_msdFe_${a}[3] c_msdFe_${a}[4]
-  print '----STARTING----' screen yes
-  run ${nstep2}
+    write_data data.${projectname}
 
-  write_data data.${projectname}
-
-  unfix NPT
-  unfix ave_vol
-  unfix ave_temp
-  unfix ave_press
-  unfix ave_latcon
-  unfix extra
+    unfix NPT
+    unfix ave_vol
+    unfix ave_temp
+    unfix ave_press
+    unfix ave_latcon
+    unfix extra
+  next b
+  jump ${ifile} loopb  
 next a
 jump ${ifile} loopa

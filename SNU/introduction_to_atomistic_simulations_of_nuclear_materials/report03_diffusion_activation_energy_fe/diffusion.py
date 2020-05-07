@@ -19,11 +19,20 @@ plt.rc('legend', fontsize=14)    # legend fontsize
 '''
 
 dt = 0.002 # timestep, ps
-T = []  # temperatures
+N_avg = 5 # number of reruns on the same temperature
+N_temp = 5
+f = 'output.Fe-npt-msd'
+
+# Holding relevant quantities
 tmax = []
+T = []  # temperatures
 MSD_sq = []  # absolute mean squared displacements squared
 D = []
-f = 'output.Fe-npt-msd'
+
+# to hold all the extracted data
+tmax_all = []
+T_all = []
+MSD_sq_all = []
 
 with open(f, 'r') as f:
     f_cont = f.readlines()
@@ -37,16 +46,26 @@ for i, row in enumerate(f_cont):
         # Extract tmax and temperature
         last_it = list(filter( None, d[-1].rstrip().split(' ') ))
         tm = float( last_it[0] )*dt
-        tmax.append(tm)
-        T.append(float( last_it[6] ))
+        tmax_all.append(tm)
+        T_all.append(float( last_it[6] ))
         # Extract this MSD
         m_sq = [float(list(filter( None, d_i.rstrip().split(' ') ))[-1]) for d_i in d]
-        MSD_sq.append(m_sq)
-        # Calculate diffusion coefficient
-        t = np.linspace(0, tm, len(m_sq))
-        D_T = np.polyfit(t, m_sq, deg=1)[0]/6
-        D.append(D_T)
-    
+        MSD_sq_all.append(m_sq)
+
+MSD_sq_all = np.array( MSD_sq_all ) 
+# TODO Rerun with new input script tomorrow!
+for i in range(N_temp):
+    # Calculate averages
+    tm = np.average( tmax_all[i*N_avg:(i+1)*N_avg] )
+    temp = np.average( T_all[i*N_avg:(i+1)*N_avg] )
+    m_sq = np.average( MSD_sq_all[i*N_avg:(i+1)*N_avg,:], axis=0 )
+    tmax.append(tm)
+    T.append(temp)
+    MSD_sq.append(m_sq)
+    # Calculate diffusion coefficient
+    t = np.linspace(0, tm, len(m_sq))
+    D_T = np.polyfit(t, m_sq, deg=1)[0]/6
+    D.append(D_T)
 
 T = np.array(T)
 D = np.array(D)
