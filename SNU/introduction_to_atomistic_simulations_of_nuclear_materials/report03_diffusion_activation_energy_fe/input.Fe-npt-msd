@@ -61,7 +61,7 @@ variable a loop ${n_temp}
 
     compute msdFe_${it} Fe msd
     thermo ${thremo_freq}
-    thermo_style custom step v_my_time temp press vol f_ave_vol f_ave_temp f_ave_press f_ave_latcon c_msdFe_${a}[1] c_msdFe_${a}[2] c_msdFe_${a}[3] c_msdFe_${a}[4]
+    thermo_style custom step v_my_time temp press vol f_ave_vol f_ave_temp f_ave_press f_ave_latcon c_msdFe_${it}[1] c_msdFe_${it}[2] c_msdFe_${it}[3] c_msdFe_${it}[4]
     print '----STARTING----' screen yes
     run ${nstep2}
 

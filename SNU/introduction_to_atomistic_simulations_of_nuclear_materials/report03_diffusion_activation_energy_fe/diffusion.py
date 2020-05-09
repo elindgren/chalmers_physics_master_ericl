@@ -2,6 +2,7 @@
 import scipy as sc
 import numpy as np
 import matplotlib.pyplot as plt
+from pandas import *
 
 # Set plot params
 plt.rc('font', size=18)          # controls default text sizes
@@ -20,7 +21,7 @@ plt.rc('legend', fontsize=14)    # legend fontsize
 
 dt = 0.002 # timestep, ps
 N_avg = 5 # number of reruns on the same temperature
-N_temp = 5
+N_temp = 8
 f = 'output.Fe-npt-msd'
 
 # Holding relevant quantities
@@ -53,7 +54,6 @@ for i, row in enumerate(f_cont):
         MSD_sq_all.append(m_sq)
 
 MSD_sq_all = np.array( MSD_sq_all ) 
-# TODO Rerun with new input script tomorrow!
 for i in range(N_temp):
     # Calculate averages
     tm = np.average( tmax_all[i*N_avg:(i+1)*N_avg] )
@@ -70,6 +70,10 @@ for i in range(N_temp):
 T = np.array(T)
 D = np.array(D)
 MSD_sq = np.array(MSD_sq)
+D_T = DataFrame(np.array([T, D]).T)
+D_T.columns = ['T K', 'D Å^2/ps']
+print('Diffusion coefficient')
+print(D_T)
 
 # Perform Arrhenius plot and calculate D0 and E
 E_R, lnD0 = np.polyfit(1/T, np.log(D), deg=1) 
@@ -94,10 +98,10 @@ fig, ax = plt.subplots(figsize=(10,9))
 for i, temp in enumerate(T):
     msd_sq = MSD_sq[i]
     t = np.linspace(0, tmax[i], len(msd_sq))    
-    ax.scatter(t, msd_sq, color=f'C{i}', s=12, alpha=0.7, label=f'Raw data, T={temp:.3f} K')
-    ax.plot(t, t*6*D[i], color=f'C{i}', linewidth=2, alpha=1, label=f'Linear fit, T={temp:.3f} K')
+    ax.scatter(t, msd_sq, color=f'C{i}', s=12, alpha=0.7, label=r'$\bar{r}^2$, ' + f'T={temp:.3f} K')
+    ax.plot(t, t*6*D[i], color=f'C{i}', linewidth=2, alpha=1, label=f'Fit, T={temp:.3f} K')
 ax.set_xlabel(r'$t$, ps')
-ax.set_ylabel(r'MSD, $\rm Å^2$')
+ax.set_ylabel(r'$\bar{r}^2$, $\rm Å^2$')
 ax.grid()
 ax.legend(loc='best')
 plt.tight_layout()

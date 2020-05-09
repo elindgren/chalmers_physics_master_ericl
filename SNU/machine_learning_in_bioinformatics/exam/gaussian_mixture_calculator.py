@@ -24,7 +24,7 @@ def tau_Znk(x, mu, sigma, pi):
 
 
 # Controls
-solve = True  # If true, iterates until convergence
+solve = False  # If true, iterates until convergence
 tol = 1e-6
 
 # Data
