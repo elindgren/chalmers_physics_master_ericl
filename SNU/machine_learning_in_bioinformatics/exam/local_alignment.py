@@ -37,14 +37,14 @@ T = np.zeros((len(x), len(y)))  # traceback table
 
 # Initialization
 for i in range(len(x)):
-    F[i,0] = -d*i
+    F[i,0] = 0
 for j in range(len(y)):
-    F[0,j] = -d*j
+    F[0,j] = 0
 
 # Algorithm
 for i in range(1, len(x)):
     for j in range(1, len(y)):
-        cases = [ F[i-1, j-1]+s[x[i], y[j]], F[i-1, j]-d, F[i, j-1]-d ] 
+        cases = [ 0,  F[i-1, j-1]+s[x[i], y[j]], F[i-1, j]-d, F[i, j-1]-d ] 
         choice = np.argmax(cases) # 0 = i-1,j-1, 1=i-1,j (xi aligned to gap), 2=i,j-1 (yi aligned to gap)
         F[i,j] = cases[choice] # i is the column index, j is the row index
         T[i,j] = choice
@@ -53,32 +53,35 @@ for i in range(1, len(x)):
 x_al = []
 y_al = []
 path = []
-i = len(x)-1
-j = len(y)-1
+max_idx = np.where(F == F.max())
+i = max_idx[0][0]
+j = max_idx[1][0]
 while i>-1 or j>-1:
+    c=T[i,j]
     path.append([i,j])
-    if i==len(x)-1 and j==len(y)-1:
-        c=0 # The last characters must be aligned
-    else:
-        c=T[i,j]
     if c==0:
+        # the case of Fij = 0, i.e. beginning of alignment. End
+        x_al.append(x_s[i])
+        y_al.append(y_s[i])
+        break
+    elif c==1:
         # xi and yi aligned
         x_al.append(x_s[i])
-        y_al.append(y_s[j])
+        y_al.append(y_s[i])
         i -= 1
         j -= 1
-    elif c==1:
+    elif c==2:
         # xi aligned to gap in y
         x_al.append(x_s[i])
         y_al.append('-')
         i -= 1
         j = j # no change in y, gap
-    elif c==2:
+    elif c==3:
         # yi aligned to gap in x
         x_al.append('-')
-        y_al.append(y_s[j])
+        y_al.append(y_s[-1])
         i = i # no change in x - gap in 
-        j -= 1 
+        j -= 1
 x_al = ''.join(list(reversed(x_al)))
 y_al = ''.join(list(reversed(y_al)))
 
@@ -97,7 +100,6 @@ Fd.index = [xi for xi in x_s]
 Fd.columns = [yi for yi in y_s]
 print(Fd)
 
-
-print(f'Optimal global alignment with score {F[-1,-1]}:')
+print(f'Optimal local alignment with score {F.max()}:')
 print(f'x: {x_al}')
 print(f'y: {y_al}')
