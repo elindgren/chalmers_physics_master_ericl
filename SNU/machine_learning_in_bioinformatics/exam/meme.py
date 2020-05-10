@@ -29,19 +29,18 @@ def translate_alphabet(x):
     return x_ser
 
 
-def count_occurences(x_seq, W):
+def count_occurences(x_seq, L):
     # Count the number of counts for the different alphabet characters where x_seq is a translated string
     counts = []
-    for a in range(W):
+    for a in range(L):
         counts.append(len( np.where(x_seq==a)[0] ))
     counts = np.array( counts )
     return counts
 
 
-def initialize_f(X, W, L, motif=0):
+def initialize_f(X, W, L, p, motif=0):
     f = np.zeros((W+1, L))
     n = len(X)
-    p = 0.4 # Initialization probability if a character is found at index p in motif
     # Chose the first sequence to be motif
     mot = X[motif]
     bgd = np.delete(X, motif)
@@ -49,10 +48,10 @@ def initialize_f(X, W, L, motif=0):
     # Background counts for fij
     for b in bgd:
         b = translate_alphabet(b)
-        counts = count_occurences(b, W)
+        counts = count_occurences(b, L)
         f[0,:] += counts    
     f[0,:] /= (n-1)*W
-    assert np.sum(f[0,:]) == 1.0
+    assert np.abs( np.sum(f[0,:]) - 1.0 ) < 1e-10
 
     # Motif parameter estimation
     mot = translate_alphabet(mot)
@@ -61,7 +60,7 @@ def initialize_f(X, W, L, motif=0):
             if  ai==j:
                 f[i+1,j] = p
             else:
-                f[i+1,j] = (1-p)/(W-1)
+                f[i+1,j] = (1-p)/(L-1)
     assert np.all(np.sum(f[1:, :], axis=1)-1.0 < 1e-10)
     return f
 
@@ -92,7 +91,9 @@ def log_likelihood(X, Z, f, lam):
     return logL
 
 
-def find_motif(X, f):
+def find_most_probable_xf(X, f):
+    # Find most probable sequence
+    #! Not the proper motif according to MEME
     probs = []
     for x in X:
         probs.append( model(x, f, bg_model=0) )  # prob of sequence x to be motif
@@ -128,18 +129,62 @@ def update_f(c, b):
     return f
 
 
+def print_iteration(it, Z, c, f, lam, logL, A):
+    print(f'******* Iteration {it} *******')
+    # E-step: calculate latent variables zij for each sample xi where j is either 0 or 1 (motif or non-motif)
+    print('---- E-step ----')
+    zd = DataFrame(Z)
+    zd.index += 1 # shift indices to fit paper convention
+    zd.columns = [1, 2]
+    print(f'Zij:')
+    print(f'{zd}')
+    print()
+    # Calculate log-likelihood
+    print(f'log likelihood: {logL:.8f}')
+    print()
+
+    # M-step
+    print('---- M-step ----')
+    print(f'cij:')
+    cd = DataFrame(c)
+    cd.columns = A
+    print(f'{cd}')
+    print()
+
+    print(f'updated f:')
+    fd = DataFrame(f)
+    fd.columns = A
+    print(f'{fd}')
+    print()
+
+    print(f'updated lambda:')
+    dlam = DataFrame(lam)
+    dlam.index += 1
+    print(f'{dlam}')
+    print()
+
+    # Calculate log-likelihood
+    print("This logL should not be computed here - reestimate Z first")
+    print(f'log likelihood: {logL:.8f}')
+    print()
+
+
 # Controls
-solve = True  # If true, iterates until convergence
+solve = False  # If true, iterates until convergence
+print_step = False
 tol = 1e-6
 
 # Sequences
-S = ['ATTGGC', 'TTGACC']
+S = ['ACG', 'TAG']                                                                  #! Change
+A = ['A', 'C', 'G', 'T']
 
 # Initialization
-lam = [0.5, 0.5]  # Lambda
-W = 4  # Motif length
-L = 4  # Alphabet length
-b = np.ones(W)  # Pseudocounts
+lam = [0.3, 0.7]  # Lambda                                                          #! Change
+W = 2  # Motif length                                                               #! Change
+L = 4  # Alphabet length                                                            #! Change
+b = np.ones(L)  # Pseudocounts                                                      #! Change
+motif = 0                                                                           #! Change
+p = 0.4 # Initialization probability if a character is found at index p in motif    #! Change
 X = split_sequences(S, W)
 n = len(X)
 
@@ -150,48 +195,49 @@ print(f'X:')
 print(f'{Xd}')
 print()
 # Initialize f weight matrix
-f = initialize_f(X, W, L, motif=0)
+f = initialize_f(X, W, L, p, motif=motif)
+fd = DataFrame(f)
+fd.columns = A
 print(f'fij:')
-print(f'{DataFrame(f)}')
+print(f'{fd}')
 print()
 
-print('******* Algorithm *******')
 # E-step: calculate latent variables zij for each sample xi where j is either 0 or 1 (motif or non-motif)
-print('---- E-step ----')
 Z = calc_Z(X, f, lam)
-zd = DataFrame(Z)
-zd.index += 1 # shift indices to fit paper convention
-zd.columns = [1, 2]
-print(f'Zij:')
-print(f'{zd}')
-print()
+
 # Calculate log-likelihood
 logL = log_likelihood(X, Z, f, lam)
 print(f'log likelihood: {logL:.8f}')
 print()
+# print(
+#     0.552430*np.log(0.3*0.4**2) + 0.447570*np.log(0.7*0.33*0.167) + 
+#     0.235808*np.log(0.3*0.2**2) + 0.764192*np.log(0.7*0.167*0.3)  +
+#     0.235808*np.log(0.3*0.2**2) + 0.764192*np.log(0.7*0.167*0.3)  +
+#     0.235808*np.log(0.3*0.4*0.2) + 0.764192*np.log(0.7*0.33*0.33)
+# )
 
 # M-step
-print('---- M-step ----')
 c = calc_count(X, Z, W, L)
-print(f'cij:')
-print(f'{DataFrame(c)}')
-print()
-
 f = update_f(c, b)
-print(f'updated f:')
-print(f'{DataFrame(f)}')
-print()
-
 lam = np.sum( Z, axis=0 ) / n
-print(f'updated lambda:')
-print(f'{DataFrame(lam)}')
-print()
+
+# Checks
+assert np.abs( np.sum(lam)-1) < 1e-10 
+assert np.all( np.abs(np.sum(f, axis=1)-1) < 1e-10 )
 
 # Calculate log-likelihood
 logL_old = logL
 logL = log_likelihood(X, Z, f, lam)
-print(f'log likelihood: {logL:.8f}')
-print()
+
+# print(
+#     0.552430*np.log(0.314963*0.4**2) + 0.447570*np.log(0.7*0.33*0.167) + 
+#     0.235808*np.log(0.314963*0.2**2) + 0.764192*np.log(0.7*0.167*0.3)  +
+#     0.235808*np.log(0.314963*0.2**2) + 0.764192*np.log(0.7*0.167*0.3)  +
+#     0.235808*np.log(0.314963*0.4*0.2) + 0.764192*np.log(0.7*0.33*0.33)
+# )
+
+# Print
+print_iteration(1, Z, c, f, lam, logL, A)
 
 
 ##### Converge
@@ -199,7 +245,7 @@ print()
 # Iterate until convergence
 
 if(solve):
-    it = 1
+    it = 2
     logLs = [logL_old, logL]
     while(np.abs(logL-logL_old) > tol):
         # E-step
@@ -212,9 +258,11 @@ if(solve):
         logL_old = logL
         logL = log_likelihood(X, Z, f, lam)
         logLs.append(logL)
-        it += 1
+        if print_step:
+            print_iteration(it, Z, c, f, lam, logL, A)
         if(it > 100):
             break
+        it += 1
     
     # Plot convergence
     fig, ax = plt.subplots(figsize=(8,6))
@@ -225,6 +273,6 @@ if(solve):
 
 
 # Find the most probable sequence - our motif
-motif, p = find_motif(X, f)
+motif, p = find_most_probable_xf(X, f)
 print(f'motif: {motif}, p={p:.4f}')
 print()

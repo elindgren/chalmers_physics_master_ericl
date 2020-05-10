@@ -3,95 +3,148 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pandas import *
 
-def Nd(x, mu, sigma):
+def Nd(x, mu, var):
+    sigma = np.sqrt(var)
     return 1/(sigma*np.sqrt(2*np.pi)) * np.exp( -1/2*((x-mu)/sigma)**2 )
 
 
-def log_like(x, mu, sigma, pi):
+def log_like(x, mu, var, pi):
     log_like = 0
     for xn in x:
-        log_like += np.log( pi[0]*Nd(xn, mu[0], sigma[0]) + pi[1]*Nd(xn, mu[1], sigma[1]) )
+        log_like += np.log( pi[0]*Nd(xn, mu[0], var[0]) + pi[1]*Nd(xn, mu[1], var[1]) )
     return log_like
 
 
-def tau_Znk(x, mu, sigma, pi):
+def tau_Znk(x, mu, var, pi):
     tZnk = np.zeros((len(x), len(pi) ))
     for n,xn in enumerate(x):
         for k, pik in enumerate(pi):
             ik = 0**k # The other index; when k = 0, ik=1, when k = 1, ik=0
-            tZnk[n,k] = pik*Nd(xn, mu[k], sigma[k])/(pik*Nd(xn, mu[k], sigma[k]) + pi[ik]*Nd(xn, mu[ik], sigma[ik]))
+            tZnk[n,k] = pik*Nd(xn, mu[k], var[k])/(pik*Nd(xn, mu[k], var[k]) + pi[ik]*Nd(xn, mu[ik], var[ik]))
     return tZnk
+
+
+def print_iteration(it, tZnk, Nk, mu, var, pi, logL):
+    print(f'******* Iteration {it} *******')
+    print('---- E-step ----')
+    print(f'tau(Znk):')
+    dtZnk = DataFrame(tZnk)
+    dtZnk.columns = ['1. M', '2. B']
+    dtZnk.index += 1
+    print(f'{dtZnk}')
+    print()
+    print('---- M-step ----')
+    print(f'Nk:')
+    dNk = DataFrame(Nk)
+    dNk.index += 1
+    print(f'{dNk}')
+    print(f'mu:')
+    dmu = DataFrame(mu)
+    dmu.index += 1
+    print(f'{dmu}')
+    print(f'Var:')
+    dvar = DataFrame(var)
+    dvar.index += 1
+    print(f'{dvar}')
+    print(f'pi:')
+    dpi = DataFrame(pi)
+    dpi.index += 1
+    print(f'{dpi}')
+    print()
+    print(f'logL = {logL:.4f}')
 
 
 # Controls
 solve = False  # If true, iterates until convergence
+print_step = False
 tol = 1e-6
 
 # Data
-x = np.array([1, 5, 9, 11.5, 3])
+x = np.array([2,4,7])
 N = len(x)
 # Initialization
 print('******* Initialization *******')
-mu = [2, 5]
-sigma = [1,1]
-pi = [0.25, 0.75]
-logL = log_like(x, mu, sigma, pi)
+mu = [3, 6]
+var = [0.5,0.5]
+pi = [0.5, 0.5] 
+logL = log_like(x, mu, var, pi)
 print(f'logL = {logL:.4f}')
-
-
-print('******* Iteration 1 *******')
+# print(
+#     np.log(0.5*Nd(2,3,0.5)+0.5*Nd(2,6,0.5))+
+#     np.log(0.5*Nd(4,3,0.5)+0.5*Nd(4,6,0.5))+
+#     np.log(0.5*Nd(7,3,0.5)+0.5*Nd(7,6,0.5))
+# )
 # E-step
-print('---- E-step ----')
-tZnk = tau_Znk(x, mu, sigma, pi)
-print(f'tau(Znk):')
-print(f'{DataFrame(tZnk)}')
-print()
+tZnk = tau_Znk(x, mu, var, pi)
+# print(
+#     0.5*Nd(2,3,0.5)/(0.5*Nd(2,3,0.5)+0.5*Nd(2,6,0.5)) 
+# ) #z11
+# print(
+#     0.5*Nd(4,6,0.5)/(0.5*Nd(4,3,0.5)+0.5*Nd(4,6,0.5))
+# ) #z22
+
 # M-step 
-print('---- M-step ----')
 Nk = np.sum(tZnk, axis=0)
-print(f'Nk:')
-print(f'{DataFrame(Nk)}')
-
+# print(
+#     9.999997e-01+9.525741e-01+3.059022e-07
+# )
 mu = np.sum(tZnk.T*x,axis=1)/Nk
-print(f'mu:')
-print(f'{DataFrame(mu)}')
-
-sigma = np.sum(np.array( [tZnk[n,:]*(xn-mu)**2 for n, xn in enumerate(x)] ), axis=0)/Nk
-print(f'Sigma:')
-print(f'{DataFrame(sigma)}')
-# print((9.9834e-1*(1-1.7575)**2 + 3.6893e-3*(5-1.7575)**2 + 2.2752e-8*(9-1.7575)**2 + 1.2584e-11*(11-1.7575)**2 + 5.9902e-1*(3-1.7575)**2)/1.6011)
-
+# print(
+#     (2*9.999997e-01+4*9.525741e-01+7*3.059022e-07)/1.952574
+# )
+# print(
+#     (2*3.059022e-07+4*4.742587e-02+7*9.999997e-01)/1.047426
+# )
+var = np.sum(np.array( [tZnk[n,:]*(xn-mu)**2 for n, xn in enumerate(x)] ), axis=0)/Nk
+# print(
+#     (9.999997e-01*(2-2.975712)**2+9.525741e-01*(4-2.975712)**2+3.059022e-07*(7-2.975712)**2)/1.952574
+# )
+# print(
+#     (3.059022e-07*(2-6.864163)**2+4.742587e-02*(4-6.864163)**2+9.999997e-01*(7-6.864163)**2)/1.047426
+# )
 pi = Nk/N
-print(f'pi:')
-print(f'{DataFrame(pi)}')
-print()
+# print(
+#     1.952574/3
+# )
+# print(
+#     1.047426/3
+# )
 
 # Calculate likelihood
 logL_old = logL
-logL = log_like(x, mu, sigma, pi)
-print(f'logL = {logL:.4f}')
+logL = log_like(x, mu, var, pi)
+# print(
+#     np.log(0.650858*Nd(2,2.975712,0.999412)+0.349142*Nd(2,6.864163,0.389062))+
+#     np.log(0.650858*Nd(4,2.975712,0.999412)+0.349142*Nd(4,6.864163,0.389062))+
+#     np.log(0.650858*Nd(7,2.975712,0.999412)+0.349142*Nd(7,6.864163,0.389062))
+# )
+
+print_iteration(1, tZnk, Nk, mu, var, pi, logL)
+
 
 # Iterate until convergence
 
 if(solve):
-    it = 1
+    it = 2
     logLs = [logL_old, logL]
     while(np.abs(logL-logL_old) > tol):
         # E-step
-        tZnk = tau_Znk(x, mu, sigma, pi)
+        tZnk = tau_Znk(x, mu, var, pi)
         # M-step
         Nk = np.sum(tZnk, axis=0)
         mu = np.sum(tZnk.T*x,axis=1)/Nk
-        sigma = np.sum(np.array( [tZnk[n,:]*(xn-mu)**2 for n, xn in enumerate(x)] ), axis=0)/Nk
+        var = np.sum(np.array( [tZnk[n,:]*(xn-mu)**2 for n, xn in enumerate(x)] ), axis=0)/Nk
         pi = Nk/N
         # Likelihood
         logL_old = logL
-        logL = log_like(x, mu, sigma, pi)
+        logL = log_like(x, mu, var, pi)
         logLs.append(logL)
-        it += 1
+        if print_step:
+            print_iteration(it, tZnk, Nk, mu, var, pi, logL)
         if(it > 100):
             break
-    
+        it += 1    
+        
     # Plot convergence
     fig, ax = plt.subplots(figsize=(8,6))
     ax.plot(logLs)
