@@ -19,14 +19,14 @@ def translate_alphabet(x):
 
 
 # Sequences
-x_s = 'GCATT'
-y_s = 'GTT'
-s = np.array([
+x_s = 'GCATT'               #! change
+y_s = 'GTT'                 #! change
+s = np.array([              
     [7, -3, -3, -3],
     [-3, 7, -3, -3],
     [-3, -3, 7, -3],
     [-3, -3, -3, 7]
-])
+])                          #! change
 x = translate_alphabet(x_s)
 y = translate_alphabet(y_s)
 

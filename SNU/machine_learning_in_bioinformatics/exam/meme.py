@@ -43,25 +43,30 @@ def initialize_f(X, W, L, p, motif=0):
     n = len(X)
     # Chose the first sequence to be motif
     mot = X[motif]
-    bgd = np.delete(X, motif)
+    # bgd = np.delete(X, motif)
+    bgd = X
 
     # Background counts for fij
     for b in bgd:
         b = translate_alphabet(b)
         counts = count_occurences(b, L)
         f[0,:] += counts    
-    f[0,:] /= (n-1)*W
+    f[0,:] /= (n)*W
     assert np.abs( np.sum(f[0,:]) - 1.0 ) < 1e-10
 
     # Motif parameter estimation
-    mot = translate_alphabet(mot)
-    for i, ai in enumerate(mot):
-        for j in range(L):
-            if  ai==j:
-                f[i+1,j] = p
-            else:
-                f[i+1,j] = (1-p)/(L-1)
-    assert np.all(np.sum(f[1:, :], axis=1)-1.0 < 1e-10)
+    # mot = translate_alphabet(mot)
+    # for i, ai in enumerate(mot):
+    #     for j in range(L):
+    #         if  ai==j:
+    #             f[i+1,j] = p
+    #         else:
+    #             f[i+1,j] = (1-p)/(L-1)
+    # assert np.all(np.sum(f[1:, :], axis=1)-1.0 < 1e-10)
+    f[1:,:] = np.array([
+        [1/6, 1/6, 1/3, 1/3],
+        [1/6, 1/6, 1/2, 1/6]
+    ])
     return f
 
 
@@ -175,11 +180,11 @@ print_step = False
 tol = 1e-6
 
 # Sequences
-S = ['ACG', 'TAG']                                                                  #! Change
+S = ['AGG', 'CGT', 'AGC']                                                                  #! Change
 A = ['A', 'C', 'G', 'T']
 
 # Initialization
-lam = [0.3, 0.7]  # Lambda                                                          #! Change
+lam = [0.5, 0.5]  # Lambda                                                          #! Change
 W = 2  # Motif length                                                               #! Change
 L = 4  # Alphabet length                                                            #! Change
 b = np.ones(L)  # Pseudocounts                                                      #! Change

@@ -55,18 +55,18 @@ def print_iteration(it, tZnk, Nk, mu, var, pi, logL):
 
 
 # Controls
-solve = False  # If true, iterates until convergence
-print_step = False
+solve = True  # If true, iterates until convergence
+print_step = True
 tol = 1e-6
 
 # Data
-x = np.array([2,4,7])
+x = np.array([1,2,4,7,8,10])                       #! change
 N = len(x)
 # Initialization
 print('******* Initialization *******')
-mu = [3, 6]
-var = [0.5,0.5]
-pi = [0.5, 0.5] 
+mu = [1, 10]                                 #! change
+var = [1,1]                             #! change
+pi = [0.5, 0.5]                             #! change 
 logL = log_like(x, mu, var, pi)
 print(f'logL = {logL:.4f}')
 # print(
@@ -75,7 +75,7 @@ print(f'logL = {logL:.4f}')
 #     np.log(0.5*Nd(7,3,0.5)+0.5*Nd(7,6,0.5))
 # )
 # E-step
-tZnk = tau_Znk(x, mu, var, pi)
+tZnk = np.around(tau_Znk(x, mu, var, pi), 2)
 # print(
 #     0.5*Nd(2,3,0.5)/(0.5*Nd(2,3,0.5)+0.5*Nd(2,6,0.5)) 
 # ) #z11
@@ -84,25 +84,25 @@ tZnk = tau_Znk(x, mu, var, pi)
 # ) #z22
 
 # M-step 
-Nk = np.sum(tZnk, axis=0)
+Nk = np.around(np.sum(tZnk, axis=0),2)
 # print(
 #     9.999997e-01+9.525741e-01+3.059022e-07
 # )
-mu = np.sum(tZnk.T*x,axis=1)/Nk
+mu = np.around(np.sum(tZnk.T*x,axis=1)/Nk,2)
 # print(
 #     (2*9.999997e-01+4*9.525741e-01+7*3.059022e-07)/1.952574
 # )
 # print(
 #     (2*3.059022e-07+4*4.742587e-02+7*9.999997e-01)/1.047426
 # )
-var = np.sum(np.array( [tZnk[n,:]*(xn-mu)**2 for n, xn in enumerate(x)] ), axis=0)/Nk
+var = np.around(np.sum(np.array( [tZnk[n,:]*(xn-mu)**2 for n, xn in enumerate(x)] ), axis=0)/Nk,2)
 # print(
 #     (9.999997e-01*(2-2.975712)**2+9.525741e-01*(4-2.975712)**2+3.059022e-07*(7-2.975712)**2)/1.952574
 # )
 # print(
 #     (3.059022e-07*(2-6.864163)**2+4.742587e-02*(4-6.864163)**2+9.999997e-01*(7-6.864163)**2)/1.047426
 # )
-pi = Nk/N
+pi = np.around(Nk/N,2)
 # print(
 #     1.952574/3
 # )
@@ -129,19 +129,19 @@ if(solve):
     logLs = [logL_old, logL]
     while(np.abs(logL-logL_old) > tol):
         # E-step
-        tZnk = tau_Znk(x, mu, var, pi)
+        tZnk = np.around(tau_Znk(x, mu, var, pi), 2)
         # M-step
-        Nk = np.sum(tZnk, axis=0)
-        mu = np.sum(tZnk.T*x,axis=1)/Nk
-        var = np.sum(np.array( [tZnk[n,:]*(xn-mu)**2 for n, xn in enumerate(x)] ), axis=0)/Nk
-        pi = Nk/N
+        Nk = np.around(np.sum(tZnk, axis=0),2)
+        mu = np.around(np.sum(tZnk.T*x,axis=1)/Nk,2)
+        var = np.around(np.sum(np.array( [tZnk[n,:]*(xn-mu)**2 for n, xn in enumerate(x)] ), axis=0)/Nk,2)
+        pi = np.around(Nk/N,2)
         # Likelihood
         logL_old = logL
         logL = log_like(x, mu, var, pi)
         logLs.append(logL)
         if print_step:
             print_iteration(it, tZnk, Nk, mu, var, pi, logL)
-        if(it > 100):
+        if(it == 2):
             break
         it += 1    
         
@@ -150,7 +150,7 @@ if(solve):
     ax.plot(logLs)
     ax.set_xlabel('Iterations')
     ax.set_ylabel(r'log likelihood $\log(p(x | \mu, \Sigma, \pi))$')
-    plt.show()
+    # plt.show()
 
 
 

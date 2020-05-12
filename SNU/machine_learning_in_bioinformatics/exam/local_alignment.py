@@ -19,19 +19,19 @@ def translate_alphabet(x):
 
 
 # Sequences
-x_s = 'AGGTCTCA'
-y_s = 'GGCCA'
+x_s = 'CGATTA'            #! change
+y_s = 'ATTTC'               #! change
 s = np.array([
-    [5, -4, -4, -4],
-    [-4, 5, -4, -4],
-    [-4, -4, 5, -4],
-    [-4, -4, -4, 5]
-])
+    [1, -2, -2, -2],
+    [-2, 2, -2, -2],
+    [-2, -2, 2, -2],
+    [-2, -2, -2, 1]
+])                          #! change
 x = translate_alphabet(x_s)
 y = translate_alphabet(y_s)
 
 # Setup
-d = 5
+d = 4
 F = np.zeros((len(x)+1, len(y)+1))
 T = np.zeros((len(x)+1, len(y)+1))  # traceback table
 
