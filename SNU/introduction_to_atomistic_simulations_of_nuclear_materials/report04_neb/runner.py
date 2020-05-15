@@ -11,9 +11,8 @@ import time
     May 2020
 '''
 
-
 # Settings
-n_img = 50
+n_img = 20
 
 print(f'Starting NEB calculations for {n_img} images')
 s_time = time.time()
@@ -49,12 +48,16 @@ for d in os.listdir('./'):
         with open('output.neb', 'r') as f:
             outp = f.readlines()
         trans = list(filter( None, outp[-1].rstrip().split(' ') ))[9:]
-        with open('../transitions.txt', 'w') as f:
+        if d == 'casea':
+            mode = 'w'
+        else:
+            mode = 'a'
+        with open('../transitions.txt', mode) as f:
             f.write(f'{d}\n')
             for i in range(n_img):
                 f.write(f'{trans[2*i]} {trans[2*i+1]}\n')
         # Return to parent directory
-        print(f'--- Finished in {(time.time()-d_time):.2f} s')
+        print(f' --- Finished in {(time.time()-d_time):.2f} s')
         os.chdir(f'../')
 
 print('********')

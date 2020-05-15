@@ -12,8 +12,8 @@ plt.rc('axes', labelsize=16)     # fontsize of the x and y labels
 plt.rc('xtick', labelsize=16)    # fontsize of the tick labels
 plt.rc('ytick', labelsize=16)    # fontsize of the tick labels
 plt.rc('legend', fontsize=14)    # legend fontsize
-linestyle_cycler = cycler('linestyle',['-','--',':','-.'])
-plt.rc('axes', prop_cycle=linestyle_cycler)
+line_cycler = cycler('linestyle',['-','--',':','-.', '-', '--']) + cycler('color', ['r', 'g', 'b', 'k', 'c', 'y'])
+plt.rc('axes', prop_cycle=line_cycler)
 
 '''
     This script takes the output from each case in runner.py and 
@@ -37,7 +37,7 @@ with open('transitions.txt', 'r') as f:
             t = np.array( t )
             trans[c] = t
             # Create new ones
-            c = line
+            c = line.rstrip()
             t = []
         else:
             sl = line.split(' ')
@@ -49,16 +49,23 @@ with open('transitions.txt', 'r') as f:
 
 # Plot transition
 fig, ax = plt.subplots(figsize=(8,6))
+i = 0
+off = 1
 for key, val in trans.items():
     r = val[:,0]
     n_e = val[:,1] - val[0,1]
-    assert val[0,1] == val[-1,1] # These should match for a good NEB calculation
+    # assert np.abs( val[0,1] - val[-1,1] ) < 1e-10 # These should match for a good NEB calculation
     lab = f'Case ({key[-1]})'
+    # ax.plot(r, n_e+off*i, markersize=2, linewidth=2, label=lab)
     ax.plot(r, n_e, markersize=2, linewidth=2, label=lab)
+    # ax.plot([0,1], np.ones(2)*n_e[0]+off*i, c='k', linestyle='--', alpha=0.7)
     # Find energy barrier
     print(f'{lab}: Em={n_e.max():.3f} eV')
-ax.legend(loc='best')
-ax.set_ylabel(r'Transition energy $E_m$ (eV)')
+    i += 1
+ax.legend(loc='right')
+ax.set_xlim(0,1.4)
+# ax.set_ylim(0,6.4)
+ax.set_ylabel(r'Migration energy barrier $E_m$ (eV)')
 ax.set_xlabel(r'Reaction coordinate $R$')
 ax.grid()
 plt.tight_layout()
