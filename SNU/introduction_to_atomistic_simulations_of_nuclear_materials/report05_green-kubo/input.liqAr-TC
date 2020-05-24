@@ -1,0 +1,119 @@
+variable proj string liqAr-TC-107K
+variable ifile string input.liqAr-TC
+variable dfile string data.fcc-Ar-sc06
+variable rs equal 1		# random seed	
+variable    T  equal 107
+variable    V  equal vol
+variable    dt equal 0.01	# huge timestep due to low temperature
+variable    p  equal 400    	# correlation length ( N repeat ) - 400 calculations => 400*5 = 2000 timesteps
+variable    s  equal 5       	# sample interval ( N every ) - calculate autocorrelation in j every fifth timestep
+variable    d  equal $p*$s   	# dump interval ( N Freq ) - block lenght, dump the results after each block
+variable massAr equal 39.948
+variable cell_sc equal 6
+variable nstep0 equal 25000
+variable nstep1 equal $d*50  # Complete 50 blocks of correlation calculations 
+variable rfreq equal 100000
+variable dfreq equal 500
+
+
+variable    kB equal 1.3806504e-23    # [J/K] Boltzmann
+variable    eV2J equal 1.60217662E-19
+variable    A2m equal 1.0e-10
+variable    ps2s equal 1.0e-12
+variable    convert equal ${eV2J}*${eV2J}/${ps2s}/${A2m}
+
+
+units metal
+boundary p p p
+atom_style atomic
+read_data  ${dfile}
+
+pair_style lj/cut 12.0
+pair_coeff 1 1  0.010323565 3.405 12.0 # LJ model
+
+group argon type 1
+group Ar type 1
+
+mass 1 ${massAr}
+
+reset_timestep 0
+timestep ${dt}
+thermo 100
+
+variable my_vol equal vol*1.0
+variable my_temp equal temp*1.0
+variable my_press equal press*1.0
+variable my_etotal equal etotal*1.0
+variable my_lx equal lx/v_cell_sc
+
+velocity all create ${T} ${rs} dist gaussian mom yes rot yes
+log log.${proj}-${T}K
+
+fix NVT all nvt temp ${T} ${T} 1.0 # Initialize temperature twice - equilibrates system nicely. 
+fix recen1 all recenter INIT INIT INIT
+run ${nstep0}
+
+unfix NVT
+unfix recen1
+
+
+variable rs2 equal 2*${rs}
+velocity all create ${T} ${rs2} dist gaussian mom yes rot yes
+
+fix NVT all nvt temp ${T} ${T} 1.0
+fix 1 all ave/time 1 100 100 v_my_vol  ave running
+fix 2 all ave/time 1 100 100 v_my_temp ave running
+fix 3 all ave/time 1 100 100 v_my_press  ave running
+fix 4 all ave/time 1 100 100 v_my_etotal ave running
+fix 5 all ave/time 1 100 100 v_my_lx  ave running
+
+thermo 100
+thermo_style custom step temp pe etotal press vol v_my_lx f_1 f_2 f_3 f_4 f_5
+
+run ${nstep0}
+
+unfix NVT
+unfix 1
+unfix 2
+unfix 3
+unfix 4
+unfix 5
+
+reset_timestep 0
+
+fix NVT all nvt temp ${T} ${T} 1.0
+dump 1 all custom ${dfreq} dump.${proj} id type x y z
+restart ${rfreq} restart.${proj}-${T}K
+
+compute        mymsd1 Ar   msd 		# not necessary
+variable     msd1x equal c_mymsd1[1]
+variable     msd1y equal c_mymsd1[2]
+variable     msd1z equal c_mymsd1[3]
+
+# Center of Mass V			# not necessary
+variable  vcm1x equal vcm(Ar,x)
+variable  vcm1y equal vcm(Ar,y)
+variable  vcm1z equal vcm(Ar,z)
+
+
+#Apply green-kubo method
+## Energy
+compute      keAll all ke/atom
+compute      peAll all pe/atom
+
+## Stress
+compute      stAll all stress/atom NULL virial	# only get the virial term
+
+## Energy flux (JE)
+# All elements 
+compute      str all pressure thermo_temp
+
+fix 1 all ave/time 1 100 100 v_my_vol  ave running file vol.output
+fix 2 all ave/time 1 100 100 v_my_press  ave running file press.output
+fix          PP all ave/correlate $s $p $d &
+             c_str[4] c_str[5] c_str[6] type auto file P0Pt.dat ave running overwrite # correlate j0jt 2000 timesteps and calculate average so far; for the last one this will be the average over all 50. 
+
+thermo $d
+thermo_style custom step temp vol press c_str[1] c_str[2] c_str[3] c_str[4] c_str[5] c_str[6]
+
+run ${nstep1}

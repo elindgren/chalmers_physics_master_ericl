@@ -12,7 +12,7 @@ import time
 '''
 
 # Settings
-n_img = 20
+n_img = 21
 
 print(f'Starting NEB calculations for {n_img} images')
 s_time = time.time()
