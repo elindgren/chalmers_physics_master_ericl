@@ -1,5 +1,5 @@
 # displacement simulation, lammps input# 
-variable proj1  string       cascade-rev1
+variable proj1  string       cascade-Fe-mod
 variable pkaid1 equal        268    # The number of the atom that becomes our PKA
 variable pkaene equal        1000   # in eV
 variable pkadx equal         1.0

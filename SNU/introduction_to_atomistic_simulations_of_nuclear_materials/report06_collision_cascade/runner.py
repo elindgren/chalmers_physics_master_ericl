@@ -74,18 +74,18 @@ for i, d in enumerate(directions):
         inp = f.readlines()
     with open('./input.cascade-Fe-mod', 'w') as f:
         for row in inp:
-            if 'pkaid1' in row:
+            if 'variable pkaid1 equal' in row:
                 f.write(f'variable pkaid1 equal {PKA}\n')
-            elif 'pkadx' in row:
+            elif 'variable pkadx equal' in row:
                 f.write(f'variable pkadx equal {d[0]}\n')
-            elif 'pkady' in row:
+            elif 'variable pkady equal' in row:
                 f.write(f'variable pkadx equal {d[1]}\n')
-            elif 'pkadz' in row:
+            elif 'variable pkadz equal' in row:
                 f.write(f'variable pkadz equal {d[2]}\n')
             else:
                 f.write(row)
     # Start calculation 
-    # os.system('mpirun -np 2 /home/bin/lmp_mpich < input.cascade-Fe-mod > output.cascade-Fe-mod')
+    os.system('mpirun -np 2 /home/bin/lmp_mpich < input.cascade-Fe-mod > output.cascade-Fe-mod')
     # Move back up directory structure
     print(f' --- Finished in {(time.time()-d_time):.2f} s')
     os.chdir('../')
