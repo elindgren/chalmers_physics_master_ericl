@@ -4,7 +4,7 @@ variable dfile string data.fcc-Ar-sc06
 variable rs equal 1		# random seed	
 variable    T  equal 107.700
 variable    V  equal vol
-variable    dt equal 0.01	# huge timestep due to low temperature
+variable    dt equal 0.01	    # huge timestep due to low temperature
 variable    p  equal 400    	# correlation length ( N repeat ) - 400 calculations => 400*5 = 2000 timesteps
 variable    s  equal 5       	# sample interval ( N every ) - calculate autocorrelation in j every fifth timestep
 variable    d  equal $p*$s   	# dump interval ( N Freq ) - block lenght, dump the results after each block
@@ -85,7 +85,7 @@ fix NVT all nvt temp ${T} ${T} 1.0
 dump 1 all custom ${dfreq} dump.${proj} id type x y z
 restart ${rfreq} restart.${proj}-${T}K
 
-compute        mymsd1 Ar   msd 		# not necessary
+compute      mymsd1 Ar   msd 		# not necessary
 variable     msd1x equal c_mymsd1[1]
 variable     msd1y equal c_mymsd1[2]
 variable     msd1z equal c_mymsd1[3]

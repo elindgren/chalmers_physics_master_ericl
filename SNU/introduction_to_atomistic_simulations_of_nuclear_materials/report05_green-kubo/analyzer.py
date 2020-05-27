@@ -15,7 +15,7 @@ plt.rc('legend', fontsize=14)    # legend fontsize
 line_cycler = cycler('linestyle',['-','--',':','-.', '-', '--']) + cycler('color', ['r', 'g', 'b', 'k', 'c', 'y'])
 plt.rc('axes', prop_cycle=line_cycler)
 
-#! TODO: Fix P or fix V?
+#! Fixed density and hence V
 N = 6**3 * 4
 mAtom = 39.948 # u
 aMass = 1.66e-27 # kg
@@ -109,6 +109,7 @@ labels = [l1[0], l2[0]]
 ax1.legend(handles, labels, loc='upper right')
 
 plt.tight_layout()
+plt.savefig('temp_press.png')
 
 #---------------------------
 
@@ -128,7 +129,8 @@ labels = [l1[0], l2[0]]
 ax1.legend(handles, labels, loc='center right')
 
 plt.tight_layout()
+plt.savefig('auto_visc.png')
 
 #---------------------------
 
-plt.show()
+# plt.show()
