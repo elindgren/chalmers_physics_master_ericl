@@ -20,8 +20,8 @@ variable discard_nrun1  equal 0
 variable discard_tstep1 equal 0.002000
 
 
-variable pka_norm equal "sqrt(v_pkadx*v_pkadx+v_pkady*v_pkady+v_pkadz*v_pkadz)"
-variable pka_speed equal "(1.0e10*1.0e-12)*sqrt((2.0*v_pkaene*1.60217662e-19)/(0.001*v_atom_mass1/6.022140857e23))"
+variable pka_norm equal sqrt(v_pkadx*v_pkadx+v_pkady*v_pkady+v_pkadz*v_pkadz)
+variable pka_speed equal (1.0e10*1.0e-12)*sqrt((2.0*${pkaene}*1.60217662e-19)/(0.001*${atom_mass1}/6.022140857e23))
 variable pkavx1 equal ${pka_speed}*${pkadx}/${pka_norm} 
 variable pkavy1 equal ${pka_speed}*${pkady}/${pka_norm} 
 variable pkavz1 equal ${pka_speed}*${pkadz}/${pka_norm} 

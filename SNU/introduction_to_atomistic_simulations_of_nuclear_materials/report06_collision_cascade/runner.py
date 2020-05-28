@@ -63,7 +63,7 @@ directions = first_quadrant_20()
 start_time = time.time()
 for i, d in enumerate(directions):
     d_time = time.time()
-    print(f'\t{i+1}/20 - Direction: ({d[0]:.2f}, {d[1]:.2f}, {d[2]:.2f})', end='')
+    print(f'\t{i+1}/20 - Direction: ({d[0]:.2f}, {d[1]:.2f}, {d[2]:.2f})')
     # Make new folder
     fdr = f'direction{i+1}'
     if not os.path.exists(fdr):
@@ -72,6 +72,7 @@ for i, d in enumerate(directions):
     # Modify input script to change PKA atom and direction
     with open('../input.cascade-Fe', 'r') as f:
         inp = f.readlines()
+    f.close()
     with open('./input.cascade-Fe-mod', 'w') as f:
         for row in inp:
             if 'variable pkaid1 equal' in row:
@@ -79,15 +80,16 @@ for i, d in enumerate(directions):
             elif 'variable pkadx equal' in row:
                 f.write(f'variable pkadx equal {d[0]}\n')
             elif 'variable pkady equal' in row:
-                f.write(f'variable pkadx equal {d[1]}\n')
+                f.write(f'variable pkady equal {d[1]}\n')
             elif 'variable pkadz equal' in row:
                 f.write(f'variable pkadz equal {d[2]}\n')
             else:
                 f.write(row)
+    f.close()
     # Start calculation 
     os.system('mpirun -np 2 /home/bin/lmp_mpich < input.cascade-Fe-mod > output.cascade-Fe-mod')
     # Move back up directory structure
-    print(f' --- Finished in {(time.time()-d_time):.2f} s')
+    print(f'\t\t--- Finished in {(time.time()-d_time):.2f} s')
     os.chdir('../')
 print('********')
 print(f'Total calculation time: {(time.time()-start_time):.2f} s')
