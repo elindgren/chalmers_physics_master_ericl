@@ -44,7 +44,7 @@ def first_quadrant_20():
 
 # LAMMPS controls
 random.seed(2)
-PKA = 1  # AtomID of PKA
+PKA = 3857  # AtomID of PKA
 directions = first_quadrant_20()
 
 # Plot directions just for clarity

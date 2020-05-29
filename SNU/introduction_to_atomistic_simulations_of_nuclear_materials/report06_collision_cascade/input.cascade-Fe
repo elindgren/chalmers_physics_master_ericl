@@ -14,7 +14,7 @@ variable xmax1 equal         0.010000
 variable nrun1 equal         1000
 variable res_freq1 equal     1000
 variable thermo_freq1 equal  10
-variable dump_freq1 equal    50
+variable dump_freq1 equal    1000
 variable dt_freq1     equal  10
 variable discard_nrun1  equal 0
 variable discard_tstep1 equal 0.002000
@@ -70,6 +70,7 @@ variable ttt equal time-${discard_tstep1}*${discard_nrun1}
 label loopa
 variable a loop 1000
     run ${nrun1}
+    write_data data.after_event # Continously overwrite, will be the final system in the end
     if "${ttt} > 6.0" then quit  # Quit calculation after 6 ps, should be enough
 next a
 jump input.${proj1} loopa
