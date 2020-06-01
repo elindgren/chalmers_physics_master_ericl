@@ -2,7 +2,7 @@ variable proj string liqAr-TC-107K
 variable ifile string input.liqAr-TC
 variable dfile string data.fcc-Ar-sc06
 variable rs equal 1		# random seed	
-variable    T  equal 107.700
+variable    T  equal 90.000
 variable    V  equal vol
 variable    dt equal 0.01	    # huge timestep due to low temperature
 variable    p  equal 400    	# correlation length ( N repeat ) - 400 calculations => 400*5 = 2000 timesteps

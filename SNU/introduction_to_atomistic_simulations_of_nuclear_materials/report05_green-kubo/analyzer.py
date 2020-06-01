@@ -120,7 +120,7 @@ ax1.set_ylabel(r'$\left< P(t)P(0) \right>$, ($\rm bar^2$)', color='b')
 ax1.set_xlabel(r'$t$, ps')
 
 ax2.plot(PP['dt'], L_eta, linewidth=2, c='r', linestyle='--', label=r'$\eta$')
-ax2.set_ylabel(r'$\eta = \frac{V}{3kBT}\int_0^t{\left< P(s)P(0) \right>}ds$, (µg/cm s)', color='r')
+ax2.set_ylabel(r'$\eta = \frac{V}{kBT}\int_0^t{\left< P(s)P(0) \right>}ds$, (µg/cm s)', color='r')
 
 h1, l1 = ax1.get_legend_handles_labels()
 h2, l2 = ax2.get_legend_handles_labels()
