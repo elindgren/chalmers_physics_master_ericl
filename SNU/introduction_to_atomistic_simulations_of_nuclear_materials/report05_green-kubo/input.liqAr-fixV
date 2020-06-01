@@ -1,11 +1,11 @@
-variable proj string liqAr-TC-107K
-variable ifile string input.liqAr-TC
+variable proj string liqAr-fixV-90K
+variable ifile string input.liqAr-fixV
 variable dfile string data.fcc-Ar-sc06
 variable rs equal 1		# random seed	
 variable    T  equal 90.000
 variable    V  equal vol
 variable    dt equal 0.01	    # huge timestep due to low temperature
-variable    p  equal 400    	# correlation length ( N repeat ) - 400 calculations => 400*5 = 2000 timesteps
+variable    p  equal 120     	# correlation length ( N repeat ) - 400 calculations => 400*5 = 2000 timesteps
 variable    s  equal 5       	# sample interval ( N every ) - calculate autocorrelation in j every fifth timestep
 variable    d  equal $p*$s   	# dump interval ( N Freq ) - block lenght, dump the results after each block
 variable massAr equal 39.948

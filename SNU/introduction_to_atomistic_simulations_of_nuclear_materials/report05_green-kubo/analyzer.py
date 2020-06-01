@@ -16,6 +16,7 @@ line_cycler = cycler('linestyle',['-','--',':','-.', '-', '--']) + cycler('color
 plt.rc('axes', prop_cycle=line_cycler)
 
 #! Fixed density and hence V
+timestep = 0.01
 N = 6**3 * 4
 mAtom = 39.948 # u
 aMass = 1.66e-27 # kg
@@ -33,7 +34,7 @@ with open('P0Pt.dat', 'r') as f:
         if(i>3):
             c = row.rstrip()
             rd = c.split(' ')
-            dt = float(rd[1])
+            dt = float(rd[1]) * timestep
             f1 = float(rd[3])
             f2 = float(rd[4])
             f3 = float(rd[5])
@@ -56,7 +57,7 @@ with open('vol.output', 'r') as f:
             V.append(float(row.rstrip().split(' ')[1]))
 V = np.array( V )
 rho = N*mAtom*aMass / V[-1] * 1e3/(1e-8)**3 # units: g/cm^3
-print(f'Density: rho={rho:.3f} g/cm^3') 
+print(f'Density: rho = {rho:.6f} g/cm^3') 
 
 # read temperature
 T = []
@@ -66,6 +67,7 @@ with open('temp.output', 'r') as f:
         if(i>1):
             T.append(float(row.rstrip().split(' ')[1]))
 T = np.array( T )
+print(f'Temerature: T = {T[-1]:.3f} K') 
 
 
 # read pressure
@@ -76,6 +78,7 @@ with open('press.output', 'r') as f:
         if(i>1):
             P.append(float(row.rstrip().split(' ')[1]))
 P = np.array( P )
+print(f'Pressure: P = {P[-1]:.3f} bar') 
 
 
 # Calculate integral of heatflux function
@@ -89,7 +92,7 @@ T_f = T[-1]
 V_f = V[-1]
 L_eta = PP_trap * V_f / (kB*T_f) * 1e-25 # Convert to µg/cm*s
 # Calculate the viscosity
-eta = L_eta[-1]
+eta = L_eta[40]
 print(f'The viscosity is: {eta:.3f} µg/cm*s')
 
 # Plot --------------------
@@ -115,19 +118,19 @@ plt.savefig('temp_press.png')
 
 fig, ax1 = plt.subplots(figsize=(8,6))
 ax2 = ax1.twinx()
-ax1.plot(PP['dt'], PP['avg'], linewidth=2, c='b', linestyle='-', label=r'$\left< P(t)P(0) \right>$')
-ax1.set_ylabel(r'$\left< P(t)P(0) \right>$, ($\rm bar^2$)', color='b')
+ax1.plot(PP['dt'], PP['avg'], linewidth=2, c='b', linestyle='-', label=r'$\left< \sigma(t)\sigma(0) \right>$')
+ax1.set_ylabel(r'$\left<\sigma(t)\sigma(0) \right>$, ($\rm bar^2$)', color='b')
 ax1.set_xlabel(r'$t$, ps')
 
 ax2.plot(PP['dt'], L_eta, linewidth=2, c='r', linestyle='--', label=r'$\eta$')
-ax2.set_ylabel(r'$\eta = \frac{V}{kBT}\int_0^t{\left< P(s)P(0) \right>}ds$, (µg/cm s)', color='r')
+ax2.set_ylabel(r'$\eta = \frac{V}{kBT}\int_0^t{\left< \sigma(s)\sigma(0) \right>}ds$, (µg/cm s)', color='r')
 
 h1, l1 = ax1.get_legend_handles_labels()
 h2, l2 = ax2.get_legend_handles_labels()
 handles = [h1[0], h2[0]]
 labels = [l1[0], l2[0]]
 ax1.legend(handles, labels, loc='center right')
-
+ax1.set_xlim(0,2)
 plt.tight_layout()
 plt.savefig('auto_visc.png')
 
