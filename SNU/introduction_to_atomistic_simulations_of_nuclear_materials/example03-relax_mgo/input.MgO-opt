@@ -1,0 +1,25 @@
+variable dfile string data.MgO-1x1x1
+
+units metal
+boundary p p p
+atom_style charge
+read_data  ${dfile}
+#read_restart ${rfile}
+
+pair_style buck/coul/long 10.0
+pair_coeff 1 1 0.0 0.1 0.0
+pair_coeff 1 2 821.6  0.3242  0.0
+pair_coeff 2 2 22764.0 0.1490 27.88
+kspace_style pppm 1.0e-5
+
+group Mg type 1
+group O type 2
+
+mass 1 24.3
+mass 2 16.0
+
+fix 1 all box/relax iso 0.0 vmax 0.001
+min_style cg
+minimize 0.0 0.0 100 1000
+
+write_data data.gopted

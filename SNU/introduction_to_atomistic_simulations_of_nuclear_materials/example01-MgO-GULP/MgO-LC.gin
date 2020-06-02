@@ -1,0 +1,19 @@
+opti prop conp
+title
+temp
+end
+cell
+4.21 4.21 4.21 90.0 90.0 90.0
+frac 
+Mg core 0.00 0.00 0.00 
+O  core 0.50 0.00 0.00
+space
+225
+species
+Mg  2.0
+O  -2.0
+buck
+Mg core O core  821.6 0.3242  0.0  10.0
+buck
+O core O core   22764.0 0.1490 27.88   10.0
+output xtl MgO-LC_gulp
