@@ -17,26 +17,32 @@ plt.rc('legend', fontsize=14)    # legend fontsize
 line_cycler = cycler('linestyle',['-','--',':','-.', '-', '--']) + cycler('color', ['b', 'r', 'g', 'k', 'c', 'y'])
 plt.rc('axes', prop_cycle=line_cycler)
 
+Natoms = 40000
 
+for e_fold in os.listdir('.'):
+    if 'energies' in e_fold:
+        E = e_fold.split('_')[1]
+        print(f'PKA energy: {E}')
+        fig, ax = plt.subplots(figsize=(8,6))
+        for efile in os.listdir(e_fold):
+            tmp = efile.split('_')[0]
+            dt = tmp.split('=')[1]
+            df = pd.read_csv(f'./{e_fold}/{efile}', names=['time','ke', 'pe', 'etotal'], skiprows=1 )
+            ke = df['ke']
+            pe = df['pe']
+            t = df['time']
+            etotal = df['etotal']
+            delta_etotal = etotal-etotal[0]
+            avg_deltae = np.average(delta_etotal)
+            print(f'\tdt={dt} --- Average energy deviation: {avg_deltae:e} eV')
+            ax.plot(t, delta_etotal, label=r'$\Delta t$='+f'{dt} ps')
+        ax.grid()
+        ax.legend(loc='best')
+        ax.set_ylabel(r'$\Delta E_{total}$, (eV)')
+        ax.set_xlabel('Time, (ps)')
+        ax.set_title(f'PKA Energy: {E}, {Natoms} W atoms')
+        plt.tight_layout()
+        plt.savefig(f'pka_{E}.png')
 
-
-fig, ax = plt.subplots(figsize=(8,6))
-
-for efile in os.listdir('./energies'):
-    tmp = efile.split('_')[0]
-    dt = tmp.split('=')[1]
-    df = pd.read_csv(f'./energies/{efile}', names=['time','ke', 'pe', 'etotal'], skiprows=1 )
-    ke = df['ke']
-    pe = df['pe']
-    t = df['time']
-    etotal = df['etotal']
-    delta_etotal = etotal-etotal[0]
-    avg_deltae = np.average(delta_etotal)
-    print(f'dt={dt} --- Average energy deviation: {avg_deltae:.3f} eV')
-    ax.plot(t, delta_etotal, label=r'$\Delta t$='+f'{dt} ps')
-ax.grid()
-ax.legend(loc='best')
-ax.set_ylabel(r'$\Delta E_{total}$, (eV)')
-ax.set_xlabel('Time, (ps)')
-plt.tight_layout()
-plt.show()
+# TL;DR: Sweetspot: PKA energy of 2500 eV, with a timestep (dynamic) of minimum 0.0002 ps. Took around 1.5 hrs for 0.3 ps of simulation. 
+# However, this is only for a PKA with direction 100 (just travels through)
