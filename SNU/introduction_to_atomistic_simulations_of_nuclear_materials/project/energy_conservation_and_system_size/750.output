@@ -1,0 +1,10 @@
+PKA Energy: 750 eV
+	Time step: 0.002 --- Finished in 346.94 s on 8 cores
+	Time step: 0.001 --- Finished in 639.60 s on 8 cores
+	Time step: 0.0005 --- Finished in 1255.52 s on 8 cores
+	Time step: 0.0004 --- Finished in 1518.52 s on 8 cores
+	Time step: 0.0003 --- Finished in 1893.47 s on 8 cores
+	Time step: 0.0002 --- Finished in 2975.22 s on 8 cores
+	Time step: 0.0001 --- Finished in 4803.88 s on 8 cores
+********
+Total calculation time: 13433.15 s on 8 cores
