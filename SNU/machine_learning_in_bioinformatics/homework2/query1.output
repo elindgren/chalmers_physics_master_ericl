@@ -5,7 +5,6 @@
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # query HMM file:                  covidhmm.hmm
 # target sequence database:        mlbio_query_1_seq.fasta
-# output directed to file:         query1.output
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 Query:       covid  [M=29903]
@@ -1611,7 +1610,7 @@ Passed Vit filter:                         1  (1); expected 0.0 (0.001)
 Passed Fwd filter:                         1  (1); expected 0.0 (1e-05)
 Initial search space (Z):                  1  [actual number of targets]
 Domain search space  (domZ):               1  [number of targets reported over threshold]
-# CPU time: 30.96u 140.88s 00:02:51.84 Elapsed: 00:03:02.26
-# Mc/sec: 4.90
+# CPU time: 29.01u 130.21s 00:02:39.22 Elapsed: 00:02:51.36
+# Mc/sec: 5.22
 //
 [ok]
