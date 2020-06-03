@@ -22,18 +22,18 @@ plt.rc('axes', prop_cycle=line_cycler)
 
 fig, ax = plt.subplots(figsize=(8,6))
 
-for direct in os.listdir('.'):
-    if os.path.isdir(direct) and 'dt=' in direct:
-        dt = direct.split('=')[1]
-        df = pd.read_csv(f'./{direct}/energy.output', names=['time','ke', 'pe', 'etotal'], skiprows=1 )
-        ke = df['ke']
-        pe = df['pe']
-        t = df['time']
-        etotal = df['etotal']
-        delta_etotal = etotal-etotal[0]
-        avg_deltae = np.average(delta_etotal)
-        print(f'dt={dt} --- Average energy deviation: {avg_deltae:.3f}')
-        ax.plot(t, delta_etotal, label=r'$\Delta t$='+f'{dt}')
+for efile in os.listdir('./energies'):
+    tmp = efile.split('_')[0]
+    dt = tmp.split('=')[1]
+    df = pd.read_csv(f'./energies/{efile}', names=['time','ke', 'pe', 'etotal'], skiprows=1 )
+    ke = df['ke']
+    pe = df['pe']
+    t = df['time']
+    etotal = df['etotal']
+    delta_etotal = etotal-etotal[0]
+    avg_deltae = np.average(delta_etotal)
+    print(f'dt={dt} --- Average energy deviation: {avg_deltae:.3f} eV')
+    ax.plot(t, delta_etotal, label=r'$\Delta t$='+f'{dt} ps')
 ax.grid()
 ax.legend(loc='best')
 ax.set_ylabel(r'$\Delta E_{total}$, (eV)')

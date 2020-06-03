@@ -5,7 +5,7 @@ variable pkaene equal        5000  	# in eV
 variable pkadx equal         1.0
 variable pkady equal         0.0
 variable pkadz equal         0.0
-variable res_file1 string    ../res/relax/data.W-50x20x20-gopted
+variable res_file1 string    ../../res/relax/data.W-50x20x20-gopted
 variable pot_file1 string    /home/c2020spring/share/WTa.eam.fs
 variable atom_symbol1 string W
 variable atom_mass1   equal  183.8400
@@ -65,7 +65,7 @@ velocity PKA set  ${pkavx1} ${pkavy1} ${pkavz1}   units box
 fix 2 all dt/reset ${dt_freq1} NULL  ${tmax1} ${xmax1} units box #fix ID group-ID dt/reset N Tmin Tmax Xmax keyword values ...
 fix 1com all recenter INIT INIT INIT
 variable ttt equal time-${discard_tstep1}*${discard_nrun1}
-fix printe all print ${thermo_freq1} "$(time),$(ke),$(pe),$(etotal)" file energy.output 
+fix printe all print ${thermo_freq1} "$(time),$(ke),$(pe),$(etotal)" file ../energies_${pkaene}eV/dt=${tmax1}_energy.output 
 
 label loopa
 variable a loop 1000

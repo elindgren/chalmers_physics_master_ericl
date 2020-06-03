@@ -1,0 +1,51 @@
+# MD #
+variable dfile string  data.Fe-6x6x6
+variable projectname string Fe-6x6x6-0300K
+variable nstep equal 50000
+variable temp  equal 300
+
+
+units metal
+boundary p p p
+atom_style atomic
+read_data  ${dfile}
+
+pair_style eam/fs
+pair_coeff * * /home/c2020spring/share/PotentialB2_Fe.fs Fe
+
+group iron type 1
+group Fe type 1
+
+mass 1 56.000
+
+thermo          50
+thermo_style custom step temp pe etotal press vol lx
+log             log.${projectname}
+restart         50000 restart.${projectname}
+dump            1 all custom 50 dump.${projectname} id type x y z
+
+timestep 0.002
+velocity all create ${temp} 1 dist gaussian mom yes rot yes
+
+fix NPT all npt temp ${temp} ${temp} 0.5 iso 0.0 0.0 1.0
+#compute t all temp
+#compute v all vol
+#compute e all etotal
+#compute l equal lx
+
+variable v equal vol*1.0
+variable t equal temp*1.0
+variable p equal press*1.0
+variable e equal etotal*1.0
+variable l equal lx*1.0
+
+
+fix 1 all ave/time 5 9 50 v_t file temp.avg
+fix 2 all ave/time 5 9 50 v_v file vol.avg
+fix 3 all ave/time 5 9 50 v_e file etotal.avg
+fix 4 all ave/time 5 9 50 v_l file l.avg
+
+
+run ${nstep}
+
+write_data data.${projectname}
