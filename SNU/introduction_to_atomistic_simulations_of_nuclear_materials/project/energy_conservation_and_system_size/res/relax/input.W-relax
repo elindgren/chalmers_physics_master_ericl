@@ -1,0 +1,25 @@
+variable dfile string data.W-50x20x20
+
+units metal
+boundary p p p
+atom_style atomic
+read_data ${dfile}
+
+pair_style eam/fs
+pair_coeff * * /home/c2020spring/share/WTa.eam.fs  W
+
+group tungsten type 1
+group W type 1
+
+mass 1 183.8400
+
+thermo 1
+thermo_style custom  step temp pe ke etotal press vol lx
+fix 1 all box/relax iso 0.0 vmax 0.001
+min_style cg
+minimize 0.0 0.0 100 1000
+
+#dump 1 all custom  100000 dump.ini  id x y z
+minimize 0.0 0.0 1 1
+
+write_data data.W-50x20x20-gopted

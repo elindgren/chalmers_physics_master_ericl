@@ -1,0 +1,78 @@
+# displacement simulation, lammps input# 
+variable proj1  string       cascade-energy
+variable pkaid1 equal        379	# The number of the atom that becomes our PKA
+variable pkaene equal        5000  	# in eV
+variable pkadx equal         1.0
+variable pkady equal         0.0
+variable pkadz equal         0.0
+variable res_file1 string    ../relax/data.W-50x20x20-gopted
+variable pot_file1 string    /home/c2020spring/share/WTa.eam.fs
+variable atom_symbol1 string W
+variable atom_mass1   equal  183.8400
+variable tmax1 equal 0.002
+variable xmax1 equal 0.01
+variable nrun1 equal         1000
+variable res_freq1 equal     1000
+variable thermo_freq1 equal  10
+variable dump_freq1 equal    1000
+variable dt_freq1     equal  10
+variable discard_nrun1  equal 0
+variable discard_tstep1 equal 0.002000
+variable tmax equal 0.5 # Break after this long of total time, in ps 
+
+
+variable pka_norm equal "sqrt(v_pkadx*v_pkadx+v_pkady*v_pkady+v_pkadz*v_pkadz)"
+variable pka_speed equal "(1.0e10*1.0e-12)*sqrt((2.0*v_pkaene*1.60217662e-19)/(0.001*v_atom_mass1/6.022140857e23))"
+variable pkavx1 equal ${pka_speed}*${pkadx}/${pka_norm} 
+variable pkavy1 equal ${pka_speed}*${pkady}/${pka_norm} 
+variable pkavz1 equal ${pka_speed}*${pkadz}/${pka_norm} 
+
+print "The PKA velocity in A/ps, ${pkavx1} ${pkavy1} ${pkavz1}"
+
+units metal
+boundary p p p
+atom_style atomic
+atom_modify map array
+neighbor 1.0 bin                # sets maximum neighbor search radius to cutoff+value, using bin-sort algorithm
+neigh_modify delay 5 check yes  # checks if neighbor list should be rebuilt every 5 steps
+read_data ${res_file1}
+#compute 5 all voronoi/atom occupation
+
+pair_style eam/fs
+pair_coeff * * ${pot_file1} ${atom_symbol1}
+
+mass 1 ${atom_mass1}
+group PKA id  == ${pkaid1} 
+
+fix 1 all nve
+timestep ${discard_tstep1}    # to change the timing of the initiation of the recoil event
+run      ${discard_nrun1}     # to change the timing of the initiation of the recoil event
+
+variable discard_t equal time
+reset_timestep 0
+
+thermo  ${thermo_freq1}
+log     log.${proj1}
+thermo_style custom step time  dt time temp ke  pe etotal press
+run 100
+
+reset_timestep 0
+#dump 1  PKA custom 10 dump.PKA_${proj1} id type x y z xs ys zs vx vy vz
+dump 2  all custom ${dump_freq1} dump.collision_${proj1} id type x y z
+write_data data.before_event
+restart ${res_freq1} restart/restart.${proj1}
+velocity PKA set  ${pkavx1} ${pkavy1} ${pkavz1}   units box 
+fix 2 all dt/reset ${dt_freq1} NULL  ${tmax1} ${xmax1} units box #fix ID group-ID dt/reset N Tmin Tmax Xmax keyword values ...
+fix 1com all recenter INIT INIT INIT
+variable ttt equal time-${discard_tstep1}*${discard_nrun1}
+fix printe all print ${thermo_freq1} "$(time),$(ke),$(pe),$(etotal)" file energy.output 
+
+label loopa
+variable a loop 1000
+    run ${nrun1}
+    if "${ttt} > ${tmax}" then quit  # Quit calculation after 6 ps, should be enough
+next a
+jump input.${proj1} loopa
+label break
+write_data data.after_event
+
