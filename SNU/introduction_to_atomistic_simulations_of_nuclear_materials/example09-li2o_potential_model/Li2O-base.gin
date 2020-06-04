@@ -1,0 +1,32 @@
+opti prop conp
+title
+temp
+end
+vectors
+4.57 0.00 0.00
+0.00 4.57 0.00
+0.00 0.00 4.57
+frac 
+Li core 0.25 0.25 0.25
+Li core 0.25 0.25 0.75
+Li core 0.25 0.75 0.25
+Li core 0.75 0.25 0.25
+Li core 0.75 0.75 0.25
+Li core 0.75 0.25 0.75
+Li core 0.25 0.75 0.75
+Li core 0.75 0.75 0.75
+O  core 0.00 0.00 0.00
+O  core 0.00 0.50 0.50
+O  core 0.50 0.00 0.50
+O  core 0.50 0.50 0.00
+space
+1
+species
+Li  1.0
+O  -2.0
+buck
+Li core Li core 0.0 0.1  0.0  10.0
+buck
+Li core O core  50000.0 0.2  2.0  15.0
+buck
+O core O core   100.0 0.2  2.0   15.0

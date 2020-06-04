@@ -1,0 +1,102 @@
+# Reference: M. Orsi, Comparative assessment of the ELBA coarse-grained 
+# model for water, Molecular Physics (2014), 112, 1566-1576
+
+units real
+atom_style full
+read_data data.singleTIP4P-2005
+include forcefield.TIP4P-2005
+pair_modify tail no
+
+replicate 10 10 10
+
+variable xLo equal -0.5*lx
+variable xHi equal 0.5*lx
+variable yLo equal -0.5*ly
+variable yHi equal 0.5*ly
+variable zLo equal -0.5*lz
+variable zHi equal 0.5*lz
+
+# Recenter system coords about the origin (0,0,0):
+displace_atoms all move ${xLo} ${yLo} ${zLo} units box
+
+# Adjust box dimensions:
+change_box all x final ${xLo} ${xHi} units box
+change_box all y final ${yLo} ${yHi} units box
+change_box all z final ${zLo} ${zHi} units box
+
+# Increase z edge to yield "Vacuum|Water|Vacuum" system:
+variable zLoNew equal -2.0*lz
+variable zHiNew equal 2.0*lz
+change_box all z final ${zLoNew} ${zHiNew} units box
+
+variable Nblock equal 1000
+variable Nrun equal 2.0*${Nblock}
+variable Ndump equal 10 
+variable Ne equal 10
+variable Nr equal ${Nblock}/${Ne}
+variable Nf equal ${Nrun}
+variable Dz equal 0.1
+
+variable A_in_m equal 1e-10 # Angstrom in meter
+variable atm_in_Pa equal 101325 # note: 1 Pa = 1 N/m^2
+variable N_in_mN equal 1e3 # Newton in milliNewton
+variable convFac equal ${A_in_m}*${atm_in_Pa}*${N_in_mN}
+
+variable Text equal 300
+
+group hydrogen type 1
+group oxygen type 2
+
+velocity all create ${Text} 1234
+
+neighbor 2.0 bin
+neigh_modify every 1 delay 0 check yes
+
+timestep 2.0
+
+#fix loadBalance all balance 20 z 5 1.05
+
+fix constrain all shake 1.0e-4 100 0 b 1 a 1
+fix integrate all nvt temp ${Text} ${Text} 200.0
+fix removeMomentum all momentum 1 linear 1 1 1
+
+compute T all temp
+fix TAve all ave/time ${Ne} ${Nr} ${Nf} c_T 
+
+variable P equal press
+fix PAve all ave/time ${Ne} ${Nr} ${Nf} v_P 
+
+variable xPress equal c_thermo_press[1] 
+variable yPress equal c_thermo_press[2] 
+variable zPress equal c_thermo_press[3]
+
+# Evaluate and average surface tension in mN/m:
+variable st equal 0.5*lz*(v_zPress-0.5*(v_xPress+v_yPress))*${convFac}
+fix st all ave/time ${Ne} ${Nr} ${Nf} v_st 
+
+variable xyArea equal lx*ly
+
+thermo_style custom step temp f_TAve press f_PAve v_xyArea lz f_st 
+thermo_modify flush yes
+thermo ${Nf}
+
+compute cO oxygen chunk/atom bin/1d z center ${Dz} units box
+fix numDensO oxygen ave/chunk ${Ne} ${Nr} ${Nf} cO density/number &
+    file numDensO.zProfile
+
+compute cH hydrogen chunk/atom bin/1d z center ${Dz} units box
+fix numDensH hydrogen ave/chunk ${Ne} ${Nr} ${Nf} cH density/number &
+    file numDensH.zProfile
+
+compute A all chunk/atom bin/1d z center ${Dz} units box 
+
+compute	charges all property/atom q
+fix qDens all ave/chunk ${Ne} ${Nr} ${Nf} A c_charges file qDens.zProfile 
+
+dump trj all atom ${Ndump} wat.lammpstrj
+dump_modify trj scale no sort id
+dump 1 all custom ${Ndump} dump.water id type x y z
+
+run ${Nrun}
+
+#write_restart restart.wat

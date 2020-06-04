@@ -1,0 +1,38 @@
+variable dfile string data.Fe-sc5-SIA
+variable project string Fe-sc3
+
+
+units metal
+boundary p p p
+atom_style atomic
+read_data  ${dfile}
+#read_restart ${rfile}
+
+pair_style eam/fs
+pair_coeff * * /home/c2020spring/share/PotentialB2_Fe.fs Fe
+
+group iron type 1
+group Fe type 1
+
+mass 1 56.000
+
+
+thermo 1
+thermo_style custom step temp pe etotal press vol lx
+
+dump 1 all custom  10 dump.${project}  id x y z
+
+##fix 1 all box/relax iso 0.0 vmax 0.001
+
+min_style cg
+minimize 0.0 0.0 100 1000
+min_style sd
+minimize 0.0 0.0 100 1000
+
+variable e equal etotal*1.0
+
+print ${dfile} append e.fe screen no
+print E=$e append e.fe screen no
+print '------------------' append e.fe screen no
+
+write_data data.gopted-fin
