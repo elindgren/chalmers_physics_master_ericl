@@ -1,0 +1,62 @@
+# MD #
+variable dfile string  data.Fe-sc4-perfect
+variable projectname string  sc4-perfect
+variable nstep1 equal 10000
+variable nstep2 equal 100000
+variable tstep equal 0.002
+variable temp  equal 600
+variable thremo_freq equal 2000
+variable dump_freq equal 50
+variable scell equal 4
+
+
+units metal
+boundary p p p
+atom_style atomic
+read_data  ${dfile}
+
+pair_style eam/fs
+pair_coeff * * /home/c2020spring/share/PotentialB2_Fe.fs Fe
+
+group iron type 1
+group Fe type 1
+
+mass 1 56.000
+
+  variable my_vol equal vol*1.0
+  variable my_temp equal temp*1.0
+  variable my_press equal press*1.0
+  variable my_latcon equal lx/${scell}
+
+  variable my_time equal step*${tstep}
+
+thermo          ${thremo_freq}
+thermo_style custom step temp pe etotal press vol lx
+log             log.${projectname}
+
+timestep ${tstep}
+velocity all create ${temp} 1 dist gaussian mom yes rot yes
+
+fix NPT all npt temp ${temp} ${temp} 0.5 iso 0.0 0.0 1.0
+run ${nstep1}
+
+  reset_timestep 0
+
+  restart         ${nstep2} restart.${projectname}
+  dump            1 all custom ${dump_freq} dump.${projectname} id type x y z
+
+  fix ave_vol all ave/time 1 ${thremo_freq} ${thremo_freq} v_my_vol  ave running
+  fix ave_temp all ave/time 1 ${thremo_freq} ${thremo_freq}  v_my_temp ave running
+  fix ave_press all ave/time 1 ${thremo_freq} ${thremo_freq} v_my_press  ave running
+  fix ave_latcon all ave/time 1 ${thremo_freq} ${thremo_freq}  v_my_latcon ave running
+
+  
+  compute msdFe Fe msd
+  fix print all print ${thremo_freq} "${my_time},$(c_msdFe[1]),$(c_msdFe[2]),$(c_msdFe[3]),$(c_msdFe[4])" file msd_${projectname}.out
+
+  thermo ${thremo_freq}
+  thermo_style custom step v_my_time temp press vol f_ave_vol f_ave_temp f_ave_press f_ave_latcon c_msdFe[1] c_msdFe[2] c_msdFe[3] c_msdFe[4]
+
+  run ${nstep2}
+
+write_data data.${projectname}

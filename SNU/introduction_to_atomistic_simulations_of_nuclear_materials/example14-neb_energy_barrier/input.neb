@@ -1,0 +1,34 @@
+variable projectname string Fe-4x4x4-SIA-110-migration
+variable data_initial string   data.Fe-sc4-gopted-ini
+variable data_final   string   coord.fin
+variable num_neb_image equal 5
+variable neb_spring equal 1.0
+
+units metal
+boundary p p p
+atom_style atomic
+
+atom_modify map array
+#neighbor 1.0 bin                # sets maximum neighbor search radius to cutoff+value, using bin-sort algorithm
+
+
+read_data ${data_initial}
+
+pair_style eam/fs
+pair_coeff * * /home/c2020spring/share/PotentialB2_Fe.fs Fe
+
+group iron type 1
+mass 1 56.00
+
+log log.neb
+
+thermo 10
+
+fix 1 all neb ${neb_spring}
+variable        u uloop ${num_neb_image}
+dump            1 all custom 500 dump/dump.neb_$u id type x y z fx fy fz
+variable        j uloop ${num_neb_image}
+restart         500 restart/restart.neb_$j
+timestep 0.0001
+min_style quickmin
+neb 0.0 0.0 2000 1000 100 final ${data_final}

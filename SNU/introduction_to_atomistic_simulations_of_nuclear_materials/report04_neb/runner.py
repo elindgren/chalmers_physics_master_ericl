@@ -3,7 +3,7 @@ import os
 import time
 
 '''
-    This script runs the NEB method for finding the self-diffusion coefficient in 
+    This script runs the NEB method for finding the migration barrier in 
     4x4x4 supercells of Fe with different 110 dumbbell SIA configurations. 
     The energy calculations then done by analyzer.py.
 
