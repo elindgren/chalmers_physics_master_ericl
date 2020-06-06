@@ -1,0 +1,163 @@
+variable proj string liqAr-TC-124K
+variable ifile string input.liqAr-TC
+variable dfile string data.fcc-Ar-sc06
+variable rs equal 1
+variable    T  equal 124
+variable    V equal vol
+variable    dt equal 0.01
+variable    p equal 400    # correlation length ( N repeat )
+variable    s equal 5       # sample interval ( N every )
+variable    d equal $p*$s   # dump interval ( N Freq )
+variable massAr equal 39.948
+variable cell_sc equal 6
+variable nstep0 equal 25000
+variable nstep1 equal $d*50
+variable rfreq equal 100000
+variable dfreq equal 500
+
+
+variable    kB equal 1.3806504e-23    # [J/K] Boltzmann
+variable    eV2J equal 1.60217662E-19
+variable    A2m equal 1.0e-10
+variable    ps2s equal 1.0e-12
+variable    convert equal ${eV2J}*${eV2J}/${ps2s}/${A2m}
+
+
+units metal
+boundary p p p
+atom_style atomic
+read_data  ${dfile}
+
+pair_style lj/cut 12.0
+pair_coeff 1 1  0.010323565 3.405 12.0
+
+group argon type 1
+group Ar type 1
+
+mass 1 ${massAr}
+
+reset_timestep 0
+timestep ${dt}
+thermo 100
+
+variable my_vol equal vol*1.0
+variable my_temp equal temp*1.0
+variable my_press equal press*1.0
+variable my_etotal equal etotal*1.0
+variable my_lx equal lx/v_cell_sc
+
+velocity all create ${T} ${rs} dist gaussian mom yes rot yes
+log log.${proj}-${T}K
+
+fix NVT all nvt temp ${T} ${T} 1.0
+fix recen1 all recenter INIT INIT INIT
+run ${nstep0}
+
+unfix NVT
+unfix recen1
+
+
+variable rs2 equal 2*${rs}
+velocity all create ${T} ${rs2} dist gaussian mom yes rot yes
+
+fix NVT all nvt temp ${T} ${T} 1.0
+fix 1 all ave/time 1 100 100 v_my_vol  ave running
+fix 2 all ave/time 1 100 100 v_my_temp ave running
+fix 3 all ave/time 1 100 100 v_my_press  ave running
+fix 4 all ave/time 1 100 100 v_my_etotal ave running
+fix 5 all ave/time 1 100 100 v_my_lx  ave running
+
+thermo 100
+thermo_style custom step temp pe etotal press vol v_my_lx f_1 f_2 f_3 f_4 f_5
+
+run ${nstep0}
+
+unfix  NVT
+unfix 1
+unfix 2
+unfix 3
+unfix 4
+unfix 5
+
+reset_timestep 0
+
+fix NVT all nvt temp ${T} ${T} 1.0
+dump 1 all custom ${dfreq} dump.${proj} id type x y z
+restart ${rfreq} restart.${proj}-${T}K
+
+compute        mymsd1 Ar   msd
+variable     msd1x equal c_mymsd1[1]
+variable     msd1y equal c_mymsd1[2]
+variable     msd1z equal c_mymsd1[3]
+
+# Center of Mass V
+variable  vcm1x equal vcm(Ar,x)
+variable  vcm1y equal vcm(Ar,y)
+variable  vcm1z equal vcm(Ar,z)
+
+
+#Apply green-kubo method
+## Energy
+compute      keAll all ke/atom
+compute      peAll all pe/atom
+
+## Stress
+compute      stAll all stress/atom NULL virial
+
+## Energy flux (JE)
+# All elements 
+compute      hflux all heat/flux keAll peAll stAll
+
+variable Jx equal c_hflux[1]/vol
+variable Jy equal c_hflux[2]/vol
+variable Jz equal c_hflux[3]/vol
+
+
+## Mass flux
+# component (This is to see the effect of size of h to the transport coefficient)
+#variable  JMArx    equal  v_vcm1x*mass(Ar)
+#variable  JMAry    equal  v_vcm1y*mass(Ar)
+#variable  JMArz    equal  v_vcm1z*mass(Ar)
+
+## Reference Energy Flux
+# All elements
+#variable  JErAllx equal  v_JMArx*v_Arpsh
+
+## Reduced heat flux
+# All elements
+#variable JEeAllx equal c_JQAll[1]-v_JErAllx
+#variable JEeAlly equal c_JQAll[2]-v_JErAlly
+#variable JEeAllz equal c_JQAll[3]-v_JErAllz
+
+## Correlation of fluxes
+#fix          AllmatX all ave/correlate $s $p $d &
+#             c_JQAll[1] v_JMArx  &
+#             type full file AllmatX_${T}_${rs} ave running overwrite
+#
+#fix          AllmatY all ave/correlate $s $p $d &
+#             c_JQAll[2] v_JMAry  &
+#             type full file AllmatY_${T}_${rs} ave running overwrite
+#
+#fix          AllmatZ all ave/correlate $s $p $d &
+#             c_JQAll[3] v_JMArz  &
+#             type full file AllmatZ_${T}_${rs} ave running overwrite
+#
+#
+
+fix 1 all ave/time 1 100 100 v_my_vol  ave running file vol.output
+fix 3 all ave/time 1 100 100 v_my_temp  ave running file temp.output
+fix          JJ all ave/correlate $s $p $d &
+             c_hflux[1] c_hflux[2] c_hflux[3] type auto file J0Jt.dat ave running overwrite
+variable     scale equal ${convert}/${kB}/$T/$T/$V*$s*${dt}
+variable     k11 equal trap(f_JJ[3])*${scale}
+variable     k22 equal trap(f_JJ[4])*${scale}
+variable     k33 equal trap(f_JJ[5])*${scale}
+variable     k equal (v_k11+v_k22+v_k33)/3.0
+
+print "scaling factor to SI unit ${scale}"
+
+thermo $d
+thermo_style custom step temp v_Jx v_Jy v_Jz v_k11 v_k22 v_k33 v_k
+#thermo_style custom step temp press vol pe ke etotal v_msd1x v_msd1y v_msd1z v_vcm1x v_vcm1y v_vcm1z v_Jx v_Jy v_Jz v_k11 v_K22 v_k33 v_k
+
+run ${nstep1}
