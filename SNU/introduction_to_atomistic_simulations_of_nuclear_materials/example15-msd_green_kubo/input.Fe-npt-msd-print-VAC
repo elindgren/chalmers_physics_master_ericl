@@ -1,0 +1,112 @@
+# MD #
+variable dfile string  data.sc05
+variable projectname string  sc05-2500K
+variable nstep1 equal 50000
+variable nstep2 equal 5000
+variable tstep equal 0.002
+variable temp  equal 2500
+variable thremo_freq1 equal 50
+variable thremo_freq2 equal 5
+variable dump_freq equal 50
+variable scell equal 4
+variable aloop equal 1
+
+
+units metal
+boundary p p p
+atom_style atomic
+read_data  ${dfile}
+
+pair_style eam/fs
+pair_coeff * * /home/c2020spring/share/PotentialB2_Fe.fs Fe
+
+group iron type 1
+group Fe type 1
+
+mass 1 56.000
+
+  variable my_vol equal vol*1.0
+  variable my_temp equal temp*1.0
+  variable my_press equal press*1.0
+  variable my_latcon equal lx/${scell}
+
+  variable my_time equal step*${tstep}
+
+thermo          ${thremo_freq1}
+thermo_style custom step temp pe etotal press vol lx
+log             log.${projectname}
+
+timestep ${tstep}
+velocity all create ${temp} 1 dist gaussian mom yes rot yes
+
+fix NPT all npt temp ${temp} ${temp} 0.5 iso 0.0 0.0 1.0
+run ${nstep1}
+
+
+  reset_timestep 0
+
+#  restart         ${nstep2} restart.${projectname}_${a}
+#  dump            1 all custom ${dump_freq} dump.${projectname} id type x y z
+
+
+  compute         myc_vacf all vacf
+  variable vacx equal c_myc_vacf[1]
+  variable vacy equal c_myc_vacf[2]
+  variable vacz equal c_myc_vacf[3]
+  variable vactot equal c_myc_vacf[4]
+  fix             myf_vacf1x all vector 1 c_myc_vacf[1]
+  fix             myf_vacf1y all vector 1 c_myc_vacf[2]
+  fix             myf_vacf1z all vector 1 c_myc_vacf[3]
+  fix             myf_vacf3d all vector 1 c_myc_vacf[4]
+
+
+  compute msdFe Fe msd
+
+  variable msdFe_1Dx equal c_msdFe[1]
+  variable msdFe_1Dy equal c_msdFe[2]
+  variable msdFe_1Dz equal c_msdFe[3]
+  variable msdFe_3D  equal c_msdFe[4]
+
+
+  fix             printvacf Fe print ${thremo_freq2} "${my_time},${vacx},${vacy},${vacz},${vactot},${msdFe_3D}" file vacf.out
+  variable        difc1x equal ${tstep}*trap(f_myf_vacf1x)
+  variable        difc1y equal ${tstep}*trap(f_myf_vacf1y)
+  variable        difc1z equal ${tstep}*trap(f_myf_vacf1z)
+  variable        difc3d equal ${tstep}*trap(f_myf_vacf3d)
+
+
+  variable my_vol equal vol*1.0
+  variable my_temp equal temp*1.0
+  variable my_press equal press*1.0
+  variable my_latcon equal lx/${scell}
+  variable my_time equal step*${tstep}
+
+
+  fix ave_vol all ave/time 1 ${thremo_freq2} ${thremo_freq2} v_my_vol  ave running
+  fix ave_temp all ave/time 1 ${thremo_freq2} ${thremo_freq2}  v_my_temp ave running
+  fix ave_press all ave/time 1 ${thremo_freq2} ${thremo_freq2} v_my_press  ave running
+  fix ave_latcon all ave/time 1 ${thremo_freq2} ${thremo_freq2}  v_my_latcon ave running
+
+  
+  
+ 
+#  fix printmsd Fe print ${thremo_freq2} "${my_time} ${msdFe_1Dx} ${msdFe_1Dy} ${msdFe_1Dz} ${msdFe_3D}"  screen no file msd_${a}.txt
+
+  thermo ${thremo_freq2}
+  thermo_style custom step v_my_time temp press vol f_ave_vol f_ave_temp f_ave_press f_ave_latcon c_msdFe[1] c_msdFe[2] c_msdFe[3] c_msdFe[4] v_difc1x v_difc1y v_difc1z v_difc3d
+
+  run ${nstep2}
+
+
+  unfix printmsd
+  unfix ave_vol
+  unfix ave_temp
+  unfix ave_press
+  unfix ave_latcon
+  uncompute msdFe
+
+  uncompute myc_vacf
+  unfix myf_vacf1x
+  unfix myf_vacf1y
+  unfix myf_vacf1z
+  unfix myf_vacf3d
