@@ -1,0 +1,20 @@
+LAMMPS (16 Feb 2016)
+# Diffusion barrier study #
+# 1=U 2=Pu 3=O 4=Np
+units 		metal
+boundary	p p p
+atom_style 	atomic
+atom_modify 	map array
+read_data       data.Ni_1D
+  orthogonal box = (0 0 0) to (2.78 27.8 27.8)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  1 atoms
+pair_style 	morse 10.0
+pair_coeff	* *  0.4205 1.4199 2.780
+group           nickel     type 1
+1 atoms in group nickel
+mass 1  58.7
+thermo 		1
+thermo_style custom step pe press vol xlo xhi ylo yhi zlo zhi
+log		log.test

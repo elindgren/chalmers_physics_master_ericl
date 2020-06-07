@@ -1,0 +1,109 @@
+fix		1 all box/relax x 0.0  vmax 0.001
+restart 	100 restart.test
+#min_style	hftn
+minimize 	1.0e-25 1.0e-30 1000 2000
+WARNING: Resetting reneighboring criteria during minimization (../min.cpp:168)
+Neighbor list info ...
+  1 neighbor list requests
+  update every 1 steps, delay 0 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 12
+  ghost atom cutoff = 12
+  binsize = 6 -> bins = 1 5 5
+Memory usage per processor = 3.02262 Mbytes
+Step PotEng Press Volume Xlo Xhi Ylo Yhi Zlo Zhi 
+       0   -0.4368933   -32.169971    2148.4952            0         2.78            0         27.8            0         27.8 
+       1  -0.43701665   -29.147074    2146.3467      0.00139      2.77861            0         27.8            0         27.8 
+       2  -0.43712777   -26.087224    2144.1982      0.00278      2.77722            0         27.8            0         27.8 
+       3   -0.4372265   -22.990076    2142.0497      0.00417      2.77583            0         27.8            0         27.8 
+       4   -0.4373127   -19.855282    2139.9012      0.00556      2.77444            0         27.8            0         27.8 
+       5   -0.4373862   -16.682492    2137.7527      0.00695      2.77305            0         27.8            0         27.8 
+       6  -0.43744687   -13.471351    2135.6042      0.00834      2.77166            0         27.8            0         27.8 
+       7  -0.43749454   -10.221503    2133.4557      0.00973      2.77027            0         27.8            0         27.8 
+       8  -0.43752906   -6.9325873    2131.3072      0.01112      2.76888            0         27.8            0         27.8 
+       9  -0.43755027    -3.604242    2129.1587      0.01251      2.76749            0         27.8            0         27.8 
+      10    -0.437558  -0.23610064    2127.0102       0.0139       2.7661            0         27.8            0         27.8 
+      11  -0.43755804 -0.001229169    2126.8614  0.013996317    2.7660037            0         27.8            0         27.8 
+      12  -0.43755804 -3.3379094e-08    2126.8606  0.013996821    2.7660032            0         27.8            0         27.8 
+      13  -0.43755804 -2.8483662e-13    2126.8606  0.013996821    2.7660032            0         27.8            0         27.8 
+      14  -0.43755804 -2.8483662e-13    2126.8606  0.013996821    2.7660032            0         27.8            0         27.8 
+Loop time of 0.000643015 on 1 procs for 14 steps with 1 atoms
+
+155.5% CPU use with 1 MPI tasks x no OpenMP threads
+
+Minimization stats:
+  Stopping criterion = quadratic factors are zero
+  Energy initial, next-to-last, final = 
+       -0.436893304178    -0.437558037552    -0.437558037552
+  Force two-norm initial, final = 0.129418 1.14589e-15
+  Force max component initial, final = 0.129418 1.14589e-15
+  Final line search alpha, max atom move = 1 1.14589e-15
+  Iterations, force evaluations = 14 18
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 2.3365e-05 | 2.3365e-05 | 2.3365e-05 |   0.0 |  3.63
+Neigh   | 5.9605e-06 | 5.9605e-06 | 5.9605e-06 |   0.0 |  0.93
+Comm    | 3.6478e-05 | 3.6478e-05 | 3.6478e-05 |   0.0 |  5.67
+Output  | 0.00022388 | 0.00022388 | 0.00022388 |   0.0 | 34.82
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 0.0003533  |            |       | 54.95
+
+Nlocal:    1 ave 1 max 1 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    39 ave 39 max 39 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    4 ave 4 max 4 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 4
+Ave neighs/atom = 4
+Neighbor list builds = 1
+Dangerous builds = 0
+min_style       cg
+minimize        1.0e-25 1.0e-30 1000 2000
+WARNING: Resetting reneighboring criteria during minimization (../min.cpp:168)
+Memory usage per processor = 3.02262 Mbytes
+Step PotEng Press Volume Xlo Xhi Ylo Yhi Zlo Zhi 
+      14  -0.43755804 -2.8483662e-13    2126.8606  0.013996821    2.7660032            0         27.8            0         27.8 
+      15  -0.43755804 -2.8483662e-13    2126.8606  0.013996821    2.7660032            0         27.8            0         27.8 
+Loop time of 0.00022006 on 1 procs for 1 steps with 1 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+Minimization stats:
+  Stopping criterion = quadratic factors are zero
+  Energy initial, next-to-last, final = 
+       -0.437558037552    -0.437558037552    -0.437558037552
+  Force two-norm initial, final = 1.13435e-15 1.13435e-15
+  Force max component initial, final = 1.13435e-15 1.13435e-15
+  Final line search alpha, max atom move = 1 1.13435e-15
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 4.7684e-06 | 4.7684e-06 | 4.7684e-06 |   0.0 |  2.17
+Neigh   | 5.0068e-06 | 5.0068e-06 | 5.0068e-06 |   0.0 |  2.28
+Comm    | 8.3447e-06 | 8.3447e-06 | 8.3447e-06 |   0.0 |  3.79
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 0.0002019  |            |       | 91.77
+
+Nlocal:    1 ave 1 max 1 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    39 ave 39 max 39 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    4 ave 4 max 4 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 4
+Ave neighs/atom = 4
+Neighbor list builds = 1
+Dangerous builds = 0
+#dump            1 all custom 10000 dump.opt id type mass x y z fx fy fz
+#dump_modify 1 format "%d %d   %12.5g    %22.15g  %22.15g  %22.15g       %22.15g  %22.15g  %22.15g"
+#dump_modify 1 sort id
+#minimize        1.0e-25 1.0e-30 0 0
+Total wall time: 0:00:00

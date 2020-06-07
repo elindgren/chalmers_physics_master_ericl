@@ -1,0 +1,23 @@
+LAMMPS (7 Aug 2019)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (../comm.cpp:93)
+  using 1 OpenMP thread(s) per MPI task
+# Diffusion barrier study #
+# 1=U 2=Pu 3=O 4=Np
+units 		metal
+boundary	p p p
+atom_style 	atomic
+atom_modify 	map array
+read_data       data.Ni_1D
+  orthogonal box = (0 0 0) to (2.78 27.8 27.8)
+  1 by 1 by 2 MPI processor grid
+  reading atoms ...
+  1 atoms
+  read_data CPU = 0.00101519 secs
+pair_style 	morse 10.0
+pair_coeff	* *  0.4205 1.4199 2.780
+group           nickel     type 1
+1 atoms in group nickel
+mass 1  58.7
+thermo 		1
+thermo_style custom step pe press vol lx ly lz
+log		log.test

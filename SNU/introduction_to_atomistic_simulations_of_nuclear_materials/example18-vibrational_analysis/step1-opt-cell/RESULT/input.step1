@@ -1,0 +1,24 @@
+# Diffusion barrier study #
+# 1=U 2=Pu 3=O 4=Np
+units 		metal
+boundary	p p p
+atom_style 	atomic
+atom_modify 	map array
+read_data       data.Ni_1D
+pair_style 	morse 10.0
+pair_coeff	* *  0.4205 1.4199 2.780
+group           nickel     type 1
+mass 1  58.7
+thermo 		1
+thermo_style custom step pe press vol xlo xhi ylo yhi zlo zhi
+log		log.test
+fix		1 all box/relax x 0.0  vmax 0.001
+restart 	100 restart.test
+#min_style	hftn
+minimize 	1.0e-25 1.0e-30 1000 2000
+min_style       cg
+minimize        1.0e-25 1.0e-30 1000 2000
+#dump            1 all custom 10000 dump.opt id type mass x y z fx fy fz
+#dump_modify 1 format "%d %d   %12.5g    %22.15g  %22.15g  %22.15g       %22.15g  %22.15g  %22.15g"
+#dump_modify 1 sort id
+#minimize        1.0e-25 1.0e-30 0 0
