@@ -1,0 +1,68 @@
+variable proj string Cu-incT
+variable ifile string input.Cu-6x6x6-incT
+variable dfile string data.Cu-6x6x6
+variable tstep equal 10000
+variable i_temp  equal 300 
+variable d_temp  equal 300
+variable n_temp  equal 7
+variable cell_sc equal 6
+
+
+units metal
+boundary p p p
+atom_style atomic
+read_data  ${dfile}
+
+pair_style eam/fs
+pair_coeff * * ../../Mendelev_Cu2_2012.eam.fs Cu
+
+group copper type 1
+group Cu type 1
+
+mass 1 63.546
+
+reset_timestep 0
+timestep 0.002
+thermo 100
+dump 1 all custom 100 dump.${proj} id type x y z
+
+variable my_vol equal vol*1.0
+variable my_temp equal temp*1.0
+variable my_press equal press*1.0
+variable my_etotal equal etotal*1.0
+variable my_lx equal lx/v_cell_sc
+
+label loopa
+variable a loop ${n_temp}
+  reset_timestep 0 
+  variable atemp equal (${a}-1)*${d_temp}+${i_temp}
+  velocity all create ${atemp} ${a} dist gaussian mom yes rot yes
+  log log.${proj}-${atemp}K
+  fix NPT all npt temp ${atemp} ${atemp} 0.5 iso 0.0 0.0 1.0
+  restart ${tstep} restart.${proj}-${atemp}K
+
+  thermo 100
+  thermo_style custom step temp pe etotal press vol
+  run ${tstep}
+
+  fix 1 all ave/time 1 100 100 v_my_vol  ave running
+  fix 2 all ave/time 1 100 100 v_my_temp ave running  file T_${atemp}.avg
+  fix 3 all ave/time 1 100 100 v_my_press  ave running
+  fix 4 all ave/time 1 100 100 v_my_etotal ave running
+  fix 5 all ave/time 1 100 100 v_my_lx  ave running file lx_${atemp}.avg
+
+  thermo 100
+  thermo_style custom step temp pe etotal press vol v_my_lx f_1 f_2 f_3 f_4 f_5 
+  run ${tstep}
+
+  write_data data.final_${atemp}K
+
+  unfix NPT
+  unfix 1
+  unfix 2
+  unfix 3
+  unfix 4
+  unfix 5
+
+next a
+jump ${ifile}  loopa

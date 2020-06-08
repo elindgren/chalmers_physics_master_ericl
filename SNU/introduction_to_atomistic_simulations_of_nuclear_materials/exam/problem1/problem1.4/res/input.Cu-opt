@@ -1,0 +1,46 @@
+variable dfile string data.MgO-sc1-1.001
+
+units metal
+boundary p p p
+atom_style atomic
+read_data  ${dfile}
+#read_restart ${rfile}
+
+pair_style eam/fs
+pair_coeff * * ../../Mendelev_Cu2_2012.eam.fs Cu
+
+group copper type 1
+group Cu type 1
+
+mass 1 63.546
+
+thermo 100
+thermo_style custom step temp pe ke etotal press vol pxx pyy pzz pxy pxz pyz lx ly lz
+fix 1 all box/relax y 0.0 z 0.0 vmax 0.001
+min_style cg
+
+minimize 0.0 0.0 100 1000
+
+compute      str all pressure thermo_temp
+variable px equal pxx
+variable py equal pyy
+variable pz equal pzz
+variable d equal lx
+
+print ${dfile} append d.mgo screen no
+print d=$d append d.mgo screen no
+print '------------------' append d.mgo screen no
+
+print ${dfile} append px.mgo screen no
+print px=${px} append px.mgo screen no
+print '------------------' append px.mgo screen no
+
+print ${dfile} append py.mgo screen no
+print py=${py} append py.mgo screen no
+print '------------------' append py.mgo screen no
+
+print ${dfile} append pz.mgo screen no
+print pz=${pz} append pz.mgo screen no
+print '------------------' append pz.mgo screen no
+
+write_data data.gopted
