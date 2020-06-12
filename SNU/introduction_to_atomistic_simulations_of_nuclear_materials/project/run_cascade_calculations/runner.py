@@ -15,10 +15,10 @@ import sys
 '''
 
 Ncpu = 8
-dt = 0.002
-x = 0.01
-pkaID = 379
-tmax = 6 # ps, total simulation time. Note that first 0.2 ps is warmup. 
+dt = 0.001
+x = 0.1
+pkaID = 152449
+tmax = 8 # ps, total simulation time. Note that first 0.2 ps is warmup. 
 
 
 # Load sampled energies
@@ -30,7 +30,15 @@ with open('mc_pka_energies', 'r') as f:
 # Load sampled angles
 pka_angle = [
     [1,0,0],
-    [0.9, 0.22, 0.22]
+    [1,1,0],
+    [1,1,1],
+    [3,1,0],
+    [3,2,0],
+    [3,3,1],
+    [3,3,2],
+    [3,1,1],
+    [3,2,2],
+    [3,2,1]
 ]
 
 st = time.time()
@@ -39,7 +47,7 @@ with open('runner.out', 'w') as ro:
     ro.write('----- W COLLISION CASCADE SIMULATION -----\n')
     ro.write('\n')
 
-for i, pkaE in enumerate(pkaEnergies[:5]):
+for i, pkaE in enumerate(pkaEnergies):
     # Start script
     e_time = time.time()
     with open('runner.out', 'a') as ro:
@@ -53,7 +61,7 @@ for i, pkaE in enumerate(pkaEnergies[:5]):
         a_time = time.time()
         ang_str = f'[{ang[0]:.2f},{ang[1]:.2f},{ang[2]:.2f}]'
         with open('../runner.out', 'a') as ro:
-            ro.write(f'\t ({j+1}/{len(pka_angle)}) --- PKA angle: ' + f'{ang_str}'.rjust(25))
+            ro.write(f'\t ({j+1}/{len(pka_angle)}) '.ljust(12, '-')  + '--- PKA angle: ' + f'{ang_str}'.rjust(25))
         angDir = f'./{ang}'
         if not os.path.isdir(angDir):
             os.mkdir(angDir) # Create folder
@@ -100,5 +108,5 @@ with open('runner.out', 'a') as ro:
     ro.write('\n')
     ro.write(''.rjust(92,'*') + '\n')
     ro.write(f'****           Total calculation time: ' + f'{(time.time()-st):.2f} s on {Ncpu} cores        *****'.rjust(53) + '\n')
-    ro.write(f'****           PKA ID: {pkaID}           Timestep: ' + f'{dt} ps           xstep: {x} A '.ljust(40) + '*****' + '\n')
+    ro.write(f'****           PKA ID: {pkaID}           Timestep: ' + f'{dt} ps           xstep: {x} A '.ljust(37) + '*****' + '\n')
     ro.write(''.rjust(92,'*') + '\n')

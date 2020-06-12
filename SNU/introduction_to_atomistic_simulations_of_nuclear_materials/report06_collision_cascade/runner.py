@@ -45,6 +45,7 @@ def first_quadrant_20():
 # LAMMPS controls
 random.seed(2)
 PKA = 3857  # AtomID of PKA
+tmax = 20 # ps, total simulation time. Note that first 0.2 ps is warmup. 
 directions = first_quadrant_20()
 
 # Plot directions just for clarity
@@ -63,7 +64,8 @@ directions = first_quadrant_20()
 start_time = time.time()
 for i, d in enumerate(directions):
     d_time = time.time()
-    print(f'\t{i+1}/20 - Direction: ({d[0]:.2f}, {d[1]:.2f}, {d[2]:.2f})')
+    with open('runner.out', 'a') as ro:
+        ro.write(f'\t{i+1}/20 - Direction: ({d[0]:.2f}, {d[1]:.2f}, {d[2]:.2f})' + '\n')
     # Make new folder
     fdr = f'direction{i+1}'
     if not os.path.exists(fdr):
@@ -83,13 +85,19 @@ for i, d in enumerate(directions):
                 f.write(f'variable pkady equal {d[1]}\n')
             elif 'variable pkadz equal' in row:
                 f.write(f'variable pkadz equal {d[2]}\n')
+            elif 'variable tmax equal' in row:
+                    f.write(f'variable tmax equal {tmax}\n')
+            elif 'variable data_out string' in row:
+                    f.write(f'variable data_out string data.after_event_{i+1}\n')
             else:
                 f.write(row)
     f.close()
     # Start calculation 
     os.system('mpirun -np 2 /home/bin/lmp_mpich < input.cascade-Fe-mod > output.cascade-Fe-mod')
     # Move back up directory structure
-    print(f'\t\t--- Finished in {(time.time()-d_time):.2f} s')
+    with open('../runner.out', 'a') as ro:
+        ro.write(f'\t\t--- Finished in {(time.time()-d_time):.2f} s' + '\n')
     os.chdir('../')
-print('********')
-print(f'Total calculation time: {(time.time()-start_time):.2f} s')
+with open('runner.out', 'a') as ro:
+    ro.write('********\n')
+    ro.write(f'Total calculation time: {(time.time()-start_time):.2f} s' + '\n')

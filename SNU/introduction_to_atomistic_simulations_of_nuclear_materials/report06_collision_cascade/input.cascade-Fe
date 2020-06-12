@@ -1,6 +1,6 @@
 # displacement simulation, lammps input# 
 variable proj1  string       cascade-Fe-mod
-variable pkaid1 equal        268    # The number of the atom that becomes our PKA
+variable pkaid1 equal        4276    # The number of the atom that becomes our PKA
 variable pkaene equal        1000   # in eV
 variable pkadx equal         1.0
 variable pkady equal         0.0
@@ -14,10 +14,13 @@ variable xmax1 equal         0.010000
 variable nrun1 equal         1000
 variable res_freq1 equal     1000
 variable thermo_freq1 equal  10
-variable dump_freq1 equal    1000
+variable dump_freq1 equal    250
 variable dt_freq1     equal  10
 variable discard_nrun1  equal 0
 variable discard_tstep1 equal 0.002000
+variable tmax equal 0.5 # Break after this long of total time, in ps 
+variable data_out string data.after_event
+
 
 
 variable pka_norm equal sqrt(v_pkadx*v_pkadx+v_pkady*v_pkady+v_pkadz*v_pkadz)
@@ -64,14 +67,15 @@ restart ${res_freq1} restart.${proj1}
 velocity PKA set  ${pkavx1} ${pkavy1} ${pkavz1}   units box 
 fix 2 all dt/reset ${dt_freq1} NULL  ${tmax1} ${xmax1} units box #fix ID group-ID dt/reset N Tmin Tmax Xmax keyword values ...
 fix 1com all recenter INIT INIT INIT
+fix printe all print ${thermo_freq1} "$(time),$(etotal),$(press),$(temp)" file runstats.out 
 
 variable ttt equal time-${discard_tstep1}*${discard_nrun1}
 
 label loopa
 variable a loop 1000
     run ${nrun1}
-    write_data data.after_event # Continously overwrite, will be the final system in the end
-    if "${ttt} > 6.0" then quit  # Quit calculation after 6 ps, should be enough
+    write_data ${data_out} # Continously overwrite, will be the final system in the end
+    if "${ttt} > ${tmax}" then quit  # Quit calculation after 6 ps, should be enough
 next a
 jump input.${proj1} loopa
 label break

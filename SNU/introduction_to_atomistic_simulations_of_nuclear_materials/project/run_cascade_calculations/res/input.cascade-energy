@@ -1,25 +1,27 @@
 # displacement simulation, lammps input# 
 variable proj1  string       cascade-energy
+variable RS equal 200611      # The random seed number for initial velocity
 variable pkaid1 equal        379	# The number of the atom that becomes our PKA
 variable pkaene equal        5000  	# in eV
-variable pkadx equal         0.9
-variable pkady equal         0.22
-variable pkadz equal         0.22
-variable res_file1 string    ../../res/relax/data.W-50x20x20-gopted
+variable pkadx equal         1.0
+variable pkady equal         0.0
+variable pkadz equal         0.0
+variable res_file1 string    /home/c2020spring/ericlin/project/run_cascade_calculations/res/relax/data.W-60x50x50
 variable pot_file1 string    /home/c2020spring/share/WTa.eam.fs
 variable atom_symbol1 string W
 variable atom_mass1   equal  183.8400
-variable tmax1 equal         0.002000 # Change this for maximum timestep in variable timestep!
-variable xmax1 equal         0.010000
-variable nrun1 equal         1000
+variable tmax1 equal         0.001000 # Change this for maximum timestep in variable timestep!
+variable xmax1 equal         0.100000
+#variable nrun1 equal         1000
+variable nrun1 equal         500
 variable res_freq1 equal     1000
 variable thermo_freq1 equal  10
-variable dump_freq1 equal    1000
+variable dump_freq1 equal    500
 variable dt_freq1     equal  10
 variable discard_nrun1  equal 0
 variable discard_tstep1 equal 0.002000
-variable tmax equal 0.5 # Break after this long of total time, in ps 
-
+variable tmax equal 8 # Break after this long of total time, in ps 
+#variable emax equal 40 # Break after every atom has less than this energy, in eV
 
 variable pka_norm equal "sqrt(v_pkadx*v_pkadx+v_pkady*v_pkady+v_pkadz*v_pkadz)"
 variable pka_speed equal "(1.0e10*1.0e-12)*sqrt((2.0*v_pkaene*1.60217662e-19)/(0.001*v_atom_mass1/6.022140857e23))"
@@ -44,16 +46,21 @@ pair_coeff * * ${pot_file1} ${atom_symbol1}
 mass 1 ${atom_mass1}
 group PKA id  == ${pkaid1} 
 
-fix 1 all nve
+fix 1 all nvt temp 10.0 10.0 0.2
+velocity all create 15.0 ${RS} rot yes dist gaussian
 timestep ${discard_tstep1}    # to change the timing of the initiation of the recoil event
 run      ${discard_nrun1}     # to change the timing of the initiation of the recoil event
 
 variable discard_t equal time
 reset_timestep 0
 
+unfix 1
+fix 1 all nve
+
 thermo  ${thermo_freq1}
 log     log.${proj1}
 thermo_style custom step time  dt time temp ke  pe etotal press
+#run 1
 run 100
 
 reset_timestep 0
@@ -65,11 +72,18 @@ velocity PKA set  ${pkavx1} ${pkavy1} ${pkavz1}   units box
 fix 2 all dt/reset ${dt_freq1} NULL  ${tmax1} ${xmax1} units box #fix ID group-ID dt/reset N Tmin Tmax Xmax keyword values ...
 fix 1com all recenter INIT INIT INIT
 variable ttt equal time-${discard_tstep1}*${discard_nrun1}
-fix printe all print ${thermo_freq1} "$(time),$(etotal),$(press),$(temp)" file runstats.out 
+compute pe all pe/atom
+compute ke all ke/atom
+variable te atom c_pe+c_ke
+compute kemax all reduce max c_ke
+compute temax all reduce max v_te
+thermo_style custom step dt time temp ke pe etotal press c_kemax c_temax
+fix printe all print ${thermo_freq1} "$(time),$(etotal),$(press),$(temp),$(c_kemax),$(c_temax)" file runstats.out 
 
 label loopa
 variable a loop 1000
     run ${nrun1}
+    write_data data.after_event
     if "${ttt} > ${tmax}" then quit  # Quit calculation after 6 ps, should be enough
 next a
 jump input.${proj1} loopa
