@@ -47,7 +47,7 @@ with open('runner.out', 'w') as ro:
     ro.write('----- W COLLISION CASCADE SIMULATION -----\n')
     ro.write('\n')
 
-for i, pkaE in enumerate(pkaEnergies):
+for i, pkaE in enumerate(pkaEnergies[2:]):
     # Start script
     e_time = time.time()
     with open('runner.out', 'a') as ro:
