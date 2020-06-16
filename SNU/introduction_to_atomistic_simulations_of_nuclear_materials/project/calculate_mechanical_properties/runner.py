@@ -9,13 +9,18 @@ import sys
     run_cascade_simulations folder.
 '''
 
+with open('runner.out', 'w') as ro:
+    ro.write('----- Mechanical Properties Calculation -----\n')
+    ro.write('\n')
+
 home_dir = os.getcwd()
 # print(home_dir)
 for obj in os.listdir('../run_cascade_calculations/'):
     Efold = f'../run_cascade_calculations/{obj}'
     if os.path.isdir(Efold) and 'eV' in Efold and not 'not_complete' in Efold:
         E = Efold.split('/')[-1].split('eV')[0]
-        print(f'Energy: {E} eV')
+        with open(f'{home_dir}/runner.out', 'a') as ro:
+            ro.write(f'Energy: {E} eV\n')
         # Remove old mehcanical results file
         resFile = f'{E}_eV_mechanical.results'
         if os.path.isfile(resFile):
@@ -24,7 +29,8 @@ for obj in os.listdir('../run_cascade_calculations/'):
         for direction in os.listdir('.'):
             if os.path.isdir(direction):
                 d_time = time.time()
-                print(f'\tDirection: {direction}', end='')
+                with open(f'{home_dir}/runner.out', 'a') as ro:
+                    ro.write(f'\tDirection: {direction}')
                 os.chdir(direction) # Move to directory and launch calculation
                 os.system(f'cp {home_dir}/in.elastic-rev .')
                 os.system(f'cp {home_dir}/init.mod .')
@@ -60,8 +66,11 @@ for obj in os.listdir('../run_cascade_calculations/'):
                 with open(f'{home_dir}/{resFile}', 'a') as m:
                     d = ''.join(direction.split(', '))
                     m.write(f'{d},{bulk},{shear1},{shear2},{poisson}\n')
-                print(f' --- Finished in {(time.time()-d_time):.2f} s')
+                with open(f'{home_dir}/runner.out', 'a') as ro:
+                    ro.write(f' --- Bulk={bulk} GPa --- Finished in {(time.time()-d_time):.2f} s \n')
                 os.chdir('..') # Move back to energy dir
+        os.chdir('..')
+            
                 
 
         
