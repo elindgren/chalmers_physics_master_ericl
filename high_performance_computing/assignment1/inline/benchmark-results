@@ -1,0 +1,25 @@
+Benchmarking done using hyperfine, no special parameters. 
+Code compiled with -O2-flag.
+
+Results:
+	- With automatic inlining (same file): mean: 11.428 s --- std: 0.101 s
+	- With function declaration in a different file: mean 15.502 s --- std: 0.467 s
+	- With manual inlining (same file): mean: 10.879 s --- std: 0.155 s
+
+Analysis:
+	We note that automatic and manual inlining yields almost the same results, with the manual 
+	inlining beating out the automatic one just barely. This could be due to the manual inlining 
+	being a bit more efficient with less calls, but the automatic inlining does a good job.
+
+	It definately does a better job than putting the file declaration in a different file, which 
+	was the slowest by far. This could be due to the reference going to another file, or that the
+	function is loaded into some space in memory, without the compiler being able to do the 
+	automatic inlining. 
+
+	Doing the inlining manually, in the same file we achieved a slightly better score than the 
+	automatic inlining with mean 11.033s, std: 0.098s. The inlining in the different file yields
+	a time of mean: 10.684s, std: 0.120s. This is much better than the result for different files
+	above, which indicates that the automatic inlining indeed failes for different files. Hence,
+	for the sake of speed one should perform the inlining manually if the function is defined 
+	in another file. 
+

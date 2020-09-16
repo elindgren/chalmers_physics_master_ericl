@@ -1,0 +1,14 @@
+Control value for sum: 500000000500000000
+
+Execution time results:
+    - Optimize for compilation time (default), -O0: 2.260450s
+    - Optimize for code size and execution time, -O1: 0.288389s
+    - Optimize more for code size and execution time, -02: 0.000002s
+    - Optimize even more for code size and execution time, -O3: 0.000003s
+    - Optimize for code size, -Os: 0.000002s
+    - Og: 0.533840s
+    - O3 with fast none accurate math calculations, -Ofast: 0.000003s
+
+As we see, the various optimization levels greatly impact the optimization of this simple program, by several orders of magnitude. It is interesting that the differences are so large now considering that the program is not even parallellized, and should be limited by CPU speed. But apparently, optimization algorithms has a great impact on the result. 
+
+It is also interesting that the difference between e.g. -02 and -03 are non-discernible with for this problem. 

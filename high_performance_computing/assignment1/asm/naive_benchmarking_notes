@@ -1,0 +1,14 @@
+Control value for sum: 500000000500000000
+
+Now we check the assembler code. For the various optimization level we note: 
+
+Assembler structure:
+    - Optimize for compilation time (default), -O0: For loop is not rationalized away, a lot of jump statements. 
+    - Optimize for code size and execution time, -O1: Jump statements have been rationalized away, but we still have the for loop in place but it does nothing. We are only subtracting 1 from register a, and then perform a negativity check on that register. So we just count down until we reach 0 (loop finished). Since we are not printing, the value for sum is thus not computed, since the compiler notes that its not needed!
+    - Optimize more for code size and execution time, -02: Even less asm code, much smaller. No for-loops that doesn't do anything. 
+    - Optimize even more for code size and execution time, -O3: Basically the same as O2. 
+    - O2nat: A bit shorter than O2, and uses different instructions. This is probably due to them being platform specific, native, instructions, which we instruct the compiler to use. Looks to be more vector operations, like vdivsd instead of divsd. 
+
+Thus, for higher optimization levels the compiler manages to identify and rationalize out the loop. This is one of the pitfalls of naive benchmarking; the compiler doesn't do what we expect. Hence it is good to be able to read some assembler. :)
+
+
