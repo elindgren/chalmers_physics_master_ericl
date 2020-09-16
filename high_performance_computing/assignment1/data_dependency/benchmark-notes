@@ -1,0 +1,27 @@
+Benchmarking perfomed by manually time the iteration time for the loop iterations in 
+each case. 
+
+Then the results are presented for each optimization level. 
+
+Results:
+
+O0 x86-64::
+	Baseline: 2.48mus
+	Unrolled-2: 1.31mus
+	Unrolled-4: 1.15mus
+	Unrolled-8: 1.06mus
+	Unrolled-4-Array: 5.16mus
+
+O2 x86-64::
+	Baseline: 1.05mus
+	Unrolled-2: 0.531mus
+	Unrolled-4: 0.320mus
+	Unrolled-8: 0.343mus
+	Unrolled-4-Array: 1.10mus
+
+O2 Native::
+	Baseline: 1.05mus
+	Unrolled-2: 0.530mus
+	Unrolled-4: 0.319mus
+	Unrolled-8: 0.342mus
+	Unrolled-4-Array: 1.09mus

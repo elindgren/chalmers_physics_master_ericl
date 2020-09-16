@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
-// faster summation implementation
+// naive summation implementations
 static inline
 void
 row_sums(
@@ -10,15 +11,22 @@ row_sums(
   size_t nrs, 
   size_t ncs
 ){
+  // This is easy to speed up - since the memory is contigous
   double sum = 0;
   int row = 0;
   for(size_t ix=0; ix<nrs*ncs; ++ix){
-    sum += *(matrix[0] + ix); // we know that we have all the memory after the first entry in matrix
+    sum += *(matrix[0]+ix);
     if(ix%nrs == 0 && ix>0){
       sums[row] = sum;
       row += 1;
       sum = 0;
     }
+  }
+  for(size_t ix=0; ix<nrs; ++ix){
+    double sum = 0;
+    for (size_t jx = 0; jx<ncs; ++jx)
+      sum += matrix[ix][jx];
+    sums[ix] = sum;
   }
 }
 
@@ -30,8 +38,8 @@ col_sums(
   size_t nrs,
   size_t ncs
 ){
-  //Since the matrix is stored in row major form I don't think we can roll out
-  //the loop here as in the row-optimized version. 
+  // column summation is the slow one - implement it more efficiently
+  // TODO: How to speed this up? Still row-major matrix. 
   for (size_t jx=0; jx<ncs; jx++){
     double sum = 0;
     for(size_t ix=0; ix<nrs; ix++)
@@ -45,8 +53,12 @@ main(
   int argc,
   char *argv[]
 ){
-  // declare matrix
   int benchmark_iters = 5000;
+  struct timespec bench_start_time_row;
+  struct timespec bench_start_time_col;
+  struct timespec bench_stop_time_row;
+  struct timespec bench_stop_time_col;
+
   size_t size = 1000;
   size_t nrs = size;
   size_t ncs = size; 
@@ -63,11 +75,24 @@ main(
   for(int i=0; i<size; i++)
     matrix[i] = mentries + i*size;
 
-  // Perform benchmark
-  for(int i=0; i<benchmark_iters; i++){
+  
+  //********* Perform benchmark - first of row summation, then col summation
+  timespec_get(&bench_start_time_row, TIME_UTC);
+  for(int i=0; i<benchmark_iters; i++)
     row_sums(rsums, matrix, nrs, ncs);
+  timespec_get(&bench_stop_time_row, TIME_UTC);
+
+  timespec_get(&bench_start_time_col, TIME_UTC);
+  for(int i=0; i<benchmark_iters; i++)
     col_sums(csums, matrix, nrs, ncs); 
-  }
+  timespec_get(&bench_stop_time_col, TIME_UTC);
+
+  double bench_row_time = difftime(bench_stop_time_row.tv_sec, bench_start_time_row.tv_sec)*1000 + (bench_stop_time_row.tv_nsec - bench_start_time_row.tv_nsec) /1000000;
+  double bench_col_time = difftime(bench_stop_time_col.tv_sec, bench_start_time_col.tv_sec)*1000 + (bench_stop_time_col.tv_nsec - bench_start_time_col.tv_nsec) /1000000;
+  
+  printf("Timings for summations:: rows: %fmus ---- cols: %fmus \n", bench_row_time/benchmark_iters, bench_col_time/benchmark_iters);
+  //******** benchmark over
+  //
   srand(0); // Set a fixed seed
   int rand_idx = rand() % size;
   printf("Random value from: csums: %f --- rsums: %f \n", csums[rand_idx], rsums[rand_idx]);

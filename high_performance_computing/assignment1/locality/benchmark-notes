@@ -1,0 +1,38 @@
+Benchmarking done using hyperfin with no parameters passed, as well as manual timing checks. 
+Static inline for the row_sums and col_sums functions. 
+
+A quick check in asm shows that the loops are not extracted away.
+
+Results:
+--- Naive summation ---
+	- O0, x86-64:: hyperfine: mean: 27.180s std: 0.278s 
+		       manual: rows: 2.5mus/iteration, cols: 3.0mus/summation iteratio
+	- O2, x86-64:: hyperfine: mean: 12.354s std: 0.240s
+		       manual: rows: 1.1mus, cols: 1.4mus
+	- O2nat, native: mean: 12.680s std: 0.589s
+		       manual: rows: 1.1mus, cols: 1.4mus
+--- Faster summation ---
+	- O0, x86-64:: hyperfine: mean: 56.109s std: 0.541s
+		       manual: rows: 10.543mus/iteration, cols: 3.03mus
+	- O2, x86-64:: hyperfine mean: 12.651s std: 0.293s
+		       manual: rows: 2.14mus, cols: 1.4mus
+	- O2nat, native:: hyperfine: mean: 12.771s std: 0.743s
+		          manual: rows: 2.1mus, cols: 1.4mus
+
+Analysis: 
+	In the naive implementation, we see that the higher optimization levels are
+	much better than no optimization (as expected) - there is no large difference 
+	between the native or x86-64 either.
+
+	We also note that the row summation is faster than the column summation regardless 
+	of optimization level. This is probably due to the row summation being able to 
+	be carried out by accessing the row elements one after another in memory 
+	(due to row major layout).
+
+	However, in the faster implementation (were the row summation has been rolled out,
+	and the column summation is unchanged) we see that all the execution takes much
+	longer time, with especially the row summation being verys low. This is very 
+	surprising. Either I screwed up the optimization, or something else is going on. 
+	However, with higher optimization levels we are back to better values. But
+	the execution time for the row summation is still twice as high as in the naive
+	implementation!
