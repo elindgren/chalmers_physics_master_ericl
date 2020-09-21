@@ -1,0 +1,35 @@
+C Program::
+
+Results: 
+	HDD::
+		Byte write: 14.4 mus/iter - 278 MB/s
+		Byte read: 13.9 mus/iter - 288 MB/s
+		Array write: 0.2 mus/iter - 20000 MB/s
+		Array read: 0.2 mus/iter - 20000 MB/s
+	SSD::
+		Byte write: 13.5 mus/iter - 296 MB/s
+		Byte read: 13.7 mus/iter - 292 MB/s
+		Array write: 0.1 mus/iter - 40000 MB/s
+		Array read: 0.1 mus/iter - 40000 MB/s
+
+Analysis: 
+	We note that the SSD is slightly faster than the HDD, but
+	we also note that the numbers for array (synchronous) 
+	read/write are completely ridicolous. 
+	SSDs should be much faster, particularly for random
+	(location) reads and writes. When it comes to writing single
+	bytes one after another (onto the same spot on the SSD)
+	the difference is smaller. 
+
+Bash program::
+
+Results:
+	HDD::
+		Average copy time: 0.70s
+	SSD::
+		Average copy time: 0.70s
+
+Analysis: 
+	These results are inline with the results from the C program,
+	but they are intuitively strange. Why bother if there is no 
+	difference between HDD and SSD?

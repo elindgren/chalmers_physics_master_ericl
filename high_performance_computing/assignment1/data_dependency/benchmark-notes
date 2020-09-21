@@ -25,3 +25,10 @@ O2 Native::
 	Unrolled-4: 0.319mus
 	Unrolled-8: 0.342mus
 	Unrolled-4-Array: 1.09mus
+
+Analysis:
+
+	We see that rolling out the arrays has a large performance boost, no matter
+	the optimization level. The more the loops are rolled out the faster, however
+	with diminishing returns. Unrolling but placing the elements in an array
+	is very slow however, slower than not unrolling in the first place. 

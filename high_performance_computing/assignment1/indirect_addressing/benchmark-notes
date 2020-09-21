@@ -1,0 +1,23 @@
+Timings measured in code.
+Linear/jumping reflects initialization, direct means direct access of x and y. 
+What do they mean with alternative implementation? Remove all initialization of the p vector?
+
+Results:
+	- O0::
+		Linear: 4.3mus
+		Jumping: 9.5mus
+		Direct: 2.1mus
+	- O2::
+		Linear: 1.0mus
+		Jumping: 8.8mus
+		Direct: 0.55mus
+	- O2nat::
+		Linear: 1.0mus
+		Jumping: 8.8mus
+		Direct: 0.55mus
+
+Analysis:
+
+We see that 1inear is faster than the jumping access. We also note that it is quicker to 
+access directly. 
+		
