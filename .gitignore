@@ -284,3 +284,8 @@ dkms.conf
 # End of https://www.gitignore.io/api/c
 ComputationalPhysics/CIntro/c_1
 ComputationalPhysics/CIntro/c_2
+
+
+*newton_attractors*
+*newton_convergences*
+*tar.gz
