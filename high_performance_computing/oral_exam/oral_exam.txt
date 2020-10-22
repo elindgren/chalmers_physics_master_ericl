@@ -1,0 +1,25 @@
+Notes for oral exam in HPC 2020
+
+Exam topic: Impact of synchronization between compute units in OpenCL. 
+
+Specific question: Optimizing the local size.
+
+Good resources: 
+	Discussion on local size - https://stackoverflow.com/a/3959831
+	Optimizing local memory - https://stackoverflow.com/a/28537318
+
+Naive approach: No local size, i.e. the local work group size will be chosen by the compiler.
+
+Our approach: We just set the local size to {10, 10}
+
+Optimization: Try to optimize the local size. Note that the local size 
+	      should be a multiple of the global size, and preferably 
+	      a multiple of 32/64 as well.
+
+
+*********** Benchmarks **********
+All benchmark performed using hyperfine, with 2 warmup iterations.
+
+Baseline: Naive approach
+	
+

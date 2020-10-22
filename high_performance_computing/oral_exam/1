@@ -1,0 +1,6 @@
+# First make and clean
+make clean
+make -B
+
+
+
