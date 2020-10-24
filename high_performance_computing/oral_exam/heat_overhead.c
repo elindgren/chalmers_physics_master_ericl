@@ -33,10 +33,10 @@ void print_grid(float** h_old, int nx, int ny){
 }
 
 int main(int argc, char** argv){
-  int l = 1;
+  int local = 1;
   int nbr_iterations = 7;
   float d = 1/30.;
-  parsing_cmdl_args(argc, argv, &nbr_iterations, &d, &l);
+  parsing_cmdl_args(argc, argv, &nbr_iterations, &d, &local);
   /************* Obtain initial conditions ***********/
   // Open file with initial conditions
   FILE *init_file;
@@ -146,7 +146,6 @@ int main(int argc, char** argv){
   float e = 1-d;
   float f = d*0.25;
   const size_t global[] = {nx_red,ny_red}; 
-  const size_t local[] = {10, 10}; // Use a local size to use fewer processes => less synchronization
   // Prepare two kernels - one for even and one for odd iterations and fill their arguments beforehand
   clSetKernelArg(kernel_odd, 0, sizeof(cl_mem), &buffer_h_new);
   clSetKernelArg(kernel_odd, 1, sizeof(cl_mem), &buffer_h_old);
@@ -161,24 +160,25 @@ int main(int argc, char** argv){
   clSetKernelArg(kernel_even, 4, sizeof(float), &f);
 
   /*********** Perform calculation *************/
+  /*
   printf("\nConfiguration complete, beginning calculations\n");
   for(int ix = 0; ix <nbr_iterations-1; ix+=2){
     clEnqueueNDRangeKernel(command_queue, kernel_even, 2, NULL,
-    			   (const size_t*)&global, (const size_t*)&local, 0, NULL, NULL);
+    			   (const size_t*)&global, NULL, 0, NULL, NULL);
     clEnqueueNDRangeKernel(command_queue, kernel_odd, 2, NULL,
-    			   (const size_t*)&global, (const size_t*)&local, 0, NULL, NULL);
+    			   (const size_t*)&global, NULL, 0, NULL, NULL);
   }
-  /* Handle even or odd number of iterations */
+  // Handle even or odd number of iterations
   if(nbr_iterations%2 == 0){
     clEnqueueReadBuffer(command_queue, buffer_h_old, CL_TRUE,
       0, nx*ny*sizeof(float), h_old_ent, 0, NULL, NULL);
   }else{
     clEnqueueNDRangeKernel(command_queue, kernel_even, 2, NULL,
-    			   (const size_t*)&global, (const size_t*)&local, 0, NULL, NULL);
+    			   (const size_t*)&global, NULL, 0, NULL, NULL);
     clEnqueueReadBuffer(command_queue, buffer_h_new, CL_TRUE,
       0, nx*ny*sizeof(float), h_old_ent, 0, NULL, NULL);
   }
-  
+  */
   /*********** Calculate final averages ***********/ 
   float average = calc_average(h_old_ent, nx, ny);
   float average_distance = calc_distance_from_average(h_old_ent, nx, ny, average);

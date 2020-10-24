@@ -33,9 +33,10 @@ void print_grid(float** h_old, int nx, int ny){
 }
 
 int main(int argc, char** argv){
+  int local = 1;
   int nbr_iterations = 7;
   float d = 1/30.;
-  parsing_cmdl_args(argc, argv, &nbr_iterations, &d);
+  parsing_cmdl_args(argc, argv, &nbr_iterations, &d, &local);
   /************* Obtain initial conditions ***********/
   // Open file with initial conditions
   FILE *init_file;

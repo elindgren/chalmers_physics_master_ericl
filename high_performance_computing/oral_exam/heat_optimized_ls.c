@@ -146,7 +146,7 @@ int main(int argc, char** argv){
   float e = 1-d;
   float f = d*0.25;
   const size_t global[] = {nx_red,ny_red}; 
-  const size_t local[] = {10, 10}; // Use a local size to use fewer processes => less synchronization
+  const size_t local[] = {l,l}; // Use a local size to use fewer processes => less synchronization
   // Prepare two kernels - one for even and one for odd iterations and fill their arguments beforehand
   clSetKernelArg(kernel_odd, 0, sizeof(cl_mem), &buffer_h_new);
   clSetKernelArg(kernel_odd, 1, sizeof(cl_mem), &buffer_h_old);
@@ -161,6 +161,7 @@ int main(int argc, char** argv){
   clSetKernelArg(kernel_even, 4, sizeof(float), &f);
 
   /*********** Perform calculation *************/
+  //cl_event prof_event;
   printf("\nConfiguration complete, beginning calculations\n");
   for(int ix = 0; ix <nbr_iterations-1; ix+=2){
     clEnqueueNDRangeKernel(command_queue, kernel_even, 2, NULL,
@@ -178,7 +179,18 @@ int main(int argc, char** argv){
     clEnqueueReadBuffer(command_queue, buffer_h_new, CL_TRUE,
       0, nx*ny*sizeof(float), h_old_ent, 0, NULL, NULL);
   }
-  
+
+  /* Profiling - get kernel performance */
+  /*
+  clFinish(command_queue);
+  cl_ulong time_start, time_end, total_time;
+  clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_START,
+      sizeof(time_start), &time_start, NULL);
+  clGetEventProfilingInfo(prof_event, CL_PROFILING_COMMAND_END,
+      sizeof(time_end), &time_end, NULL);
+  total_time = time_end-time_start;
+  printf("## KERNEL TOTAL TIME: %lu \n", total_time);
+  */
   /*********** Calculate final averages ***********/ 
   float average = calc_average(h_old_ent, nx, ny);
   float average_distance = calc_distance_from_average(h_old_ent, nx, ny, average);

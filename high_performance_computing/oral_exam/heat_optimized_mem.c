@@ -146,7 +146,7 @@ int main(int argc, char** argv){
   float e = 1-d;
   float f = d*0.25;
   const size_t global[] = {nx_red,ny_red}; 
-  const size_t local[] = {10, 10}; // Use a local size to use fewer processes => less synchronization
+  const size_t local[] = {25, 25}; // Use a local size to use fewer processes => less synchronization
   // Prepare two kernels - one for even and one for odd iterations and fill their arguments beforehand
   clSetKernelArg(kernel_odd, 0, sizeof(cl_mem), &buffer_h_new);
   clSetKernelArg(kernel_odd, 1, sizeof(cl_mem), &buffer_h_old);
