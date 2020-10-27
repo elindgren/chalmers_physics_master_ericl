@@ -22,6 +22,7 @@ overhead = {}
 naive = {}
 handin = {}
 optimized = {}
+optimized_1d = {}
 
 for file in os.listdir('bench'):
     fname = file.split('.')[0]
@@ -33,6 +34,8 @@ for file in os.listdir('bench'):
         filename = fsplt[0]
     elif len(fsplt) == 4:
         filename = f'{fsplt[0]}_{fsplt[1]}'
+    elif len(fsplt) == 5:
+        filename = f'{fsplt[0]}_{fsplt[1]}_{fsplt[2]}'
     grid_size = f'{gs1}x{gs2}'
     
     if filename == 'overhead':
@@ -92,27 +95,54 @@ for file in os.listdir('bench'):
             'std' : std,
             'local': local
         }
+    elif filename == 'optimized_ls_1d':
+        # Open file and read mean and std
+        local = []
+        means = []
+        stds = []
+        with open(f'bench/{file}', 'r') as f:
+            lines = f.readlines()
+            for i, line in enumerate(lines[1:]):
+                if grid_size in original:
+                    ls = line.split(',')
+                    if int(ls[-1]) in sizes_original:
+                        means.append(float(ls[1]))
+                        stds.append(float(ls[2]))
+                        local.append(int(ls[-1]))
+                elif grid_size in warp:
+                    ls = line.split(',')
+                    if int(ls[-1]) in sizes_warp:
+                        ls = line.split(',')
+                        means.append(float(ls[1]))
+                        stds.append(float(ls[2]))
+                        local.append(int(ls[-1]))
+        assert len(means) == len(sizes_original) or len(means) == len(sizes_warp)
+        optimized_1d[grid_size] = {
+            'mean': means,
+            'std' : std,
+            'local': local
+        }
 
 # Generate plots
 porder =  {
     '100x100': [0,0],
-    '10000x10000': [0,1],
-    '100000x100': [0,2],
+    '10000x10000': [0,2],
+    '100000x100': [0,1],
     '128x128': [1,0],
-    '10016x10016': [1,1],
-    '100000x128': [1,2],
+    '10016x10016': [1,2],
+    '100000x128': [1,1],
     }
 fig, axs = plt.subplots(2, 3, figsize=(16,12))
 for i, gs in enumerate(optimized):
-    opt = optimized[gs]
     p = porder[gs]
-    if gs == '100x100' or gs == '10000x10000' or gs == '100000x100':
-        ov = overhead[gs]
-        na = naive[gs]
-        ha = handin[gs]
-        axs[p[0]][p[1]].axhline(ov['mean'], c='k', linewidth=2, linestyle='--', label='Overhead')
-        axs[p[0]][p[1]].axhline(na['mean'], c='r', linewidth=2, linestyle=':',label='Naive')
+    opt = optimized[gs]
+    ov = overhead[gs]
+    na = naive[gs]
+    ha = handin[gs]
+    if gs == '100x100' or gs == '100000x100' or gs == '10000x10000':
         axs[p[0]][p[1]].axhline(ha['mean'], c='g', linewidth=2, linestyle='-.', label='Handin')
+    axs[p[0]][p[1]].axhline(ov['mean'], c='k', linewidth=2, linestyle='--', label='Overhead')
+    axs[p[0]][p[1]].axhline(na['mean'], c='r', linewidth=2, linestyle=':',label='Naive')
     axs[p[0]][p[1]].errorbar(x=opt['local'], y=opt['mean'], yerr=opt['std'], ecolor='b', elinewidth=2, capsize=2, capthick=2, linewidth=2, label='Optimized')
     axs[p[0]][p[1]].set_xlabel('Local size, (n x n)')
     axs[p[0]][p[1]].set_ylabel('Program execution time, s')
@@ -121,4 +151,24 @@ for i, gs in enumerate(optimized):
     axs[p[0]][p[1]].legend(loc='best')
 plt.tight_layout()
 plt.savefig('local_size.png')
+
+fig, axs = plt.subplots(2, 3, figsize=(16,12))
+for i, gs in enumerate(optimized):
+    p = porder[gs]
+    opt = optimized_1d[gs]
+    ov = overhead[gs]
+    na = naive[gs]
+    ha = handin[gs]
+    if gs == '100x100' or gs == '100000x100' or gs == '10000x10000':
+        axs[p[0]][p[1]].axhline(ha['mean'], c='g', linewidth=2, linestyle='-.', label='Handin')
+    axs[p[0]][p[1]].axhline(ov['mean'], c='k', linewidth=2, linestyle='--', label='Overhead')
+    axs[p[0]][p[1]].axhline(na['mean'], c='r', linewidth=2, linestyle=':',label='Naive')
+    axs[p[0]][p[1]].errorbar(x=opt['local'], y=opt['mean'], yerr=opt['std'], ecolor='b', elinewidth=2, capsize=2, capthick=2, linewidth=2, label='Optimized')
+    axs[p[0]][p[1]].set_xlabel('Local size, (n x 1)')
+    axs[p[0]][p[1]].set_ylabel('Program execution time, s')
+    axs[p[0]][p[1]].set_title(f'{gs}')
+    axs[p[0]][p[1]].grid()
+    axs[p[0]][p[1]].legend(loc='best')
+plt.tight_layout()
+plt.savefig('local_size_1d.png')
 
