@@ -1,0 +1,13 @@
+Write ideas here
+
+Memory managemant:
+	- Remove matrix and only use the 3n int array.
+
+Calculate distance
+	- Implement own version of sqrt using that we have a given tolerance - while loop
+	with a converging series.
+
+Parallelization
+	- Keep file open during the whole execution of program and move around using fseek.
+	If we keep opening/closing the file in read data we may have problem with threads 
+	not being able to access it.

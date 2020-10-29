@@ -1,0 +1,6 @@
+Tried optimization ideas.
+
+Calculate distance between points
+	- Replace round() with adding 0.5 and typecasting. Round took around 20% of CPU cycles.
+	Implementing this change improved the runtime by 20%, and removing round() as a big
+	hog of CPU cycles

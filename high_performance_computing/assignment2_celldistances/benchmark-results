@@ -1,0 +1,38 @@
+Timing results run with hyperfine, unless otherwise specified.
+
+Results
+	- Time: 226.3 ms pm 8.9 ms 
+		Args: File: e4 - Threads: 1 - Block size: 2000 - Optimization: O2
+		Notes: Only open file once (in main), no dynamic calculation of block size. 
+
+Test:: Impact of opening file in every iterration
+	- Time: 252.2 ms pm 29.4 ms 
+		Args: File: e4 - Threads: 1 - Block size: 100 - Optimization: O2
+		Notes: Only open file once (in main), no dynamic calculation of block size. 
+	- Time: 299.1 ms pm 36 ms
+		Args: File: e4 - Threads: 1 - Block size: 100 - Optimization: O2
+		Notes: Open file every time in read_data. 
+
+Test:: Impact of vectorizing calc_dist_sq - one of our biggest CPU cycles hogs
+	Baseline::
+	- Time: 220.4 ms pm 6.0 ms 
+	Args: File: e4 - Threads: 1 - Block size: 1e4 - Optimization: O2
+	Notes: calc_dist_sq takes about 27% of (7e8) CPU cycles without vectorization.  
+
+	Vectorized::
+	- Time: 0.5 ms pm  ms (performed worse) 
+	Args: File: e4 - Threads: 1 - Block size: 1e4 - Optimization: O2
+	Notes: With vectorization it only takes of () CPU cycles.    
+
+Tests:: Reduce problem of false sharing between threads by giving each thread a copy of dist_entries - then finally summing over them in the end
+	Baseline::
+	- Time: 1m3s - (using only time)
+	Args: File: e5 - Threads: 10 - Block size: 1e5 - Optimization: O2
+	Notes: No explicit synchronization (critical/atomic). 
+		Total number of cache misses: 7.8e9
+
+	With less false sharing:
+	- Time: 0.5 ms pm  ms (performed worse) 
+	Args: File: e5 - Threads: 10 - Block size: 1e5 - Optimization: O2
+	Notes: No explicit synchronization (critical/atomic).
+		Total number of cache misses: .    
