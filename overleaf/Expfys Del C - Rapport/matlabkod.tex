@@ -1,0 +1,915 @@
+\subsection{Program för att beräkna $g$}
+
+Nedan följande program läser in tabb-separerade filer från kamerorna och beräknar ett värde på $g$ för varje period. Först identifieras längden på varje period med hjälp av ett annat program som implementerar funktionen \textit{findpeaks} varpå rotationshastigheten $\omega$ under perioden kan beräknas. Därefter minsta-kvadratanpassas datan under perioden först mot ett plan i tre dimensioner och därefter mot en ellips i samma plan, varur pendelns vinkel $\theta$ mot vertikalen kan bestämmas. Efter detta används ekvation \ref{eq: g} för att beräkna $g$ för perioden, varefter processen upprepas för varje period. Sist sparas alla beräknade värden på $g$ till en ny tabb-separerad fil för senare felanalys av datan. 
+
+\begin{lstlisting}[style=Matlab-editor]
+
+clear all clc; clf; close all;
+
+fileName = 'matning3_grunduppgiftV2_truncated.txt'; %File to save the edited data to
+
+%Edit tsv-file to remove column headers etc
+fid = fopen('matning3_grunduppgiftV2.tsv', 'r') ;              % Open source file.
+61
+%Skip the first 1 lines%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+buffer = fread(fid, Inf) ;                    % Read rest of the file.
+fclose(fid);
+fid = fopen(fileName, 'w')  ;   % Open destination file.
+fwrite(fid, buffer) ;                         % Save to file.
+fclose(fid) ;
+
+
+data = tdfread (fileName, '\t') %Read truncated tsv-file.
+
+xArray = data.New_0000_X;        %Extract x,y,z,t data
+yArray = data.New_0000_Y;
+zArray = data.New_0000_Z;
+tArray = data.Time;
+
+
+
+%Find max and min for x, y, 
+figure(1000)
+[max, locmax, min, locmin] = findPeaksOG(xArray, tArray, true, 'hej', 'hej'); %Only x-data so far
+%Use the average of locmin and locmax as vector of locations
+%loc = round((locmin + locmax)./2);
+%plot(loc, xArray(loc), '*') %Position in which to plot diameter, omega
+hold off
+
+%Calculate diameter and halftime - dependant on x
+fulltimeArray = calculateFulltime(tArray, locmax);
+%Remove zeros - if uneven number of periods
+fulltimeArray = fulltimeArray(fulltimeArray~=0);
+figure(4000)
+
+%Now loop through all periods (that is all locmax(i) -> locmax(i+1)
+g = zeros(length(fulltimeArray),1);
+thetaArray = zeros(length(fulltimeArray),1);
+omegaArray = zeros(length(fulltimeArray),1);
+
+%Parameters of pendulum
+L1 = 205/1000;
+m1 = 128/1000; 
+r1 = 5/1000;
+ry = 11/1000;
+%Parameters for polhemsknut
+Lk = 18/1000; %Avarage length of polhemsknut
+d = 12/1000; %displacement down to turning point of rod
+dk = 6/1000; 
+mk = 35/1000; %hette m1 tidigare
+
+%for calculating theta - with ball
+L = 0.221; % pm 0.022
+
+for i = 1:1:length(fulltimeArray) %
+    if i+1 > length(locmax) %To avoid stepping out of bounds
+        break
+    end
+    
+    %Subarrays are calculated from max & min in x!
+    subxArray = xArray(locmax(i):locmax(i+1)); %Extract the current sub array %x
+    subyArray = yArray(locmax(i):locmax(i+1));                                %y
+    subzArray = zArray(locmax(i):locmax(i+1));                                %z
+    %Calculate mean square ellipse
+    ellipse = calculateEllipse(subxArray, subyArray, subzArray);
+   
+    diameter = (ellipse.long_axis+ellipse.short_axis)/2/1000; %take mean diameter, convert to meters
+    sintheta = diameter/(2*L);
+    
+    %Calculate the rotational speed for this period
+    currentOmega = 2*pi./fulltimeArray(i); %2pi since whole period
+    
+    %g(i) = calculateG2(L1, r1, d, dk, m1, m2, currentOmega, sintheta);
+    g(i) = calculateG3(L1, Lk, r1, ry, d, dk, m1, mk, currentOmega, sintheta);
+    
+    %Export data to plot
+    omegaArray(i) = currentOmega;
+    theta = asin(sintheta);
+    thetaArray(i) = theta;
+end
+
+%Save last plot as a tikzpicture
+figure(4000)
+%cleanfigure('TargetResolution', 0.1);
+%cleanfigure('minimumpointDistance', 10)
+%matlab2tikz('ellips.tex', 'height', '\fheight');
+
+
+
+%Now plot omega and theta and let the user choose the area in which to take
+%mean of g
+
+
+figure(2000)
+yyaxis left
+plot(omegaArray, 'r')
+hold on
+yyaxis right
+plot(thetaArray, 'g') %Norm the plots towards mean 
+hold off
+%title('omega and theta for each period')
+%xlabel('Period')
+%ylabel('Normed value')
+legend('Omega','theta')
+%cleanfigure('TargetResolution', 5);
+%cleanfigure('minimumpointDistance', 0.1)
+%matlab2tikz('omegatheta.tex', 'height', '\fheight');
+%cleanfigure
+%matlab2tikz('omegatheta2.tex', 'height', '\fheight')
+
+%pause
+%[xFrames, yFrames] = ginput(2);
+%firstFrame = xFrames(1);
+%lastFrame = xFrames(2);
+%round to nearest deci
+%firstFrame = round(firstFrame);
+%lastFrame = round(lastFrame);
+
+%Take mean of g in this interval and display
+figure(3000)
+plot(g) %Plot g for each period
+%hold on
+%X = [9.7, 9.9];
+%y1 = firstFrame;
+%y2 = lastFrame;
+%plot([firstFrame, firstFrame], X, 'r')
+%plot([lastFrame, lastFrame], X, 'g')
+
+title('g for each iteration')
+gSave = g;
+g = mean(g)
+theta=mean(thetaArray);
+omega=mean(omegaArray);
+%%
+
+%%%Export g array to tsv file
+fileName = 'g_from_each_measurement.txt';
+buffer = gSave;
+fid = fopen(fileName, 'at');   % at to append wt to write -  Open destination file.
+%fwrite(fid, buffer); % Save to file.
+
+for i=1:1:length(buffer)
+    fprintf(fid, '%g\t', buffer(i));
+    fprintf(fid, '\n');    
+end
+fclose(fid);
+
+\end{lstlisting}
+
+\subsection{Findpeaks: Identifiera perioderna}
+
+Detta program identifierar varje period som pendeln genomgår genom att implementera \textit{findpeaks}. 
+
+\begin{lstlisting}[style=Matlab-editor]
+
+function [max, locMax, min, locMin] = findPeaksOG (Array, interval, draw ,string1, string2)
+%UNTITLED3 Summary of this function goes here
+%   Detailed explanation goes here
+
+[max, locMax ] = findpeaks(Array);
+[min, locMin ] = findpeaks(-Array); 
+
+
+if draw
+    plot(Array, 'b')
+    hold on
+    plot(locMax, max, 'o')
+    plot(locMin, -min, 'o')
+end
+min = -min;%Return - the values calculated by findpeaks, since they are inverted
+end
+
+
+\end{lstlisting}
+
+\subsection{calculateEllips: Beräkna minsta-kvadrat-ellips}
+
+Detta program hittar det plan som utgör den bästa minstakvadratapproximationen till datan och styr beräknandet av den elliptiska anpassningen. 
+
+\begin{lstlisting}[style=Matlab-editor]
+
+function ellipse_t = calculateEllipse( xArray, yArray, zArray )
+%Calculate mean square ellipsoid%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+A = [xArray yArray zArray];
+
+x = LeastSquarePlane(A);
+
+% Calculate base vectors n1, n2 and n3 from plane
+
+n3 = x/sqrt(x(1)^2 + x(2)^2 + x(3)^2);
+z1 = 1/x(3); 
+z2 = (1 - x(1))/x(3);
+n1 = [1; 0; z2 - z1]/sqrt(1+(z2 - z1)^2);
+n2 = cross(n3,n1);
+
+% This gives the transformation matrix T, x = Tx'
+% and data matrix A' = AT
+
+T = [n1 n2 n3]; %Note T orthogonal
+AT = A*(T.');
+
+% Project the data vectors on to the plane
+% using the projectionformula
+
+% ProjA = zeros(length(xArray),3);
+B1 = A*n1;
+B2 = A*n2;
+B3 = A*n3;
+ProjA = [B1 B2 B3];
+
+figure(5000); hold on; grid on;
+axis equal
+scatter(B1(:), B2(:), 0.3)
+
+% Fit ellipse to projected data with
+% respect to least sqaures
+% and plot
+ellipse_t = fit_ellipse(B1,B2)
+ellipse(ellipse_t.a, ellipse_t.b, ellipse_t.phi, ellipse_t.X0_in, ellipse_t.Y0_in, 'r')
+end
+
+
+
+
+\end{lstlisting}
+
+\subsection{Beräkna periodtid}
+
+Detta program beräknar periodtiden utifrån datan från Findpeaks. 
+
+\begin{lstlisting}[style=Matlab-editor]
+
+function fulltimeArray = calculateFulltime(tArray, locmax)
+%Calculate all period times of signal
+fulltimeArray = zeros(length(locmax),1);
+
+for i = 1:1:length(fulltimeArray)
+    if  i+1 > length(fulltimeArray)
+        break
+    end
+    fulltimeArray(i) = abs(tArray(locmax(i+1)) - tArray(locmax(i))); %i+1 to check for next peak
+end
+
+\end{lstlisting}
+
+\subsection{leastSquarePlane}
+
+Detta program beräknar minsta-kvadrat-planet till datan.  
+
+\begin{lstlisting}[style=Matlab-editor]
+
+function x = LeastSquarePlane(A)
+% Fits a plane to the meassurement matrix A for
+% the plane equation ax + by + cz = 1 in regard of
+% least square meassure.
+% Returns x = [a; b; c].
+
+[m,n] = size(A);
+b = ones(m,1);
+x = (A.'*A)\(A.'*b);
+
+% Plot results
+
+scatter3(A(:,1), A(:,2), A(:,3), 0.3);
+hold on;
+
+interval = -500:100:500;
+[X,Y] = meshgrid(interval,interval);
+Z = (1 - x(1)*X - x(2)*Y)/x(3);
+
+surf(X,Y,Z,'FaceAlpha', 0.3)
+
+
+end
+
+
+
+\end{lstlisting}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\section{Matlabkod för simulering av samt för datanalys av uppmätt data från den dubbla koniska pendeln}
+
+Nedan redovisas den matlabkod som har använts för att simulera den dubbla koniska pendeln samt som har använts för att analysera mätdatan från de laborativa undersökningarna av den dubbla koniska pendeln. 
+
+\subsection{Program för simulering av den dubbla koniska pendeln}
+
+Detta program simulerar den dubbla koniska pendeln utifrån de intialvillkor som uppmäts vid en viss mätning, varför varje simulering motsvarar varje enskild mätning. Dessa initialvillkor beräknas med hjälp av en speciell funktion, se Appendix D.3. Dessa initialvillkor används för att lösa de kopplade differentialekvationer som fås från Lagranges ekvation, se Appendix 
+
+\begin{lstlisting}[style=Matlab-editor]
+
+close all, clc ; clf; clear all
+
+%Simulation of conical dubbel pendulum - with heavy approximation
+
+%Begin by importing the initial conditions for the pendulum
+
+%Pendulum parameters: 
+%Rod 1
+L1 = 205/1000; %Length, m
+r1 = 5/1000; %Radius, m
+m1 = 128/1000; %Mass, kg
+
+%Rod 2
+L2 = 48/1000; %Rod 2
+%d2 = 35/1000; %Interconnect between rod 1 and rod 2 %%Fix this one!
+r2 = r1;
+m2 = 25/1000; %%CALCULATE MASS for rod 2 - measured?
+
+%Interconnect parameters
+d = 11.5/1000;
+dk = 12/1000;
+
+Lt =  250/1000; %Length of string % pm 10 mm depending on theta 2
+
+fid = fopen('matning4_extrauppgiftvinkel.tsv', 'r') ; % Open source file.
+fileName = 'matning4_extrauppgiftvinkel_truncated.txt'; %File to save the edited data to
+
+[theta10, theta20, omega] = ExtrauppgiftInitialV1(fid, fileName, Lt);
+
+
+%General parameters
+g = 9.82;
+
+%Variables
+t = linspace(0, 10,1000); %time
+theta1 = 0;
+theta2 = 0;
+
+%Initial conditions
+%theta10 = pi/3; %30 degrees
+thetadot10 = 0;
+%theta20 = pi/2; % 45 degrees
+thetadot20 = 0;
+
+
+
+
+%Moment of inertia 
+
+%Around of axis of symmetry
+%Rod 1
+Ix10 = m1.*(L1^2/12 + r1^2/4);
+Iy10 = Ix10;
+Iz10 = 1/2 * m1 * r1^2;
+%Rod 2
+Ix20 = m2.*(L2^2/12 + r2^2/4);
+Iy20 = Ix20;
+Iz20 = 1/2 * m2 * r2^2;
+
+%Around the origin according to Steiner's thm.
+%Rod1
+Ix1 = (d+L1/2)^2*m1 + Ix10;
+Iy1 = Ix1;
+Iz1 = Iz10;
+%Rod2
+Ix2 = Ix20 + m2*(L1+d)^2;
+Iy2 = Ix2;
+Iz2 = Iz20 + m2*sin(theta2-theta1)^2*(L2/2+d)^2;
+
+
+%omega = sqrt(g*m1*(L1/2+d)/(cos(theta10)*(Iy1-Iz1))); %Rotational speed of motor - CONSTANT during each measurement!
+
+
+%Rewrite the ODEs as a system of ODEs. 
+
+%Define a state-vector x. x(1) = theta1, x(2) = theta1dot, x(3) = theta2,
+%x(4) = theta2dot
+
+%Thus, the derivative of the state-vector is: xdot = [x(2), x(2)dot, x(4), x(4)dot]
+
+dxdt =@(t,x) [x(2);... 
+        ( omega^2*( sin(x(1))*cos(x(1))*(Iy1-Iz1) - sin(x(3))*cos(x(3))*(Iy2 - Iz20 - m2*sin(x(3)-x(1))^2*(L2/2+d)^2) ) + (L2/2+d)*sin(x(3))*m2*g - g*sin(x(1))* (m1*(L1/2+d) + m2*(L1+d)) )/Ix1;...
+        x(4);...
+         -1*( omega^2*( sin(x(1))*cos(x(1))*(Iy1-Iz1) - sin(x(3))*cos(x(3))*(Iy2 - Iz20 - m2*sin(x(3)-x(1))^2*(L2/2+d)^2) ) + (L2/2+d)*sin(x(3))*m2*g - g*sin(x(1))* (m1*(L1/2+d) + m2*(L1+d)) )/Ix1...
+         + omega^2* (sin(x(3))*cos(x(3))*(Iy2 - Iz20 - m2*sin(x(3)-x(1))^2*(L2/2+d)^2)/Ix2 ) - (L2/2+d)*sin(x(3))*m2*g/Ix2];
+
+%Initial conditions for the dubbel pendulum
+x0 = [theta10, thetadot10, theta20, thetadot20];
+
+%Solve using ode45
+%Y = output, time = timestep
+[time, Y] = ode45(dxdt, t, x0);
+
+figure(7000)
+subplot(3,1,1)
+plot(t,Y(:,1))
+title('Theta 1')
+xlabel('s')
+ylabel('rad')
+
+subplot(3,1,2)
+plot(t,Y(:,3))
+title('Theta 2')
+xlabel('s')
+ylabel('rad')
+
+
+
+%According to coordinate transformations: 
+
+%Cylindrical coordinates
+z1 = (d+L1).*cos(Y(:,1)); % cos(theta1)
+z2 = z1 + (d+L2).*cos(Y(:,3));
+r1 = (d+L1).*sin(Y(:,1));
+r2 = r1 + (d+L2).*sin(Y(:,3));
+
+%Cartesian coordinates
+phi = omega*time; %Angle in xy-plane
+x1 = r1.*cos(phi);
+y1 = r1.*sin(phi);
+x2 = x1 + r2.*cos(phi);
+y2 = y1 + r2.*sin(phi);
+
+
+%Calculate z position using theta1, theta2, L1 and L2
+%zArray = L1*sin(Y(:,1)) + L2*sin(Y(:,3)); 
+subplot(3,1,3)
+plot(t, z2)
+title('z position')
+xlabel('s')
+ylabel('mm')
+
+figure(90000)
+plot(t,(-z2)*1000) %Lägg till -z2/2 ??
+%xlabel('Tid (s)')
+%ylabel('Position (mm)')
+set(findall(gca, 'Type', 'Line'),'LineWidth',2);
+%set(gca,'fontsize',15)
+
+%Calculate FFT of z-position
+figure(80000)
+%Fs = 500; %Sampling frequency
+deltaT = time(2)-time(1);
+Fs = 1/deltaT;
+n = length(z2);
+F1 = fft(z2*1000, n);
+P2 = abs(F1/n);
+P1 =P2(1:floor(n/2)+1);
+P1(2:end-1) = 2*P1(2:end-1);
+f1 = Fs*(0:floor(n/2))/n; %The frequency window
+stem(f1, P1);
+axis([0, 10, 0, max(P1)])
+xlabel('Frekvens (s)')
+ylabel('Position (mm)')
+set(findall(gca, 'Type', 'Line'),'LineWidth',2);
+set(gca,'fontsize',15)
+
+
+
+
+
+
+% 3D-plot with timesteps
+
+
+%We shall plot x, ,y, z with respect to time. 
+
+% %According to coordinate transformations: 
+% 
+% %Cylindrical coordinates
+% z1 = (d+L1).*cos(Y(:,1)); % cos(theta1)
+% z2 = z1 + (d+L2).*cos(Y(:,3));
+% r1 = (d+L1).*sin(Y(:,1));
+% r2 = r1 + (d+L2).*sin(Y(:,3));
+% 
+% %Cartesian coordinates
+% phi = omega*time; %Angle in xy-plane
+% x1 = r1.*cos(phi);
+% y1 = r1.*sin(phi);
+% x2 = x1 + r2.*cos(phi);
+% y2 = y1 + r2.*sin(phi);
+
+% plot(time, z1)
+% hold on
+% plot(time, z2)
+% axis([0 20 0 1])
+% hold off
+%Prepare for 3D-plot
+figure(9000)
+%plot3(x1,y1,-z1) %minus sign since upside down
+plot3(x2*1000,y2*1000,-z2*1000, 'b')
+hold on
+grid on
+
+%Add a line through the origin
+a=zeros(2);
+b=zeros(2);
+c=[-280, -100];
+plot3(a,b,c, 'black')
+hold off
+
+
+
+%Graph setup
+%fontsize=30;
+%set(gca,'fontsize',fontsize)
+%set(findall(gca, 'Type', 'Line'),'LineWidth',1);
+lgd = legend('Stång 2', 'z-axel', 'Location', 'west');
+cleanfigure('targetResolution', 300)
+matlab2tikz('simuleringmatning3d4.tex', 'height', '\fheight');
+%title(lgd, "Legend", 'Interpreter', 'latex') 
+%theta1str = '$$ \theta_1 $$'; 
+%theta2str = '$$ \theta_2 $$'; 
+%set(gcf, 'Position', [0 0 1600 900])
+%title("Simulering under " + num2str(t(end)) + " s, \theta_1(0) = " + num2str(theta10/pi) +  "\pi rad, \theta_2(0) = " + '\newline' +  num2str(theta20/pi) + "\pi rad, \omega = " + num2str(omega/pi) + "\pi"  )
+%file title 
+%figurname = strcat('theta10=', num2str(theta10/pi),' pi theta20= ', num2str(theta20/pi),' pi.png');
+
+%saveas(gcf, figurname)
+
+% 
+% 
+% figure(2)
+% lastRod1=[];
+% lastRod2=[];
+% %p = number of dots +1 to be kept
+% p=11;
+% for i=1:1:length(t)
+%     %plot(x(i),y(i),'b.')
+%     pause(0.005)
+%     if i<=10
+%         %Wihtout drag
+%         lastRod1(1,p-i)=x1(i);
+%         lastRod1(2,p-i)=y1(i);
+%         lastRod1(3,p-i)=z1(i);
+%         
+%         lastRod2(1,p-i)=x2(i);
+%         lastRod2(2,p-i)=y2(i);
+%         lastRod2(3,p-i)=z2(i);
+%     else
+%        for j=1:1:round(length(lastRod1)-1) 
+%            lastRod1(1,j+1)=lastRod1(1,j);
+%            lastRod1(2,j+1)=lastRod1(2,j);
+%            lastRod1(3,j+1)=lastRod1(3,j);
+%            
+%            lastRod2(1,j+1)=lastRod2(1,j);
+%            lastRod2(2,j+1)=lastRod2(2,j);
+%            lastRod2(3,j+1)=lastRod2(3,j);
+%        end
+%        lastRod1(1,1)=x1(i);
+%        lastRod1(2,1)=y1(i);
+%        lastRod1(3,1)=z1(i);
+%        
+%        lastRod2(1,1)=x2(i);
+%        lastRod2(2,1)=y2(i);
+%        lastRod2(3,1)=z2(i);
+% 
+%     end
+%     if i>10
+%         title('Dubbeltrubbel')
+%         %axis([-0.5 0.5 -0.5 0.5 -0.2 -0.3])
+%         grid on 
+%         hold on
+%         plot3(lastRod1(1,:),lastRod1(2,:),-lastRod1(3,:),'b')
+%         
+%         plot3(lastRod2(1,:), lastRod2(2,:), -lastRod2(3,:),'r')
+%    
+%     end        
+% end
+% hold off
+
+
+
+
+\end{lstlisting}
+
+
+
+
+
+
+
+
+
+
+\subsection{Program för analys av den dubbla koniska pendeln}
+
+Detta program läser in datan från kamerorna på samma sätt som i grunduppgiften och plottar den. Därefter får man välja det tidsintervall man vill studera varefter programmet utför FFT på datan i detta intervall samt presenterar en tydligare plott av den råa positionsdatan. 
+
+\begin{lstlisting}[style=Matlab-editor]
+
+clear all clc; clf; 
+close all;
+
+fileName = 'matning2extrauppgiftkaos_truncated.txt'; %File to save the edited data to
+
+%Edit tsv-file to remove column headers etc
+
+fid = fopen('matning2_extrauppgiftkaos.tsv', 'r') ;              % Open source file.
+%Skip the first 1 lines%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+buffer = fread(fid, Inf) ;                    % Read rest of the file.
+fclose(fid);
+fid = fopen(fileName, 'w')  ;   % Open destination file.
+fwrite(fid, buffer) ;                         % Save to file.
+fclose(fid) ;
+
+
+data = tdfread (fileName, '\t') %Read truncated tsv-file.
+
+xArray = data.New_0000_X;        %Extract x,y,z,t data
+yArray = data.New_0000_Y;
+zArray = data.New_0000_Z;
+%tArray = data.Time;
+tArray = 0:1/500:length(xArray)/500;
+%Remove zeros
+xArray=xArray(xArray~=0);
+yArray=yArray(yArray~=0);
+zArray=zArray(zArray~=0);
+
+plot(zArray)
+hold on
+%Use ginput to specify three windows in which to study the beahvior
+[xBreak, yBreak] = ginput(2);
+firstBreak = round(xBreak(1));
+secondBreak = round(xBreak(2));
+%Y-vector
+y=[210, 300];
+xfirst = [firstBreak, firstBreak];
+plot(xfirst, y, 'r')
+xlast = [secondBreak, secondBreak];
+plot(xlast, y, 'g')
+hold off
+
+%Split zArray into three subarrays at firstBreak and at secondBreak
+
+window1 = zArray(1:firstBreak);
+window2 = zArray(firstBreak:secondBreak);
+window3 = zArray(secondBreak:end);
+%Compute the frequency components of the signal in each of the windows
+%using FFT
+
+Fs = 500; %Sampling frequency
+T = 1/Fs; % Sampling period
+%Time arrays:
+t1 = tArray(1:firstBreak);
+t2 = tArray(firstBreak:secondBreak);
+t3 = tArray(secondBreak:end);
+%Remove constans (DC)
+window1 = window1-mean(window1);
+window2 = window2-mean(window2);
+window3 = window3-mean(window3);
+
+n1 = length(window1); %Predifine the length of the FFT-vectors
+n2 = length(window2); %Pad with zeros using nextpow to speed up FFT
+n3 = length(window3); 
+%Calculate the FFTs 
+F1 = fft(window1, n1);
+F2 = fft(window2, n2);
+F3 = fft(window3, n3);
+%Double sided spectrum (?)
+P21 = abs(F1/n1);
+P22 = abs(F2/n2);
+P23 = abs(F3/n3);
+%Single-sided spectrum (?)
+P11=P21(1:floor(n1/2)+1); %Floor n1/2 since it might not be even. Make sure that it is smaller or equal to half the length of P21
+P11(2:end-1) = 2*P11(2:end-1); %Double amplitude (double sided to single sided)
+P12=P22(1:floor(n2/2)+1); %Change floor to round if there is no chance of matrix index out of bounds!
+P12(2:end-1) = 2*P12(2:end-1);
+P13=P23(1:floor(n3/2)+1);
+P13(2:end-1) = 2*P13(2:end-1);
+
+f1test = Fs*(0:1/n1:(1-1/n1)/2)/n1; %The frequencies window - this should be couple to time somehow?
+f1 = Fs*(0:floor(n1/2))/n1;
+f2 = Fs*(0:floor(n2/2))/n2;
+f3 = Fs*(0:floor(n3/2))/n3;
+
+%xdft = fft(window2,256);
+%freq = 0:Fs/256:Fs/2;
+
+
+figure(3)
+
+subplot(3,1,1)
+%plot(freq,abs(xdft(1:256/2+1)));
+%plot(f1test,P11) %Frequncy scale dependant on Fs
+stem(f1,P11)
+title('window1')
+axis([0 10 0 max(P12)])
+xlabel('Frequency - correct scale?, [Hz]')
+
+subplot(3,1,2)
+stem(f2,P12)
+title('window2')
+axis([0 10 0 max(P12)]) %Same scale for all plots - since P12 contains the most drastic jump it has the highest max
+ 
+subplot(3,1,3)
+stem(f3,P13); %Thin out this data
+axis([0 10 0 max(P12)])
+title('window3')
+
+figure(6)
+zPlot = zArray(firstBreak:secondBreak);
+tPlot = 0:1/500:(secondBreak-firstBreak)/500;
+plot(tPlot, -zPlot)
+%xlabel('Tid (s)')
+%ylabel('Position (mm)')
+set(findall(gca, 'Type', 'Line'),'LineWidth',2);
+%set(gca,'fontsize',15)
+
+figure(7)
+stem(f2,P12)
+%xlabel('Frekvens (Hz)')
+%ylabel('Amplitud')
+axis([0 10 0 max(P12)])
+set(findall(gca, 'Type', 'Line'),'LineWidth',2);
+%set(gca,'fontsize',15)
+cleanfigure('targetResolution', 300)
+matlab2tikz('fftmatning2.tex', 'height', '\fheight');
+
+
+%Plotta power spectrum!
+
+%3D plot of position for period 1 and 2
+%Data for first window
+xdata1 = xArray(1:firstBreak);
+ydata1 = yArray(1:firstBreak);
+zdata1 = zArray(1:firstBreak);
+
+%Data for second window
+xdata2 = xArray(firstBreak:secondBreak);
+ydata2 = yArray(firstBreak:secondBreak);
+zdata2 = zArray(firstBreak:secondBreak);
+
+
+figure(4)
+plot3(xdata1, ydata1, -zdata1, 'r')
+hold on
+plot3(xdata2, ydata2, -zdata2, 'g')
+grid on
+xlim([-500 500])
+ylim([-500 500])
+%zlim([-250 -150])
+%legend(['Före släpp', 'Efter släpp'])
+title('3D-position')
+
+
+
+\end{lstlisting}
+
+
+
+\subsection{Program för att finna de initalvillkor för den dubbla koniska pendeln som studerades}
+
+Detta program beräknar initalvillkoren för systemet som används vid simuleringen av detsamma, se Appendix del D.1. Dessa villkor fås från den mätning som utförs innan spoltråden lossas från motoraxeln, varför systemet är i jämvikt under dessa mätningar. Därav används liknande funktioner som i grunduppgiften, ex. \textit{findpeaks} och elliptisk minsta-kvadratanpassning för att hitta $\omega$ och $\theta$.
+
+\begin{lstlisting}[style=Matlab-editor]
+
+function [theta1, theta2, omega] = ExtrauppgiftInitialV1(fid, fileName, stringLength)
+
+%Parameters of pendulum
+L1 = 205/1000; %Rod 1
+L2 = 48/1000; %Rod 2
+d1 = 11.5/1000; %Interconnect between motor and rod 1
+d2 = 35/1000; %Interconnect between rod 1 and rod 2 
+
+Lt =  stringLength; %Length of string % pm 10 mm depending on theta 2
+
+%Theta 1 is calculated in the same way as sintheta in grunduppgift. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%fileName = 'matning2_extrauppgiftv2vinkel_truncated.txt'; %File to save the edited data to
+
+%Edit tsv-file to remove column headers etc
+
+%fid = fopen('matning2_extrauppgiftv2vinkel.tsv', 'r') ;              % Open source file.
+%Skip the first 1 lines%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+fgetl(fid) ;                                  % Read/discard line.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+buffer = fread(fid, Inf) ;                    % Read rest of the file.
+fclose(fid)
+fid = fopen(fileName, 'w')  ;   % Open destination file.
+fwrite(fid, buffer) ;                         % Save to file.
+fclose(fid) ;
+
+
+data = tdfread (fileName, '\t') %Read truncated tsv-file.
+
+xArray = data.New_0000_X;        %Extract x,y,z,t data
+yArray = data.New_0000_Y;
+zArray = data.New_0000_Z;
+tArray = data.Time;
+%Calculate diameter using the same method as for grunduppgift
+figure(1000)
+[max, locmax, min, locmin] = findPeaksOG(xArray, tArray, true, 'hej', 'hej'); %Only x-data so far
+%Since it's nearly constant in the x direction, we can sort out false peaks
+%if they differ to much from the mean
+indexMax = find(max < mean(max)); %Remove a point if it's below the mean
+max(indexMax) = [];
+locmax(indexMax) = [];
+plot(locmax, max, '*')
+%Do the same for min
+indexMin = find(min > mean(min)); 
+min(indexMin) = [];
+locmin(indexMin) = [];
+plot(locmin, min, '*')
+
+title('Plot of findpeaks output, with corrections for each lap')
+xlabel = ('lap');
+ylabel = ('mm');
+hold off
+
+%Calculate diameter and halftime - dependant on x
+fulltimeArray = calculateFulltime(tArray, locmax);
+%Remove zeros - if uneven number of periods
+fulltimeArray = fulltimeArray(fulltimeArray~=0);
+figure(4000)
+
+%Now loop through all periods (that is all locmax(i) -> locmax(i+1)
+theta1Array = zeros(length(fulltimeArray),1);
+omegaArray = zeros(length(fulltimeArray),1);
+diameterArray = zeros(length(fulltimeArray),1);
+%Parameters of pendulum
+
+
+%for calculating theta - with ball
+L = 0.2175+d2+0.01; % pm 0.022
+
+for i = 1:1:length(fulltimeArray) %
+    if i+1 > length(locmax) %To avoid stepping out of bounds
+        break
+    end
+    
+    %Subarrays are calculated from max & min in x!
+    subxArray = xArray(locmax(i):locmax(i+1)); %Extract the current sub array %x
+    subyArray = yArray(locmax(i):locmax(i+1));                                %y
+    subzArray = zArray(locmax(i):locmax(i+1));                                %z
+    %Calculate mean square ellipse
+    ellipse = calculateEllipse(subxArray, subyArray, subzArray);
+    diameter = (ellipse.long_axis+ellipse.short_axis)/2/1000; %take mean diameter, convert to meters
+    sintheta = diameter/(2*L);
+    theta1 = asin(sintheta);
+    
+    theta1Array(i) = theta1;
+    
+    currentOmega = 2*pi./fulltimeArray(i); %2pi since whole period
+    omegaArray(i) = currentOmega;
+    diameterArray(i) = diameter;
+end
+omega = mean(omegaArray);
+r1 = mean(diameterArray)/2;
+% figure(6000)
+% %Plot of thetaArray for each iteration
+% plot(theta1Array)
+% title('Plot of theta for each lap')
+% xlabel=('lap');
+% ylabel=('rad');
+
+theta1 = mean(theta1Array)
+
+
+
+
+%!!!!!!!! Compensate for ball sticking out from rod in exuppgift!
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Theta 2 is calculated through cosine theorem & trigonometry
+%disp('Wrong calc of acos?')
+%gamma =  acos(((L1+d2)^2 + L2^2 - Lt^2)/(2*(L1+d2)*L2))
+gamma = 3.0250;  %Hardcoded - skip crappy cosine theorem
+%Calculate thtea2 from geometry
+theta2 = pi + theta1 - gamma;
+
+end
+
+
+
+
+\end{lstlisting}

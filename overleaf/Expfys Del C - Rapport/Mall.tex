@@ -1,0 +1,531 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[left=2.5cm,top=2.5cm,right=2.5cm,nofoot]{geometry}
+\usepackage{graphicx}
+\pagestyle{myheadings}
+\usepackage[utf8]{inputenc}   
+\usepackage[T1]{fontenc}      
+\usepackage[swedish]{babel}
+\usepackage{lmodern}
+\usepackage[export]{adjustbox}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{units}
+\usepackage[]{gensymb}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{wrapfig}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{ stmaryrd }
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{cleveref}
+\usepackage{appendix}
+\usepackage{csquotes}
+\usepackage{ragged2e}
+\usepackage{pdfpages}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{wrapfig}
+\usepackage[numbered,framed]{matlab-prettifier}
+\usepackage{listings}
+\usepackage{mwe}
+\usepackage[nottoc]{tocbibind}
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+
+%Tikz & pgfplots
+\usepackage{tikz}
+\usepackage{pgfplots} 
+\usepackage{pgfgantt}
+\usepackage{pdflscape}
+\usepackage{subcaption}
+\usepackage{adjustbox}
+\usepackage{pdfpages}
+\pgfplotsset{compat=newest} 
+\pgfplotsset{plot coordinates/math parser=false}
+\newlength\fheight
+\newlength\fwidth
+\setlength\fheight{4cm}
+\setlength\fwidth{6cm}
+
+\pgfplotsset{every axis/.append style={
+        scaled y ticks = false, 
+        scaled x ticks = false, 
+        y tick label style={/pgf/number format/.cd, fixed, fixed zerofill,
+                            int detect,1000 sep={\;},precision=3},
+        x tick label style={/pgf/number format/.cd, fixed, fixed zerofill,
+                            int detect, 1000 sep={},precision=3}
+    }
+}
+
+\addbibresource{bibliography.bib}
+%För att ha romerska siffror
+\makeatletter
+\newcommand*{\rom}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+
+
+
+\markright{Eric Lindgren, Simon Pettersson Fors, Grupp 47, Uppgift 2}
+
+\begin{document}
+\pagenumbering{gobble} 
+
+\begin{center}
+{\huge\bf Koniska pendlar i fysikundervisning - från g till kaotisk rörelse}
+\end{center}
+\vspace{1.0cm}
+
+\begin{center}
+Eric Lindgren, ericlin och Simon Pettersson Fors, forssi
+
+Program: Teknisk Fysik. 
+
+Kurs: Experimentell fysik 1 - mätteknik, TIF082, del C.
+\end{center}
+\vspace{1.0cm}
+
+\centerline{\bf Sammandrag}
+\vspace{5mm}
+\noindent En lösning på det klassiska problemet inom fysikstudier att bestämma tyngdaccelerationskonstanten $g$ är att använda en konisk pendel. Dock kan fysikstudenter uppleva svårigheter med att utföra nödvändiga mätningar med denna metod. En möjlig lösning är att använda laserpekare, men detta kräver en stor noggrannhet i uppställningen. I denna rapport föreslår vi att höghastighetskameror kan användas för att förenkla mätningar på koniska pendlar. Vi presenterar teori för koniska pendlar och användandet av höghastighetskameror för att uppmäta $g$ med en konisk pendel och för att demonstrera att koniska pendlar kan användas för att studera övergången mellan periodisk och kaotisk rörelse. Metoden och de presenterade laborationerna kan möjligtvis användas i fysikundervisning.
+
+\vspace{5mm}
+\centerline{\bf Abstract}
+\vspace{5mm}
+\noindent A solution to the classical undergraduate laboratory problem of determining the acceleration of gravity $g$ is to employ a conical pendulum. However, undergraduates may face difficulties to accomplish necessary measurements with this method.  A possible solution is to use a laser pointer, but this method requires an experimental setup built with great precision. In this report, we propose that high-speed cameras can be employed to simplify meassurments of conical pendulums. We present a theoretical basis of conical pendulums and the application of high-speed cameras to meassure $g$ with a concial pendulum and to demonstrate that conical pendulums can be used to to study the transition between periodic and chaotic motion. The method and the experiments presented may be possible to apply in the undergraduate laboratory.
+
+\newpage
+
+\tableofcontents
+\newpage
+
+\pagenumbering{arabic} 
+
+\section{Inledning}
+Ett klassiskt fysikaliskt problem är att experimentellt bestämma tyngdaccelerationskonstanten $g$. För fysikstudenter har det utvecklats flera olika tillvägagångssätt som exempelvis släpptester \cite{boll} och användande av olika pendlar \cite{kater} för att bestämma $g$ med god precision. Dessa metoder innehåller dock generellt känsliga delmoment och kräver noggranna korrigeringar vilket försvårar användandet för fysikstudenter.
+
+Dupré och Janssen \cite{dupre} har visat att en så kallad konisk pendel utesluter flertalet av de vanliga korrigeringarna som till exempel att luftmotstånd behöver tas i beaktande. En konisk pendel utgörs exempelvis av en cylindrisk stång som kopplad till en motor roterar cirkulärt med en vinkel $\theta$ från vertikalen. Genom att uppmäta $\theta$ med exempelvis hjälp av en laserpekare, vilket Dupré och Janssen använde sig av, kan $g$ bestämmas. Dock medför användandet av en laserpekare svårigheter för fysikstudenterna vilket försämrar metodens användarmöjligheter.
+
+För att undersöka om uppmätandet av vinkeln $\theta$ kan förenklas presenterar vi nedan studie där vi använder oss av höghastighetskameror för att bestämma $\theta$. Metoden appliceras sedan för att med högsta möjliga precision bestämma tyngdaccelrationskonstanten $g$. Dessutom demonstreras att ett system av vad vi definierar som en dubbel konisk pendel kan användas för att studera övergången från periodisk till kaotisk rörelse.
+
+
+\section{Metod}
+
+Nedan presenteras teoretiska beskrivningar av en enkel konisk pendel samt en dubbel konisk pendel. Ytterligare presenteras de experimentella uppställningarna och utföranden för att bestämma $g$ och demonstrera att en dubbel konisk pendel kan uppvisa kaotiskt beteende. 
+
+\subsection{Teoretisk beskrivning av koniska pendlar}
+
+En konisk pendel definieras som ett system där systemet vid tillräckligt hög vinkelhastighet bildar en vinkel mot vertikalen. I kontexten av denna rapport definierar vi en enkel konisk pendel som ett system bestående av en cylindrisk stång och en kardanknut som roteras av en elektrisk motor. Dupré och Janssen visar i sin artikeln \cite{dupre} att ett sådant system uppnår jämnvikt efter en viss kritisk vinkelhastighet sådan att en vinkel $\theta$ bildas mot vertikalen.
+
+Vinkeln $\theta$ kan relateras till $g$ genom Lagrangeformalism varpå $g$ experimentellt kan bestämmas genom att mäta $\theta$ för en enkel konisk pendel. Under antaganden att motoraxeln är parallell med vertikalen samt att vinkelhastighet $\omega$ är konstant för jämviktsläget erhålls sambandet
+\begin{equation}
+    g = \frac{\omega^2\left(I_{y} - I_{z}\right)\cos\theta}{m_1\left(\frac{L_1}{2} + d\right) + m_k\left(\frac{L_k}{2} + d_k\right)},
+    \label{eq: g}
+\end{equation}
+för en enkel konisk pendel med stång med längd $L_1$, radie $r_1$ och massa $m_1$ samt kardanknut med massa $m_k$, längd $L_k$, innerradie $r_i = r_1$ och ytterradie $r_y$, se figur \ref{upp:gxuppgf} (a) alternativt Appendix för detaljerad härledning. Trögehetsmatrisen betecknas med $I$.
+
+Vidare definierar vi en dubbel konisk pendel som ett system bestående av en enkel konisk pendel och en cylindrisk stång fäst med en kardanknut i den undre änden av den enkla koniska pendeln, se figur \ref{upp:gxuppgf} (b). Den nedre stången är enbart fri att rotera i samma plan som den övre och spänner upp vinkeln $\theta_2$ mot vertikalen. Under antagandet att den undre stången är mycket kortare än den övre och vinkelhastigheten $\omega$ är konstant erhålls approximativt systemets Lagrange-ekvationer
+
+\begin{small}
+\begin{align}
+&\ddot{\theta_1}\left(I_{x \rom{1}} + I_{x \rom{2}} \right) + \ddot{\theta_2}I_{x \rom{2}} - \omega^2 \sin{\theta_1}\cos{\theta_1} \left(I_{y \rom{1}} - I_{z \rom{1}}\right) + g \sin{\theta_1} \left[m_1 \left(\frac{L_1}{2} +d\right) + m_2\left(L_1 + d \right)\right] = 0 \notag \\
+&\ddot{\theta_1}I_{x \rom{2}} + \ddot{\theta_2}I_{x \rom{2}} - \omega^2 \sin{\theta_2}\cos{\theta_2}\left(I_{y \rom{2}} - I_{z \rom{2}}\right) + g \sin{\theta_2} m_2\left(\frac{L_2}{2} + d\right) = 0,
+\label{eq:dkp}
+\end{align}
+\end{small}
+\noindent \hspace{-9px} där index \rom{1} och 1 anger storheterna för stång \rom{1} och index \rom{2} och 2 anger storheterna för stång \rom{2}. Dessa ekvationer kan lösas numeriskt med hjälp av Matlab för olika initialvillkor, se Appendix del B. 
+
+
+%\begin{figure}[H]
+%    \hspace{-140px}
+%    \centering
+%    \begin{subfigure}{0.15\textwidth}
+%        \centering
+%       \subcaptionbox{Enkel konisk pendel\hspace*{0px}}{%
+%    \includegraphics[width=0.5\textwidth,trim={0cm 0cm 4cm 0.45cm},clip]{SkissPendel/g17413.png}
+%  }\qquad
+%    \end{subfigure}%
+%    \hspace{130px}
+%    \begin{subfigure}{0.15\textwidth}
+%        \centering
+%        \subcaptionbox{Dubbel konisk pendel\hspace*{0px}}{%
+%    \includegraphics[width=2.5\textwidth,trim={0cm 0cm 4cm 0.45cm},clip]{SkissPendel/extraupg.PNG}
+%  }\qquad
+%    \end{subfigure}
+%    \caption{Schematiska figurer över en enkel konisk pendel och en dubbel konisk pendel. Stång \rom{2} i dubbelpendeln är fäst på %samma sätt som stång \rom{1} med en kardanknut, vilket innebär att den endast kan röra sig i ett plan vinkelrätt mot %rotationsriktningen. }
+%    \label{resultat:xuppgf}
+%\end{figure}
+
+\begin{figure}[H]
+%\hspace{-200px}
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{SkissPendel/g17413.png}
+        \caption{Enkel konisk pendel.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.85\textwidth]{SkissPendel/text18318-2.png}
+        \caption{ Dubbel konisk pendel.}
+    \end{subfigure}
+    \caption{Schematiska figurer över en enkel konisk pendel och en dubbel konisk pendel.}
+    \label{upp:gxuppgf}
+\end{figure}
+
+\begin{wrapfigure}[14]{r}{0.20\textwidth}
+    \centering
+    \vspace{-20px}
+    \includegraphics[width = 0.20\textwidth]{gbilder/text6405-4-1-1.png}
+    \caption{Profilen för kardanknuten för de koniska pendlarna med längder $l_1 = 48$ mm, $l_2 = 24$ mm, $l_3 = 12$ mm, $d_1 = 10$ mm och $d_2 = 22$ mm.}
+    \label{fig:Kardanknut}
+\end{wrapfigure}
+
+\subsection{Experimentell uppställning för bestämning av $g$}
+
+En pyramidformad stålram monterades i ett optiskt bord genom att i botten skruvas fast och i toppen spännas fast med spännband fästa i bordet. Ovanpå placerades en DC-motor och en stålstång med längd $L_1 = 205$ mm och massa $m_1 = 128$ g kopplades till DC-motorn med en kardanknut sådan att översta punkten på stången befann sig $d = 12$ mm ifrån kardanknutens vridpunkt. Tillsammans bildade detta system en enkel konisk pendel likt figur \ref{upp:gxuppgf} (a). Vidare placerades två höghastighetskameror av modell Oqus från Qualisys, med förmåga att utföra mätningar på så kallade IR-markörer, under stålramen och riktades mot den koniska pendeln för att uppmäta positionen av den nedre änden av stången. Kamerorna riktades underifrån för att möjliggöra att ändpunkten för stången kontinuerligt var i bild.
+
+Kardanknutens längder anges i figur \ref{fig:Kardanknut} där den undre delen med längd $l_2 = 24$ mm var kopplad till stången och hade en massa $m_k = 35$ g. På grund av att den undre delen i huvudsak består av en ihålig cylinder med längd $l_3 = 12 $ mm modellerades kardanknuten till en ihålig cylinder med längd enligt medelvärdet $l = \frac{l_2 + l_3}{2} = 18$ mm.
+
+
+\subsection{Experimentell uppställning för analys av dubbel konisk pendel}
+För analysen av en dubbel konisk pendel användes samma försöksuppställning som för bestämmandet av $g$. Utöver detta fästes ytterligare en stång med en kardanknut i änden av den övre stången analogt med figur \ref{upp:gxuppgf} (b).
+
+\subsection{Utförande för bestämning av $g$}
+En IR-markör fästes på änden av stången för den enkla koniska pendeln sådan att dess position kunde uppmätas av höghastighetskamerorna. Stången roterades av DC-motorn för att bilda vinkeln $\theta$ mot vertikalen varefter positionen på stångens ändpunkt uppmättes med kamerorna under tidsintervall mellan $10-200$ s. Proceduren upprepades för olika $\theta$ vid ett första tillfälle 18 gånger och vid ett andra tillfälle sju gånger.
+
+Utifrån varje mätnings positionsdata beräknades den koniska pendelns vinkelhastighet $\omega$ och vinkel $\theta$ för varje helt roterat varv kring vertikalen, vilket definieras som en period. Vinkelhastigheten bestämdes genom att uppmäta periodtiden för den koniska pendeln. Periodtiden uppmättes genom att finna de lokala maxima för den periodiska positiondatan med hjälp av funktionen \textit{findpeaks} i Matlab. 
+
+Vinkeln $\theta$ beräknades i tre steg vilka bygger på observationen att positionsdatan för en period spänner upp en tredimensionell ellips. Först anpassades ett plan med minstakvadratmetoden till en periods positionsdata. Sedan beräknades basvektorer till planet för att projicera den tredimensionella ellipsen till två dimensioner. Följden blev att tvådimensionell elliptisk minstakvadratmetod kunde appliceras för att anpassa en ellips till positionsdatan. Utifrån den anpassade ellipsen kunde dess axlar beräknas varav vinkeln $\theta$ var möjlig att beräkna enligt sambandet $\sin \theta = \frac{d_e}{2L}$, där $d_e$ är medelvärdet av axlarnas längd. Slutligen beräknades $g$ för varje period enligt ekvation \eqref{eq: g}.
+
+\subsection{Utförande för analys av dubbel konisk pendel}
+Den dubbla koniska pendeln analyserades genom försätta systemet i på förhand bestämda initialvillkor för $\theta_1$, $\theta_2$ och $\omega$. Den dubbla koniska pendeln simulerades för dessa initialvillkor med hjälp av ekvationssystem \eqref{eq:dkp} varav den dubbla koniska pendeln sedan analyserades experimentellt. Experimentellt åstadkoms initialvillkoren genom att första fixera vinkelförhållanden mellan stång \rom{1} och stång \rom{2} med en spoltråd. Den ena spoltrådsänden fästes mot motoraxeln och den andra på änden av stång \rom{2}. Med vinklarna fixerade användes DC-motorn för att få systemet att uppnå ett jämviktsläge med de initialvinklar och den rotationshastighet som skulle undersökas. Initialvillkoren bestämdes genom att göra en kortare mätning med höghastighetskamorerna ur vilken initialvillkoren kunde härledas genom att utnyttja uppspända ellipser analogt med bestämningen av $g$. 
+
+Därefter startades en ny mätning och spoltrådsänden fäst mot motoraxeln lossades. Motoraxeln valdes då eventuella krafter genom motoraxeln ej påverkar systemet. Positionen för den undre stångens ändpunkt uppmättes av kamerorna, och den uppmätta datan jämfördes mot systemets simulerade beteende med de initiallvillkor som bestämdes under mätningen med fixerade vinklar. Denna process upprepades för olika rotationshastigheter  $\omega$ och därmed olika initialvillkor för systemet.
+
+\section{Resultat och diskussion}
+För att tydliggöra metodiken för uppmätningen av $g$ kommer nedan resultat presenters genom att först i detalj redogöra för resultatet av en mätning, mätning tre, för att sedan presentera det sammanlagda resultatet från alla mätningar. Efteråt presenteras resultatet ifrån simuleringar och mätningar av den dubbla koniska pendeln.
+
+\subsection{Resultat och diskussion för bestämning av $g$}
+Positionsdata med anpassat plan för sista perioden i mätning tre presenteras i figur \ref{resultat: matning3} (a). Observera den tredimensionella ellipsen som utnyttjas för att beräkna vinkeln $\theta$ som presenteras med vinkelhastigheten $\omega$ för mätningens alla perioder i figur \ref{resultat: matning3} (b). För sista perioden var ellipsens storaxel $a = 159.8$ mm och lillaxel $b = 159.2$ mm och därmed i hög grad cirkulär.
+\newline
+
+
+\begin{figure}[H]
+    \hspace{-40px}
+    \centering
+    \begin{subfigure}[b]{0.40\textwidth}
+        \centering
+        \setlength\fheight{1.8in}
+        \input{gbilder/ellips.tex}
+        \caption{Positionsdata för sista perioden för mätning tre (svarta markeringar som bildar en ellips) med anpassat plan med minsta kvadratmetoden.}
+    \end{subfigure}
+    \hspace{30px}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \setlength\fheight{1.7in}
+        \input{gbilder/omegatheta.tex}
+        \caption{Vinkelhastigheten $\omega$ som funktion av antal varv (blå kvadrater) och vinkeln $\theta$ som funktion av antal perioder (svarta trianglar).}
+    \end{subfigure}
+    \caption{Uppmätta och beräknade storheter från mätning tre.} 
+    \label{resultat: matning3}
+\end{figure}
+
+Det första vi observerar i figur \ref{resultat: matning3} (a) är att ellipsen och det anpassade planet inte är parallellt med det horisontella xy-planet. Detta medför att motoraxeln ej var parallell mot vertikalen. Konsekvensen blir att teoridelens antagande om att motoraxeln är parallell med vertikalen inte uppfylls. 
+
+Dupré och Janssen observerade även i sina mätningar att motoraxeln var vinklad mot vertikalen. I deras artikel uppskattar de motoraxelns vinkel mot vertikalen till $\theta_0 = 0.0035^\text{o}$ under antagandet att International Gravity Formula \cite{gravformula} är korrekt. Till skillnad från deras arbete är det möjligt utifrån studiens mätningar att uppskatta motoraxelns vinkel utan ovan antagande. Det anpassade planet för mätning tre har vinkel $\cos \alpha = \frac{\hat{z} \cdot \hat{n}}{\lVert z \rVert \lVert n \rVert} \implies \alpha \approx 0.8^\text{o}$ mot xy-planet. Då följer av uppställningens geometri att motorvinkeln är $\theta_0 \approx 0.3^\text{o}$. Alltså är motorvinkeln liten men dess effekter observerbara.
+
+Vidare observeras i figur \ref{resultat: matning3} (b) att $\omega$ och $\theta$ varierar som funktioner av period inom ett intervall av $\pm 0.5 \%$. Variationerna implicerar att det andra antagandet i teoridelen, att $\omega$ och $\theta$ är konstanta, ej är uppfyllt. Att $\omega$ och $\theta$ varierar observeras även i de andra mätningarna. Däremot, likt den lilla motoraxelvinkeln, är dessa variationer små och i storleksordning av $1\%$. 
+
+Fortsättningsvis utfördes sammanlagt 25 mätserier vilket resulterade i 2547 perioder och därmed 2547 mätningar av $g$. Analogt med ovan tillvägagångssätt för mätning tre uppmättes  $\omega$ och $\theta$ för varje period varav $g$ beräknades enligt ekvation \eqref{eq: g}. Resultatet för $g$ som funktion av period visas i figur \ref{fig: gTotal}.
+
+
+\begin{figure}[H]
+    \centering
+    \setlength\fheight{2in}
+    \input{gbilder/g.tex}
+    \caption{Tyngdaccelerationskonstanten $g$ som funktion av period för sammanlagt 2547 perioder. De grönmarkerade trianglarna till vänster i figuren är datan från mätning tre. }
+    \label{fig: gTotal}
+\end{figure}
+Utifrån datan beräknas medelvärde och standardavvikelse för mätningarna av $g$ till $g = 9.83 \pm 0.06$ m/s$^2$.  Resultatet kan jämföras med International Gravity Formula \cite{gravformula}, vilken efter korrektion för 100 m över havsnivå ger det teoretiska värdet $g = 9.1870$ m/s$^2$ för laboratoriets koordinater . Därmed är resultatet $0.1\%$ ovanför det förväntade.
+
+Vidare är det möjligt utifrån ovan att resonera kring orsaker till varför resultatet är i överkant av det förväntade samt storleken av standardavikelsen 0.06 som även observeras i spridningen i figur \ref{fig: gTotal}. Spridningen kan delvis förklaras av, som har observerats ovan, att $\theta$ och $\omega$ generellt ej är konstanta under en mätning. En potentiell förklaring till detta är att spänningsfallet över DC-motorn observerades att variera under mätningar. Spridningen skulle därför möjligtvis kunna minimeras genom att använda en mer stabil DC-motor.
+
+Att resultatet är i överkant tyder på ett systematiskt fel i undersökningen. Ett möjligt sådant är modelleringen av kardanknuten som en ihålig cylinder eftersom vi observerar att ett försök att modellera kardanknuten bättre leder till ett lägre uppmätt värde av $g$. Vi har däremot valt att ej utföra detta i studien eftersom det visar på en eventuell förbättringspunkt. Genom att ersätta kardanknuten med en koppling med försumbar massa, exempelvis ett kullager, är det möjligt att helt utesluta modelleringen. En ytterligare vinning med detta är att ekvation \eqref{eq: g} därmed förenklas genom att $m_k = 0$ varav massan $m_1$ förkortas bort.
+
+Ovan möjliga förenkling av ekvation \eqref{eq: g} förenklar matematiskt även bort ett skenbart cirkelresonomang som det är möjligt att invända mot i ekvation \eqref{eq: g}. Observera att massorna $m_1$ och $m_k$ används för att beräkna $g$, men om dessa mäts med till exempel en våg kalibrerad av $g$ uppstår ett cirkelresonomang. Cirkelresonemanget är dock enbart skenbart eftersom i ekvationen bildas kvoter $\frac{m_k}{m_1}$ på grund av tröghetsmatriserna. Med Newtons andra lag är det möjligt att visa att denna kvot ej beror på vågens kalibrerade $g$, $\hat{g}$, ty kvoten ger $\frac{m_1}{m_k} = \frac{F_1/\hat{g}}{F_k/\hat{g}} = \frac{F_1}{F_k}$ varav det följer att cirkelresonomanget är skenbart.
+
+\subsection{Resultat och diskussion för analys dubbel konisk pendel}
+
+\begin{figure}[H]
+%\hspace{-200px}
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \setlength\fheight{1.4in}
+        \input{exbilder/simuleringmatning2.tex}
+        \caption{Simulering av mätning två.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \setlength\fheight{1.4in}
+        \input{exbilder/simuleringmatning4.tex}
+        \caption{Simulering av mätning fyra.}
+    \end{subfigure}
+    \caption*{} 
+ %   \label{resultat:xuppgf1}
+
+%Simulerad position i z-led för stång \rom{2} med samma initialvillkor som i mätning två respektive fyra. Notera att i simuleringen av mätning fyra beter sig systemet mindre periodiskt. 
+    \vspace{-17px}
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \setlength\fheight{1.4in}
+        \input{exbilder/experimentgmatning2.tex}
+        \caption{Uppmätt position för mätning två.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \setlength\fheight{1.4in}
+        \input{exbilder/experimentgmatning4.tex}
+        \caption{Uppmätt position för mätning fyra.}
+    \end{subfigure}
+    \caption{Simulerad och uppmätt position i z-led för stång \rom{2} utifrån data från mätning 2 respektive 4. Notera att uppmätt samt simulerad data från mätning 2 uppvisar periodiska egenskaper vilket ej observeras för motsvarande från mätning 4. }
+    \label{resultat:xuppgf1}
+\end{figure}
+
+%  Uppmätt position i z-led för den undre stången i den dubbla koniska pendeln i de två mätningar som visas ovan i figur \ref{resultat:xuppgf1}. I båda mätningarna sker initialt en stor positionsändring i z-led, vilket beror på att spoltråden som fixerar stängerna lossas vid den tidpunkten. Observera likheten mellan utseendet på figur 6 (b) och en så kallad ''Random Walk'', se \cite{matstat}.
+
+Totalt utfördes 20 mätningar och simuleringar med olika initialvillkor för den dubbla koniska pendeln. För att påvisa kaos avgränsas analysen till studium av mätning två och fyra. Vid simulering av den dubbla koniska pendeln med samma initialvillkor som i mätning två respektive fyra erhölls stång \rom{2}s simulerade position enligt figur \ref{resultat:xuppgf1} (a) och (b). Initialvillkoren för mätning två och mätning fyra var $\omega = 7.4$ rad/s, $\theta_{1} = 0.66$ rad, $\theta_{2} = 0.77$ rad respektive $\omega = 8.4$ rad/s, $\theta_{1} = 0.29$ rad, $\theta_{2} = 0.41$ rad.
+
+%Vinkeln mellan stängerna var samma i mätning 2 och 4, men rotationshastigheten $ \omega $ varierades mellan dem. 
+
+%initialvillkor från två mätningar med olika rotationshastighet $\omega$ men samma vinkel mellan dem erhölls stång \rom{2}s simulerade position enligt figurer nedan. 
+%Beroende på initialvillkoren $\omega \text{, } \theta_1 \text{ och } \theta_2$ uppvisade den dubbla koniska pendeln olika beteende, där olika grad av kaos kunde identifieras. 
+
+
+%Beroende på initiallvillkoren uppvisar det simulerade systemet olika grad av kaotiskt beteende, där graden av kaos är betydligt högre i fallet med högt $\omega$. Detta stämmer överens med systemets uppmätta beteende för samma initialvillkor, se figurer nedan:
+
+För identiska initialvillkor erhölls uppmätt position för stång \rom{2} i systemet enligt figur \ref{resultat:xuppgf1} (c) och (d). Notera likheterna mellan graderna av kaotiskt beteende för simulering samt uppmätt data för respektive mätning. För mätning två uppvisar både simulering samt uppmätt position viss periodicitet. Simulering och uppmätt position från mätning fyra uppvisar ej samma grad av periodicitet, även om den simulerade datan från mätning 4 delvis uppvisar viss periodicitet. Observera likheten mellan utseendet på figur \ref{resultat:xuppgf1} (d) och en slumpmässig kaotisk process i form av en så kallad ''Random Walk'', se \cite{matstat}.
+
+%Simulering och uppmätt position från mätning fyra uppvisar ej liknande periodicitet, men simuleringen av mätning fyra kan möjligtvis uppvisa ett delvis periodiskt beteende.
+
+På grund av att figur \ref{resultat:xuppgf1} (c) och (d) endast skildrar tidsintervall för kaotiskt beteende observeras att systemet i fallet med högre $\omega$, mätning fyra, beter sig mer kaotiskt samt gör det under längre tid. De begränsade tidsintervallen förklaras möjligtvis av inre dämpningar i kardanknutarna, vilket styrks av att simuleringarna utan dämpningar ej uppvisar begränsade tidsintervall. Ytterligare simuleringar visar att systemet återigen beter sig mindre kaotiskt för mycket höga rotationshastigheter, $\omega \gtrsim 15 $ rad/s. Dessa rotationshastigheter var dock inte experimentellt realiserbara med den försöksuppställning som användes då stång \rom{2} stötte emot stålramen.
+
+
+%Både simulerad och uppmätt data påvisar att systemet beter sig kaotiskt då ingen tydlig period kan identifieras i något av fallen. Graden av kaotiskt beteende verkar vara kopplat till rotationshastigheten $\omega$. Då figur \ref{resultat:xuppgf2} endast skildrar de tidsintervall där kaotiskt beteende kunde identifieras ser vi att systemet under mätning fyra både beter sig mer kaotiskt samt gör det under längre tid. Ytterligare simuleringar visar dock att systemet återigen beter sig mindre kaotiskt för mycket höga rotationshastigheter, $\omega \gtrsim 15 $ rad/s. Så höga rotationshastigheter var dock inte realiserbara med den försöksuppställningen som användes då stång \rom{2} stötte emot stålramen.
+
+%\begin{figure}[H]
+%\hspace{-200px}
+%    \centering
+%    \begin{subfigure}[b]{0.49\textwidth}
+%        \centering
+%        \setlength\fheight{1.4in}
+%        \input{exbilder/experimentgmatning2.tex}
+%        \caption{Uppmätt position för mätning två.}
+%    \end{subfigure}
+%    \hfill
+%    \begin{subfigure}[b]{0.49\textwidth}
+%        \centering
+%        \setlength\fheight{1.4in}
+%        \input{exbilder/experimentgmatning4.tex}
+%        \caption{Uppmätt position för mätning fyra.}
+%    \end{subfigure}
+%    \caption{Uppmätt position i z-led för den undre stången i den dubbla koniska pendeln i de två mätningar som visas ovan i figur \ref{resultat:xuppgf1}. I båda mätningarna sker initialt en stor positionsändring i z-led, vilket beror på att spoltråden som fixerar stängerna lossas vid den tidpunkten. Observera likheten mellan utseendet på figur 6 (b) och en så kallad ''Random Walk'', se \cite{matstat}.}
+%    \label{resultat:xuppgf2}
+%\end{figure}
+
+
+%Notera särskilt likheterna mellan graden av kaotiskt beteende för motsvarande uppmätta och simulerade initialvillkor. Då figur \ref{resultat:xuppgf2} ovan endast skildrar de tidsintervall för respektive mätning då kaotiskt beteende kan identifieras ser vi att systemet under mätning 4 både beter sig mer kaotiskt samt gör det under en längre tid. Ytterligare simuleringar visar dock att systemet återigen beter sig mindre kaotiskt för mycket höga rotationshastigheter, $\omega \gtrsim 15 $ rad/s. Så höga rotationshastigheter var dock inte realiserbara med den försöksuppställningen som användes då stång \rom{2} stötte emot stålramen.
+
+Vidare, att ett högre $\omega$ är kopplat till ett tydligare kaotiskt beteende styrks av att studera det ensidiga FFT spektrumet för stång \rom{2}s uppmätta position. I fallet med lågt $\omega$ (mätning två) avtar amplituden hos frekvenskomponenterna möjligtvis exponentiellt. I fallet med högt $\omega$ (mätning fyra) observeras fler frekvenskomponenter vars amplitud avtar mer oregelbundet vilket troligtvis ger upphov till det mer kaotiska beteendet hos stång \rom{2} i figur \ref{resultat:xuppgf1} (d).
+
+%Genom att studera det ensidiga FFT-spektrumet för stång \rom{2}s uppmätta position blir det %mer tydligt att högre $\omega$ ger ett tydligare kaotiskt beteende, se figur %\ref{resultat:xuppgf3}. 
+
+%några enstaka frekvenser i intervallet 0-3 Hz, medan amplituden hos högre frekvenskomponenter möjligtivs avtar exponentiellt. Dessa går att identifiera även i fallet med högt $\omega$, men här observeras fler frekvenskomponenter vars amplitud avtar mer oregelbundet vilket troligtvis ger upphov till det mer kaotiska beteendet hos stång \rom{2} i detta fall, jämför figur \ref{resultat:xuppgf2} (b).
+
+%starkare frekvenskomponenter i framförallt intervallet 3-4 Hz
+
+
+
+\begin{figure}[H]
+%\hspace{-200px}
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \setlength\fheight{1.4in}
+        \input{exbilder/fftmatning2.tex}
+        \caption{FFT-spektrum av uppmätt data från mätning två.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \setlength\fheight{1.4in}
+        \input{exbilder/fftmatning4.tex}
+        \caption{FFT-spektrum av uppmätt data från mätning fyra.}
+    \end{subfigure}
+    \caption{Ensidigt FFT-spektrum av uppmätt data från mätning två och fyra. Notera att i båda fallen återfinns de frekvenser som har högst amplitud vid ca 0.5 och 1.5 Hz samt att frekvenserna avtar möjligtvis exponentiellt i mätning två och mer oregelbundet i mätning 4.}
+    \label{resultat:xuppgf3}
+\end{figure}
+
+%Analysera 3D-bilder
+
+Ytterligare observeras även vid 3D-simulering av mätning två och fyra att ett högre $\omega$ är kopplat till ett tydligare kaotiskt beteende. I 3D-simuleringen av mätning fyra observeras flera skarpa riktningsförändringar medan riktningsförändringarna i mätning 2 är mer kontinuerliga (se figur \ref{resultat:xuppgf4}). 3D-simuleringen av mätning två upplevs även mer kaotisk än motsvarande 1D-simulering i figur \ref{resultat:xuppgf4} (a). Skillnaden i kaotiskt beteende med avseende på antalet dimensioner kan möjligtvis vara intressant att djupare analysera.
+
+%Även om rörelsen observeras periodisk i 2D uppvisar den mer kaotiskt beteende i 3D. Detta visar att rörelsen är komplicerad (nyansera). Notera att simuleringen av mätning 2 uppvisar kaotiskt beteende under hela simuleringestiden vilken är längre (3s) än motsvarande tid för den uppmätta datan. Detta skulle kunna förklaras av att det är itnerna dämpningar i systemet som begränsar tidsintervallen (dämåar rörelsen) då simuleringen sker i det ideala fallet utan några interna dämpningar.
+
+
+\begin{figure}[H]
+%\hspace{-200px}
+    \vspace{-20px}
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \setlength\fheight{1.4in}
+        \input{exbilder/simuleringmatning3d2.tex}
+        \caption{3D-simulering av mätning två.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \setlength\fheight{1.4in}
+        \input{exbilder/simuleringmatning3d4ny.tex}
+        \caption{3D-simulering av mätning fyra.}
+    \end{subfigure}
+    \caption{3D-simulering under 3 s av stång \rom{2}s position med initalvillkor från mätning 2 respektive mätning 4. Ingen tydlig period är möjlig att identifiera i något av fallen, men notera att i mätning 4 observeras flera skarpa riktningsförändringar}
+    \label{resultat:xuppgf4}
+\end{figure}
+
+
+%3D som ytterligare argument.
+
+\vspace{-1px}
+Då uppmätt samt simulerad data visar på ett kaotiskt beteende för systemet kan slutsatsen dras att en dubbel konisk pendel kan uppvisa kaotiskt beteende. Slutsatsen styrks av analysen av rörelsens frekvensspektrum och av 3D-simuleringar. Graden av kaotiskt beteende är även kopplad till systemets initialvillkor där framförallt hög rotationshastighet och därmed stora vinklar $\theta_1$ och $\theta_2$ ger upphov till ett mer kaotiskt system. Dock upp till en viss gräns, vilket tyder på ett icke-linjärt samband. 
+
+%\begin{wrapfigure}[16]{R}{0.5\textwidth}
+%    \vspace{-50px}
+%    \hspace{-5px}
+%    \centering
+%    \setlength\fheight{1.7in}
+%%    \input{exbilder/simuleringmatning3d4.tex}
+ %   \caption{Simulerad position för stång \rom{2}s ändpunkt under 10 s med samma initialvillkor som i mätning fyra. Notera att systemet uppvisar kaotiskt beteende under hela simuleringen, även om den är längre än vad som kunde uppmätas experimentellt.}
+%    \label{fig:3dfig}
+%\end{wrapfigure}
+
+%
+\markright{Eric Lindgren, Simon Pettersson Fors, Grupp 47, Uppgift 2}
+
+%\noindent Som har nämnts ovan observeras en skillnad  är de tidsintervall där kaotiskt beteende kan observeras i de uppmätta fallen begränsade.
+
+%Som har nämnts ovan observeras att de tidsintervall inom vilka tydligt kaotiskt beteende kan identifieras är relativt korta även om de blir längre för högt $\omega$. Detta kan orsakas av interna dämpningar inom systemet, exempelvis i kardanknuten mellan stång \rom{1} och \rom{2}. Detta förslag styrks av att simuleringarna, vilka skildrar systemet i det ideala fallet utan sådana dämpningar, ej visar på att det kaotiska beteendet dämpas ut över tid. Se figur \ref{fig:3dfig} för ett exempel på en simulering under 10 s med samma initialvillkor som i mätning fyra.
+
+
+
+ %Utifrån uppmätt samt simulerad data kan alltså slutsatsen att en dubbel konisk pendel kan uppvisa kaotiskt beteende dras.
+
+%% tidsperioder där kaotimeskt beteende kan identifieras är dock inte särskilt långa, även om detta varierar från mätning till mätning vilket syns ovan. I vissa fall finner systemet ett nytt jämviktsläge när spoltråden lossas, medan det i andra tar betydligt längre tid (jämför ex. de två mätningarna ovan). Att det kaotiska beteendet upphör kan bero på interna dämpningar inom systemet, exempelvis i polhemsknuten mellan de två stängerna. Detta syns extra tydligt vid jämförelse med systemets simulerade beteende. Det simuelerade systemet uppvisar ett kaosartat beteende över längre tid vilket liknar det som det verkliga systemet uppvisar under kortare övergångsperioder. 
+
+\vspace{-2px}
+\section{Slutsatser}
+Höghastighetskamerorna är ett alternativ till att använda en laserpekare för att uppmäta $g$ med en enkel konisk pendel. Dessa medför fördelarna att motorvinkeln experimentellt kan uppmätas och ett stort antal mätningar av $g$ kan åstadkommas under kort tid. Tyngdaccelerationskonstanten $g$ uppmättes till $9.83 \pm 0.06$ m/s$^2$ vilket avviker i medelvärde med $0.1\%$ ifrån det teoretiska värdet $9.8170$ m/s$^2$. Precision och systematiska fel föreslås kunna minimeras med en stabilare DC-motor och att ersätta kardanknuten med ett kullager.
+
+Simuleringar och mätningar av en dubbel konisk pendel visar att ett sådant system kan uppvisa periodisk och kaotisk rörelse beroende på initialvillkor. Det är möjligt att vinkelhastigheten $\omega$ både kan stabilisera och destabilisera systemet och ett eventuellt samband för detta observeras vara icke-linjärt. Slutligen föreslås att längden för det tidsintervall där eventuellt kaotiskt beteende kan observeras möjligtvis kan förlängas genom att minimiera dämpningar i kardanknutarna.
+
+\vspace{-2px}
+\printbibliography
+
+\appendix
+
+\section{Tröghetsmatriser för de två stängerna och för kardanknut}
+
+\markright{Appendix}
+
+Med koordinatsystem ansatta utmed symmetrixlarna för respektive stång enligt geometrin i figur 1 och med användande av Steiners teorem fås tröghetsmomentmatriserna
+
+%Kanske lägga dessa i appendix? :P
+\begin{align}
+\centering
+                    I_{x\rom{1}} & = m_1 \left(\frac{L^2_1}{12} + \frac{r^2_1}{4}\right) + m_1\left(\frac{L_1}{2} +d \right)^2\notag \\ 
+    \textbf{I}_{{\rom{1}}}:  I_{y\rom{1}} & = m_1 \left(\frac{L^2_1}{12}                 + \frac{r^2_1}{4}\right) + m_1\left(\frac{L_1}{2} +d \right)^2\\
+                    I_{z\rom{1}} & = m_1 \frac{r_1^2}{2} \notag \\
+                    \notag\\
+                    I_{x\rom{2}} & = m_2 \left(\frac{L^2_2}{12} + m_2\frac{r^2_2}{4}\right) + m_2\left(L_1+d\right)^2 + 2m_2\left(L_1+d\right)\left(\frac{L_2}{2}+d\right)\cos{\left(\theta_2-\theta_1\right)}\notag\\
+                    & + m_2\left(\frac{L_2}{2} +d\right)^2 \notag \\
+    \textbf{I}_{{\rom{2}}}:  I_{y\rom{2}} & = m_2 \left(\frac{L^2_2}{12} + \frac{r^2_2}{4}\right) + m_2\left(L_1+d\right)^2 + 2m_2\left(L_1+d\right)\left(\frac{L_2}{2}                                  +d\right)\cos{\left(\theta_2-\theta_1\right)} + \notag\\
+                    & + m_2\left(\frac{L_2}{2}+d\right)^2\cos{\left(\theta_2-\theta_1\right)}^2 \\
+                    I_{z\rom{2}} & = \frac{r_2^2}{2} m_2 +m_2\sin\left(\theta_2 - \theta_1\right) \left(\frac{L_2}{2} +d\right)^2 \notag\\ \notag
+\end{align}
+$m_1$, $r_1$ och $m_2$, $r_2$ är stängernas massa respektive deras tjocklek. $d$ är längden på polhemsknuten mellan stängerna. Notera att tröghetsmomentet för den undre stången har ett implicit tidsberoende genom $\theta_1$ och $\theta_2$.
+
+Analogt ges för kardanknuten om den moduleras som en ihålig cylinder
+\begin{align}
+\centering
+                    I_{xk} & = m_k\left(\frac{L_k^2}{12} + \frac{r_1^2 + r_y^2}{4}\right) + m_k\left(\frac{L_k}{2} + d_k \right)^2\notag \\
+                   \textbf{I}_\textbf{k}: I_{yk} & = m_k\left(\frac{L_k^2}{12} + \frac{r_1^2 + r_y^2}{4}\right) + m_k\left(\frac{L_k}{2} + d_k \right)^2 \\
+                    I_{zk} & = \frac{1}{2}m_k\left(r_1^2 + r_y^2\right) \notag,
+\end{align}
+där $m_k$ är kardanknutens massa, $L_k$ dess längd, $r_1$ och $r_y$ är innerradie respektive ytterradie och $d_k$ är avståndet till vridpunkten.
+
+\section{Förtydligade teoretiska härledningar}
+Studera en enkel konisk pendel med stång med längd $L_1$, radie $r_1$ och massa $m_1$ samt kardanknut som modelleras till en ihålig cylinder med massa $m_k$, längd $L_k$, innerradie $r_i = r_1$ och ytterradie $r_y$, se figur 1 (a). Låt även stångens och modellen av kardanknutens översta punkter befinna sig $d$ respektive $d_k$ ifrån kardanknutens vridpunkt. Antag att motoraxeln är parallell med vertikalen samt att vinkelhastighet $\omega$ är konstant för jämnviktsläget och fixera ett roterande koordinatsystem med z-axel längs den cylindriska stångens symmetriaxel. Med tröghetsmomentsmatrisen $I$ för den enkla koniska pendeln uttryckt i det roterande systemet, se Appendix del A,  kan systemets rörelseenergi $T$, potentiella energi $V$ och Lagrangian $L = T - V$ tecknas
+\begin{align}
+    T & = \frac{1}{2}\left[I_{x\rom{1}}\dot{\theta}^2 + \omega^2\left(\sin^2\theta I_{y\rom{1}} + \cos^2\theta I_{z\rom{1}}\right)\right] \\
+    V & = -m_1 g\left(\frac{L_1}{2} + d\right)\cos\theta - m_k g\left(\frac{L_k}{2} + d_k\right)\cos\theta.
+    \label{eq: Lagrange_enkel}
+\end{align}
+Tillhörande Lagrangeekvation med avseende på $\theta$ är därför
+\begin{equation}
+    I_{x}\ddot{\theta} + m_1g\left(\frac{L_1}{2} + d\right)\sin\theta + m_kg\left(\frac{L_k}{2} + d_k\right)\sin\theta - \omega^2\sin\theta\cos\theta\left(I_{y} - I_{z}\right) = 0.
+\end{equation}
+För jämviktsläge gäller $\ddot{\theta} = 0$ varav $g$ erhålls som
+\begin{equation}
+    g = \frac{\omega^2\left(I_{y} - I_{z}\right)\cos\theta}{m_1\left(\frac{L_1}{2} + d\right) + m_k\left(\frac{L_k}{2} + d_k\right)}.
+    \label{eq: g}
+\end{equation}
+
+Likt den teoretiska beskrivningen definierar vi en dubbel konisk pendel som en enkel konisk pendel med ytterligare en stel stång fäst i änden av den första. Den nedre stången är fäst vid den övre med en kardanknut av samma typ som fäster motorn till den övre stången sådan att den nedre stången kan rotera i samma plan som den övre, se figur 1 (b). Enligt samma metodik som för den enkla koniska pendeln kan Lagrangianen för den dubbla koniska pendeln tecknas som 
+
+\begin{align}
+    L & = T-V \\
+    T & = \frac{1}{2}[\dot{\theta_1}^2\left(I_{x\rom{1}} + I_{x\rom{2}}\right) + \dot{\theta_2}^2 I_{x\rom{2}} + \dot{\theta_1}\dot{\theta_2}I_{x\rom{2}} + \\ 
+    & + \omega^2\left(I_{y\rom{1}}\sin^2\theta_1\ + I_{z\rom{1}}\cos\theta_1^2 + \tag*{} I_{y\rom{2}}\sin^2\theta_2 + I_{z\rom{2}}\cos^2\theta_2 \right)] \\
+    -V & = m_1 g \left(\frac{L_1}{2} +d\right)\cos{\theta_1} + m_2g[\left(L_1+d\right)\cos\theta_1 + \\
+    & + \left(\frac{L_2}{2}+d\right)\cos\theta_2 ] \tag*{}
+\end{align}
+där $I_{\rom{1}}$ och $I_{\rom{2}}$ är den undre respektive den övre stångens tröghetsmatriser runt deras symmetriaxlar. Dessa matriser fås enligt Steiners teorem, se Appendix del A och uppmärksamma att $I_{\rom{2}}$ är tidsberoende. Under antagandet att den undre stången är mycket kortare än den övre (exempelvis en tiondel så lång) så betyder det att produkten $m_2 (\frac{L_2}{2} + d)$ är liten relativt $L_1$, varpå Lagranges ekvationer för $\theta_1$ och $\theta_2$ kan approximeras till 
+
+\begin{align}
+\frac{\partial}{\partial t}\frac{\partial L}{\partial \dot{\theta_1}} - \frac{\partial \tag*{} L}{\partial \theta_1} = 0 : \hspace{20px} & \ddot{\theta_1}\left(I_{x \rom{1}} + I_{x \rom{2}} \right) + \ddot{\theta_2}I_{x \rom{2}} - \\ 
+& - \omega^2 \sin{\theta_1}\cos{\theta_1} \left(I_{y \rom{1}} - I_{z \rom{1}}\right) + \\ \tag*{}
+& + g \sin{\theta_1} \left(m_1 \left(\frac{L_1}{2} +d\right) + m_2\left(L_1 + d \right)\right) = 0 \\ \tag*{}
+\frac{\partial}{\partial t}\frac{\partial L}{\partial \dot{\theta_2}} - \frac{\partial L}{\partial \theta_2} = 0 : \hspace{20px} & \ddot{\theta_1}I_{x \rom{2}} + \ddot{\theta_2}I_{x \rom{2}} - \\
+& - \omega^2 \sin{\theta_2}\cos{\theta_2}\left(I_{y \rom{2}} - I_{z \rom{2}}\right) \\
+& + g \sin{\theta_2} m_2\left(\frac{L_2}{2} + d\right) = 0. \tag*{}
+\end{align}
+
+Tröghetsmomenten för stång två, $I_{x \rom{2}}, I_{y \rom{2}}$ och  $I_{z \rom{2}}$ approximeras även dem. Utöver detta har det även antagits att motorns rotationshastighet $\omega$ är konstant.  Dessa ekvationer kan lösas numeriskt med hjälp av Matlab för olika initialvillkor, se Appendix del B. 
+
+\section{Matlabkod för analys av den enkla koniska pendeln samt för att beräkna g}
+
+I följande avsnitt presenteras den matlabkod som har använts vid analys av den enkla koniska pendeln samt för att beräkna g.
+
+%\input{matlabkod.tex}
+
+\newpage
+
+\section{Labblogg}
+
+
+%\input{labblogg.tex}
+
+\newpage
+\section{Peer-review: kommentarer och ändringar}
+
+%\input{peerreview.tex}
+
+
+\end{document}

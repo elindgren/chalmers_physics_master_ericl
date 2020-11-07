@@ -1,0 +1,95 @@
+% This file was created by matlab2tikz.
+%
+%The latest updates can be retrieved from
+%  http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz-matlab2tikz
+%where you can also make suggestions and rate matlab2tikz.
+\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}
+%
+\begin{tikzpicture}[scale = 1.0, every node/.style={scale = 0.80}, domain = 0:2]
+
+\begin{axis}[%
+width=1.25\fheight,
+height=\fheight,
+at={(0\fheight,0\fheight)},
+scale only axis,
+%y axis line style={blue, ultra thick},
+xmin=0,
+xmax=15.5,
+%xlabel style={font=\color{white!15!black}},
+xlabel={\text{Period}},
+axis y line*=left,
+ymin=10.00,
+ymax=10.075,
+ylabel style={font=\color{white!15!black}},
+ylabel={$\omega$ (\text{rad/s})},
+ytick = {10.01, 10.04, 10.07},
+yticklabels = {10.01, 10.04, 10.07},
+%axis background/.style={fill=white},
+%legend style={legend cell align=left, align=left, draw=white!15!black}
+]
+\addplot [only marks, mark size = 2pt, mark=square, color=mycolor1, opacity=1.25]
+  table[row sep=crcr]{%
+1	10.0050721451904\\
+2	10.0370372319163\\
+3	10.0370372319163\\
+4	10.0370372319163\\
+5	10.0370372319163\\
+6	10.0692072230442\\
+7	10.0692072230442\\
+8	10.0692072230442\\
+9	10.0692072230442\\
+10	10.0692072230442\\
+11	10.0692072230442\\
+12	10.0692072230442\\
+13	10.0370372319163\\
+14	10.0370372319163\\
+15	10.0370372319163\\
+}; \label{plot_one}
+
+% \addlegendentry{Vinkelhastighet $\omega$}
+\end{axis}
+%
+\begin{axis}[%
+width=1.25\fheight,
+height=\fheight,
+at={(0\fheight,0\fheight)},
+scale only axis,
+xmin=0,
+xmax=15.5,
+axis y line*=right,
+ymin= 0.805,
+ymax= 0.8155,
+ylabel style={font=\color{white!15!black}},
+ylabel={$\theta$ (\text{rad})},
+x axis line style = {opacity = 0},
+%y axis line style={black, ultra thick},
+ytick = {0.806, 0.810, 0.815},
+yticklabels = {0.806, 0.810, 0.815},
+xticklabels = { , , , },
+%legend pos = north west,
+legend style={at={(0.55, 0.22)},anchor=north}
+]
+\addlegendimage{/pgfplots/refstyle=plot_one}\addlegendentry{Vinkelhastighet $\omega$}
+\addplot [only marks, mark size = 3pt, mark=triangle, color=black, opacity=1.25]
+  table[row sep=crcr]{%
+1	0.805859336610269\\
+2	0.805701942847216\\
+3	0.80591635811605\\
+4	0.808057385095893\\
+5	0.810111385067792\\
+6	0.811215250116312\\
+7	0.812263931424508\\
+8	0.8131598234478\\
+9	0.813473495970097\\
+10	0.813415540967618\\
+11	0.812815370658134\\
+12	0.811336415273185\\
+13	0.809233237903385\\
+14	0.806680211635308\\
+15	0.806492634658544\\
+}; 
+\addlegendentry{Vinkel $\theta$}
+
+\end{axis}
+\end{tikzpicture}%
+%legend style={at={(0.27,0.45)}, anchor = north, nodes={scale=0.80, transform shape}
