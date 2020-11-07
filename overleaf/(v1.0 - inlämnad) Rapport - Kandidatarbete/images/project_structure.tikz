@@ -1,0 +1,31 @@
+\definecolor{klight_green_400}{RGB}{156, 204, 101}
+
+\tikzset{%
+  project part/.style={
+    circle,
+    draw,
+    fill=klight_green_400,
+    thick,
+    minimum size=1cm
+  },
+  main line/.style={
+    draw,
+    line width=0.25mm,
+    opacity=1,
+    minimum size=1cm
+  },
+}
+
+\begin{tikzpicture}[x=1.5cm, y=1.5cm, ->,>=stealth',auto, thick]
+% Base project nodes
+\node [project part/.try] (web) at (0,0) {$\textbf{W}$};
+\node [project part/.try] (pl) at (2,0) {$\textbf{P}$};
+\node [project part/.try] (dl) at (1,-1.732) {$\textbf{D}$};
+
+% Connect them 
+\path[main line/.style={font=\sffamily\small}]
+    (dl) edge[bend right] node [right] {Interaktion} (pl)
+    (web) edge[bend right] node [left] {Data} (dl)
+    (pl) edge[bend right] node [above, midway] {Behov} (web)
+    (web) edge[bend right] node [below, midway] {Statistik} (pl);
+\end{tikzpicture}

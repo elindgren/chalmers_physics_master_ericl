@@ -1,0 +1,90 @@
+\definecolor{klight_green_400}{RGB}{156, 204, 101}
+\definecolor{YATA_green}{RGB}{112, 181, 1}
+\definecolor{Google_Red}{RGB}{231,69,60}
+
+\newcommand\widthx{4}
+\newcommand\heighty{4}
+
+
+
+\begin{tikzpicture}[x=0.25cm, y=0.25cm, ->,>=stealth',auto, thick] 
+
+\tikzset{%
+  data part/.style={
+    rectangle,
+    %Change fill for draw if you want boarders
+    fill,
+    text=white,
+    opacity=0.5,
+    fill=klight_green_400,
+    thick,
+    minimum width=2cm,
+    minimum height=2cm
+  },
+  text part/.style={
+    opacity=1,
+    text=black,
+    text height=0.25cm,
+  },
+  text2 part/.style={
+    opacity=1,
+    text=black,
+    rotate=65,
+  },
+}
+
+% User squared
+%\node [data part/.try] (layer2) at (4,4) {};
+\node [data part/.try] (layer2) at (3,3) {};
+\node [data part/.try] (layer2) at (2,2) {};
+\node [data part/.try] (layer2) at (1,1) {};
+\node [data part/.try] (layer1) at (0,0) {};
+
+% Home made axis
+\draw (-4.5,4.5) -- (4,4.5);
+\draw (-4.5,4.5) -- (-4.5,-4.5);
+\draw[color=Google_Red] (-4.5,4.5) -- (0,9);
+
+% Name of axies
+\node[text part/.try] at (1.25,5.25) {\small $\textbf{Egenskaper}$};
+\node[text part/.try, rotate=45] at (-2.75,7.75) {\small $\textbf{Studenter}$};
+\node[text part/.try, rotate=90] at (-5.5,0) {\small $\textbf{Uppgifter}$};
+
+% 3 boxes per line
+%\draw [dashed, color=YATA_green, -] (-4,1.5) -- (4,1.5);
+%\draw [dashed, color=YATA_green, -] (-4,-1.5) -- (4,-1.5);
+%\draw [dashed, color=YATA_green, -] (-1.5,-4) -- (-1.5,4);
+%\draw [dashed, color=YATA_green, -] (1.5,-4) -- (1.5,4);
+
+% 4 boxer per line
+%\draw [dashed, color=YATA_green, -] (-4,2) -- (4,2);
+%\draw [dashed, color=YATA_green, -] (-4,0) -- (4,0);
+%\draw [dashed, color=YATA_green, -] (-4,-2) -- (4,-2);
+
+%\draw [dashed, color=YATA_green, -] (-2,4) -- (-2,-4);
+%\draw [dashed, color=YATA_green, -] (0,4) -- (0,-4);
+%\draw [dashed, color=YATA_green, -] (2,4) -- (2,-4);
+
+\draw [dashed, color=YATA_green, -] (-4,2.4) -- (4,2.4);
+\draw [dashed, color=YATA_green, -] (-4,0.8) -- (4,0.8);
+\draw [dashed, color=YATA_green, -] (-4,-0.8) -- (4,-0.8);
+\draw [dashed, color=YATA_green, -] (-4,-2.4) -- (4,-2.4);
+
+\draw [dashed, color=YATA_green, -] (-2.4, 4) -- (-2.4,-4);
+\draw [dashed, color=YATA_green, -] (-0.8,4) -- (-0.8,-4);
+\draw [dashed, color=YATA_green, -] (0.8,4) -- (0.8,-4);
+\draw [dashed, color=YATA_green, -] (2.4,4) -- (2.4,-4);
+
+
+
+
+
+
+
+% Connect them 
+\path[main line/.style={font=\sffamily\small}];
+    % YATA Flow
+    %(YATA) edge node [left] {} (YATAData)
+
+    
+\end{tikzpicture}

@@ -1,0 +1,45 @@
+\documentclass[border=0.125cm]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
+\usetikzlibrary{backgrounds}
+\begin{document}
+
+\definecolor{klight_green_400}{RGB}{156, 204, 101}
+
+\definecolor{back_slide}{RGB}{25, 153, 136}
+
+\tikzset{%
+  project part/.style={
+    circle,
+    draw,
+    white,
+    %fill=klight_green_400,
+    ultra thick,
+    minimum size=1cm
+  },
+  main line/.style={
+    draw,
+    line width=0.5mm,
+    opacity=1,
+    white,
+    minimum size=1cm
+  },
+}
+
+\begin{tikzpicture}[x=1.5cm, y=1.5cm, ->,>=stealth',auto, thick,
+background rectangle/.style={fill=back_slide}, show background rectangle]
+% Base project nodes
+\node [project part/.try] (web) at (0,0) {\large \textbf{W}};
+\node [project part/.try] (pl) at (2,0) {\large \textbf{P}};
+\node [project part/.try] (dl) at (1,-1.732) {\large \textbf{D}};
+
+% Connect them 
+\path[main line/.try]
+    (dl) edge[bend right] node [right, white] {Interaktion} (pl)
+    (web) edge[bend right] node [left, white] {Data} (dl)
+    (pl) edge[bend right] node [above, midway, white] {Behov} (web)
+    (web) edge[bend right] node [below, midway, white] {Statistik} (pl);
+\end{tikzpicture}
+
+\end{document}

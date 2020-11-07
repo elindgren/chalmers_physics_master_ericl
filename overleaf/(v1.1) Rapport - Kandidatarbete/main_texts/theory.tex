@@ -1,0 +1,169 @@
+\chapter{Bakgrund}
+
+På grund av arbetets tvärvetenskapliga utformning presenteras nedan kortare introduktioner till de olika disciplinerna i kombination med mer utförliga teoretiska bakgrunder. För en mer ingående diskussion hänvisar vi för webbutveckling (EXEMPEL), för produktutveckling till (EXEMPEL) och för djupinlärning till (EXEMPEL). 
+
+\section{Introduktion till produkt- och webbutveckling}
+
+
+
+
+\subsection{Webbutvecklingens förändringsprocess}
+Webbutveckling kan enkelt beskrivas som utvecklingen av applikationer, vars primära syfte är att visas och användas av användare i en webläsare. Ett vanligt och fundamentalt alternativ till att uppnå just detta är via HTML, CSS och JavaScript. HTML står för Hypertext Markup Language, och utgör strukturen på det användaren ser. Tabeller, inputfält och rubriker kontrolleras genom detta statiska språk. CSS, eller Cascading Style Sheets är vad som används för att designa applikationen. Med detta språk kan element givna i HTML placeras ut eller animeras. JavaScript är språket som används för att dynamiskt ändra applikationens tillstånd\cite{Webbutveckling}.
+
+En webbapplikation kan simpelt sett delas upp i två delar: front-end och back-end. Front-end är vad användaren ser och kan interagera med, medan back-end är där majoriteten av den mer komplexa funktionaliteten ligger, såsom databaser och dylika algoritmer. 
+
+Allt efterson har metoder för webbutveckling förbättrats och utvecklats, och på senare tid har ramverk som Vue, Angular och React blivit populära.\cite{webstats} React används exempelvis för att förenkla, snabba upp, samt möjliggöra skalbar utveckling av webbsidor. Detta uppnås dels genom den enkla komponentbaserade approach, men också genom sin virtuella DOM (Document Object Model).
+
+En DOM är ett API som definierar logiken bakom strukturen i HTML och XML-dokument. Modellen ger en lättnavigerad och lättbygd struktur i dokumenten. I webbutveckling visualiseras HTML med hjälp av en 'äkta' DOM, medan i React implementeras en Virtuell DOM mellan hemsidan och HTML-koden. Detta låter komponenter uppdateras snabbare och möjliggör ett dynamiskt användargränssnitt.
+
+\subsection{Relationsdatabas}
+En relationsdatabas är en samling av datapunkter, vars värden kopplas via förbestämda relationer, som sedan kan kommas åt med hjälp av nycklar. Dessa nycklar måste vara unika, och kan exemplifieras i verkligheten som exempelvis hur ett personnummer enbart kan knytas till en unik person. SQL är ett av många exempel på språk som används för att komma åt den mängd data i databasen.
+
+Att implementera en koppling mellan databasen, och utföra operationer på datan som hämtas därifrån är nödvändigt för att kunna bygga stora applikationer utan att försämra prestanda eller skriva överkomplicerad kod. De olika lager (tidigare nämnda som front-end och back-end) är då 'abstraktionslager' för varje enskild del.
+
+\subsection{REST-api, GraphQL och Apollo}
+Ett vanligt sätt att implementera en koppling till databasen är via ett REST-api. REST, som står för representational state transfer, är ett begrepp som beskriver ett sätt att hantera transaktioner mellan maskiner.
+
+En nackdel med REST-api är att det ofta bygger på en enhetlighet, vilket skapar beroenden, och långsamma utvecklingsmiljöer mellan front-end och back-end lagen. Enkelt förklarat behöver utvecklare ofta i förväg definiera hur en applikation är tänkt att användas, och behöver därför lägga till så kallade 'endpoints' för nya användarfall.
+
+GraphQL är ett Query language, som utvecklats av Facebook. Det har använts internt av Facebook sedan 2012, och släpptes sedan till allmänheten 2015. Två centrala operationer som språket tillhandahåller är querys och mutations. En query är en "fråga" och representerar ett anrop efter data. En mutation motsvarar ett anrop, där syftet är att förändra eller ta bort ett objekt i databasen. 
+
+GraphQL löser problemen som uppstår med REST-api, eftersom det via en "Data Graph" möjliggör en lösare koppling mellan användarfall och implemntation. Utvecklare i front-end miljön kan beskriva den data som önskas, och utvecklare från back-end miljön kan beskriva datan som erbjuds. 
+
+Utöver GraphQL, används en Apollo-klient för att etablera kopplingen till databasen i implementationen. Apollo erbjuder även en "playground", där utvecklare kan utföra querys eller mutations mot databasen.
+
+\section{Introduktion till djupinlärning}
+
+% \section{(Stolpar) Deep Learning}
+
+% Knyta an till problemet => varför är DL ett intressant verktyg för problemet? => Gå igenom hur det funkar (icke-linjära trender, djupt liggande mönster etc.) => Varför begränsar vi oss till just de nätverkstyperna? => Tidsbaserad vs icke-tidsbaserad data => DNN vs. GRU/LSTM. => Vad är det för typer av data som krävs för de här nätverken? => Gå in på databehandling och statistisk analys, vilket ger en smidig övergång till metod där vi kan börja med att gå igenom hur vi har bearbetat den tillgängliga datan, och hur vi har använt webbsidan för att samla in mer data. 
+
+% Övergripande: gå inte in för mycket på de bakomliggande matematiska detaljerna; vi har Chollet, använd källan. Vi skall skriva så att en student från samma program som inte har specialkunskap förstår. 
+
+\subsection{Teoretisk bakgrund: Djupinlärning}
+
+Djupinlärning är delmängd av vad som kallas maskininlärning. Maskininlärning skiljer sig markant från klassisk programmering då problemen man försöker lösa är väldigt annorlunda. Det generella maskininlärningsproblemet kan definieras som att utifrån en indatamängd $\mathbb{X}$ finna en sannolikhetsfördelning $q\left(\mathbb{Y}|\mathbb{X}\right)$ som approximerar den sanna fördelningen $p\left(\mathbb{Y}|\mathbb{X}\right)$ så bra som möjligt; man försöker alltså utifrån given data ($\mathbb{X}$) finna en modell ($q$) som sedan kan användas för att generera förutsägelser som stämmer väl överens med verkliga resultat ($p$). Det klassiska programmeringsproblemet å andra sidan kan definieras som att utifrån indata $\mathbb{X}$ generera resultat $\mathbb{Y}$. För att uppnå detta följer följer en klassisk programmeringsapplikation ett antal regler, efter vilka data kan behandlas och man får ut ett svar \cite{Chollet}. Maskininlärning skiljer sig fundamentalt från detta i att systemet själv utifrån data och svar skall komma fram till de regler som genererar rätt svar. Reglerna kan uttryckas som flera matematiska transformationer, vilka ändrar representationen av datan till en form som tydligare framhäver svaren. ''Inlärningen'' i maskininlärning kommer från processen som krävs för att komma fram till den uppsättning transformer som ger bästa möjliga representation av datan - ett maskininlärnings-system måste tränas.
+
+Vad som skiljer djupinlärning från andra former av maskininlärning är att inom djupinlärning utförs flera sådana transformationer efter varandra, vilket successivt ger en tydligare representation av datan. Man säger att nätverket lär sig flera ''lager'' av representation \cite{Chollet}. Detta kan representeras med en struktur som kallas för ett \textit{neuralt nätverk}. 
+
+Ett neuralt nätverk består av flera sammankopplade lager som motsvarar de olika lagren av representation. Varje lager är i sin tur uppbyggt av flera noder. En nod inom ett lager är sammankopplad med noder i det föregående lagret och i nästa lager, men inte i det egna lagret. Varje koppling mellan noder är skalad med ett tal. Dessutom är varje nod associerad med en så kallad \textit{bias}. Tillsammans kallas de \textit{vikter}. Transformationen mellan två noder kan parameteriseras av dessa vikter. 
+
+Tag ett exempel. Låt $i$ vara index för en nod i ett visst lager, och $j$ vara index för en nod i nästa lager. Låt skalfaktorn för kopplingen mellan dem vara $w_{ji}$ och bias för nod $j$ vara $b_j$. Om indatan till nod $j$ från nod $i$ är $x_i$ kan utdatan $u_j$ från nod $j$  skrivas som
+\begin{equation}
+    u_j = f_j \left(w_{ji}x_i + b_j\right),
+\end{equation}
+där $f_j$ är transformationen för nod $j$. På motsvarande sätt kan den totala transformationen för nod $i$:s lager uttryckas som 
+
+\begin{equation}
+    u = f(\textbf{W} \cdot \textbf{x} + \textbf{b}),
+    \label{eq:network_transform}
+\end{equation}
+där $\textbf{W}$ är en matris innehållande alla skalfaktorer mellan alla noder $i$ och $j$, $\textbf{x}$ är indatavektorn till lagret och $b$ är en vektor som innehåller alla noders bias. $f$ brukar kallas aktitveringsfunktion (eng. \emph{activation function}) \cite{Chollet}. 
+
+Träningen av det neurala nätverket består i att hitta dessa vikter $\textbf{W}$ och $\textbf{b}$ för varje lager som slutligen ger den bästa representationen av indatan för det givna problemet \cite{Chollet}. Ett sätt att göra detta 
+relativt effektivt är genom att utnyttja att alla transformationer består av steg som är differentierbara (så länge $f$ är differentierbar). Låt $\mathbb{X}$ vara indata till nätverket, $\mathbb{Y}$ vara motsvarande måldata samt $\mathbb{\hat{Y}}$ vara motsvarande utdata från nätverket. Definiera nu en så kallad förlustfunktion (eng. \emph{loss function}) $g\left(\mathbb{\hat{Y}} - \mathbb{Y} \right)$. Då $\mathbb{\hat{Y}}$ fås genom en upprepning av ekvation \eqref{eq:network_transform} för varje lager i nätverket kan $\mathbb{\hat{Y}}$ ses som en funktion av indatan $\mathbb{X}$ samt nätverkets vikter $\textbf{v}$. Om man då fixerar $\mathbb{X}$ och $\mathbb{Y}$, vilket är sant för en given mängd träningsdata, kan förlustfunktionen ses som enbart en funktion av nätverkets vikter:
+
+\begin{equation}
+    g\left(\mathbb{\hat{Y}}\right) = g\left(\mathbb{\hat{Y}}(\textbf{v})\right) = g\left(\textbf{v}\right).
+\end{equation}
+Genom att uppdatera vikterna i motsatt riktning till gradienten av denna funktion med avseende på vikterna minskas förlustfunktionens värde vid efterföljande bearbetningar av indata \cite{PerssonBoiers}. Notera att detta inte nödvändigtvis är sant; gradienten beräknas under antagandet att indatan och måldatan är fix för varje iteration. Om så hade varit fallet hade man efter flera iterationer minimerat förlustfunktionen, men bara för en datapunkt. Nätverket ''lär'' sig, memorerar, att indatan $\mathbb{X}$ svarar mot just $\mathbb{Y}$, men kan inte nödvändigtvis hantera annan indata. För att förhindra detta behöver träningsdatan bestå av många olika datapunkter vilka nätverket kan tränas mot under förhoppningen att nätverkets vikter uppdateras i riktning mot ett lokalt minimum vilket är generellt för alla datapunkter. Denna process, att uppdatera vikterna i rätt riktning utförs av en så kallad optimeringsfunktion (eng. \emph{optimizer}).
+
+Ett stort problem inom maskininlärning är att förhindra att nätverket memoriserar data och istället få det att hitta generella trender. Då neurala nätverk i allmänhet och djupa neurala nätverk i synnerhet har många parametrar i form av deras vikter har de en väldigt stor representationsrymd. Denna stora representationsrymd ger att träningen av nätverken nästan alltid resulterar i att träningsdatan memoriseras. För att minimera detta problem finns främst tre metoder: reducera nätverkets storlek, viktregularisation och utsläpp \cite{Chollet}. Reducering av nätverkets storlek minskar representationsrymden, på bekostnad av möjligheten för nätverket att finna mer komplexa mönster i datan. Viktregularisation innebär att nätverkets vikter begränsas till att endast anta låga värden, vilket ger en enklare matematisk modell som är mindre trolig att memorisera datan. Avhopp innebär att man slumpvis sätter en viss del av indatan till 0 vid en viss träningsomgång, vilket ger att motsvarande noder ej bidrar. Detta gör att slumpmässiga mönster i datan inte blir lika tydliga, varför sannolikheten att nätverket memoriserar datan minskar.
+
+
+Generalisering kan under träning mätas genom att låta nätverket bearbeta ny data. Denna data kallas valideringsdata. För att testa det färdigtränade nätverkets prestanda använder man sig av så kallad testdata. Den datamängd man har behöver alltså delas in i tre delar: träningsdata, valideringsdata och testdata. Det är viktigt att dessa delar hålls separata, i synnerhet testdatan. Exempelvis om nätverket tränas på delar av testdatan så ger memoriseringen en felaktig bild av hur nätverket presterar. 
+
+En teknik för att underlätta träningen av de neurala nätverken är genom normalisation av datan. Genom att transformera alla indataparametrar till en $N(0,1)$-fördelning blir viktningen av dem samma, vilket gör att nätverket ej behöver hitta hur de olika parametrarna skall viktas. För att undvika kontaminering beräknar man medelvärde $\mu$ och standardavvikelse $\sigma$ på träningsdatan, varefter man använder dessa för att normalisera all data $\mathbb{X}$ enligt $N\left(\frac{\mathbb{X}-\mu}{\sigma}\right)$ \cite{Chollet}.
+
+I detta arbete kommer vi ställas mot tre klassiska maskininlärningsproblem: binär klassificering, flerklassklassificering samt skalär regression. Binär klassificering och flerklassklassificering innebär att klassificera indata i två respektive flera olika kategorier. Det skalära regressionsproblemet är att förutsäga ett kontinuerligt värde utifrån indata \cite{Chollet}. För att lösa dessa problem kommer vi använda oss av två speciella typer av djupa neurala nätverk: täta neurala nätverk (eng. \emph{Deep Neural Networks}, DNN) och rekursiva neurala nätverk (eng. \emph{Recurrent Neural Networks}, RNN). Ett RNN har till skillnad från ett DNN ett internt tillstånd baserat på data som det har behandlat tidigare. Ett RNN kan alltså ses som ett återkopplat system där tidigare information sammanvägs med ny, se figur. Detta gör RNN väl lämpade för att behandla sekvenser av data. Specifikt kommer vi använda så kallade långt-korttidsminnesnätverk (eng. \emph{Long short-term memory network}, LSTM), vilka är en speciell implementation av RNN som kan lagra information internt till en senare tidpunkt utöver det interna tillståndet som kännetecknar ett RNN. Detta minimerar risken för att information går förlorad när nätverket arbetar igenom en sekvens.
+
+
+% Övergripande kan man se ett djupt neuralt nätverk som flera på varandra följande transformationer som omvandlar Ett exempel som Chollet tar upp för att visualisera detta är genom att tänka på hur man själv skulle separera två tillsammans ihopknycklade pappersbitar; genom att göra flera små, enkla rörelser kan till slut veckla ut pappersbitarna, och separarera dem. \cite{Chollet} 
+\subsection{Djupa neurala nätverk och osäkerhet}
+\label{NN_and_uncert}
+Djupa neurala nätverk är utmärkta verktyg för att åstadkomma förutsägelser och klassifieringsalgoritmer. Till exempel som bildigenkänningsalgoritmer, men dessa kan uppvisa opålitligheter vid introduktion av störningar \cite{Elephant}. Problemet kan förklaras av designen av ett kanoniskt klassfieringsproblem eftersom designen tvingar det neurala nätverket att utföra en specifik klassificering. Detta leder till översäkra neurala nätverk \cite{Kendall-Gal}. En möjlig lösning till problemet är att kombinera klassificeringen med en modell för osäkerhet. Detta kan åstadkommas med exempelvis bayesianska neurala netvärk (eng. Bayesian Neural Networks) eller genom att modifiera förlustfunktionerna för att bygga in en uppskattning av osäkerheter \cite{Kendall-Gal}.
+
+För att underlätta förståelsen av osäkerheter i modellerna introducerar vi begreppen \emph{epistemisk osäkerhet} och \emph{aleatorisk osäkerhet} \cite{Uncert}. Epistemisk osäkerhet kan tolkas som modellosäkerhet medan aleatorisk osäkerhet kan tolkas som en intrinsisk osäkerhet i indatan. Osäkerheterna kan även uttryckas i termer för neurala nätverk. Betrakta ett neuralt nätverk $f^\mathbf{W}$ med vikter och tröskelvärden $\mathbf{W}$ och indatamängd $\mathbb{X} = \{\mathbf{x_1},..., \mathbf{x_n}\}$ som avbildar $\mathbf{x_i}$ på förutsägelse $\hat{y}_i = f^\mathbf{W}(\mathbf{x}_i)$ som en uppskattning av utdatamängden $\mathbb{Y} = \{y_1,..., y_n\}$. Det är möjligt utifrån det neurala nätverket som modell att identifiera tre former av osäkerheter i form av aleatorisk indata osäkerhet $\sigma_x$, epistemisk viktosäkerhet $\sigma_W$ och förutsägelse osäkerhet $\sigma_y$.
+
+Det huvudsakliga problemet för att kvantifiera osäkerheter i neurala nätverk är att bestämma en funktion $U$ som utifrån $\sigma_x$ och $\sigma_W$ approximerar osäkerheten i förutsägelse $\sigma_y = U(\sigma_x, \sigma_W)$. Förslagsvis kan $\sigma_W$ uppskattas med bayesiansk djupinlärning (eng. Bayesian Deep Learning) och $\sigma_x$ genom att modifiera vanligt förekommande förlustfunktioner inom djupinlärning \cite{Kendall-Gal}. Emellertid kräver bayesiansk djupinlärning stora mängder beräkningskraft varav approximativa lösningar behöver tillämpas \cite{MC-dropout}. Därav väljer vi för det här arbetet att avgränsa ifrån bayesiansk djupinlärning och epistemisk osäkerhet för istället fokusera på den aleatoriska osäkerheten i indata. Nedan följer en härledning för hur aleatorisk osäkerhet kan implementeras i förlustfunktioner och därav uppskattas av neurala nätverk.
+
+\subsubsection{Härledning av förlustfunktion för implementering av aleatorisk osäkerhet}
+Definiera indatamängden $\mathbb{X} = \{\mathbf{x_1},..., \mathbf{x_n}\}$ och utdatamängden $\mathbb{Y} = \{y_1,..., y_n\}$ för ett skalärt regressionsproblem. Notera att fetstilade symboler innebär tensorer av rank större än 0 och ej fetstilade tecken symboliserar tensorer av rank 0.  Låt funktionen för ett godtyckligt neuralt nätverk vara $f^\mathbf{W}$ med vikter och tröskelvärden $\mathbf{W}$. Nätverkets förutsägelse $\hat{y}_i$ givet indata $\mathbf{x_i}$ ges därmed av $\hat{y}_i = f^\mathbf{W}(\mathbf{x}_i)$.
+
+Vi vill optimera vikterna $\mathbf{W}$ vilka minimerar felet i förutsägelse $E = \sum_{i=1}^n \left\|y_i - \hat{y}_i\right\|_M$ för någon metrik $M$ samt approximera den aleatoriska osäkerheten $\sigma_x$. Vi söker därför en förlustfunktion $\mathcal{L}(\mathbf{W})$ och för detta syfte applicerar maximum likelihood metoden. Inför därför likelihooden $p\left(y_i|f^\mathbf{W}(x_i)\right)$ samt bilda log-likelihooden $\ell(\mathbf{W}) = \log \left[p\left(y_i|f^\mathbf{W}(\mathbf{x_i})\right)\right]$. Definiera förlustfunktionen $\mathcal{L}(\mathrm{W})$ som 
+\begin{equation}
+    \mathcal{L}(\mathrm{W}) = -\ell(\mathbf{W}) = -\log \left[p\left(y_i|f^\mathbf{W}(\mathbf{x_i})\right)\right],
+\label{eq:def_loss_fcn}
+\end{equation}
+ty att maximera $\ell(\mathbf{W})$ är ekvivalent med att minimera $\mathcal{L}(\mathbf{W})$.
+
+Antag två fall för slumpvariablerna $\mathbf{X}$ och $\mathbf{Y}$ motsvarande observerad indata $\mathbf{x}$ respektive utdata $\mathbf{y}$. För att förenkla notationen utelämnas härifrån index $i$ och låt $\sigma(\mathbf{x}) = \sigma_\mathbf{x}$. Fall 1: givet $\mathbf{X}$, antag normalfördelad utdata
+\begin{equation}
+     \mathbf{Y} \sim \mathcal{N}\left(f^\mathbf{W}(\mathbf{X}),\, \sigma^2(\mathbf{X})  \right) \Rightarrow p\left(y|f^\mathbf{W}(\mathbf{x})\right) = \frac{1}{\sqrt{2\pi\sigma^2_x}} \exp \left\{-\frac{\left[y - f^\mathbf{W}(\mathbf{x})\right]^2}{2\sigma^2_x}\right\},\, \mathbf{x} \in \mathbb{R}.
+\end{equation}
+\begin{equation}
+   \Rightarrow \ell(\mathbf{W}) = \log \left[p\left(y|f^\mathbf{W}(\mathbf{x})\right)\right] = \log \left[ \frac{1}{\sqrt{2\pi\sigma^2_x}}\right] - \frac{\left[y - f^\mathbf{W}(\mathbf{x})\right]^2}{2\sigma^2_x}
+\end{equation}
+\begin{equation}
+    \Rightarrow \ell(\mathbf{W}) = -\frac{1}{2} \left[\log 2\pi + \log \sigma_x^2 + \exp{\left(-\log \sigma_x^2 \right)} \left|y - f^\mathbf{W}(\mathbf{x})\right|^2 \right]
+\label{eq:const_arg}
+\end{equation}
+Eftersom konstanta termer som $\log 2\pi$ och konstanta faktorer som $\frac{1}{2}$ ej påverkar optimeringsproblemet kan vi sätta
+\begin{equation}
+    \ell(\mathbf{W}) = -\left[\log \sigma_x^2 + \exp{\left(-\log \sigma_x^2 \right)} \left|y - f^\mathbf{W}(\mathbf{x})\right|^2 \right].
+\end{equation}
+Därmed erhålls enligt ekvation \eqref{eq:def_loss_fcn}
+\begin{equation}
+    \mathcal{L}_{\mathrm{normal}}(\mathbf{W}) = \exp{\left(-\log \sigma_x^2 \right)} \left\|y - f^\mathbf{W}(\mathbf{x})\right\|_2 + \log \sigma_x^2.
+    \label{eq:normal_loss_fcn}
+\end{equation}
+Observera att införandet av $\sigma_x$ medför två effekter på förlustfunktionen. Den första är en osäkerhetsattenuationsfaktor $\exp{\left(-\log \sigma_x^2 \right)}$ som minskar bidraget av felet $\left\|y - f^\mathbf{W}(\mathbf{x})\right\|_2$ vid växande osäkerheter $\sigma_x$. För det andra införs en osäkerhetsterm $\log \sigma_x^2$ som bidrar växande till förlustfunktionen för växande $\sigma_x^2$. Notera även att vid konstant $\sigma_x^2$ återfås den kanoniska kvadratiska förlustfunktionen (eng. Mean Squared Estimate, MSE) $\mathcal{L}_\mathrm{MSE}(\mathbf{W}) = \left\|y - f^\mathbf{W}(\mathbf{x})\right\|_2$.
+
+Fall 2: givet $\mathbf{X}$, antag Laplacefördelad utdata
+\begin{equation}
+    \mathbf{Y} \sim \mathrm{Laplace}\left(f^\mathbf{W}(\mathbf{X}),\, \sigma(\mathbf{X}) \right) \Rightarrow p\left(y|f^\mathbf{W}(\mathbf{x})\right) = \frac{1}{2\sigma_x} \exp \left[-\frac{\left|y - f^\mathbf{W}(\mathbf{x})\right|}{\sigma_x} \right],\, \mathbf{x} \in \mathbb{R}.
+\end{equation}
+\begin{equation}
+    \Rightarrow \ell(\mathbf{W}) = \log \left[p\left(y|f^\mathbf{W}(\mathbf{x})\right)\right] = -\left[\log 2 + \log \sigma_x + \exp{\left(-\log \sigma_x\right)}\left|y - f^\mathbf{W}(\mathbf{x})\right|\right].
+\end{equation}
+Analogt med ekvation \eqref{eq:const_arg} kan vi ty en konstant term sätta
+\begin{equation}
+    \ell(\mathbf{W}) = -\left[\exp{\left(-\log \sigma_x\right)}\left|y - f^\mathbf{W}(\mathbf{x})\right| + \log \sigma_x\right].
+\end{equation}
+Slutligen erhålls enligt ekvation \eqref{eq:def_loss_fcn}
+\begin{equation}
+    \mathcal{L}_\mathrm{Laplace}(\mathbf{W}) = \exp{\left(-\log \sigma_x\right)}\left\|y - f^\mathbf{W}(\mathbf{x})\right\|_1 + \log \sigma_x.
+\end{equation}
+Liknande observationerna för fall 1 kan vi notera en osäkerhetsattenuationsfaktor $ \exp{\left(-\log \sigma_x\right)}$ och ett osäkerhetsbidrag $\log \sigma_x$. Observera däremot skillnaden i metrik för felet i förutsägelse $\left\|y - f^\mathbf{W}(\mathbf{x})\right\|_1$ och att för konstant $\sigma_x$ återfås det standardmässiga absolutfelet (eng. Mean Absolute Error, MAE) $\mathcal{L}_\mathrm{MAE}(\mathbf{W}) = \left\|y - f^\mathbf{W}(\mathbf{x})\right\|_1$.
+
+\subsection{Statistiska verktyg}
+% Skriva lite kort om vanliga korrelationer och multikorrelationer.
+En korrelationskoefficient är ett mått på hur mycket två variabler korrelerar linjärt med varandra. Den vanligaste varianten är Pearsons korrelationskoefficient. Låt $\mathbf{x}$ och $\mathbf{y}$ vara två vektorer. Då definieras Pearsons korrelationskoefficienten som 
+
+\begin{equation}
+    \rho_{\mathbf{x},\mathbf{y}} = \frac{\text{cov}(\mathbf{x,y})}{\sigma_\mathbf{x}\sigma_\mathbf{y}}
+\end{equation}
+
+\noindent
+där cov står för kovarians och $\mathbf{\sigma}$ är standardavvikelse. Koefficienten $\rho_{\mathbf{x},\mathbf{y}} \in [-1,1]$, där -1 betyder en stark negativ korrelation och 1 tyder på en stark positiv korrelation. Två variabler är okorrelerade om $\rho_{\mathbf{x},\mathbf{y}} = 0$. För att kunna få fram hur $n$ variabler är linjärt korrelerade med en variabel används multikorrelation. Detta ger ett mått på hur väl en given variabel kan förutsägas med hjälpa av en linjärfunktion av $n$ andra variabler. Låt $\mathbf{x}_{i}, i = 1, 2, ..., n$ vara vektorerna vi använder oss av för att förutsäga vektorn $\mathbf{y}$. Beteckna $R^2$ som kvadraten på vår multikorrelation. Denna är definierad som 
+
+\begin{equation}
+    R^{2} = \mathbf{c}^{T}R_{xx}^{-1}\mathbf{c}
+\end{equation}
+
+\noindent
+där $\mathbf{c} = (r_{\mathbf{x}_1\mathbf{y}}, r_{\mathbf{x}_2\mathbf{y}}, ..., r_{\mathbf{x}_n\mathbf{y}})$ och $r_{\mathbf{x}_1\mathbf{y}} = \rho_{\mathbf{x}_1\mathbf{y}}$. $R_{\mathbf{xx}}$ är en matrisen där varje element är en korrelation mellan två $\mathbf{x}_i$. 
+
+ 
+\begin{equation}
+    R_{\mathbf{xx}} = 
+    \begin{bmatrix}
+    r_{\mathbf{x}_1\mathbf{x}_1} & r_{\mathbf{x}_1\mathbf{x}_2} &  \dots  & r_{\mathbf{x}_1\mathbf{x}_n} \\
+    r_{\mathbf{x}_2\mathbf{x}_1} & r_{\mathbf{x}_2\mathbf{x}_2} & \dots  & r_{\mathbf{x}_2\mathbf{x}_n} \\
+    \vdots & \vdots  & \ddots & \vdots \\
+    r_{\mathbf{x}_n\mathbf{x}_1} & r_{\mathbf{x}_n\mathbf{x}_2} & \dots  & r_{\mathbf{x}_n\mathbf{x}_n}
+\end{bmatrix}.    
+\end{equation}
+
+\noindent
+Matrisen $R_\mathbf{xx}$ ger tecken på hur pass mycket variablerna $\mathbf{x}_{i}$ korrelerar med varandra. Om alla dessa variabler är okorrelerade kommer $R_\mathbf{xx} = I$, där $I$ står för identitetsmatrisen. Detta resulterar i att $R^2$ blir summan av korrelationer mellan variabel $\mathbf{x}_{i}$ och $\mathbf{y}$ i kvadrat, det vill säga $R^2 = \mathbf{c}^{T}\mathbf{c}$.

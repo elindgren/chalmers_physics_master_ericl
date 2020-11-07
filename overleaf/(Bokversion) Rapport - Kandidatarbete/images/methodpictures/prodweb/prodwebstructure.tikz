@@ -1,0 +1,35 @@
+\definecolor{klight_green_400}{RGB}{156, 204, 101}
+
+
+
+\begin{tikzpicture}[x=1.5cm, y=1.5cm, ->,>=stealth',auto, thick, line width=0.5mm, every node/.style={scale=1.3}]
+\tikzset{%
+  project part/.style={
+    rectangle,
+    draw,
+    fill=klight_green_400,
+    thick,
+    minimum width=3.2cm,
+    minimum height=1.2cm
+  },
+  main line/.style={
+    draw,
+    line width=1mm,
+    opacity=1,
+    minimum size=1cm
+  },
+}
+% Base project nodes
+\node [project part/.try] (collect) at (2,2) {$\textbf{Information}$};
+\node [project part/.try] (concept) at (0,0) {$\textbf{Koncept}$};
+\node [project part/.try] (use) at (4,0) {$\textbf{Användning}$};
+\node [project part/.try] (implement) at (2,-2) {$\textbf{Implementation}$};
+
+
+% Connect them 
+\path[main line/.style={font=\sffamily\small}]
+    (collect) edge[bend right] node[align=center, xshift=-1mm] [left] {\large KJ-analys, \\ \large idégenerering} (concept)
+    (concept) edge[bend right] node [left] {\large Figma} (implement)
+    (implement) edge[bend right] node[align=center, xshift=1mm] [right] {\large React, \\ \large GraphQL} (use)
+    (use) edge[bend right] node[align=center, xshift=1mm] [right] {\large Intervjuer, \\ \large statistik} (collect);
+\end{tikzpicture}

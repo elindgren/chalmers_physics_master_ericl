@@ -1,0 +1,116 @@
+\definecolor{input_node}{RGB}{171,171,154}
+\definecolor{dense_node}{RGB}{196,225,144}
+\definecolor{dropout_node}{RGB}{222,222,222}
+\definecolor{output_node}{RGB}{171,154,154}
+% New colors
+\definecolor{klight_green_400}{RGB}{156, 204, 101}
+\definecolor{YATA_green}{RGB}{112, 181, 1}
+
+
+
+\begin{tikzpicture}[x=6cm, y=2.5cm, ->,>=stealth',auto, thick] 
+\tikzset{%
+  data part/.style={
+    rectangle,
+    draw,
+    text=white,
+    fill=klight_green_400,
+    thick,
+    minimum width=4cm,
+    minimum height=1.2cm
+  },
+  platform part/.style={
+    rectangle,
+    draw,
+    fill=output_node,
+    thick,
+    text=white,
+    minimum width=5cm,
+    minimum height=1.2cm
+  },
+  process part/.style={
+    rectangle,
+    draw,
+    fill=dropout_node,
+    thick,
+    minimum width=5cm,
+    minimum height=1.2cm
+  },
+  analysis part/.style={
+    rectangle,
+    draw,
+    fill=YATA_green,
+    thick,
+    text=white,
+    minimum width=3cm,
+    minimum height=1.5cm
+  },
+  main line/.style={
+    draw,
+    line width=0.25mm,
+    opacity=1,
+    minimum size=1cm
+  },
+  data line/.style={
+    draw,
+    line width=0.25mm,
+    fill=klight_green_400,
+    opacity=1,
+    minimum size=1cm
+  }
+}
+% Column 1
+\node [data part/.try] (OpenData) at (0.1,1) {\Large \textbf{OpenTA}};
+%\node [process part/.try] (OpenFormat) at (0,0){\Large $\textbf{Formatera OpenTA}$};
+
+% Column 2
+%\node [process part/.try] (YATAFormat) at (1,0) {\Large $\textbf{Formatera YATA}$};
+\node [data part/.try] (YATAData) at (0.9,1) {\Large \textbf{YATA}};
+%\node [platform part/.try] (YATA) at (1,2) {\Large $\textbf{YATA}$};
+
+% Column 1.5
+\node [process part/.try] (Formaterare) at (0.5,0) {\Large $\textbf{Formaterare}$};
+\node [data part/.try] (DataFormat) at (0.5,-1) {\Large $\textbf{Formaterad data}$};
+%\node [process part/.try] (TensorFormat) at (0.5,-2) {\Large $\textbf{Formatera Tensor}$};
+\node [process part/.try] (TensorGen) at (0.5,-2) {\Large $\textbf{Generera tensor}$};
+\node [data part/.try] (Tensor) at (0.5,-3) {\Large $\textbf{Tensor}$};
+\node [analysis part/.try, align=center] (Stat) at (-0.2,-3) {\Large     \textbf{Data-} \\ \Large                                                                            \textbf{analys}};
+\node [platform part/.try] (NN) at (0.5,-6) {\Large $\textbf{Neurala Nätverk}$};
+\node [process part/.try] (Norm) at (0.5,-4) {\Large $\textbf{Normalisering}$};
+\node [data part/.try] (NormTens) at (0.5,-5) {\Large $\textbf{Normaliserad Tensor}$};
+
+
+
+%\node [project part/.try] (Egen) at (-0.5,-1) {$\textbf{Egenskaps selektion}$};
+%node [project part/.try] (collect) at (2,2) {$\textbf{Analys}$};
+%\node [project part/.try] (concept) at (0,0) {$\textbf{Koncept}$};
+%\node [project part/.try] (use) at (4,0) {$\textbf{Användning}$};
+%\node [project part/.try] (implement) at (2,-2) {$\textbf{Implementation}$};
+
+
+% Connect them 
+\path[main line/.style={font=\sffamily\small}]
+    % YATA Flow
+%    (YATA) edge node [left] {} (YATAData)
+    (YATAData) edge node [left] {} (Formaterare)
+    %(YATAFormat) edge node [left] {} (DataFormat)
+    
+    % OpenTA flow
+    (OpenData) edge node [left] {} (Formaterare)
+    %(OpenFormat) edge node [left] {} (DataFormat)
+    
+    % Tensorflow
+    (Formaterare) edge node [left] {} (DataFormat)
+    (DataFormat) edge node [left] {} (TensorGen)
+    %(TensorFormat) edge node [left] {} (TensorGen)
+    (TensorGen) edge node [left] {} (Tensor)
+    (Tensor) edge node [left] {} (Norm)
+    (Tensor) edge node [left] {} (Stat)
+    (Stat) edge[bend right=-25] node [left] {} (TensorGen)
+    
+    (Norm) edge node [left] {} (NormTens)
+    (NormTens) edge node [left] {} (NN);
+    
+    %(Stat) edge node [left] {} (Egen)
+    %(Egen) edge node [left] {} (TensorFormat)
+\end{tikzpicture}

@@ -1,0 +1,84 @@
+\definecolor{input_node}{RGB}{171,171,154}
+\definecolor{dense_node}{RGB}{196,225,144}
+\definecolor{dropout_node}{RGB}{222,222,222}
+\definecolor{output_node}{RGB}{171,154,154}
+
+\tikzset{%
+  dense neuron/.style={
+    circle,
+    draw,
+    fill=dense_node,
+    thick,
+    minimum size=1cm
+  },
+  dropout neuron/.style={
+    circle,
+    draw,
+    fill=dropout_node,
+    thick,
+    minimum size=1cm
+  },
+  input neuron/.style={
+    circle,
+    draw,
+    fill=input_node,
+    thick,
+    minimum size=1cm
+  },
+  output neuron/.style={
+    circle,
+    draw,
+    fill=output_node,
+    thick,
+    minimum size=1cm
+  },
+  neuron missing/.style={
+    draw=none, 
+    scale=4,
+    fill=none,
+    text height=0.333cm,
+    execute at begin node=\color{black}$\vdots$
+  },
+}
+
+\begin{tikzpicture}[x=1.5cm, y=1.5cm, >=stealth]
+\foreach \m/\l [count=\y] in {1,2,3,missing,4}
+  \node [input neuron/.try, neuron \m/.try] (input-\m) at (0,2.5-\y) {};
+
+\foreach \m [count=\y] in {1,missing,2}
+  \node [dense neuron/.try, neuron \m/.try ] (hidden1-\m) at (2,2-\y*1.25) {};
+  \foreach \m [count=\y] in {1,missing,2}
+  \node [dense neuron/.try, neuron \m/.try ] (hidden2-\m) at (4,2-\y*1.25) {};
+
+\foreach \m [count=\y] in {1,missing,2}
+  \node [input neuron/.try, neuron \m/.try ] (output-\m) at (6,1.5-\y) {};
+
+\foreach \l [count=\i] in {1,2,3,n}
+  \draw [<-] (input-\i) -- ++(-1,0)
+    node [above, midway] {$x_\l$};
+
+% \foreach \l [count=\i] in {1,n}
+%   \node [above] at (hidden1-\i.north) {$H_\l$};
+  
+%   \foreach \l [count=\i] in {1,n}
+%   \node [above] at (hidden2-\i.north) {$K_\l$};
+
+\foreach \l [count=\i] in {1,n}
+  \draw [->] (output-\i) -- ++(1,0)
+    node [above, midway] {$\hat{y_\l}$};
+
+\foreach \i in {1,...,4}
+  \foreach \j in {1,...,2}
+    \draw [->] (input-\i) -- (hidden1-\j);
+\foreach \i in {1,...,2}
+  \foreach \j in {1,...,2}
+    \draw [->] (hidden1-\i) -- (hidden2-\j);
+
+\foreach \i in {1,...,2}
+  \foreach \j in {1,...,2}
+    \draw [->] (hidden2-\i) -- (output-\j);
+
+\foreach \l [count=\x from 0] in {Indata-, Dolt, Dolt, Utdata-}
+  \node [align=center, above] at (\x*2,2) {\l \\ lager};
+
+\end{tikzpicture}

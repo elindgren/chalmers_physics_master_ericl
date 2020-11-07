@@ -1,0 +1,33 @@
+\definecolor{klight_green_400}{RGB}{156, 204, 101}
+
+\tikzset{%
+  project part/.style={
+    rectangle,
+    draw,
+    fill=klight_green_400,
+    thick,
+    minimum width=3.2cm,
+    minimum height=1.2cm
+  },
+  main line/.style={
+    draw,
+    line width=0.25mm,
+    opacity=1,
+    minimum size=1cm
+  },
+}
+
+\begin{tikzpicture}[x=1.5cm, y=1.5cm, ->,>=stealth',auto, thick, line width=0.5mm]
+% Base project nodes
+\node [project part/.try] (control) at (0,0) {$\textbf{Google}$};
+\node [project part/.try] (predict) at (3,0) {$\textbf{Gruppchatt}$};
+\node [project part/.try] (form) at (6,0) {$\textbf{Kursare}$};
+\node [project part/.try] (interview) at (9,0) {$\textbf{Piazza}$};
+
+
+% Connect them 
+\path[main line/.style={font=\sffamily\small}]
+    (control) edge[right] node [left] {} (predict)
+    (predict) edge[right] node [left] {} (form)
+    (form) edge[right] node [left] {} (interview);
+\end{tikzpicture}

@@ -1,0 +1,59 @@
+\documentclass[tikz]{standalone}
+%\documentclass[convert]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+\usepackage[swedish]{babel}	
+\usepackage[utf8]{inputenc}	
+\usetikzlibrary{patterns}
+
+\begin{document}
+
+\definecolor{klight_green_200}{RGB}{197, 225, 165}
+\definecolor{klight_green_300}{RGB}{174, 213, 129}
+\definecolor{klight_green_400}{RGB}{156, 204, 101}
+\definecolor{klight_green_500}{RGB}{139, 195, 74}
+\definecolor{kred_400}{RGB}{239, 83, 80}
+\definecolor{kyellow_400}{RGB}{255, 238, 88}
+\definecolor{kgreen_300}{RGB}{129, 199, 132}
+\definecolor{kgreen_500}{RGB}{76, 175, 80}
+\definecolor{kgrey}{RGB}{222,222,222}
+\definecolor{kblue_500}{RGB}{33, 150, 243}
+
+% \pgfplotstableread[row sep=\\,col sep=&]{
+%     interval & correct & false \\
+%     Godkända     & 68  & 32 \\
+%     Underkända     & 84 & 16  \\
+%     }\mydata
+% Here we specify the figure will be converted and inserted as PNG
+
+\begin{tikzpicture}[x=1.5cm, y=1.5cm, >=stealth]
+    \begin{axis}[
+            ybar stacked,
+            x=4cm,
+            enlarge x limits={abs=2cm},
+            %enlarge y limits={abs=0.5cm},
+            bar width=2cm,
+            width=16cm,
+            height=10cm,
+            legend style={at={(0.5, 1.2)},
+                anchor=north,legend columns=-1},
+            legend image post style={scale=2},
+            symbolic x coords={U, G},
+            xtick=data,
+            major x tick style = transparent,
+            ymajorgrids = true,
+            %nodes near coords={\pgfmathprintnumber[fixed,fixed zerofill,precision=0]{\pgfplotspointmeta}\,\%},
+            nodes near coords align={},
+            yticklabel={\pgfmathparse{\tick}\pgfmathprintnumber{\pgfmathresult}\%},
+            ymin=0,ymax=110,
+            ylabel={\small Andel studenter},
+            %ticklabel style = {font=\tiny},
+            nodes={scale=2, transform shape}  % increase size of everything
+        ]
+        \addplot [fill=kblue_500!100,draw=kgrey!100, postaction={pattern=north east lines}] coordinates {(G, 68) (U, 84)};  % Korrekt klassificerade
+        \addplot [fill=kred_400!100,draw=kgrey!100] coordinates {(G, 32) (U, 16)};                    % Felaktigt klassificerade
+        \legend{K, F}
+    \end{axis}
+\end{tikzpicture}
+
+\end{document}

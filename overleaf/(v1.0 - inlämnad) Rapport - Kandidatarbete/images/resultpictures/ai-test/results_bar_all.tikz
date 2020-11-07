@@ -1,0 +1,48 @@
+\definecolor{klight_green}{RGB}{196,225,144}
+\definecolor{kgreen}{RGB}{94,173,97}
+\definecolor{kdark_green}{RGB}{29,122,33}
+\definecolor{kgrey}{RGB}{222,222,222}
+\definecolor{ktest_green}{RGB}{234,245,179}
+\definecolor{kpurple}{RGB}{113,94,181}
+
+% \pgfplotstableread[row sep=\\,col sep=&]{
+%     interval & u & false \\
+%     U     & 69  & 31 \\
+%     3     & 83 & 17  \\
+%     4     &    &     \\
+%     5     &    &     \\
+%     }\mydata
+
+\begin{tikzpicture}
+    \begin{axis}[
+            ybar,
+            x=2cm,
+            enlarge x limits={abs=1cm},
+            %enlarge y limits={abs=0.5cm},
+            bar width=0.2cm,
+            width=32cm,
+            height=10cm,
+            legend style={at={(0.5, 1.2)},
+                anchor=north,legend columns=-1},
+            legend image post style={scale=2},
+            symbolic x coords={1, 2, 3,4,5,6,7,8,9,10,11,12,13,14},
+            xtick=data,
+            major x tick style = transparent,
+            ymajorgrids = true,
+            %nodes near coords={\pgfmathprintnumber[fixed,precision=0]{\pgfplotspointmeta}\,\%},
+            nodes near coords align={vertical},
+            ymin=0,ymax=7.5,
+            yticklabel={\pgfmathparse{\tick}\pgfmathprintnumber{\pgfmathresult}},
+            ylabel={\small Skattning},
+            xlabel={\small Fråga},
+            %ticklabel style = {font=\tiny},
+            nodes={scale=2, transform shape}  % increase size of everything
+        ]
+        \addplot [fill=ktest_green!100,draw=kgrey!100] coordinates {(1,3) (2,2) (3,3) (4,2) (5,5) (6,5) (7,1) (8,1) (9,3) (10,1) (11,2) (12,4) (13,4) (14,4)};  % Anv. 1
+        \addplot [fill=klight_green!100,draw=kgrey!100] coordinates {(1,1) (2,6) (3,4) (4,3) (5,7) (6,6) (7,1) (8,1) (9,2) (10,1) (11,1) (12,7) (13,1) (14,2)};  % Anv. 2
+        \addplot [fill=kgreen!100,draw=kgrey!100] coordinates {(1,5) (2,7) (3,1) (4,1) (5,7) (6,5) (7,1) (8,4) (9,1) (10,1) (11,2) (12,6) (13,5) (14,5)};   % Anv. 3
+        \addplot [fill=kdark_green!100,draw=kgrey!100] coordinates {(1,1) (2,7) (3,1) (4,1) (5,7) (6,4) (7,1) (8,3) (9,1) (10,1) (11,4) (12,5) (13,1) (14,3)};   % Anv. 4
+        \addplot [fill=kpurple!100,draw=kgrey!100] coordinates {(1,2.5) (2,5.5) (3,2.25) (4,1.75) (5,6.5) (6,5) (7,1) (8,2.25) (9,1.75) (10,1) (11,2.25) (12,5.5) (13,2.75) (14,3.5)};   % Medel
+        \legend{Stud. 1, Stud. 2, Stud. 3, Stud. 4, Medel}
+    \end{axis}
+\end{tikzpicture}

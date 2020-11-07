@@ -1,0 +1,118 @@
+% \documentclass[11pt,a4paper]{article}
+\documentclass[11pt,a4paper,oneside,openright]{report}
+
+
+% Import settings
+\input{settings/settings.tex}
+
+\begin{document}
+% Titlepage
+\pagenumbering{roman}			% Roman numbering (starting with i (one)) until first main chapter
+\input{frontpage/titlepage.tex}
+\newpage
+
+% Abstact
+\input{main_texts/abstract.tex}
+\newpage
+
+% Table of contents
+\titlespacing{\chapter}{0pt}{0pt}{0pt}
+\tableofcontents
+
+
+\titlespacing*{\chapter}{0pt}{1.5cm}{1.2cm}
+
+% OTHER FRONTMATTER
+% List of figures (add to table of contents)
+% \cleardoublepage
+% \addcontentsline{toc}{chapter}{\listfigurename} 
+% \listoffigures
+% % List of tables (add to table of contents)
+% \cleardoublepage
+% \addcontentsline{toc}{chapter}{\listtablename}  
+% \listoftables
+
+% START OF MAIN DOCUMENT
+\cleardoublepage
+\setcounter{page}{1}
+\pagenumbering{arabic} % Arabic numbering starting from 1 (one)
+%\setlength{\parskip}{0pt plus 1pt}
+\setlength{\parskip}{0pt}
+% Introduction
+\input{main_texts/introduction.tex}
+
+% Utveckling av webbsida
+\input{main_texts/website2.tex}
+
+% Utveckling av AI
+\input{main_texts/deep_learning.tex}
+
+% AI-test
+\input{main_texts/AI-test.tex}
+
+% Theory
+%\input{main_texts/theory.tex}
+
+
+% Methodology
+%\input{main_texts/methodology.tex}
+
+
+% Enkät - hur?
+% Bench - vad?
+% Brukarstudie - hur?
+% Ai prediction test - hur?
+
+
+% Results
+%\input{main_texts/results.tex}
+
+% take aways från Enkät, bench och brukarstudie -> MVP A + designval
+
+% Resultat från MVP A
+% Resultat från AI prediction test
+
+% Disussion
+\input{main_texts/discussion.tex}
+
+% funkade MVP A why/why not?
+% Predictions? 
+
+% Vad är nästa steg
+
+% Conclusion
+\input{main_texts/conclusion.tex}
+
+% Acknowledgenments
+\titlespacing{\chapter}{0pt}{-1cm}{1.2cm}
+\input{main_texts/acknowledgements.tex}
+
+
+% References 
+\cleardoublepage
+
+\small
+\input{references/bibliography.tex}
+\normalsize
+\titlespacing*{\chapter}{0pt}{1.5cm}{1.2cm}
+
+
+
+
+% Appendices
+\cleardoublepage
+\appendix
+
+\addcontentsline{toc}{chapter}{Appendix}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
+
+\setcounter{page}{1}
+\pagenumbering{Roman} % Capitalized roman numbering starting from I (one)
+\input{appendix/appendix_intro.tex}
+\input{appendix/appendix_kap_web_prod.tex}
+\input{appendix/appendix_dl.tex}
+\input{appendix/appendix_ai.tex}
+
+
+
+\end{document}

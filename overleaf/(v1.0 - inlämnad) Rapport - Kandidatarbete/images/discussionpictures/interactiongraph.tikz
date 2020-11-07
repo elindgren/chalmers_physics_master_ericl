@@ -1,0 +1,32 @@
+% New colors
+\definecolor{klight_green_400}{RGB}{156, 204, 101}
+
+
+\tikzset{%
+  project part/.style={
+    circle,
+    draw,
+    fill=klight_green_500,
+    thick,
+    minimum size=1cm
+  },
+  main line/.style={
+    draw,
+    line width=0.25mm,
+    opacity=1,
+    minimum size=1cm
+  },
+}
+
+\begin{tikzpicture}[x=1.5cm, y=1.5cm, ->,>=stealth',auto, thick]
+% Base project nodes
+\node [project part/.try] (teacher) at (0,0) {$\textbf{L}$};
+\node [project part/.try] (student) at (2,0) {$\textbf{S}$};
+\node [project part/.try] (parent) at (1,-1.732) {$\textbf{P}$};
+
+% Connect them 
+\path[main line/.style={font=\sffamily\small}]
+    (teacher) edge[bend left] node [right] {} (student)
+    (student) edge[bend left] node [left] {} (parent)
+    (parent) edge[bend left] node [above, midway] {} (teacher);
+\end{tikzpicture}

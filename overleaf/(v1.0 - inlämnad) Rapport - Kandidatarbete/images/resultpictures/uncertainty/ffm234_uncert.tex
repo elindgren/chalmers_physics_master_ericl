@@ -1,0 +1,108 @@
+% This file was created by matplotlib2tikz v0.7.4.
+\begin{tikzpicture}
+
+\definecolor{klight_green_100}{RGB}{220, 237, 200}
+\definecolor{klight_green_200}{RGB}{197, 225, 165}
+\definecolor{klight_green_300}{RGB}{174, 213, 129}
+\definecolor{klight_green_400}{RGB}{156, 204, 101}
+\definecolor{klight_green_500}{RGB}{139, 195, 74}
+\definecolor{kred_100}{RGB}{255, 205, 210}
+\definecolor{kred_400}{RGB}{239, 83, 80}
+\definecolor{kyellow_400}{RGB}{255, 238, 88}
+\definecolor{kgreen_300}{RGB}{129, 199, 132}
+\definecolor{kgreen_500}{RGB}{76, 175, 80}
+\definecolor{kblue_500}{RGB}{33, 150, 243}
+\definecolor{kgrey}{RGB}{222,222,222}
+\definecolor{korange}{RGB}{255, 152, 0}  % orange 500
+
+\begin{axis}[
+tick align=outside,
+tick pos=left,
+x grid style={white!69.01960784313725!black},
+xlabel={Sorterade studenter},
+xmin=0, xmax=10,
+xtick style={color=black},
+y grid style={white!69.01960784313725!black},
+yticklabel={\small \pgfmathparse{\tick}\pgfmathprintnumber{\pgfmathresult}\%},
+ylabel={Andel av maxpoäng},
+ymin=-10, ymax=105,
+legend style={at={(0.5, 1)},
+                nodes={scale=0.6, transform shape},
+                cells={align=center},
+                anchor=north,legend columns=1},
+legend image post style={scale=0.6},
+ytick style={color=black}
+]
+\path [draw=klight_green_100, fill=klight_green_100]
+(axis cs:0,34.9928359985352)
+--(axis cs:0,-1.3383960723877)
+--(axis cs:1,10.9745483398438)
+--(axis cs:2,-6.31101274490356)
+--(axis cs:3,46.4410629272461)
+--(axis cs:4,5.34442090988159)
+--(axis cs:5,33.2976188659668)
+--(axis cs:6,-6.75538206100464)
+--(axis cs:7,37.2455825805664)
+--(axis cs:8,20.5299205780029)
+--(axis cs:9,36.5837287902832)
+--(axis cs:10,42.7599716186523)
+--(axis cs:10,90.8275680541992)
+--(axis cs:10,90.8275680541992)
+--(axis cs:9,68.5309524536133)
+--(axis cs:8,53.7537307739258)
+--(axis cs:7,59.2476463317871)
+--(axis cs:6,57.0685577392578)
+--(axis cs:5,55.1704902648926)
+--(axis cs:4,31.9400272369385)
+--(axis cs:3,82.3497467041016)
+--(axis cs:2,57.1025199890137)
+--(axis cs:1,50.9802436828613)
+--(axis cs:0,34.9928359985352)
+--cycle;
+
+\addplot [thick, kblue_500, line width=0.5mm, dotted]
+table {%
+0 0
+1 0
+2 28.3333320617676
+3 40
+4 41.6666641235352
+5 45
+6 56.6666641235352
+7 56.6666641235352
+8 65
+9 70
+10 83.3333282470703
+};
+\addplot [thick, kred_400, line width=0.5mm, dashed]
+table {%
+0 3.78471374511719
+1 39.2401542663574
+2 36.7768135070801
+3 57.9053344726562
+4 19.4248161315918
+5 40.9549293518066
+6 30.8860702514648
+7 53.1338424682617
+8 39.6762275695801
+9 39.505989074707
+10 61.7939949035645
+};
+\addplot [thick, kgreen_500, line width=0.5mm]
+table {%
+0 16.827220916748
+1 30.9773941040039
+2 25.395751953125
+3 64.3954086303711
+4 18.6422233581543
+5 44.2340545654297
+6 25.156587600708
+7 48.2466163635254
+8 37.1418228149414
+9 52.5573387145996
+10 66.7937698364258
+};
+\legend{Skrivnings-\\poäng, Poäng-\\nätverk, Osäkerkehets-\\nätverk}
+\end{axis}
+
+\end{tikzpicture}
