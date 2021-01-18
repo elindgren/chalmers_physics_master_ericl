@@ -45,17 +45,17 @@ def u(x,tk,n_max,f):
     return u_xt
 
 
-def circular_rod_heat_solution(x, f, flabel, filename):
+def circular_rod_heat_solution(n_max, x, f, flabel, filename):
     '''
     Plots the solution to the heat equation on a circular one dimensional rod, for a given vector of x-values [-pi, pi]
     and an initial function f defined on those x-values with a corresponding label flabel. 
     Args:
+      n_max (number): Integer for the maximum n (i.e. the number of basis functions) that will be used.
       x (list): x-domain, vector of values in the range [-pi, pi].
       f (list): an initial value function defined on the x-domain.
       flabel (string): Label of the initial value function for naming the output file.
     '''
     # Define constants - here one can control the number of ns, i.e. the accuracy of the solution
-    n_max = 20 # number of ns - i.e. NOT including n = n_max
     k = 1
     tks = [0,1,10]*k # solutions are done in units of tk
 
@@ -93,6 +93,7 @@ def circular_rod_heat_solution(x, f, flabel, filename):
 
 
 def main():
+    n_max = 20 # number of ns - i.e. NOT including n = n_max
     x = np.linspace(-np.pi, np.pi, 500)
     # Initial function values - add/modify these and the labels/filenames below appropriately
     fs = [
@@ -115,7 +116,7 @@ def main():
     ]
 
     for i, f in enumerate(fs):
-        circular_rod_heat_solution(x, f, flabels[i], filenames[i])
+        circular_rod_heat_solution(n_max, x, f, flabels[i], filenames[i])
 
 
 if __name__ == "__main__":
