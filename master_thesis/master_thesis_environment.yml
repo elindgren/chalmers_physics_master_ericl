@@ -2,7 +2,7 @@ name: mt
 channels:
 - conda-forge
 dependencies:
-- python
+- python=3.8
 - numpy
 - scipy
 - matplotlib
