@@ -22,5 +22,5 @@ dependencies:
 - pip:
   - gpy
   - gpyopt
-  - tensorflow==2.4
+  - tensorflow==2.4.0
 
