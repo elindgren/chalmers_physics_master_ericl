@@ -1,0 +1,26 @@
+name: mt
+channels:
+- conda-forge
+dependencies:
+- python
+- numpy
+- scipy
+- matplotlib
+- pandas
+- seaborn
+- jupyter
+- ipywidgets
+- nbdime
+- theano
+- emcee
+- corner
+- mkl-service
+- jupyter_nbextensions_configurator
+- scikit-learn
+- scikit-image
+- pip
+- pip:
+  - gpy
+  - gpyopt
+  - tensorflow=2.4
+
