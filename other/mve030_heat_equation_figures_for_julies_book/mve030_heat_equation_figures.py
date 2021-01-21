@@ -11,12 +11,12 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 # Set plot params
-plt.rc('font', size=16)          # controls default text sizes
-plt.rc('axes', titlesize=16)     # fontsize of the axes title
-plt.rc('axes', labelsize=18)     # fontsize of the x and y labels
-plt.rc('xtick', labelsize=16)    # fontsize of the tick labels
-plt.rc('ytick', labelsize=16)    # fontsize of the tick labels
-plt.rc('legend', fontsize=16)    # legend fontsize
+plt.rc('font', size=22)          # controls default text sizes
+plt.rc('axes', titlesize=22)     # fontsize of the axes title
+plt.rc('axes', labelsize=24)     # fontsize of the x and y labels
+plt.rc('xtick', labelsize=24)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=22)    # fontsize of the tick labels
+plt.rc('legend', fontsize=20)    # legend fontsize
 
 def alpha0(x,f):
     return np.trapz(y=f, x=x) / (2*np.pi)
@@ -69,9 +69,9 @@ def circular_rod_heat_solution(n_max, x, f, flabel, filename):
 
     cs = ['r', 'y', 'b']
     styles = ['-', '-.', ':']
-    ax.plot(x, f, c='k', linestyle='--', linewidth=2, alpha=1, label=r'$f(x)=$'+flabel)
+    ax.plot(x, f, c='k', linestyle='--', linewidth=4, alpha=1, label=r'$f(x)=$'+flabel)
     for i,sol in enumerate(sols):
-        ax.plot(x, sol, c=cs[i], alpha=0.6, linestyle=styles[i], linewidth=2, label=r'$u(x,t=$'+f'{ts[i]:.0f}'+r'$)$')
+        ax.plot(x, sol, c=cs[i], alpha=0.6, linestyle=styles[i], linewidth=4, label=r'$u(x,t=$'+f'{ts[i]:.0f}'+r'$)$')
     ax.legend(loc='best')
     ax.set_xlabel(r'$x$')
     ax.set_ylabel(r'$u(x,t)$, arb. units')
